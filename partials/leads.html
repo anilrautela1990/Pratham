@@ -1,0 +1,42 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
+	<h1>Leads / Prospective</h1>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right ctaContainer">
+	<a ui-sref="/AddLead" class="btn btn-primary">+ Add Lead</a> | 
+	<button type="button" class="btn btn-success">Import From CSV <span class="glyphicon glyphicon-import"></span></button> |
+	<a href="#">Download Format <span class="glyphicon glyphicon-download-alt"></span></a>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	<table class="table dataTable">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<th>Assigned To</th>
+				<th>Status</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="x in leads track by $index">
+				<td>{{$index + 1}}</td>
+				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
+				<td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> Person</td>
+				<td><span class="link" ng-click="leadDetail($index)">View</span></td>
+				<td><span class="link" ng-click="editLead(x.sno)">Edit</span></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script type="text/ng-template" id="leadDetail.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Led Detail</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            Name: {{lead.user_first_name}} {{lead.user_middle_name}} {{lead.user_last_name}}
+            
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        </div>
+    </script>

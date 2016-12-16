@@ -1,0 +1,246 @@
+body{
+}
+.header{
+	background-color: #535c69;
+	padding: 10px 0;
+}
+.headerRight{
+	text-align: right;
+	padding: 2.5px 15px;
+}
+.footer{
+	background-color: #333;
+	color: #FFF;
+	font-size: 12px;
+	padding: 5px 0;
+	position: fixed;
+    width: 100%;
+    bottom: 0;
+
+}
+.footer a{
+	color: #FFF;
+}
+.form{}
+.form div{
+    margin-bottom: 8px;
+}
+.blankInput{
+    border-color: red;
+}
+h3.h3{
+    text-align: center;
+}
+.logo-text {
+    color: #fff;
+    display: inline-block;
+    margin-right: 7px;
+    max-width: 235px;
+    overflow: hidden;
+    position: relative;
+    vertical-align: top;
+	font-size: 24px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.whiteIcon24{
+	font-size: 24px;
+	color: #FFF;
+	cursor: pointer;
+}
+.whiteIcon40{
+	color: #FFF;
+    font-size: 40px;
+}
+.whiteIcon24:hover{
+	color: #3c9dbf;
+}
+.leftPanel{
+	background-color: #eef2f4;
+	padding: 20px 15px;
+}
+ul.leftMenu{
+	padding: 0;
+    list-style: none;
+}
+ul.leftMenu > li{
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #535c69;
+	margin-bottom: 20px;
+	cursor: pointer;
+}
+ul.leftMenu > li > ul{
+	padding: 0;
+	list-style: none;
+	margin-top: 15px;
+}
+ul.leftMenu > li > ul > li{
+	border-radius: 5px;
+}
+ul.leftMenu > li > ul > li > a{
+	display: block;
+	margin: 5px 0;
+	padding: 5px 10px;
+	text-transform: capitalize;
+	font-weight: normal;
+	cursor: pointer;
+	color: #535c69;
+}
+ul.leftMenu > li > ul > li:hover{
+	background-color: #aeb6bd;
+}
+ul.leftMenu > li > ul > li > a:hover{
+	text-decoration: none;
+	
+}
+ul.leftMenu > li > ul > li.active{
+	background-color: #00d8c1;
+}
+ul.leftMenu > li > ul > li.active > a{
+	color: #FFF;
+}
+input.search{
+	background-image: url(../img/Search-32.png);
+	background-repeat: no-repeat;
+	background-position: right;
+	color: #999;
+}
+.marginRight10{
+	margin-right: 10px;
+}
+.marginRight5{
+	margin-right: 5px;
+}
+.marginBottom20{
+	margin-bottom: 20px;
+}
+.margin0{
+	margin: 0;
+}
+.padding15{
+	padding: 15px;
+}
+.pageContent{
+	padding: 0;
+}
+.bgBlue{
+	border: 1px solid #3dc4f5;
+	background-color: #5bccf6;
+}
+.bgGreen{
+	border: 1px solid #8eca3f;
+	background-color: #9cd159;
+}
+.bgRed{
+	border: 1px solid #f33;
+	background-color: #ff5757;
+}
+.titleBox{
+	border-radius: 3px;
+	margin-bottom: 10px;
+}
+.titleBox > .titleHeader{
+	background: rgba(255,255,255,.2);
+	color: #FFF;
+	text-align: center;
+	font-size: 14px;
+	padding: 10px;
+	text-transform: uppercase;
+}
+.titleBox > .titleContent{
+	padding: 20px;
+}
+.titleBox > .titleFooter{
+	padding: 5px 10px;
+    text-align: left;
+    color: #FFF;
+    background: rgba(0,0,0,.1);
+}
+.pageContentHeader{
+	background-color: #eef2f4;
+	margin-bottom: 10px;
+}
+.pageSubMenu{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.pageSubMenu li{
+	display: inline-block;
+	padding: 15px;
+	border-bottom: 2px solid #eef2f4;
+	cursor: pointer;
+}
+.pageSubMenu li:hover{
+	border-bottom-color: red;
+}
+.pageSubMenu li > a:hover{
+	text-decoration: none;
+}
+.taskListCntr{
+	border-radius: 3px;
+	border: 1px solid rgba(0,216,193,0.3);
+	margin-bottom: 10px;
+}
+.taskListCntr > div{
+	max-height: 200px;
+	overflow-y: auto;
+}
+.taskListCntr > h3{
+	margin: 0;
+    padding: 10px;
+    background-color: rgba(0,216,193,0.3);
+    font-size: 18px;
+    color: #000;
+    font-weight: bold;
+}
+.taskListCntr ul{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.taskListCntr ul >li{
+	padding: 2.5px 10px;
+    background-color: rgba(0,0,0,0.1);
+    margin: 5px;
+    color: #333;
+    border-radius: 3px;
+}
+span.link{
+	color: #337ab7;
+	cursor: pointer;
+}
+.pageTitle{
+	border-bottom: 1px solid #ddd;
+}
+.ctaContainer{
+	padding: 10px 15px;
+}
+.borderDef{
+	border: 1px solid #ddd;
+}
+.dataTable{
+	border: 1px solid #DDD;
+}
+.dataTable > thead{
+	background-color: #DDD;
+}
+.dataTable > tbody >tr:nth-child(2n){
+	background-color: #F5F5F5;
+}
+.divLabel{
+	border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+}
+.flat{
+	border: 1px solid #ccc;
+    float: left;
+    padding: 15px;
+    margin-right: 10px;
+    border-radius: 3px;
+	cursor: pointer;
+}
+.flat.vacant{
+	background-color: #eee;
+}

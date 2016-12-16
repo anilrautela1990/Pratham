@@ -1,0 +1,43 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20">
+	<h1>Add Lead</h1>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3 hidden-xs"></div>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+	<form name="addLeadForm" class="form" method="POST" novalidate="novalidate">
+		<div>
+			<input type="text" placeholder="First Name" class="form-control" name="firstName" ng-model="addLead.firstName" ng-required="true" ng-class="{blankInput: addLeadForm.firstName.$error.required &amp;&amp; submit}"/>
+		</div>
+		<div>
+			<input type="text" placeholder="Middle Name" class="form-control" name="middleName" ng-model="addLead.middleName"/>
+		</div>
+		<div>
+			<input type="text" placeholder="Last Name" class="form-control" name="lastName" ng-model="addLead.lastName" ng-required="true" ng-class="{blankInput: addLeadForm.lastName.$error.required &amp;&amp; submit}"/>
+		</div>
+		<div>
+			<input type="text" placeholder="Mobile Number" class="form-control" name="mobileNumber" ng-model="addLead.mobileNumber" ng-required="true" ng-class="{blankInput: addLeadForm.mobileNumber.$error.required &amp;&amp; submit}"/>
+		</div>
+		<div>
+			<input type="email" placeholder="Email ID" class="form-control" name="emailId" ng-model="addLead.emailId" ng-required="true" ng-class="{blankInput: addLeadForm.emailId.$error.required &amp;&amp; submit}"/>
+		</div>
+		<div>
+			<input type="text" placeholder="D.O.B." class="form-control" name="dob" ng-model="addLead.dob"/>
+		</div>
+        <div>
+			<select name="firmBranch" class="form-control">
+                <option value="">
+                    City
+                </option>
+				<option value="1">
+                    Banglore
+                </option>
+			</select>
+		</div>
+        <div>
+			<input type="text" placeholder="Country" class="form-control">
+		</div>
+		<div class="text-center">
+			<button type="button" class="btn btn-success" ng-click="addLead(addLead,'addLeadForm')">+ Add Lead</button>
+		</div>
+	</form>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3 hidden-xs"></div>
