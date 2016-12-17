@@ -23,20 +23,63 @@
 				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
 				<td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> Person</td>
 				<td><span class="link" ng-click="leadDetail($index)">View</span></td>
-				<td><span class="link" ng-click="editLead(x.sno)">Edit</span></td>
+				<td><span class="link" ng-click="editLead(x.user_id)">Edit</span></td>
 			</tr>
 		</tbody>
 	</table>
 </div>
 <script type="text/ng-template" id="leadDetail.html">
         <div class="modal-header">
-            <h3 class="modal-title" id="modal-title">Led Detail</h3>
+			<button type="button" class="close" ng-click="ok()">&times;</button>
+            <h3 class="modal-title" id="modal-title">{{lead.user_first_name}} {{lead.user_middle_name}} {{lead.user_last_name}}</h3>
         </div>
         <div class="modal-body" id="modal-body">
-            Name: {{lead.user_first_name}} {{lead.user_middle_name}} {{lead.user_last_name}}
-            
+			<div class="subHeading">Contact Details</div>
+			<table class="leadDetail">
+				<tr>
+					<td>Email ID:</td>
+					<td>{{lead.user_email_address}}</td>
+				</tr>
+				<tr>
+					<td>Mobile Number:</td>
+					<td>{{lead.user_mobile_no}}</td>
+				</tr>
+				<tr>
+					<td>D.O.B:</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>City:</td>
+					<td></td>
+				</tr>
+			</table>
+			<div ng-show="{{lead.user_proj!=null}}">
+				<div class="subHeading">Projects</div>
+				<table class="table borderDef">
+				   <thead>
+					  <tr>
+						 <th>ID</th>
+						 <th>Project</th>
+						 <th>Phase</th>
+						 <th>Type</th>
+						 <th>Block</th>
+						 <th>Unit</th>
+					  </tr>
+				   </thead>
+				   <tbody id="projectList">
+					  <tr>
+						 <td>{{lead.user_proj.UserProj_Id}}</td>
+						 <td>{{lead.user_proj.projDlts.Proj_Name}}</td>
+						 <td>{{lead.user_proj.phaseDtls.Phase_Name}}</td>
+						 <td>{{lead.user_proj.phaseDtls.Phase_UnitType.UnitType_Name}}</td>
+						 <td>{{lead.user_proj.blockDtls.Blocks_Name}}</td>
+						 <td>{{lead.user_proj.unitdtls.UnitDtls_Name}} - {{lead.user_proj.unitdtls.UnitDtls_No}} - {{lead.user_proj.unitdtls.UnitDtls_Floor}} Floor - {{lead.user_proj.unitdtls.UnitDtls_Msrmnt}} Sqr. Ft.</td>
+					  </tr>
+				   </tbody>
+				</table>
+			</div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-primary" type="button" ng-click="ok()">Done</button>
         </div>
     </script>

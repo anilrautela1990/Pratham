@@ -39,9 +39,9 @@
 				<input type="text" class="form-control search" placeholder="Search Here"/>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 headerRight">
-				<span class="glyphicon glyphicon-log-out whiteIcon24 marginRight10" ng-click="logout()"></span>
-                <span class="glyphicon glyphicon-user whiteIcon24 marginRight10"></span>
-				<span class="glyphicon glyphicon-question-sign whiteIcon24"></span>
+				<span class="glyphicon glyphicon-log-out whiteIcon24 marginRight10" title="Logout" ng-click="logout()"></span>
+                <span class="glyphicon glyphicon-user whiteIcon24 marginRight10" title="User"></span>
+				<span class="glyphicon glyphicon-question-sign whiteIcon24" title="Help"></span>
 			</div>
 		</div>
 		<div class="row">
@@ -128,6 +128,8 @@
 		</div>
 	</div>
 	<!-- Page Content-->
+	<div class="loader">
+		<img ng-src="img/gears.gif"/>
+	</div>
 </body>
-
 </html>
