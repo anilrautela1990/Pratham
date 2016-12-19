@@ -1,0 +1,115 @@
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle ng-scope">
+		<h1>Lead <span class="glyphicon glyphicon-chevron-right"></span> Customer</h1>
+	</div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20">
+		<ol class="breadcrumb">
+		  <li><a href="#">Home</a></li>
+		  <li><a href="#">Leads</a></li>
+		  <li class="active">Convert Customer</li>
+		</ol>	
+	</div>
+	<form name="addLeadForm" class="form" method="POST" novalidate="novalidate">
+	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			<div>
+				<input type="text" placeholder="First Name*" class="form-control" name="firstName" ng-model="addLead.firstName" ng-required="true" ng-class="{blankInput: addLeadForm.firstName.$error.required &amp;&amp; submit}"/>
+			</div>
+			<div>
+				<input type="text" placeholder="Middle Name" class="form-control" name="middleName" ng-model="addLead.middleName"/>
+			</div>
+			<div>
+				<input type="text" placeholder="Last Name*" class="form-control" name="lastName" ng-model="addLead.lastName" ng-required="true" ng-class="{blankInput: addLeadForm.lastName.$error.required &amp;&amp; submit}"/>
+			</div>
+			<div>
+				<input type="text" placeholder="Mobile Number*" class="form-control" name="mobileNumber" ng-model="addLead.mobileNumber" ng-required="true" ng-class="{blankInput: addLeadForm.mobileNumber.$error.required &amp;&amp; submit}"/>
+			</div>
+			<div>
+				<input type="text" placeholder="Office Number" class="form-control" name="officeNumber" ng-model="addLead.officeNumber"/>
+			</div>
+			<div>
+				<input type="email" placeholder="Email ID*" class="form-control" name="emailId" ng-model="addLead.emailId" ng-required="true" ng-class="{blankInput: addLeadForm.emailId.$error.required &amp;&amp; submit}"/>
+			</div>
+			<div>
+				<input type="text" placeholder="D.O.B. (YYYY-MM-DD)" class="form-control"  name="dob" ng-model="addLead.dob"/>
+			</div>
+			<div class="radioBtn">
+				<span>Gender:</span>
+				<input type="radio" name="gender" ng-model="addLead.gender" id="male" value="0"/>
+				<label for="male">Male</label> <span>|</span>
+				<input type="radio" name="gender" ng-model="addLead.gender" id="female" value="1"/>
+				<label for="female">Female</label>
+			</div>
+			<div>
+				<select class="form-control" name="country" ng-model="addLead.country">
+					<option value="">
+						Country
+					</option>
+					<option value="india">
+						India
+					</option>
+				</select>
+			</div>
+			<div>
+				<select class="form-control" name="state" ng-model="addLead.state">
+					<option value="">
+						State
+					</option>
+					<option value="2">
+						Delhi
+					</option>
+				</select>
+			</div>
+			<div>
+				<select class="form-control" name="city" ng-model="addLead.city">
+					<option value="">
+						City
+					</option>
+					<option value="3">
+						New Delhi
+					</option>
+				</select>
+			</div>
+			<div>
+				<input type="text" placeholder="Address" class="form-control"  name="address" ng-model="addLead.address"/>
+			</div>
+			<div>
+				<input type="text" placeholder="ZIP Code" class="form-control"  name="zip" ng-model="addLead.zip"/>
+			</div>
+			<div>
+				<select name="leadSouce" class="form-control" name="leadSouce" ng-model="addLead.leadSouce">
+					<option value="">
+						Lead Generation Source
+					</option>
+					<option value="email">
+						Email
+					</option>
+					<option value="print">
+						Print Advertisement
+					</option>
+					<option value="others">
+						Others
+					</option>
+				</select>
+			</div>
+	</div>
+	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+		<div>
+				<select name="relationType" class="form-control" name="leadSouce" ng-model="addLead.relationType">
+					<option value="">
+						Relation Type
+					</option>
+					<option value="1">
+						S/O
+					</option>
+					<option value="2">
+						D/O
+					</option>
+					<option value="3">
+						W/O
+					</option>
+				</select>
+			</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+		<button type="button" class="btn btn-success" ng-click="addLead(addLead,'addLeadForm')">+ Add Lead</button>
+	</div>
+	</form>

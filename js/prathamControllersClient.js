@@ -1,5 +1,5 @@
 app.controller("home", function($scope,$http) {
-    $scope.title = "Pratham :: Home";
+	$scope.title = "Pratham - Pre Login";
 });
 app.controller("firmRegister", function($scope,$http,$state,$cookieStore) {
     $scope.registerFirm = function(formObj,formName) {
@@ -92,6 +92,7 @@ app.controller("login", function($scope,$http,$cookieStore,$window) {
 });
 /* After Login*/
 app.controller("mainCtrl", function($scope,$http,$cookieStore,$state,$window) {
+	$scope.title = "Pratham :: Home";
     ($scope.checkLogin = function(){
         var userId = $cookieStore.get('user_id');
         var compGuid = $cookieStore.get('comp_guid');
@@ -338,4 +339,22 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 				angular.element(".loader").hide();
 			});
 	};
+});
+app.controller("convertCustomer", function($scope,$http) {
+	$scope.addLead = {
+		firstName :"Ashish",
+		middleName :"Bansal",
+		lastName :"Agrawal",
+		mobileNumber:"8800399717",
+		officeNumber: "011345678",
+		emailId: "ashishagrawal89@gmail.com",
+		dob: "24-12-1988",
+		gender:0,
+		country:"india",
+		state:"2",
+		city:"3",
+		address:"N-33, Laxmi Nagar",
+		zip:"110092",
+		leadSouce:"email"
+	}
 });
