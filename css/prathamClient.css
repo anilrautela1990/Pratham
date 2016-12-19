@@ -215,7 +215,7 @@ span.link{
 	cursor: pointer;
 }
 .pageTitle{
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #eee;
 }
 .ctaContainer{
 	padding: 10px 15px;
@@ -291,4 +291,26 @@ span.link{
 }
 .loader img{
 	margin-top: 220px;
+}
+.breadcrumb {
+    padding: 5px 0;
+    margin-bottom: 0;
+    list-style: none;
+    background-color: transparent;
+    text-align: left;
+    border-radius: 0;
+}
+.radioBtn{
+	margin-bottom: 5px!important;
+    padding: 0 5px;
+}
+.radioBtn > label{
+	position: relative;
+    top: -2px;
+    margin: 0;
+	cursor: pointer;
+}
+.radioBtn > span{
+	position: relative;
+    top: -2px;
 }

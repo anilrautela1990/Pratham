@@ -65,6 +65,7 @@ app.controller("login", function($scope,$http,$cookieStore,$window) {
     $scope.login = function(formObj, formName){
         $scope.submit = true;
         if ($scope[formName].$valid) {
+			angular.element(".loader").show();
             $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/User/UserLogin",
@@ -75,7 +76,8 @@ app.controller("login", function($scope,$http,$cookieStore,$window) {
                       "user_password": formObj.password
 				}
             }).success(function(data) {
-				if(data.user_id == -1){
+				console.log(data);
+				if(data.user_id == 0){
                     alert("User Does Not Exist!");
                 }
                 else{
@@ -83,6 +85,7 @@ app.controller("login", function($scope,$http,$cookieStore,$window) {
                     $cookieStore.put('user_id', data.user_id);
                     $window.location.href = '/home.html';
                 }
+				angular.element(".loader").hide();
 			}).error(function() {});
         }
     };
@@ -171,13 +174,25 @@ app.controller("addLead", function($scope,$http,$state,$cookieStore) {
 				  "user_middle_name" :formObj.middleName,
 				  "user_last_name": formObj.lastName,
 				  "user_mobile_no" :formObj.mobileNumber,
+				  "user_office_no": formObj.officeNumber,
 				  "user_email_address":formObj.emailId,
-				  "user_dob" :formObj.dob
+				  "user_country":formObj.country,
+				  "user_city": parseInt(formObj.city),
+  				  "user_state": parseInt(formObj.state),
+				  "user_address":formObj.address,
+				  "user_zipcode": formObj.zip,
+				  "user_dob" :formObj.dob,
+				  "user_gender" :parseInt(formObj.gender),
 				}
             }).success(function(data) {
 				console.log(data);
+				if(data.user_id != 0){
                 $cookieStore.put('lead_id',data.user_id);
                 $state.go("/ProjectDetails");
+				}
+				else{
+					alert("Some Error!");
+				}
 			}).error(function() {});
 		}
 	}
@@ -265,7 +280,9 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 				$("tr#"+$scope.units[unitId-1].UnitDtls_Id).remove();
 			}
 			else{
-				var projectRow = '<tr id="'+$scope.units[unitId-1].UnitDtls_Id+'"><td class="unitId">'+$scope.units[unitId-1].UnitDtls_Id+'</td><td>'+$scope.units[unitId-1].UnitDtls_Type+'</td><td>Phase</td><td>'+$scope.units[unitId-1].UnitDtls_Type+'</td><td>Block '+$scope.units[unitId-1].UnitDtls_Block_Id+'</td><td>'+$scope.units[unitId-1].UnitDtls_BRoom+'BHK - '+$scope.units[unitId-1].UnitDtls_No+' - '+$scope.units[unitId-1].UnitDtls_Floor+' Floor</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow('+$scope.units[unitId-1].UnitDtls_Id+')"></span></td></tr>';
+//				var projectRow = '<tr id="'+$scope.units[unitId-1].UnitDtls_Id+'"><td class="unitId">'+$scope.units[unitId-1].UnitDtls_Id+'</td><td>'+$scope.units[unitId-1].UnitDtls_Type+'</td><td>Phase</td><td>'+$scope.units[unitId-1].UnitDtls_Type+'</td><td>Block '+$scope.units[unitId-1].UnitDtls_Block_Id+'</td><td>'+$scope.units[unitId-1].UnitDtls_BRoom+'BHK - '+$scope.units[unitId-1].UnitDtls_No+' - '+$scope.units[unitId-1].UnitDtls_Floor+' Floor</td><td>'+$scope.units[unitId-1].UnitDtls_Msrmnt+' sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow('+$scope.units[unitId-1].UnitDtls_Id+')"></span></td></tr>';
+				
+				var projectRow = '<tr id="'+$scope.units[unitId-1].UnitDtls_Id+'"><td class="unitId">'+$scope.units[unitId-1].UnitDtls_Id+'</td><td>'+$scope.units[unitId-1].UnitDtls_BRoom+'BHK - '+$scope.units[unitId-1].UnitDtls_No+' - '+$scope.units[unitId-1].UnitDtls_Floor+' Floor</td><td>'+$scope.units[unitId-1].UnitDtls_Msrmnt+' sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow('+$scope.units[unitId-1].UnitDtls_Id+')"></span></td></tr>';
 				
 				var projectRowComplied = $compile(projectRow)($scope);
 				angular.element(document.getElementById('projectList')).append(projectRowComplied);
