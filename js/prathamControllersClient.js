@@ -340,8 +340,8 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 			});
 	};
 });
-app.controller("convertCustomer", function($scope,$http) {
-	$scope.addLead = {
+app.controller("convertCustomer", function($scope,$http,$compile) {
+	$scope.customer = {
 		firstName :"Ashish",
 		middleName :"Bansal",
 		lastName :"Agrawal",
@@ -358,5 +358,19 @@ app.controller("convertCustomer", function($scope,$http) {
 		leadSouce:"email",
         "bankloan":0,
         "gpaHolder":0
-	}
+	};
+	$scope.addCustomer = function(formObj, formName){
+		var formData = JSON.stringify(formObj);
+		console.log(formData);
+		console.log(Object.keys(formObj).length);
+	};
+	$scope.appendFields = function(){
+		angular.element("#children").html('');
+		for(i=1;i<=$scope.customer.childrenNo;i++){
+			var childDiv = '<div><input type="text" placeholder="Child '+i+' Name" title="Child '+i+' Name" class="form-control" name="child'+i+'Name" ng-model="customer.child'+i+'Name" /></div><div><input type="text" placeholder="Child '+i+' D.O.B." title="Child '+i+' D.O.B." class="form-control" name="child'+i+'Dob" ng-model="customer.child'+i+'Dob"/></div>';
+			var childDivComplied = $compile(childDiv)($scope);
+			angular.element("#children").append(childDivComplied);
+			
+		}
+	};
 });
