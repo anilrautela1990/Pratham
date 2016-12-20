@@ -314,3 +314,11 @@ span.link{
 	position: relative;
     top: -2px;
 }
+.select26{
+    width: 26%;
+    display: inline-block;
+}
+.input73{
+    width: 73%;
+    display: inline-block;
+}
