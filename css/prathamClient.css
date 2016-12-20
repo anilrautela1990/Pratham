@@ -301,8 +301,9 @@ span.link{
     border-radius: 0;
 }
 .radioBtn{
-	margin-bottom: 5px!important;
-    padding: 0 5px;
+	padding: 5px 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 .radioBtn > label{
 	position: relative;
@@ -321,4 +322,7 @@ span.link{
 .input73{
     width: 73%;
     display: inline-block;
+}
+.width100{
+    width: 100%;
 }

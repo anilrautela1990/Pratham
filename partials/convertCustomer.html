@@ -11,25 +11,25 @@
 	<form name="addLeadForm" class="form" method="POST" novalidate="novalidate">
 	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 			<div>
-				<input type="text" placeholder="First Name*" class="form-control" name="firstName" ng-model="addLead.firstName" ng-required="true" ng-class="{blankInput: addLeadForm.firstName.$error.required &amp;&amp; submit}"/>
+				<input type="text" placeholder="First Name*" title="First Name*" class="form-control" name="firstName" ng-model="addLead.firstName" ng-required="true" ng-class="{blankInput: addLeadForm.firstName.$error.required &amp;&amp; submit}"/>
 			</div>
 			<div>
-				<input type="text" placeholder="Middle Name" class="form-control" name="middleName" ng-model="addLead.middleName"/>
+				<input type="text" placeholder="Middle Name" title="Middle Name"  class="form-control" name="middleName" ng-model="addLead.middleName"/>
 			</div>
 			<div>
-				<input type="text" placeholder="Last Name*" class="form-control" name="lastName" ng-model="addLead.lastName" ng-required="true" ng-class="{blankInput: addLeadForm.lastName.$error.required &amp;&amp; submit}"/>
+				<input type="text" placeholder="Last Name*" title="Last Name*" class="form-control" name="lastName" ng-model="addLead.lastName" ng-required="true" ng-class="{blankInput: addLeadForm.lastName.$error.required &amp;&amp; submit}"/>
 			</div>
 			<div>
-				<input type="text" placeholder="Mobile Number*" class="form-control" name="mobileNumber" ng-model="addLead.mobileNumber" ng-required="true" ng-class="{blankInput: addLeadForm.mobileNumber.$error.required &amp;&amp; submit}"/>
+				<input type="text" placeholder="Mobile Number*" title="Mobile Number*" class="form-control" name="mobileNumber" ng-model="addLead.mobileNumber" ng-required="true" ng-class="{blankInput: addLeadForm.mobileNumber.$error.required &amp;&amp; submit}"/>
 			</div>
 			<div>
-				<input type="text" placeholder="Office Number" class="form-control" name="officeNumber" ng-model="addLead.officeNumber"/>
+				<input type="text" placeholder="Office Number" title="Office Number" class="form-control" name="officeNumber" ng-model="addLead.officeNumber"/>
 			</div>
 			<div>
-				<input type="email" placeholder="Email ID*" class="form-control" name="emailId" ng-model="addLead.emailId" ng-required="true" ng-class="{blankInput: addLeadForm.emailId.$error.required &amp;&amp; submit}"/>
+				<input type="email" placeholder="Email ID*" title="Email ID*" class="form-control" name="emailId" ng-model="addLead.emailId" ng-required="true" ng-class="{blankInput: addLeadForm.emailId.$error.required &amp;&amp; submit}"/>
 			</div>
 			<div>
-				<input type="text" placeholder="D.O.B. (YYYY-MM-DD)" class="form-control"  name="dob" ng-model="addLead.dob"/>
+				<input type="text" placeholder="D.O.B. (YYYY-MM-DD)" title="D.O.B. (YYYY-MM-DD)" class="form-control"  name="dob" ng-model="addLead.dob"/>
 			</div>
 			<div class="radioBtn">
 				<span>Gender:</span>
@@ -39,7 +39,7 @@
 				<label for="female">Female</label>
 			</div>
 			<div>
-				<select class="form-control" name="country" ng-model="addLead.country">
+				<select class="form-control" name="country" ng-model="addLead.country" title="Country">
 					<option value="">
 						Country
 					</option>
@@ -49,7 +49,7 @@
 				</select>
 			</div>
 			<div>
-				<select class="form-control" name="state" ng-model="addLead.state">
+				<select class="form-control" name="state" ng-model="addLead.state" title="State">
 					<option value="">
 						State
 					</option>
@@ -59,7 +59,7 @@
 				</select>
 			</div>
 			<div>
-				<select class="form-control" name="city" ng-model="addLead.city">
+				<select class="form-control" name="city" ng-model="addLead.city" title="City">
 					<option value="">
 						City
 					</option>
@@ -69,13 +69,14 @@
 				</select>
 			</div>
 			<div>
-				<input type="text" placeholder="Address" class="form-control"  name="address" ng-model="addLead.address"/>
+				<input type="text" placeholder="Address" title="Address" class="form-control" name="address" ng-model="addLead.address"/>
 			</div>
 			<div>
-				<input type="text" placeholder="ZIP Code" class="form-control"  name="zip" ng-model="addLead.zip"/>
+				<input type="text" placeholder="ZIP Code" title="ZIP Code" class="form-control"  name="zip" ng-model="addLead.zip"/>
 			</div>
+<!--
 			<div>
-				<select name="leadSouce" class="form-control" name="leadSouce" ng-model="addLead.leadSouce">
+				<select name="leadSouce" class="form-control" name="leadSouce" ng-model="addLead.leadSouce" title="Lead Generation Source">
 					<option value="">
 						Lead Generation Source
 					</option>
@@ -90,10 +91,9 @@
 					</option>
 				</select>
 			</div>
-	</div>
-	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-		<div>
-            <select name="relationType" class="form-control" name="leadSouce" ng-model="addLead.relationType">
+-->
+        <div>
+            <select name="relationType" class="form-control" name="relationType" ng-model="addLead.relationType" title="Relation Type">
                 <option value="">
                     Relation Type
                 </option>
@@ -109,10 +109,10 @@
             </select>
         </div>
         <div>
-            <input type="text" placeholder="Relation Name" class="form-control"  name="relationName" ng-model="addLead.relationName"/>
+            <input type="text" placeholder="Relation Name" title="Relation Name" class="form-control"  name="relationName" ng-model="addLead.relationName"/>
         </div>
         <div>
-            <select name="residentType" class="form-control" name="residentType" ng-model="addLead.residentType">
+            <select name="residentType" class="form-control" name="residentType" ng-model="addLead.residentType" title="Resident Type">
                 <option value="">
                     Resident Type
                 </option>
@@ -131,52 +131,171 @@
             </select>
         </div>
         <div>
-            <input type="text" placeholder="Address" class="form-control"  name="address2" ng-model="addLead.address2"/>
+            <input type="text" placeholder="Address" title="Address" class="form-control"  name="address2" ng-model="addLead.address2"/>
         </div>
         <div>
-            <input type="text" placeholder="PAN" class="form-control"  name="pan" ng-model="addLead.pan"/>
+            <input type="text" placeholder="PAN" title="PAN" class="form-control"  name="pan" ng-model="addLead.pan"/>
         </div>
         <div>
-            <input type="text" placeholder="AADHAR" class="form-control"  name="pan" ng-model="addLead.pan"/>
+            <input type="text" placeholder="AADHAR" title="AADHAR" class="form-control"  name="pan" ng-model="addLead.pan"/>
         </div>
         <div>
-            <input type="text" placeholder="Alternate Contact No." class="form-control"  name="pan" ng-model="addLead.pan"/>
-        </div>
-        <div>
-            <input type="text" placeholder="Qualification" class="form-control"  name="pan" ng-model="addLead.pan"/>
-        </div>
-        <div>
-            <input type="text" placeholder="Profession" class="form-control"  name="pan" ng-model="addLead.pan"/>
-        </div>
-        <div>
-            <input type="text" placeholder="Company" class="form-control"  name="pan" ng-model="addLead.pan"/>
-        </div>
-        <div>
-            <input type="text" placeholder="Designation" class="form-control"  name="pan" ng-model="addLead.pan"/>
-        </div>
-        <div>
-            <input type="text" placeholder="Office Address" class="form-control"  name="pan" ng-model="addLead.pan"/>
-        </div>
-        <div>
-            <input type="text" placeholder="Office Email ID" class="form-control"  name="pan" ng-model="addLead.pan"/>
-        </div>
-        <div>
-            <input type="text" placeholder="Spouse Name" class="form-control"  name="pan" ng-model="addLead.pan"/>
-        </div>
-        <div>
-            <input type="text" placeholder="Spouse Dob" class="form-control"  name="pan" ng-model="addLead.pan"/>
-        </div>
-        <div>
-            <input type="text" placeholder="PAN" class="form-control"  name="pan" ng-model="addLead.pan"/>
-        </div>
-        <div>
-            <input type="text" placeholder="AADHAR" class="form-control"  name="pan" ng-model="addLead.pan"/>
-        </div>
-        <div>
-            <input type="text" placeholder="Wedding Anniversary" class="form-control"  name="pan" ng-model="addLead.pan"/>
+            <input type="text" placeholder="Alternate Contact No." title="Alternate Contact No." class="form-control"  name="pan" ng-model="addLead.pan"/>
         </div>
 	</div>
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-		<button type="button" class="btn btn-success" ng-click="addLead(addLead,'addLeadForm')">+ Add Lead</button>
+	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+        <div>
+            <input type="text" placeholder="Qualification" title="Qualification" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Profession" title="Profession"  class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Company" title="Company" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Designation" title="Designation" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Office Address" title="Office Address" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Office Email ID" title="Office Email ID" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Spouse Name" title="Spouse Name" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Spouse Dob" title="Spouse Dob" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="PAN" title="PAN" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="AADHAR" title="AADHAR" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Wedding Anniversary" title="Wedding Anniversary" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <select name="gpaRelation" class="form-control" name="gpaRelation" ng-model="addLead.gpaRelation" title="Relation Type">
+                <option value="">
+                    No. of Children
+                </option>
+                <option value="1">
+                    1
+                </option>
+                <option value="2">
+                    2
+                </option>
+                <option value="3">
+                    3
+                </option>
+                <option value="4">
+                    4
+                </option>
+            </select>
+        </div>
+        <div>
+            <input type="text" placeholder="Child 1 Name" title="Child 1 Name" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Child 1 D.O.B." title="Child 1 D.O.B." class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Child 2 Name" title="Child 1 Name" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Child 2 D.O.B." title="Child 1 D.O.B." class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Child 3 Name" title="Child 3 Name" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Child 3 D.O.B." title="Child 3 D.O.B." class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Child 4 Name" title="Child 4 Name" class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
+        <div>
+            <input type="text" placeholder="Child 4 D.O.B." title="Child 4 D.O.B." class="form-control"  name="pan" ng-model="addLead.pan"/>
+        </div>
 	</div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+    <div class="radioBtn">
+				<span>Bank Loan:</span>
+                <input type="radio" name="bankloan" ng-model="addLead.bankloan" id="yes" value="1"/>
+				<label for="yes">Yes</label>
+                <span>|</span>
+                <input type="radio" name="bankloan" ng-model="addLead.bankloan" id="no" value="0"/>
+				<label for="no">No</label>
+        </div>
+        <div ng-show="addLead.bankloan == 1">
+            <div>
+                <input type="text" placeholder="Bank Name" title="Bank Name" class="form-control"  name="bankName" ng-model="addLead.bankName"/>
+            </div>
+            <div>
+                <input type="text" placeholder="Account Number" title="Account Number" class="form-control"  name="bankName" ng-model="addLead.bankName"/>
+            </div>
+            <div>
+                <input type="text" placeholder="IFSC Code" title="IFSC Code" class="form-control"  name="bankName" ng-model="addLead.bankName"/>
+            </div>
+            <div>
+                <input type="text" placeholder="Address" title="Address" class="form-control"  name="bankName" ng-model="addLead.bankName"/>
+            </div>
+            <div>
+                <input type="text" placeholder="Bank Email ID" title="Bank Email ID" class="form-control"  name="bankName" ng-model="addLead.bankName"/>
+            </div>
+        </div>
+        <div class="radioBtn">
+				<span>GPA Holder:</span>
+                <input type="radio" name="gpaHolder" ng-model="addLead.gpaHolder" id="gpaHolderyes" value="1"/>
+				<label for="gpaHolderyes">Yes</label>
+                <span>|</span>
+                <input type="radio" name="gpaHolder" ng-model="addLead.gpaHolder" id="gpaHolderno" value="0"/>
+				<label for="gpaHolderno">No</label>
+        </div>
+        <div ng-show="addLead.gpaHolder == 1">
+            <div>
+            <select name="gpaRelation" class="form-control" name="gpaRelation" ng-model="addLead.gpaRelation" title="Relation Type">
+                <option value="">
+                    Relation Type
+                </option>
+                <option value="1">
+                    S/O
+                </option>
+                <option value="2">
+                    D/O
+                </option>
+                <option value="3">
+                    W/O
+                </option>
+            </select>
+            </div>
+            <div>
+                <input type="text" placeholder="GPA Name" title="GPA Name" class="form-control"  name="gpaName" ng-model="addLead.gpaName"/>
+            </div>
+            <div>
+                <input type="text"  placeholder="D.O.B. (YYYY-MM-DD)" title="D.O.B. (YYYY-MM-DD)" class="form-control"  name="gpaDOB" ng-model="addLead.gpaDOB"/>
+            </div>
+            <div>
+                <input type="text" placeholder="Address" title="Address" class="form-control"  name="gpaDOB" ng-model="addLead.gpaDOB"/>
+            </div>
+            <div>
+                <input type="text" placeholder="Permanent Address" title="Permanent Address" class="form-control"  name="gpaDOB" ng-model="addLead.gpaDOB"/>
+            </div>
+            <div>
+                <input type="text" placeholder="Relation with customer" title="Relation with customer" class="form-control"  name="gpaDOB" ng-model="addLead.gpaDOB"/>
+            </div>
+            <div>
+                <input type="text" placeholder="PAN" title="PAN" class="form-control"  name="gpaDOB" ng-model="addLead.gpaDOB"/>
+            </div>
+            <div>
+                <input type="text" placeholder="AADHAR" title="AADHAR" class="form-control"  name="gpaDOB" ng-model="addLead.gpaDOB"/>
+            </div>
+        </div>
+        <div class="text-center marginTop20">
+            <button type="button" class="btn btn-success width100" ng-click="addLead(addLead,'addLeadForm')">+ Add Customer</button>
+        </div>
+    </div>
 	</form>

@@ -355,6 +355,8 @@ app.controller("convertCustomer", function($scope,$http) {
 		city:"3",
 		address:"N-33, Laxmi Nagar",
 		zip:"110092",
-		leadSouce:"email"
+		leadSouce:"email",
+        "bankloan":0,
+        "gpaHolder":0
 	}
 });
