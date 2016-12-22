@@ -89,6 +89,12 @@ app.controller("login", function($scope,$http,$cookieStore,$window) {
 			}).error(function() {});
         }
     };
+    
+    $scope.enterLogin = function(keyEvent, formObj, formName){
+        if (keyEvent.which === 13){
+            $scope.login(formObj, formName);
+        }
+    };
 });
 /* After Login*/
 app.controller("mainCtrl", function($scope,$http,$cookieStore,$state,$window) {
