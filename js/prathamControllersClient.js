@@ -336,11 +336,11 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 					}
 				}
             }).success(function(data) {
-				/*if(data.user_id!=null){
+				if(data.user_id!=null){
 					$cookieStore.remove('lead_id');
 					$state.go('/Leads');
 					angular.element(".loader").hide();
-				}*/
+				}
                 console.log(JSON.stringify(data));
 			}).error(function() {
 				angular.element(".loader").hide();
