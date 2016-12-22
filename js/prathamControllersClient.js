@@ -290,10 +290,10 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
                 }
                 else{
                     var projObj = {};
-                    projObj.unitProjId = $scope.projectDetails.projectName;
-                    projObj.unitPhaseId = $scope.projectDetails.phase;
-                    projObj.unitBlockId = $scope.projectDetails.blocks;
-                    projObj.unitId = $scope.units[i].UnitDtls_Id;
+                    projObj.ProjId = $scope.projectDetails.projectName;
+                    projObj.Phase_Id = $scope.projectDetails.phase;
+                    projObj.Blocks_Id = $scope.projectDetails.blocks;
+                    projObj.UnitDtls_Id = $scope.units[i].UnitDtls_Id;
                     projObj = JSON.stringify(projObj);
                     console.log(projObj);
                     
@@ -316,44 +316,35 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 	$scope.saveLead = function(projectObj){
         var projJson = [];
 		$(".dispNone").each(function(index){
-			console.log( index + ": " + $( this ).html() );
-			projJson.push($( this ).text());
+			console.log( index + ": " + $( this ).text() );
+            var projObj = $( this ).text();
+            projObj = angular.fromJson(projObj);
+			projJson.push(projObj);
 		});
         console.log(projJson);
 //		angular.element(".loader").show();
-//			$http({
-//				method: "POST",
-//                url: "http://120.138.8.150/pratham/User/SaveUser",
-//                ContentType: 'application/json',
-//                data: {
-//				  "user_id":$cookieStore.get('lead_id'),
-//				  "user_proj":{
-//					  "UserProj_comp_guid":$cookieStore.get('comp_guid'),
-//					  "UserProj_projid":parseInt(projectObj.projectName),
-//					  "UserProj_user_id":$cookieStore.get('lead_id'),
-//					  "projDlts":{
-//						  "ProjId": parseInt(projectObj.projectName)
-//					  },
-//                      "phaseDtls":{
-//                          "Phase_Id": parseInt(projectObj.phase)
-//                      },
-//                      "blockDtls":{
-//                          "Blocks_Id": parseInt(projectObj.blocks)
-//                      },
-//                      "unitdtls":{
-//                            "UnitDtls_Id":parseInt(unitIds[0])
-//					  }
-//					}
-//				}
-//            }).success(function(data) {
-//				if(data.user_id!=null){
-//					$cookieStore.remove('lead_id');
-//					$state.go('/Leads');
-//					angular.element(".loader").hide();
-//				}
-//			}).error(function() {
-//				angular.element(".loader").hide();
-//			});
+			$http({
+				method: "POST",
+                url: "http://120.138.8.150/pratham/User/SaveUser",
+                ContentType: 'application/json',
+                data: {
+				  "user_id":$cookieStore.get('lead_id'),
+				  "user_proj":{
+					  "UserProj_comp_guid":$cookieStore.get('comp_guid'),
+					  "UserProj_user_id":$cookieStore.get('lead_id'),
+					  "prjjson":projJson
+					}
+				}
+            }).success(function(data) {
+				/*if(data.user_id!=null){
+					$cookieStore.remove('lead_id');
+					$state.go('/Leads');
+					angular.element(".loader").hide();
+				}*/
+                console.log(JSON.stringify(data));
+			}).error(function() {
+				angular.element(".loader").hide();
+			});
 	};
 });
 app.controller("convertCustomer", function($scope,$http,$compile) {
