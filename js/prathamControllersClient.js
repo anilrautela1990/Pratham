@@ -274,7 +274,7 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 				  "UnitDtls_comp_guid":$cookieStore.get('comp_guid')
 				}
             }).success(function(data) {
-				console.log(data);
+				console.log(JSON.stringify(data));
 				$scope.units = data;
 				angular.element(".loader").hide();
 			}).error(function() {
@@ -282,68 +282,78 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 			});
 	};
 	$scope.selectUnit = function(unitId,projectDetails){
-		if($scope.units[unitId-1].UnitDtls_Status == 1){
-			if($("#unit"+$scope.units[unitId-1].UnitDtls_Id).hasClass('selected')){
-				$("tr#"+$scope.units[unitId-1].UnitDtls_Id).remove();
-			}
-			else{
-//				var projectRow = '<tr id="'+$scope.units[unitId-1].UnitDtls_Id+'"><td class="unitId">'+$scope.units[unitId-1].UnitDtls_Id+'</td><td>'+$scope.units[unitId-1].UnitDtls_Type+'</td><td>Phase</td><td>'+$scope.units[unitId-1].UnitDtls_Type+'</td><td>Block '+$scope.units[unitId-1].UnitDtls_Block_Id+'</td><td>'+$scope.units[unitId-1].UnitDtls_BRoom+'BHK - '+$scope.units[unitId-1].UnitDtls_No+' - '+$scope.units[unitId-1].UnitDtls_Floor+' Floor</td><td>'+$scope.units[unitId-1].UnitDtls_Msrmnt+' sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow('+$scope.units[unitId-1].UnitDtls_Id+')"></span></td></tr>';
-				
-				var projectRow = '<tr id="'+$scope.units[unitId-1].UnitDtls_Id+'"><td class="unitId">'+$scope.units[unitId-1].UnitDtls_Id+'</td><td>'+$scope.units[unitId-1].UnitDtls_BRoom+'BHK - '+$scope.units[unitId-1].UnitDtls_No+' - '+$scope.units[unitId-1].UnitDtls_Floor+' Floor</td><td>'+$scope.units[unitId-1].UnitDtls_Msrmnt+' sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow('+$scope.units[unitId-1].UnitDtls_Id+')"></span></td></tr>';
-				
-				var projectRowComplied = $compile(projectRow)($scope);
-				angular.element(document.getElementById('projectList')).append(projectRowComplied);
-			}
-			$("#unit"+$scope.units[unitId-1].UnitDtls_Id).toggleClass('selected');
-		}
-		else{
-			alert($scope.flatStatus[$scope.units[unitId-1].UnitDtls_Status-1]);
-		}
+        for(i=0;i<$scope.units.length;i++){
+           if($scope.units[i].UnitDtls_Id == unitId){
+               if($scope.units[i].UnitDtls_Status == 1){
+                if($("#unit"+$scope.units[i].UnitDtls_Id).hasClass('selected')){
+                    $("tr#"+$scope.units[i].UnitDtls_Id).remove();
+                }
+                else{
+                    var projObj = {};
+                    projObj.unitProjId = $scope.projectDetails.projectName;
+                    projObj.unitPhaseId = $scope.projectDetails.phase;
+                    projObj.unitBlockId = $scope.projectDetails.blocks;
+                    projObj.unitId = $scope.units[i].UnitDtls_Id;
+                    projObj = JSON.stringify(projObj);
+                    console.log(projObj);
+                    
+                    var projectRow = '<tr id="'+$scope.units[i].UnitDtls_Id+'"><td><div class="dispNone">'+projObj+'</div>'+$scope.units[i].UnitDtls_BRoom+'BHK - '+$scope.units[i].UnitDtls_No+' - '+$scope.units[i].UnitDtls_Floor+' Floor</td><td>'+$scope.units[i].UnitDtls_Msrmnt+' sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow('+$scope.units[i].UnitDtls_Id+')"></span></td></tr>';
+                    var projectRowComplied = $compile(projectRow)($scope);
+                    angular.element(document.getElementById('projectList')).append(projectRowComplied);
+                }
+			 $("#unit"+$scope.units[i].UnitDtls_Id).toggleClass('selected');
+            }
+            else{
+                alert($scope.flatStatus[$scope.units[i].UnitDtls_Status-1]);
+            }
+           }
+        }
 	};
 	$scope.deleteRow = function(rowId){
 		$("tr#"+rowId).remove();
 		$("#unit"+rowId).removeClass('selected');
 	};
 	$scope.saveLead = function(projectObj){
-		var unitIds = [];
-		$(".unitId").each(function(index){
-			console.log( index + ": " + $( this ).text() );
-			unitIds.push($( this ).text());
+        var projJson = [];
+		$(".dispNone").each(function(index){
+			console.log( index + ": " + $( this ).html() );
+			projJson.push($( this ).text());
 		});
-		angular.element(".loader").show();
-			$http({
-				method: "POST",
-                url: "http://120.138.8.150/pratham/User/SaveUser",
-                ContentType: 'application/json',
-                data: {
-				  "user_id":$cookieStore.get('lead_id'),
-				  "user_proj":{
-					  "UserProj_comp_guid":$cookieStore.get('comp_guid'),
-					  "UserProj_projid":parseInt(projectObj.projectName),
-					  "UserProj_user_id":$cookieStore.get('lead_id'),
-					  "projDlts":{
-						  "ProjId": parseInt(projectObj.projectName)
-					  },
-                      "phaseDtls":{
-                          "Phase_Id": parseInt(projectObj.phase)
-                      },
-                      "blockDtls":{
-                          "Blocks_Id": parseInt(projectObj.blocks)
-                      },
-                      "unitdtls":{
-                            "UnitDtls_Id":parseInt(unitIds[0])
-					  }
-					}
-				}
-            }).success(function(data) {
-				if(data.user_id!=null){
-					$cookieStore.remove('lead_id');
-					$state.go('/Leads');
-					angular.element(".loader").hide();
-				}
-			}).error(function() {
-				angular.element(".loader").hide();
-			});
+        console.log(projJson);
+//		angular.element(".loader").show();
+//			$http({
+//				method: "POST",
+//                url: "http://120.138.8.150/pratham/User/SaveUser",
+//                ContentType: 'application/json',
+//                data: {
+//				  "user_id":$cookieStore.get('lead_id'),
+//				  "user_proj":{
+//					  "UserProj_comp_guid":$cookieStore.get('comp_guid'),
+//					  "UserProj_projid":parseInt(projectObj.projectName),
+//					  "UserProj_user_id":$cookieStore.get('lead_id'),
+//					  "projDlts":{
+//						  "ProjId": parseInt(projectObj.projectName)
+//					  },
+//                      "phaseDtls":{
+//                          "Phase_Id": parseInt(projectObj.phase)
+//                      },
+//                      "blockDtls":{
+//                          "Blocks_Id": parseInt(projectObj.blocks)
+//                      },
+//                      "unitdtls":{
+//                            "UnitDtls_Id":parseInt(unitIds[0])
+//					  }
+//					}
+//				}
+//            }).success(function(data) {
+//				if(data.user_id!=null){
+//					$cookieStore.remove('lead_id');
+//					$state.go('/Leads');
+//					angular.element(".loader").hide();
+//				}
+//			}).error(function() {
+//				angular.element(".loader").hide();
+//			});
 	};
 });
 app.controller("convertCustomer", function($scope,$http,$compile) {

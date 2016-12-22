@@ -326,3 +326,6 @@ span.link{
 .width100{
     width: 100%;
 }
+.dispNone{
+    display: none;
+}
