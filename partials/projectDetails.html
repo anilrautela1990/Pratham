@@ -31,7 +31,7 @@
 			</select>
 		</div>
 		<div class="divLabel">
-			Type: <strong ng-model="projectDetails.flatType">{{phaseList[projectDetails.phase-1].Phase_UnitType.UnitType_Name}}</strong>
+			Type: <strong ng-model="projectDetails.flatType">{{flatType}}</strong>
 		</div>
 		<div>
 			<select ng-model="projectDetails.blocks" name="blocks" class="form-control" ng-change="getUnits(projectDetails.blocks)">

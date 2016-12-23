@@ -228,6 +228,8 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
     })();
 	
 	$scope.getPhaseList = function(projectName){
+        $scope.flatType = "";
+        $scope.blockList = {};
 		angular.element(".loader").show();
 			$http({
 				method: "POST",
@@ -244,8 +246,16 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 			}).error(function() {
 				angular.element(".loader").hide();
 			});
+        $scope.projectDetails.phase = "";
+        $scope.projectDetails.blocks = "";
 	};
 	$scope.getBlockList = function(phase,projectName){
+        for(i=0;i<$scope.phaseList.length;i++){
+            if($scope.phaseList[i].Phase_Id == phase)
+                {
+                    $scope.flatType = $scope.phaseList[i].Phase_UnitType.UnitType_Name;
+                }
+        }
 		angular.element(".loader").show();
 			$http({
 				method: "POST",
@@ -253,7 +263,7 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
                 ContentType: 'application/json',
                 data: {
 				  "Phase_Proj_Id":projectName,
-				  "Blocks_Phase_Id":$scope.phaseList[phase-1].Phase_Blocks_Id
+				  "Blocks_Phase_Id":phase
 				}
             }).success(function(data) {
 				console.log(data);
@@ -262,6 +272,7 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 			}).error(function() {
 				angular.element(".loader").hide();
 			});
+        $scope.projectDetails.blocks = "";
 	};
 	$scope.getUnits = function(blocks){
 		angular.element(".loader").show();
@@ -322,7 +333,7 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 			projJson.push(projObj);
 		});
         console.log(projJson);
-//		angular.element(".loader").show();
+		angular.element(".loader").show();
 			$http({
 				method: "POST",
                 url: "http://120.138.8.150/pratham/User/SaveUser",
