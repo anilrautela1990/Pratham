@@ -59,7 +59,7 @@
 		</form>
 </div>
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center">
-	<div ng-repeat="x in units" class="flat {{flatStatus[x.UnitDtls_Status-1]}}" id="unit{{x.UnitDtls_Id}}" ng-click="selectUnit(x.UnitDtls_Id,projectDetails)" title="{{x.UnitDtls_BRoom}} BHK - {{x.UnitDtls_No}} - {{x.UnitDtls_Floor}} Floor | {{flatStatus[x.UnitDtls_Status-1]}}">
+	<div ng-repeat="x in units" class="flat {{flatStatus[x.UnitDtls_Status-1]}}" id="unit{{x.UnitDtls_Id}}" ng-click="selectUnit(x.UnitDtls_Id,projectDetails)" title="{{x.UnitDtls_BRoom}} BHK - {{x.UnitDtls_No}} - {{x.UnitDtls_Floor}} Floor | {{flatStatusText[x.UnitDtls_Status-1]}}">
 	</div>
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20">

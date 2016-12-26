@@ -248,6 +248,18 @@ span.link{
 .flat.vacant{
 	background-color: green;
 }
+.flat.userinterest{
+	background-color: orange;
+}
+.flat.mgmtquota{
+	background-color: blue;
+}
+.flat.blockedbyadvnc{
+	background-color: maroon;
+}
+.flat.blockedbynotadvnc{
+	background-color: maroon;
+}
 .flat.sold{
 	background-color: red;
 }

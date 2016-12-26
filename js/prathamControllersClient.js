@@ -231,6 +231,7 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 		$state.go('/AddLead');
 	}
 	$scope.flatStatus = ['vacant','userinterest','mgmtquota','blockedbyadvnc','blockedbynotadvnc','sold'];
+    $scope.flatStatusText = ['Vacant','User Interested','Management Quota','Blocked By Paying Advance','Blocked By Not Paying Advance','Sold'];
     ($scope.getProjectList = function(){
             $scope.units = [];
 			angular.element(".loader").show();
