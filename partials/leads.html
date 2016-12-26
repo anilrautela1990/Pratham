@@ -51,7 +51,7 @@
 					<td>Mobile Number:</td>
 					<td>{{lead.user_mobile_no}}</td>
 				</tr>
-				<tr>
+				<tr ng-if="lead.user_dob !='0001-01-01T00:00:00'">
 					<td>D.O.B:</td>
 					<td>{{lead.user_dob}}</td>
 				</tr>
