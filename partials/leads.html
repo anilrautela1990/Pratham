@@ -58,14 +58,13 @@
 					<td>City:</td>
 					<td>{{lead.user_city}}</td>
 				</tr>
-			</table>
-			<div ng-show="{{lead.user_proj!=null}}">
+            </table>
+			<div ng-show="{{lead.projectlst!=null}}">
 				<div class="subHeading">Projects</div>
 				<table class="table borderDef">
 				   <thead>
 					  <tr>
-						 <th>ID</th>
-						 <th>Project</th>
+                         <th>Project</th>
 						 <th>Phase</th>
 						 <th>Type</th>
 						 <th>Block</th>
@@ -73,13 +72,12 @@
 					  </tr>
 				   </thead>
 				   <tbody id="projectList">
-					  <tr>
-						 <td>{{lead.user_proj.UserProj_Id}}</td>
-						 <td>{{lead.user_proj.projDlts.Proj_Name}}</td>
-						 <td>{{lead.user_proj.phaseDtls.Phase_Name}}</td>
-						 <td>{{lead.user_proj.phaseDtls.Phase_UnitType.UnitType_Name}}</td>
-						 <td>{{lead.user_proj.blockDtls.Blocks_Name}}</td>
-						 <td>{{lead.user_proj.unitdtls.UnitDtls_Name}} - {{lead.user_proj.unitdtls.UnitDtls_No}} - {{lead.user_proj.unitdtls.UnitDtls_Floor}} Floor - {{lead.user_proj.unitdtls.UnitDtls_Msrmnt}} Sqr. Ft.</td>
+					  <tr ng-repeat = "unit in leadProjects track by $index">
+						 <td>{{unit.projName}}</td>
+                         <td>{{unit.phaseName}}</td>
+                         <td>{{unit.phaseType}}</td>
+                         <td>{{unit.blockName}}</td>
+                         <td>{{unit.unitObj.UnitDtls_Name}} / {{unit.phaseType}} No. {{unit.unitObj.UnitDtls_No}} / {{unit.unitObj.UnitDtls_Msrmnt}} sq ft / Floor {{unit.unitObj.UnitDtls_Floor}} / Unit ID: {{unit.unitObj.UnitDtls_Id}}</td>
 					  </tr>
 				   </tbody>
 				</table>

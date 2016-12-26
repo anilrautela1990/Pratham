@@ -143,7 +143,6 @@ app.controller("leads", function($scope,$http,$cookieStore,$uibModal) {
             controller: 'leadDetail',
 			size:'lg',
 			backdrop:'static',
-			keyboard:false,
             resolve: {
               item: function () {
                 return $scope.leads[selectedItem];;
@@ -164,6 +163,29 @@ app.controller("leadDetail", function($scope,$uibModalInstance,item) {
     $scope.ok = function(){
         $uibModalInstance.close();
     }
+    if($scope.lead.projectlst!=null){
+        $scope.leadProjects = [];
+        for(i=0;i<$scope.lead.projectlst.length;i++){
+            for(j=0;j<$scope.lead.projectlst[i].Lstphases.length;j++){
+                for(k=0;k<$scope.lead.projectlst[i].Lstphases[j].LstofBlocks.length;k++){
+                    for(l=0;l<$scope.lead.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length;l++){
+                        $scope.leadUnitObj = {};                        
+                        $scope.leadUnitObj.projName = $scope.lead.projectlst[i].Proj_Name;
+                        $scope.leadUnitObj.phaseName = $scope.lead.projectlst[i].Lstphases[j].Phase_Name;
+                        $scope.leadUnitObj.phaseType = $scope.lead.projectlst[i].Lstphases[j].Phase_UnitType.UnitType_Name;
+                        $scope.leadUnitObj.blockName = $scope.lead.projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Name;
+                        $scope.leadUnitObj.unitObj = $scope.lead.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];
+                        $scope.leadProjects.push($scope.leadUnitObj);
+                    }
+                    
+                }
+                
+            }
+
+        }
+        console.log(JSON.stringify($scope.leadProjects));
+    }
+    
 });
 
 app.controller("addLead", function($scope,$http,$state,$cookieStore) {
@@ -210,6 +232,7 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 	}
 	$scope.flatStatus = ['vacant','userinterest','mgmtquota','blockedbyadvnc','blockedbynotadvnc','sold'];
     ($scope.getProjectList = function(){
+            $scope.units = [];
 			angular.element(".loader").show();
             $http({
                 method: "POST",
@@ -228,7 +251,10 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
     })();
 	
 	$scope.getPhaseList = function(projectName){
+        $scope.units = [];
         $scope.flatType = "";
+        $scope.projectDetails.phase = "";
+        $scope.projectDetails.blocks = "";
         $scope.blockList = {};
 		angular.element(".loader").show();
 			$http({
@@ -246,10 +272,10 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 			}).error(function() {
 				angular.element(".loader").hide();
 			});
-        $scope.projectDetails.phase = "";
-        $scope.projectDetails.blocks = "";
 	};
 	$scope.getBlockList = function(phase,projectName){
+        $scope.units = [];
+        $scope.projectDetails.blocks = "";
         for(i=0;i<$scope.phaseList.length;i++){
             if($scope.phaseList[i].Phase_Id == phase)
                 {
@@ -272,9 +298,9 @@ app.controller("projectDetails", function($scope,$http,$state,$cookieStore,$comp
 			}).error(function() {
 				angular.element(".loader").hide();
 			});
-        $scope.projectDetails.blocks = "";
 	};
 	$scope.getUnits = function(blocks){
+        $scope.units = [];
 		angular.element(".loader").show();
 			$http({
 				method: "POST",
