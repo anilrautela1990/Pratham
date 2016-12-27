@@ -116,7 +116,7 @@ app.controller("dashboard", function($scope, $http, $cookieStore) {
     $scope.title = "Pratham :: Home";
 });
 
-app.controller("leads", function($scope, $http, $cookieStore, $uibModal) {
+app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state) {
     $scope.searchLead   = '';     // set the default search/filter term
     ($scope.getLeads = function() {
         angular.element(".loader").show();
@@ -154,11 +154,10 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal) {
     $scope.viewLeadStatus = function(leadNo) {
         alert("View Lead Status: " + leadNo);
     };
-    $scope.editLead = function(leadNo) {
-        alert("Edit Lead: " + leadNo);
-    };
 });
 app.controller("leadDetail", function($scope, $uibModalInstance, item) {
+	$scope.states = ["Delhi"];
+	$scope.cities = ["New Delhi"];
     $scope.lead = item;
     if ($scope.lead.projectlst != null) {
         $scope.leadProjects = [];
@@ -189,6 +188,7 @@ app.controller("leadDetail", function($scope, $uibModalInstance, item) {
 });
 
 app.controller("addLead", function($scope, $http, $state, $cookieStore) {
+	$scope.addLeadBtn = true;
     $scope.addLead = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -206,8 +206,8 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
                     "user_office_no": formObj.officeNumber,
                     "user_email_address": formObj.emailId,
                     "user_country": formObj.country,
-                    "user_city": parseInt(formObj.city),
-                    "user_state": parseInt(formObj.state),
+                    "user_city": formObj.city,
+                    "user_state": formObj.state,
                     "user_address": formObj.address,
                     "user_zipcode": formObj.zip,
                     "user_dob": formObj.dob,
@@ -223,7 +223,55 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
                 }
             }).error(function() {});
         }
-    }
+    };
+});
+
+app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateParams) {
+$scope.editLeadBtn = true;
+($scope.getLeadDetail = function(){
+		$scope.leadId = $stateParams.leadID;
+		$http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/UserDtls",
+                ContentType: 'application/json',
+                data: {
+					"user_id": $scope.leadId,
+                    "user_comp_guid": $cookieStore.get('comp_guid')
+                }
+            }).success(function(data) {
+                console.log(data);
+			var state = data.user_state;
+			var city = data.user_city;
+			
+			if(state == 0){
+				state = "";
+			}
+			if(city == 0){
+				city = "";
+			}
+			if(data.user_id != 0){
+				$scope.addLead = {
+					firstName: data.user_first_name,
+					middleName: data.user_middle_name,
+					lastName: data.user_last_name,
+					mobileNumber: data.user_mobile_no,
+					emailId: data.user_email_address,
+					dob: data.user_dob,
+					gender: data.user_gender,
+					country: data.user_country,
+					state: state+"",
+					city: city+"",
+					address: data.user_address,
+					zip: data.user_zipcode
+				}
+			}else{
+				$state.go("/Leads");
+			}
+            }).error(function() {});
+	})();
+	$scope.updateLead = function(formObj, formName){
+		console.log(formObj);
+	};
 });
 app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $compile) {
     if ($cookieStore.get('lead_id') == undefined) {
@@ -320,7 +368,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
     $scope.selectUnit = function(unitId, projectDetails) {
         for (i = 0; i < $scope.units.length; i++) {
             if ($scope.units[i].UnitDtls_Id == unitId) {
-                if ($scope.units[i].UnitDtls_Status == 1) {
+                if ($scope.units[i].UnitDtls_Status == 1 || $scope.units[i].UnitDtls_Status == 2) {
                     if ($("#unit" + $scope.units[i].UnitDtls_Id).hasClass('selected')) {
                         $("tr#" + $scope.units[i].UnitDtls_Id).remove();
                     } else {

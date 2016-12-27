@@ -30,7 +30,7 @@
 				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
 				<td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> Person</td>
 				<td><span class="link" ng-click="leadDetail($index)">View</span></td>
-				<td><span class="link" ng-click="editLead(x.user_id)">Edit</span></td>
+				<td><a ui-sref="/EditLead({ leadID: {{x.user_id}} })"><span class="link">Edit</span></a></td>
 			</tr>
 		</tbody>
 	</table>
@@ -57,7 +57,7 @@
 				</tr>
 				<tr>
 					<td>City:</td>
-					<td>{{lead.user_city}}</td>
+					<td>{{cities[lead.user_city-1]}}</td>
 				</tr>
             </table>
 			<div ng-show="{{lead.projectlst!=null}}">
