@@ -188,6 +188,7 @@ app.controller("leadDetail", function($scope, $uibModalInstance, item) {
 });
 
 app.controller("addLead", function($scope, $http, $state, $cookieStore) {
+    $scope.pageTitle = "Add Lead";
 	$scope.addLeadBtn = true;
     $scope.addLead = function(formObj, formName) {
         $scope.submit = true;
@@ -226,8 +227,10 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
     };
 });
 
-app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateParams) {
+app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateParams,$filter) {
+$scope.pageTitle = "Edit Lead";
 $scope.editLeadBtn = true;
+    
 ($scope.getLeadDetail = function(){
 		$scope.leadId = $stateParams.leadID;
 		$http({
@@ -242,13 +245,17 @@ $scope.editLeadBtn = true;
                 console.log(data);
 			var state = data.user_state;
 			var city = data.user_city;
-			
+            var dob = $filter('date')(data.user_dob, 'dd-MMM-yyyy');
+            
 			if(state == 0){
 				state = "";
 			}
 			if(city == 0){
 				city = "";
 			}
+            if(dob == "01-Jan-0001"){
+                dob = "";
+            }
 			if(data.user_id != 0){
 				$scope.addLead = {
 					firstName: data.user_first_name,
@@ -256,7 +263,7 @@ $scope.editLeadBtn = true;
 					lastName: data.user_last_name,
 					mobileNumber: data.user_mobile_no,
 					emailId: data.user_email_address,
-					dob: data.user_dob,
+					dob: dob,
 					gender: data.user_gender,
 					country: data.user_country,
 					state: state+"",
