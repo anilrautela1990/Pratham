@@ -245,7 +245,7 @@ $scope.editLeadBtn = true;
                 console.log(data);
 			var state = data.user_state;
 			var city = data.user_city;
-            var dob = $filter('date')(data.user_dob, 'dd-MMM-yyyy');
+            var dob = $filter('date')(data.user_dob, 'MMM dd, yyyy');
             
 			if(state == 0){
 				state = "";
@@ -253,7 +253,7 @@ $scope.editLeadBtn = true;
 			if(city == 0){
 				city = "";
 			}
-            if(dob == "01-Jan-0001"){
+            if(dob == "Jan 01, 0001"){
                 dob = "";
             }
 			if(data.user_id != 0){
@@ -276,9 +276,44 @@ $scope.editLeadBtn = true;
 			}
             }).error(function() {});
 	})();
-	$scope.updateLead = function(formObj, formName){
-		console.log(formObj);
-	};
+    
+     $scope.updateLead = function(formObj, formName) {
+         console.log(formObj);
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/UpdateUser",
+                ContentType: 'application/json',
+                data: {
+                    "user_comp_guid": $cookieStore.get('comp_guid'),
+                    "user_id": $scope.leadId,
+                    "user_first_name": formObj.firstName,
+                    "user_middle_name": formObj.middleName,
+                    "user_last_name": formObj.lastName,
+                    "user_mobile_no": formObj.mobileNumber,
+                    "user_office_no": formObj.officeNumber,
+                    "user_email_address": formObj.emailId,
+                    "user_country": formObj.country,
+                    "user_city": formObj.city,
+                    "user_state": formObj.state,
+                    "user_address": formObj.address,
+                    "user_zipcode": formObj.zip,
+                    "user_dob": formObj.dob,
+                    "registration_date": "2016-01-01",
+                    "user_gender": parseInt(formObj.gender),
+                }
+            }).success(function(data) {
+                console.log(data);
+                if (data.user_id != 0) {
+                    //$cookieStore.put('lead_id', data.user_id);
+                    $state.go("/Leads");
+                } else {
+                    alert("Some Error!");
+                }
+            }).error(function() {});
+        }
+    };
 });
 app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $compile) {
     if ($cookieStore.get('lead_id') == undefined) {

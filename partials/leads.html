@@ -53,7 +53,7 @@
 				</tr>
 				<tr ng-if="lead.user_dob !='0001-01-01T00:00:00'">
 					<td>D.O.B:</td>
-					<td>{{lead.user_dob}}</td>
+					<td>{{lead.user_dob | date}}</td>
 				</tr>
 				<tr>
 					<td>City:</td>
