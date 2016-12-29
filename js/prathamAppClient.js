@@ -1,6 +1,6 @@
 var app = angular.module("pratham",['ui.router','ngCookies']);
 app.config(function($stateProvider, $urlRouterProvider) {
-$urlRouterProvider.otherwise('/RegisterFirm');
+$urlRouterProvider.otherwise('/Login');
 $stateProvider
     .state('/RegisterFirm', {
 		url: '/RegisterFirm',

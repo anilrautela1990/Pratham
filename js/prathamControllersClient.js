@@ -145,7 +145,7 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
             backdrop: 'static',
             resolve: {
                 item: function() {
-                    return $scope.leads[selectedItem];;
+                    return $scope.leads[selectedItem];
                 }
             }
         });
@@ -183,6 +183,9 @@ app.controller("leadDetail", function($scope, $uibModalInstance, item) {
     }
     $scope.ok = function() {
         $uibModalInstance.close();
+    };
+    $scope.deleteRow = function(rowId){
+      angular.element("tr#"+rowId).remove();
     };
 
 });

@@ -60,8 +60,9 @@
 					<td>{{cities[lead.user_city-1]}}</td>
 				</tr>
             </table>
+            <div class="subHeading">Projects</div>
+            <div ng-show="{{lead.projectlst==null}}">This lead does not have any projects.</div>
 			<div ng-show="{{lead.projectlst!=null}}">
-				<div class="subHeading">Projects</div>
 				<table class="table borderDef">
 				   <thead>
 					  <tr>
@@ -70,15 +71,19 @@
 						 <th>Type</th>
 						 <th>Block</th>
 						 <th>Unit</th>
+                         <th></th>
 					  </tr>
 				   </thead>
 				   <tbody id="projectList">
-					  <tr ng-repeat = "unit in leadProjects track by $index">
+					  <tr ng-repeat = "unit in leadProjects track by $index" id="{{unit.unitObj.UnitDtls_Id}}">
 						 <td>{{unit.projName}}</td>
                          <td>{{unit.phaseName}}</td>
                          <td>{{unit.phaseType}}</td>
                          <td>{{unit.blockName}}</td>
                          <td>{{unit.unitObj.UnitDtls_Name}} / {{unit.phaseType}} No. {{unit.unitObj.UnitDtls_No}} / {{unit.unitObj.UnitDtls_Msrmnt}} sq ft / Floor {{unit.unitObj.UnitDtls_Floor}}</td>
+                         <td>
+                             <span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(unit.unitObj.UnitDtls_Id)"></span>
+                          </td>
 					  </tr>
 				   </tbody>
 				</table>
