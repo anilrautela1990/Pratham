@@ -155,7 +155,7 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
         alert("View Lead Status: " + leadNo);
     };
 });
-app.controller("leadDetail", function($scope, $uibModalInstance, item) {
+app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
 	$scope.states = ["Delhi"];
 	$scope.cities = ["New Delhi"];
     $scope.lead = item;
@@ -187,6 +187,11 @@ app.controller("leadDetail", function($scope, $uibModalInstance, item) {
     $scope.deleteRow = function(rowId){
       angular.element("tr#"+rowId).remove();
     };
+    $scope.addLeadProjects = function(leadId){
+        $uibModalInstance.close();
+        $state.go("/ProjectDetails",{"leadID": leadId});
+    };
+        
 
 });
 
@@ -220,8 +225,8 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
             }).success(function(data) {
                 console.log(data);
                 if (data.user_id != 0) {
-                    $cookieStore.put('lead_id', data.user_id);
-                    $state.go("/ProjectDetails");
+//                    $cookieStore.put('lead_id', data.user_id);
+                    $state.go("/ProjectDetails",{"leadID": data.user_id});
                 } else {
                     alert("Some Error!");
                 }
@@ -317,8 +322,9 @@ $scope.editLeadBtn = true;
         }
     };
 });
-app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $compile) {
-    if ($cookieStore.get('lead_id') == undefined) {
+app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $compile, $stateParams) {
+    $scope.leadId = $stateParams.leadID;
+    if ($scope.leadId == undefined) {        
         $state.go('/AddLead');
     }
     $scope.flatStatus = ['vacant', 'userinterest', 'mgmtquota', 'blockedbyadvnc', 'blockedbynotadvnc', 'sold'];
@@ -403,11 +409,32 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             }
         }).success(function(data) {
             console.log(JSON.stringify(data));
+            $scope.selectedUnits = [];
+            $(".dispNone").each(function(index) {
+                var projObj = $(this).text();
+                projObj = angular.fromJson(projObj);
+                $scope.selectedUnits.push(projObj.UnitDtls_Id);
+            });
+            
+            for(i=0;i<data.length;i++){
+                for(j=0;j<$scope.selectedUnits.length;j++){
+                    if(data[i].UnitDtls_Id == $scope.selectedUnits[j]){
+                        data[i].markUp = "selected";
+                        break;
+                    }
+                }    
+            }
             $scope.units = data;
+            console.log($scope.units);
+            
             angular.element(".loader").hide();
+            
         }).error(function() {
             angular.element(".loader").hide();
         });
+    };
+    $scope.markUnits = function(){
+        alert($scope.selectedUnits);
     };
     $scope.selectUnit = function(unitId, projectDetails) {
         for (i = 0; i < $scope.units.length; i++) {
@@ -454,10 +481,10 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             url: "http://120.138.8.150/pratham/User/SaveUser",
             ContentType: 'application/json',
             data: {
-                "user_id": $cookieStore.get('lead_id'),
+                "user_id": $scope.leadId,
                 "user_proj": {
                     "UserProj_comp_guid": $cookieStore.get('comp_guid'),
-                    "UserProj_user_id": $cookieStore.get('lead_id'),
+                    "UserProj_user_id": $scope.leadId,
                     "prjjson": projJson
                 }
             }

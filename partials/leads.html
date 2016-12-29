@@ -60,7 +60,12 @@
 					<td>{{cities[lead.user_city-1]}}</td>
 				</tr>
             </table>
-            <div class="subHeading">Projects</div>
+            <div class="col-md-12 padding0 marginBottom5">
+                <div class="subHeading col-md-6 padding0">Projects</div>
+                <div class="col-md-6 padding0 text-right">
+                    <button class="btn btn-default" ng-click="addLeadProjects(lead.user_id)">Add Projects</button>
+                </div>
+            </div>
             <div ng-show="{{lead.projectlst==null}}">This lead does not have any projects.</div>
 			<div ng-show="{{lead.projectlst!=null}}">
 				<table class="table borderDef">

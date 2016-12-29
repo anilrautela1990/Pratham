@@ -32,11 +32,11 @@
 		<div>
 			<input type="text" placeholder="D.O.B. (YYYY-MM-DD)" class="form-control"  name="dob" ng-model="addLead.dob"/>
 		</div>
-		<div class="radioBtn">
+		<div class="radioBtn" ng-class="{blankInput: addLeadForm.gender.$error.required &amp;&amp; submit}">
 			<span>Gender:</span>
-			<input type="radio" name="gender" ng-model="addLead.gender" id="male" value="0"/>
+			<input type="radio" name="gender" ng-model="addLead.gender" ng-required="true" id="male" value="0"/>
 			<label for="male">Male</label> <span>|</span>
-			<input type="radio" name="gender" ng-model="addLead.gender" id="female" value="1"/>
+			<input type="radio" name="gender" ng-model="addLead.gender" ng-required="true" id="female" value="1"/>
 			<label for="female">Female</label>
 		</div>
 		<div>

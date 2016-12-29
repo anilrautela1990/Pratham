@@ -27,7 +27,7 @@ body{
     margin-bottom: 8px;
 }
 .blankInput{
-    border-color: red;
+    border: 1px solid red!important;
 }
 h3.h3{
     text-align: center;
@@ -123,6 +123,9 @@ input.search{
 }
 .margin0{
 	margin: 0;
+}
+.padding0{
+	padding: 0;
 }
 .padding15{
 	padding: 15px;
@@ -291,7 +294,7 @@ span.link{
 	font-weight: bold;
 }
 .subHeading{
-    margin: 0 0 5px 0;
+    padding: 4.5px 0;
     font-size: 18px;
     color: #000;
 }
