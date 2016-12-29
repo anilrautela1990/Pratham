@@ -300,7 +300,6 @@ $scope.editLeadBtn = true;
                     "user_address": formObj.address,
                     "user_zipcode": formObj.zip,
                     "user_dob": formObj.dob,
-                    "registration_date": "2016-01-01",
                     "user_gender": parseInt(formObj.gender),
                 }
             }).success(function(data) {
