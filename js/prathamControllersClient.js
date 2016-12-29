@@ -397,6 +397,12 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         });
     };
     $scope.getUnits = function(blocks) {
+        for(i=0;i<$scope.blockList.length;i++){
+            if($scope.blockList[i].Blocks_Id == blocks){
+                $scope.blockFloors = $scope.blockList[i].Blocks_Floors;
+                $scope.blockFloorUnits = $scope.blockList[i].Blocks_UnitPerfloor;
+            }
+        }
         $scope.units = [];
         angular.element(".loader").show();
         $http({
@@ -408,7 +414,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                 "UnitDtls_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
-            console.log(JSON.stringify(data));
+//            console.log(JSON.stringify(data));
             $scope.selectedUnits = [];
             $(".dispNone").each(function(index) {
                 var projObj = $(this).text();
@@ -424,9 +430,17 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                     }
                 }    
             }
+            $scope.perFloorUnits = [];
+            var count = 0;
+            for(k=0;k<$scope.blockFloors;k++){
+                var floorUnits = [];
+                for(l=0;l<$scope.blockFloorUnits;l++){
+                    floorUnits.push(data[count]);
+                    count++;
+                }                
+                $scope.perFloorUnits.push(floorUnits);
+            }
             $scope.units = data;
-            console.log($scope.units);
-            
             angular.element(".loader").hide();
             
         }).error(function() {
