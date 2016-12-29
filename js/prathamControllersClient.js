@@ -356,7 +356,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
 									$scope.leadUnitObj.ProjId = data.projectlst[i].ProjId;
 									$scope.leadUnitObj.Phase_Id = data.projectlst[i].Lstphases[j].Phase_Id;
 									$scope.leadUnitObj.Blocks_Id = data.projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Id;
-									$scope.leadUnitObj.UnitDtls = data.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[k];									
+									$scope.leadUnitObj.UnitDtls = data.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];									
 									$scope.leadProjects.push($scope.leadUnitObj);
                                 }
 
@@ -365,7 +365,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                         }
 
                     }
-                    //console.log(JSON.stringify($scope.leadProjects));
+                    console.log(JSON.stringify($scope.leadProjects));
                 }
                 angular.element(".loader").hide();
             } else {
