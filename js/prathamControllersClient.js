@@ -377,6 +377,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
     $scope.flatStatus = ['vacant', 'userinterest', 'mgmtquota', 'blockedbyadvnc', 'blockedbynotadvnc', 'sold'];
     $scope.flatStatusText = ['Vacant', 'User Interested', 'Management Quota', 'Blocked By Paying Advance', 'Blocked By Not Paying Advance', 'Sold'];
     ($scope.getProjectList = function() {
+        $scope.perFloorUnits = [];
         $scope.units = [];
         angular.element(".loader").show();
         $http({
@@ -395,6 +396,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
     })();
 
     $scope.getPhaseList = function(projectName) {
+        $scope.perFloorUnits = [];
         $scope.units = [];
         $scope.flatType = "";
         $scope.projectDetails.phase = "";
@@ -418,6 +420,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         });
     };
     $scope.getBlockList = function(phase, projectName) {
+        $scope.perFloorUnits = [];
         $scope.units = [];
         $scope.projectDetails.blocks = "";
         for (i = 0; i < $scope.phaseList.length; i++) {
