@@ -1,5 +1,6 @@
 app.controller("home", function($scope, $http) {
     $scope.title = "Pratham - Pre Login";
+    $scope.clientCss = "prathamClient";
 });
 app.controller("firmRegister", function($scope, $http, $state, $cookieStore) {
     $scope.registerFirm = function(formObj, formName) {
@@ -98,6 +99,7 @@ app.controller("login", function($scope, $http, $cookieStore, $window) {
 /* After Login*/
 app.controller("mainCtrl", function($scope, $http, $cookieStore, $state, $window) {
     $scope.title = "Pratham :: Home";
+    $scope.clientCss = "prathamClient";
     ($scope.checkLogin = function() {
         var userId = $cookieStore.get('user_id');
         var compGuid = $cookieStore.get('comp_guid');
@@ -365,7 +367,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                         }
 
                     }
-                    console.log(JSON.stringify($scope.leadProjects));
+//                    console.log(JSON.stringify($scope.leadProjects));
                 }
                 angular.element(".loader").hide();
             } else {
@@ -438,7 +440,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                 "Blocks_Phase_Id": phase
             }
         }).success(function(data) {
-            //console.log(data);
+            console.log(data);
             $scope.blockList = data;
             angular.element(".loader").hide();
         }).error(function() {
@@ -463,7 +465,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                 "UnitDtls_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
-            //            //console.log(JSON.stringify(data));
+            console.log(JSON.stringify(data));
             $scope.selectedUnits = [];
             $(".dispNone").each(function(index) {
                 var projObj = $(this).text();

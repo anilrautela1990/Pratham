@@ -243,6 +243,15 @@ span.link{
     border-radius: 4px;
     padding: 6px 12px;
 }
+.floorName{
+    float: left;
+    padding: 5px 0;
+    margin: 0 10px 10px 0;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #DDD;
+    width: 100px;
+}
 .flat{
     float: left;
     padding: 15px;
