@@ -448,13 +448,17 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         });
     };
     $scope.getUnits = function(blocks) {
+		$scope.units = [];
+		$scope.perFloorUnits = [];
+		if(blocks == ""){
+			return;
+		}
         for (i = 0; i < $scope.blockList.length; i++) {
             if ($scope.blockList[i].Blocks_Id == blocks) {
                 $scope.blockFloors = $scope.blockList[i].Blocks_Floors;
                 $scope.blockFloorUnits = $scope.blockList[i].Blocks_UnitPerfloor;
             }
         }
-        $scope.units = [];
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -481,7 +485,6 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                     }
                 }
             }
-            $scope.perFloorUnits = [];
             var count = 0;
             for (k = 0; k < $scope.blockFloors; k++) {
                 var floorUnits = [];
