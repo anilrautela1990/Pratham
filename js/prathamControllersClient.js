@@ -227,7 +227,7 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
             }).success(function(data) {
                 //console.log(data);
                 if (data.user_id != 0) {
-                    //                    $cookieStore.put('lead_id', data.user_id);
+                    //$cookieStore.put('lead_id', data.user_id);
                     $state.go("/ProjectDetails", {
                         "leadID": data.user_id
                     });
@@ -343,7 +343,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                 "user_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
-//			//console.log(data);
+            //			//console.log(data);
             if (data.user_id != 0) {
                 if (data.projectlst != null) {
                     $scope.leadProjects = [];
@@ -351,13 +351,13 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                         for (j = 0; j < data.projectlst[i].Lstphases.length; j++) {
                             for (k = 0; k < data.projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
                                 for (l = 0; l < data.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
-									
-									$scope.leadUnitObj = {};
-									$scope.leadUnitObj.ProjId = data.projectlst[i].ProjId;
-									$scope.leadUnitObj.Phase_Id = data.projectlst[i].Lstphases[j].Phase_Id;
-									$scope.leadUnitObj.Blocks_Id = data.projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Id;
-									$scope.leadUnitObj.UnitDtls = data.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];									
-									$scope.leadProjects.push($scope.leadUnitObj);
+
+                                    $scope.leadUnitObj = {};
+                                    $scope.leadUnitObj.ProjId = data.projectlst[i].ProjId;
+                                    $scope.leadUnitObj.Phase_Id = data.projectlst[i].Lstphases[j].Phase_Id;
+                                    $scope.leadUnitObj.Blocks_Id = data.projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Id;
+                                    $scope.leadUnitObj.UnitDtls = data.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];
+                                    $scope.leadProjects.push($scope.leadUnitObj);
                                 }
 
                             }
