@@ -531,8 +531,29 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         }
     };
     $scope.deleteRow = function(rowId) {
-        $("tr#" + rowId).remove();
-        $("#unit" + rowId).removeClass('selected');
+        if(confirm("Are you sure you want to delete this project ?") == true){
+            angular.element(".loader").show();
+            $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/SaveUser",
+            ContentType: 'application/json',
+            data: {
+                "user_id": $scope.leadId,
+                "user_proj": {
+                    "UserProj_comp_guid": $cookieStore.get('comp_guid'),
+                    "UserProj_user_id": $scope.leadId,
+                    "prjjson": [{"ProjId":rowId ,"Phase_Id":0,"Blocks_Id": 0, "UnitDtls_Id":0}]
+                }
+            }
+            }).success(function(data) {
+                angular.element(".loader").hide();
+                $("tr#" + rowId).remove();
+                $("#unit" + rowId).removeClass('selected');
+                console.log(JSON.stringify(data));
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        }
     };
     $scope.saveLead = function(projectObj) {
         var projJson = [];
