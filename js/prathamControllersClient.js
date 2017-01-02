@@ -589,29 +589,136 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         });
     };
 });
-app.controller("convertCustomer", function($scope, $http, $compile) {
-    $scope.customer = {
-        firstName: "Ashish",
-        middleName: "Bansal",
-        lastName: "Agrawal",
-        mobileNumber: "8800399717",
-        officeNumber: "011345678",
-        emailId: "ashishagrawal89@gmail.com",
-        dob: "24-12-1988",
-        gender: 0,
-        country: "india",
-        state: "2",
-        city: "3",
-        address: "N-33, Laxmi Nagar",
-        zip: "110092",
-        leadSouce: "email",
-        "bankloan": 0,
-        "gpaHolder": 0
-    };
+app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore, $stateParams, $filter, $state) {
+    ($scope.convertCustomer = function() {
+        angular.element(".loader").show();
+        $scope.leadId = $stateParams.leadID;
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserDtls",
+            ContentType: 'application/json',
+            data: {
+                "user_id": $scope.leadId,
+                "user_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            var state = data.user_state;
+            var city = data.user_city;
+            var dob = $filter('date')(data.user_dob, 'MMM dd, yyyy');
+
+            if (state == 0) {
+                state = "";
+            }
+            if (city == 0) {
+                city = "";
+            }
+            if (dob == "Jan 01, 0001") {
+                dob = "";
+            }
+    
+            if (data.user_id != 0) {
+                $scope.customer = {
+                    firstName: data.user_first_name,
+                    middleName: data.user_middle_name,
+                    lastName: data.user_last_name,
+                    mobileNumber: data.user_mobile_no,
+                    officeNumber: data.user_office_no,
+                    emailId: data.user_email_address,
+                    dob: dob,
+                    gender: data.user_gender,
+                    country: data.user_country,
+                    state: state + "",
+                    city: city + "",
+                    address: data.user_address,
+                    zip: data.user_zipcode
+                }
+                angular.element(".loader").hide();
+            } else {
+                $state.go("/Leads");
+            }
+        }).error(function() {});
+    })();
+//    $scope.customer = {
+//        firstName: "Ashish",
+//        middleName: "Bansal",
+//        lastName: "Agrawal",
+//        mobileNumber: "8800399717",
+//        officeNumber: "011345678",
+//        emailId: "ashishagrawal89@gmail.com",
+//        dob: "24-12-1988",
+//        gender: 0,
+//        country: "india",
+//        state: "2",
+//        city: "3",
+//        address: "N-33, Laxmi Nagar",
+//        zip: "110092",
+//        leadSouce: "email",
+//        "bankloan": 1,
+//        "gpaHolder": 0
+//    };
     $scope.addCustomer = function(formObj, formName) {
+//        alert(formObj.childrenNo);
+//        var childNo = formObj.childrenNo;
+//        var childJson = '';
+//        if (childNo != undefined && childNo != '') {
+//            childJson = '"Cust_noof_childrn" : '+childNo+',';
+//            for(var i = 0; i < childNo; i++){
+//                childJson = childJson + '"Cust_child'+(i+1)+'_nm" : '+formObj.child+(i+1)+Name+',';
+//                childJson = childJson + '"Cust_child'+(i+1)+'_dob" : '+formObj.child+(i+1)+Dob+',';
+//            }
+//        }
+//        alert(childJson);
         var formData = JSON.stringify(formObj);
-        //console.log(formData);
+        console.log(formData);
         //console.log(Object.keys(formObj).length);
+//        {
+//          "user_id": "12",
+//          "user_comp_guid": $cookieStore.get('comp_guid'),
+//          "Cust_User_Id_Assgnto": 1,
+//          "Cust_relationtype": 1,
+//          "Cust_relationname": formObj.relationName,
+//          "Cust_status_type": 1,
+//          "Cust_perm_add": "Cust_perm_add",
+//          "Cust_status_other": "Cust_status_other",
+//          "Cust_pan": formObj.pan,
+//          "Cust_aadhar": formObj.aadhar,
+//          "Cust_alt_contactno": formObj.alternateContact,
+//          "Cust_qualification": formObj.qualification,
+//          "Cust_Profession": formObj.profession,
+//          "Cust_company": formObj.company,
+//          "Cust_desig": formObj.designation,
+//          "Cust_off_add": formObj.officeAddress,
+//          "Cust_off_email": formObj.officeEmailId,
+//          "Cust_spouse_nm": formObj.spouseName,
+//          "Cust_spouse_dob": formObj.spouseDob,
+//          "Cust_spouse_pan": formObj.spousePan,
+//          "Cust_spouse_aadhar": formObj.spouseAadhar,
+//          "Cust_noof_childrn": 1,
+//          "Cust_child1_nm": "Atul",
+//          "Cust_child1_dob": "2012-12-12",
+//          "Cust_child2_nm": "",
+//          "Cust_child2_dob": "2012-12-12",
+//          "Cust_child3_nm": "",
+//          "Cust_child3_dob": "2012-12-12",
+//          "Cust_child4_nm": "",
+//          "Cust_child4_dob": "2012-12-12",
+//          "Cust_wedanv": formObj.weddingAnniversary,
+//          "Cust_bankloan": 1,
+//          "Cust_banknm": "HDFC Bank",
+//          "Cust_bankaccno": "464464644087",
+//          "Cust_bankadd": "Test Bank Address",
+//          "Cust_bankifsccode": "HDFC2351",
+//          "Cust_bankemailid": "Cust_bankemailid",
+//          "Cust_gpaholdr": 1,
+//          "Cust_gpa_nm": "Cust_gpa_nm",
+//          "Cust_gpa_relationtype": 1,
+//          "Cust_gpa_dob": "1983-01-01",
+//          "Cust_gpa_add": "Cust_gpa_add",
+//          "Cust_gpa_permadd": "Cust_gpa_permadd",
+//          "Cust_gpa_reltnwithcusty": "Cust_gpa_reltnwithcusty",
+//          "Cust_gpa_pan": "Cust_gpa_pan",
+//          "Cust_gpa_aadhar": "Cust_gpa_aadhar"
+//        }
     };
     $scope.appendFields = function() {
         angular.element("#children").html('');
