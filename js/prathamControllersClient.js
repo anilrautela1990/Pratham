@@ -657,22 +657,23 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
 //        "gpaHolder": 0
 //    };
     $scope.addCustomer = function(formObj, formName) {
-//        alert(formObj.childrenNo);
-//        var childNo = formObj.childrenNo;
-//        var childJson = '';
-//        if (childNo != undefined && childNo != '') {
-//            childJson = '"Cust_noof_childrn" : '+childNo+',';
-//            for(var i = 0; i < childNo; i++){
-//                childJson = childJson + '"Cust_child'+(i+1)+'_nm" : '+formObj.child+(i+1)+Name+',';
-//                childJson = childJson + '"Cust_child'+(i+1)+'_dob" : '+formObj.child+(i+1)+Dob+',';
-//            }
-//        }
-//        alert(childJson);
+        $scope.submit = true;
+        var childernDetails = [];
+        if ($scope[formName].$valid) {
+            alert($scope.leadId);
+            /*for(i=1;i<=formObj.childrenNo;i++){
+                var childObj = {};
+                childObj.name = formObj.childName[i];
+                childObj.dob = formObj.childDob[i];
+                childernDetails.push(childObj);
+            }
+            console.log(JSON.stringify(childernDetails));*/
+        }    
         var formData = JSON.stringify(formObj);
-        console.log(formData);
+//        console.log(formData);
         //console.log(Object.keys(formObj).length);
 //        {
-//          "user_id": "12",
+//          "user_id": $scope.leadId,
 //          "user_comp_guid": $cookieStore.get('comp_guid'),
 //          "Cust_User_Id_Assgnto": 1,
 //          "Cust_relationtype": 1,
@@ -712,7 +713,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
 //          "Cust_gpaholdr": 1,
 //          "Cust_gpa_nm": "Cust_gpa_nm",
 //          "Cust_gpa_relationtype": 1,
-//          "Cust_gpa_dob": "1983-01-01",
+//          "Cust_gpa_dob": "1983-01-01",.       
 //          "Cust_gpa_add": "Cust_gpa_add",
 //          "Cust_gpa_permadd": "Cust_gpa_permadd",
 //          "Cust_gpa_reltnwithcusty": "Cust_gpa_reltnwithcusty",
@@ -723,7 +724,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
     $scope.appendFields = function() {
         angular.element("#children").html('');
         for (i = 1; i <= $scope.customer.childrenNo; i++) {
-            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="customer.child' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B." title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="customer.child' + i + 'Dob"/></div>';
+            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="customer.childName['+i+']" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B." title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="customer.childDob['+i+']"/></div>';
             var childDivComplied = $compile(childDiv)($scope);
             angular.element("#children").append(childDivComplied);
 

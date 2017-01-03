@@ -11,35 +11,35 @@
 	<form name="addCustomerForm" class="form" method="POST" novalidate="novalidate">
 	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 			<div>
-				<input type="text" placeholder="First Name*" title="First Name*" class="form-control" name="firstName" ng-model="customer.firstName" ng-required="true" ng-class="{blankInput: addCustomerForm.firstName.$error.required &amp;&amp; submit}"/>
+				<input type="text" ng-disabled="true" placeholder="First Name*" title="First Name*" class="form-control" name="firstName" ng-model="customer.firstName" ng-required="true" ng-class="{blankInput: addCustomerForm.firstName.$error.required &amp;&amp; submit}"/>
 			</div>
 			<div>
-				<input type="text" placeholder="Middle Name" title="Middle Name"  class="form-control" name="middleName" ng-model="customer.middleName"/>
+				<input type="text" ng-disabled="true" placeholder="Middle Name" title="Middle Name"  class="form-control" name="middleName" ng-model="customer.middleName"/>
 			</div>
 			<div>
-				<input type="text" placeholder="Last Name*" title="Last Name*" class="form-control" name="lastName" ng-model="customer.lastName" ng-required="true" ng-class="{blankInput: addCustomerForm.lastName.$error.required &amp;&amp; submit}"/>
+				<input type="text" ng-disabled="true" placeholder="Last Name*" title="Last Name*" class="form-control" name="lastName" ng-model="customer.lastName" ng-required="true" ng-class="{blankInput: addCustomerForm.lastName.$error.required &amp;&amp; submit}"/>
 			</div>
 			<div>
-				<input type="text" placeholder="Mobile Number*" title="Mobile Number*" class="form-control" name="mobileNumber" ng-model="customer.mobileNumber" ng-required="true" ng-class="{blankInput: addCustomerForm.mobileNumber.$error.required &amp;&amp; submit}"/>
+				<input type="text" ng-disabled="true" placeholder="Mobile Number*" title="Mobile Number*" class="form-control" name="mobileNumber" ng-model="customer.mobileNumber" ng-required="true" ng-class="{blankInput: addCustomerForm.mobileNumber.$error.required &amp;&amp; submit}"/>
 			</div>
 			<div>
-				<input type="text" placeholder="Office Number" title="Office Number" class="form-control" name="officeNumber" ng-model="customer.officeNumber"/>
+				<input type="text" ng-disabled="true" placeholder="Office Number" title="Office Number" class="form-control" name="officeNumber" ng-model="customer.officeNumber"/>
 			</div>
 			<div>
-				<input type="email" placeholder="Email ID*" title="Email ID*" class="form-control" name="emailId" ng-model="customer.emailId" ng-required="true" ng-class="{blankInput: addCustomerForm.emailId.$error.required &amp;&amp; submit}"/>
+				<input type="email" ng-disabled="true" placeholder="Email ID*" title="Email ID*" class="form-control" name="emailId" ng-model="customer.emailId" ng-required="true" ng-class="{blankInput: addCustomerForm.emailId.$error.required &amp;&amp; submit}"/>
 			</div>
 			<div>
-				<input type="text" placeholder="D.O.B. (YYYY-MM-DD)" title="D.O.B. (YYYY-MM-DD)" class="form-control"  name="dob" ng-model="customer.dob"/>
+				<input type="text" ng-disabled="true" placeholder="D.O.B. (YYYY-MM-DD)" title="D.O.B. (YYYY-MM-DD)" class="form-control"  name="dob" ng-model="customer.dob"/>
 			</div>
 			<div class="radioBtn">
 				<span>Gender:</span>
-				<input type="radio" name="gender" ng-model="customer.gender" id="male" value="0"/>
+				<input type="radio" name="gender" ng-disabled="true" ng-model="customer.gender" id="male" value="0"/>
 				<label for="male">Male</label> <span>|</span>
-				<input type="radio" name="gender" ng-model="customer.gender" id="female" value="1"/>
+				<input type="radio" name="gender" ng-disabled="true" ng-model="customer.gender" id="female" value="1"/>
 				<label for="female">Female</label>
 			</div>
 			<div>
-				<select class="form-control" name="country" ng-model="customer.country" title="Country">
+				<select class="form-control" ng-disabled="true" name="country" ng-model="customer.country" title="Country">
 					<option value="">
 						Country
 					</option>
@@ -49,7 +49,7 @@
 				</select>
 			</div>
 			<div>
-				<select class="form-control" name="state" ng-model="customer.state" title="State">
+				<select class="form-control" name="state" ng-disabled="true" ng-model="customer.state" title="State">
 					<option value="">
 						State
 					</option>
@@ -59,7 +59,7 @@
 				</select>
 			</div>
 			<div>
-				<select class="form-control" name="city" ng-model="customer.city" title="City">
+				<select class="form-control" name="city" ng-disabled="true" ng-model="customer.city" title="City">
 					<option value="">
 						City
 					</option>
@@ -69,10 +69,10 @@
 				</select>
 			</div>
 			<div>
-				<input type="text" placeholder="Address" title="Address" class="form-control" name="address" ng-model="customer.address"/>
+				<input type="text" placeholder="Address" ng-disabled="true" title="Address" class="form-control" name="address" ng-model="customer.address"/>
 			</div>
 			<div>
-				<input type="text" placeholder="ZIP Code" title="ZIP Code" class="form-control"  name="zip" ng-model="customer.zip"/>
+				<input type="text" placeholder="ZIP Code" ng-disabled="true" title="ZIP Code" class="form-control"  name="zip" ng-model="customer.zip"/>
 			</div>
 <!--
 			<div>
@@ -93,7 +93,7 @@
 			</div>
 -->
         <div>
-            <select name="relationType" class="form-control" name="relationType" ng-model="customer.relationType" title="Relation Type">
+            <select name="relationType" class="form-control"  name="relationType" ng-model="customer.relationType" title="Relation Type">
                 <option value="">
                     Relation Type
                 </option>
@@ -109,7 +109,7 @@
             </select>
         </div>
         <div>
-            <input type="text" placeholder="Relation Name" title="Relation Name" class="form-control"  name="relationName" ng-model="customer.relationName"/>
+            <input type="text" placeholder="Relation Name" ng-disabled="customer.relationType==undefined || customer.relationType==''" title="Relation Name" class="form-control"  name="relationName" ng-model="customer.relationName" ng-required="customer.relationType!=undefined && customer.relationType!=''" ng-class="{blankInput: addCustomerForm.relationName.$error.required &amp;&amp; submit}"/>
         </div>
         <div>
             <select name="residentType" class="form-control" name="residentType" ng-model="customer.residentType" title="Resident Type">
@@ -131,16 +131,16 @@
             </select>
         </div>
         <div>
-            <input type="text" placeholder="Address" title="Address" class="form-control"  name="address2" ng-model="customer.address2"/>
+            <input type="text" placeholder="Address" title="Address" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.residentType.$error.required &amp;&amp; submit}" class="form-control"  name="address2" ng-model="customer.address2"/>
         </div>
         <div>
-            <input type="text" placeholder="PAN" title="PAN" class="form-control"  name="pan" ng-model="customer.pan"/>
+            <input type="text" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.residentType.$error.required &amp;&amp; submit}" placeholder="PAN" title="PAN" class="form-control"  name="pan" ng-model="customer.pan"/>
         </div>
         <div>
-            <input type="text" placeholder="AADHAR" title="AADHAR" class="form-control"  name="aadhar" ng-model="customer.aadhar"/>
+            <input type="text" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.residentType.$error.required &amp;&amp; submit}" placeholder="AADHAR" title="AADHAR" class="form-control"  name="aadhar" ng-model="customer.aadhar"/>
         </div>
         <div>
-            <input type="text" placeholder="Alternate Contact No." title="Alternate Contact No." class="form-control"  name="alternateContact" ng-model="customer.alternateContact"/>
+            <input type="text" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.residentType.$error.required &amp;&amp; submit}" placeholder="Alternate Contact No." title="Alternate Contact No." class="form-control"  name="alternateContact" ng-model="customer.alternateContact"/>
         </div>
 	</div>
 	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -193,6 +193,9 @@
                 </option>
                 <option value="4">
                     4
+                </option>
+                <option value="5">
+                    5
                 </option>
             </select>
         </div>
