@@ -638,48 +638,49 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
             }
         }).error(function() {});
     })();
-//    $scope.customer = {
-//        firstName: "Ashish",
-//        middleName: "Bansal",
-//        lastName: "Agrawal",
-//        mobileNumber: "8800399717",
-//        officeNumber: "011345678",
-//        emailId: "ashishagrawal89@gmail.com",
-//        dob: "24-12-1988",
-//        gender: 0,
-//        country: "india",
-//        state: "2",
-//        city: "3",
-//        address: "N-33, Laxmi Nagar",
-//        zip: "110092",
-//        leadSouce: "email",
-//        "bankloan": 1,
-//        "gpaHolder": 0
-//    };
+
     $scope.addCustomer = function(formObj, formName) {
         $scope.submit = true;
-        var childernDetails = [];
+        
         if ($scope[formName].$valid) {
-            alert($scope.leadId);
-            /*for(i=1;i<=formObj.childrenNo;i++){
-                var childObj = {};
-                childObj.name = formObj.childName[i];
-                childObj.dob = formObj.childDob[i];
-                childernDetails.push(childObj);
+            var relationType = 0;
+            var statusType = 0;
+            var noOfChildren = 0;
+            var relationName = '';
+            
+            
+            if(formObj.relationType != undefined && formObj.relationType != ''){
+                relationType = formObj.relationType;
             }
-            console.log(JSON.stringify(childernDetails));*/
-        }    
+            
+            if(formObj.relationName != undefined && formObj.relationName != ''){
+                relationName = formObj.relationName;
+            }
+            
+            if(formObj.residentType != undefined && formObj.residentType != ''){
+                statusType = formObj.residentType;
+            }
+            
+            if(formObj.childrenNo != undefined && formObj.childrenNo != ''){
+                noOfChildren = formObj.childrenNo;
+            }
+            
+//            alert(relationType);
+//            alert(statusType);
+//            alert(noOfChildren);
+            alert(formObj.spouseAadhar);
+        }
         var formData = JSON.stringify(formObj);
 //        console.log(formData);
-        //console.log(Object.keys(formObj).length);
+//        console.log(Object.keys(formObj).length);
 //        {
 //          "user_id": $scope.leadId,
 //          "user_comp_guid": $cookieStore.get('comp_guid'),
 //          "Cust_User_Id_Assgnto": 1,
-//          "Cust_relationtype": 1,
-//          "Cust_relationname": formObj.relationName,
-//          "Cust_status_type": 1,
-//          "Cust_perm_add": "Cust_perm_add",
+//          "Cust_relationtype": relationType,
+//          "Cust_relationname": relationName,
+//          "Cust_status_type": statusType,
+//          "Cust_perm_add": formObj.address2,
 //          "Cust_status_other": "Cust_status_other",
 //          "Cust_pan": formObj.pan,
 //          "Cust_aadhar": formObj.aadhar,
@@ -721,10 +722,10 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
 //          "Cust_gpa_aadhar": "Cust_gpa_aadhar"
 //        }
     };
-    $scope.appendFields = function() {
+   $scope.appendFields = function() {
         angular.element("#children").html('');
         for (i = 1; i <= $scope.customer.childrenNo; i++) {
-            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="customer.childName['+i+']" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B." title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="customer.childDob['+i+']"/></div>';
+            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="customer.child' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B." title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="customer.child' + i + 'Dob"/></div>';
             var childDivComplied = $compile(childDiv)($scope);
             angular.element("#children").append(childDivComplied);
 

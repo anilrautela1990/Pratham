@@ -131,16 +131,16 @@
             </select>
         </div>
         <div>
-            <input type="text" placeholder="Address" title="Address" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.residentType.$error.required &amp;&amp; submit}" class="form-control"  name="address2" ng-model="customer.address2"/>
+            <input type="text" placeholder="Address" title="Address" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.address2.$error.required &amp;&amp; submit}" class="form-control"  name="address2" ng-model="customer.address2"/>
         </div>
         <div>
-            <input type="text" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.residentType.$error.required &amp;&amp; submit}" placeholder="PAN" title="PAN" class="form-control"  name="pan" ng-model="customer.pan"/>
+            <input type="text" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.pan.$error.required &amp;&amp; submit}" placeholder="PAN" title="PAN" class="form-control"  name="pan" ng-model="customer.pan"/>
         </div>
         <div>
-            <input type="text" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.residentType.$error.required &amp;&amp; submit}" placeholder="AADHAR" title="AADHAR" class="form-control"  name="aadhar" ng-model="customer.aadhar"/>
+            <input type="text" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.aadhar.$error.required &amp;&amp; submit}" placeholder="AADHAR" title="AADHAR" class="form-control"  name="aadhar" ng-model="customer.aadhar"/>
         </div>
         <div>
-            <input type="text" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.residentType.$error.required &amp;&amp; submit}" placeholder="Alternate Contact No." title="Alternate Contact No." class="form-control"  name="alternateContact" ng-model="customer.alternateContact"/>
+            <input type="text" ng-disabled="customer.residentType==undefined || customer.residentType==''" ng-required="customer.residentType!=undefined && customer.residentType!=''" ng-class="{blankInput: addCustomerForm.alternateContact.$error.required &amp;&amp; submit}" placeholder="Alternate Contact No." title="Alternate Contact No." class="form-control"  name="alternateContact" ng-model="customer.alternateContact"/>
         </div>
 	</div>
 	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -172,7 +172,7 @@
             <input type="text" placeholder="PAN" title="PAN" class="form-control"  name="spousePan" ng-model="customer.spousePan"/>
         </div>
         <div>
-            <input type="text" placeholder="AADHAR" title="AADHAR" class="form-control"  name="spouseAadhar" ng-model="customer.spouseAadhar"/>
+            <input type="text" placeholder="AADHAR" value="" title="AADHAR" class="form-control"  name="spouseAadhar" ng-model="customer.spouseAadhar"/>
         </div>
         <div>
             <input type="text" placeholder="Wedding Anniversary" title="Wedding Anniversary" class="form-control"  name="weddingAnniversary" ng-model="customer.weddingAnniversary"/>
@@ -193,9 +193,6 @@
                 </option>
                 <option value="4">
                     4
-                </option>
-                <option value="5">
-                    5
                 </option>
             </select>
         </div>
