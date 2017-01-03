@@ -643,18 +643,21 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
         $scope.submit = true;
         
         if ($scope[formName].$valid) {
+            angular.element(".loader").show();
+            var formData = JSON.stringify(formObj);
+            console.log(formData);
+            
             var relationType = 0;
             var statusType = 0;
             var noOfChildren = 0;
-            var relationName = '';
-            
+            var gpaRelation = 0;
             
             if(formObj.relationType != undefined && formObj.relationType != ''){
                 relationType = formObj.relationType;
             }
             
-            if(formObj.relationName != undefined && formObj.relationName != ''){
-                relationName = formObj.relationName;
+            if(formObj.gpaRelation != undefined && formObj.gpaRelation != ''){
+                gpaRelation = formObj.gpaRelation;
             }
             
             if(formObj.residentType != undefined && formObj.residentType != ''){
@@ -665,67 +668,71 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                 noOfChildren = formObj.childrenNo;
             }
             
-//            alert(relationType);
-//            alert(statusType);
-//            alert(noOfChildren);
-            alert(formObj.spouseAadhar);
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Cust/SaveCust",
+                ContentType: 'application/json',
+                data:  {
+                      "user_id": $scope.leadId,
+                      "user_comp_guid": $cookieStore.get('comp_guid'),
+                      "Cust_User_Id_Assgnto": 1,
+                      "Cust_relationtype": relationType,
+                      "Cust_relationname": formObj.relationName,
+                      "Cust_status_type": statusType,
+                      "Cust_perm_add": formObj.address2,
+                      "Cust_status_other": "Cust_status_other",
+                      "Cust_pan": formObj.pan,
+                      "Cust_aadhar": formObj.aadhar,
+                      "Cust_alt_contactno": formObj.alternateContact,
+                      "Cust_qualification": formObj.qualification,
+                      "Cust_Profession": formObj.profession,
+                      "Cust_company": formObj.company,
+                      "Cust_desig": formObj.designation,
+                      "Cust_off_add": formObj.officeAddress,
+                      "Cust_off_email": formObj.officeEmailId,
+                      "Cust_spouse_nm": formObj.spouseName,
+                      "Cust_spouse_dob": formObj.spouseDob,
+                      "Cust_spouse_pan": formObj.spousePan,
+                      "Cust_spouse_aadhar": formObj.spouseAadhar,
+                      "Cust_noof_childrn": noOfChildren,
+                      "Cust_child1_nm": formObj.child1Name,
+                      "Cust_child1_dob": formObj.child1Dob,
+                      "Cust_child2_nm": formObj.child2Name,
+                      "Cust_child2_dob": formObj.child2Dob,
+                      "Cust_child3_nm": formObj.child3Name,
+                      "Cust_child3_dob": formObj.child3Dob,
+                      "Cust_child4_nm": formObj.child4Name,
+                      "Cust_child4_dob": formObj.child4Dob,
+                      "Cust_wedanv": formObj.weddingAnniversary,
+                      "Cust_bankloan": formObj.bankloan,
+                      "Cust_banknm": formObj.bankName,
+                      "Cust_bankaccno": formObj.accountNumber,
+                      "Cust_bankadd": formObj.bankAdress,
+                      "Cust_bankifsccode": formObj.ifscCode,
+                      "Cust_bankemailid": formObj.bankEmailId,
+                      "Cust_gpaholdr": formObj.gpaHolder,
+                      "Cust_gpa_nm": formObj.gpaName,
+                      "Cust_gpa_relationtype": gpaRelation,
+                      "Cust_gpa_dob": formObj.gpaDob,       
+                      "Cust_gpa_add": formObj.gpaAddress,
+                      "Cust_gpa_permadd": formObj.permanentAddress,
+                      "Cust_gpa_reltnwithcusty": formObj.relationWithcustomer,
+                      "Cust_gpa_pan": formObj.gpaPan,
+                      "Cust_gpa_aadhar": formObj.gpaAadhar
+                    }
+            }).success(function(data) {
+                $state.go("/Leads");
+                angular.element(".loader").hide();
+            }).error(function() {
+                alert("Error in save customer");
+                angular.element(".loader").hide();
+            }); 
         }
-        var formData = JSON.stringify(formObj);
-//        console.log(formData);
-//        console.log(Object.keys(formObj).length);
-//        {
-//          "user_id": $scope.leadId,
-//          "user_comp_guid": $cookieStore.get('comp_guid'),
-//          "Cust_User_Id_Assgnto": 1,
-//          "Cust_relationtype": relationType,
-//          "Cust_relationname": relationName,
-//          "Cust_status_type": statusType,
-//          "Cust_perm_add": formObj.address2,
-//          "Cust_status_other": "Cust_status_other",
-//          "Cust_pan": formObj.pan,
-//          "Cust_aadhar": formObj.aadhar,
-//          "Cust_alt_contactno": formObj.alternateContact,
-//          "Cust_qualification": formObj.qualification,
-//          "Cust_Profession": formObj.profession,
-//          "Cust_company": formObj.company,
-//          "Cust_desig": formObj.designation,
-//          "Cust_off_add": formObj.officeAddress,
-//          "Cust_off_email": formObj.officeEmailId,
-//          "Cust_spouse_nm": formObj.spouseName,
-//          "Cust_spouse_dob": formObj.spouseDob,
-//          "Cust_spouse_pan": formObj.spousePan,
-//          "Cust_spouse_aadhar": formObj.spouseAadhar,
-//          "Cust_noof_childrn": 1,
-//          "Cust_child1_nm": "Atul",
-//          "Cust_child1_dob": "2012-12-12",
-//          "Cust_child2_nm": "",
-//          "Cust_child2_dob": "2012-12-12",
-//          "Cust_child3_nm": "",
-//          "Cust_child3_dob": "2012-12-12",
-//          "Cust_child4_nm": "",
-//          "Cust_child4_dob": "2012-12-12",
-//          "Cust_wedanv": formObj.weddingAnniversary,
-//          "Cust_bankloan": 1,
-//          "Cust_banknm": "HDFC Bank",
-//          "Cust_bankaccno": "464464644087",
-//          "Cust_bankadd": "Test Bank Address",
-//          "Cust_bankifsccode": "HDFC2351",
-//          "Cust_bankemailid": "Cust_bankemailid",
-//          "Cust_gpaholdr": 1,
-//          "Cust_gpa_nm": "Cust_gpa_nm",
-//          "Cust_gpa_relationtype": 1,
-//          "Cust_gpa_dob": "1983-01-01",.       
-//          "Cust_gpa_add": "Cust_gpa_add",
-//          "Cust_gpa_permadd": "Cust_gpa_permadd",
-//          "Cust_gpa_reltnwithcusty": "Cust_gpa_reltnwithcusty",
-//          "Cust_gpa_pan": "Cust_gpa_pan",
-//          "Cust_gpa_aadhar": "Cust_gpa_aadhar"
-//        }
     };
    $scope.appendFields = function() {
         angular.element("#children").html('');
         for (i = 1; i <= $scope.customer.childrenNo; i++) {
-            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="customer.child' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B." title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="customer.child' + i + 'Dob"/></div>';
+            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="customer.child' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="customer.child' + i + 'Dob"/></div>';
             var childDivComplied = $compile(childDiv)($scope);
             angular.element("#children").append(childDivComplied);
 
