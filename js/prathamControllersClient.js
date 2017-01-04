@@ -367,7 +367,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                         }
 
                     }
-//                    console.log(JSON.stringify($scope.leadProjects));
+                    //                    console.log(JSON.stringify($scope.leadProjects));
                 }
                 angular.element(".loader").hide();
             } else {
@@ -448,11 +448,11 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         });
     };
     $scope.getUnits = function(blocks) {
-		$scope.units = [];
-		$scope.perFloorUnits = [];
-		if(blocks == ""){
-			return;
-		}
+        $scope.units = [];
+        $scope.perFloorUnits = [];
+        if (blocks == "") {
+            return;
+        }
         for (i = 0; i < $scope.blockList.length; i++) {
             if ($scope.blockList[i].Blocks_Id == blocks) {
                 $scope.blockFloors = $scope.blockList[i].Blocks_Floors;
@@ -509,7 +509,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             if ($scope.units[i].UnitDtls_Id == unitId) {
                 if ($scope.units[i].UnitDtls_Status == 1 || $scope.units[i].UnitDtls_Status == 2) {
                     if ($("#unit" + $scope.units[i].UnitDtls_Id).hasClass('selected')) {
-                        $scope.deleteRow($scope.projectDetails.projectName,$scope.units[i].UnitDtls_Id);
+                        $scope.deleteRow($scope.projectDetails.projectName, $scope.units[i].UnitDtls_Id);
                     } else {
                         var projObj = {};
                         projObj.ProjId = parseInt($scope.projectDetails.projectName);
@@ -519,7 +519,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                         projObj = JSON.stringify(projObj);
                         //console.log(projObj);
 
-                        var projectRow = '<tr id="' + $scope.units[i].UnitDtls_Id + '"><td><div class="dispNone">' + projObj + '</div>' + $scope.units[i].UnitDtls_BRoom + 'BHK - ' + $scope.units[i].UnitDtls_No + ' - ' + $scope.units[i].UnitDtls_Floor + ' Floor</td><td>' + $scope.units[i].UnitDtls_Msrmnt + ' sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow('+projectDetails.projectName+ ',' + $scope.units[i].UnitDtls_Id + ')"></span></td></tr>';
+                        var projectRow = '<tr id="' + $scope.units[i].UnitDtls_Id + '"><td><div class="dispNone">' + projObj + '</div>' + $scope.units[i].UnitDtls_BRoom + 'BHK - ' + $scope.units[i].UnitDtls_No + ' - ' + $scope.units[i].UnitDtls_Floor + ' Floor</td><td>' + $scope.units[i].UnitDtls_Msrmnt + ' sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(' + projectDetails.projectName + ',' + $scope.units[i].UnitDtls_Id + ')"></span></td></tr>';
                         var projectRowComplied = $compile(projectRow)($scope);
                         angular.element(document.getElementById('projectList')).append(projectRowComplied);
                     }
@@ -530,32 +530,30 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             }
         }
     };
-    $scope.deleteRow = function(projId,rowId) {		
-		angular.element(".loader").show();
+    $scope.deleteRow = function(projId, rowId) {
+        angular.element(".loader").show();
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/User/UpdateUser",
             ContentType: 'application/json',
             data: {
-			  "user_proj": {
-				"UserProj_comp_guid": $cookieStore.get('comp_guid'),
-				"UserProj_user_id": $scope.leadId,
-				"UserProj_projid": projId,
-				"prjjson": [
-				  {
-					"ProjId": projId,
-					"Phase_Id": 0,
-					"Blocks_Id": 0,
-					"UnitDtls_Id": rowId
-				  }
-				]
-			  }
-			}
+                "user_proj": {
+                    "UserProj_comp_guid": $cookieStore.get('comp_guid'),
+                    "UserProj_user_id": $scope.leadId,
+                    "UserProj_projid": projId,
+                    "prjjson": [{
+                        "ProjId": projId,
+                        "Phase_Id": 0,
+                        "Blocks_Id": 0,
+                        "UnitDtls_Id": rowId
+                    }]
+                }
+            }
         }).success(function(data) {
-			if(data.user_ErrorDesc == 0){
-				$("tr#" + rowId).remove();
-        		$("#unit" + rowId).removeClass('selected');
-			}
+            if (data.user_ErrorDesc == 0) {
+                $("tr#" + rowId).remove();
+                $("#unit" + rowId).removeClass('selected');
+            }
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
@@ -621,7 +619,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
             if (dob == "Jan 01, 0001") {
                 dob = "";
             }
-    
+
             if (data.user_id != 0) {
                 $scope.customer = {
                     firstName: data.user_first_name,
@@ -636,7 +634,9 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                     state: state + "",
                     city: city + "",
                     address: data.user_address,
-                    zip: data.user_zipcode
+                    zip: data.user_zipcode,
+                    gpaHolder: 0,
+                    bankloan: 0
                 }
                 angular.element(".loader").hide();
             } else {
@@ -647,95 +647,95 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
 
     $scope.addCustomer = function(formObj, formName) {
         $scope.submit = true;
-        
+
         if ($scope[formName].$valid) {
             angular.element(".loader").show();
             var formData = JSON.stringify(formObj);
             console.log(formData);
-            
+
             var relationType = 0;
             var statusType = 0;
             var noOfChildren = 0;
             var gpaRelation = 0;
-            
-            if(formObj.relationType != undefined && formObj.relationType != ''){
+
+            if (formObj.relationType != undefined && formObj.relationType != '') {
                 relationType = formObj.relationType;
             }
-            
-            if(formObj.gpaRelation != undefined && formObj.gpaRelation != ''){
+
+            if (formObj.gpaRelation != undefined && formObj.gpaRelation != '') {
                 gpaRelation = formObj.gpaRelation;
             }
-            
-            if(formObj.residentType != undefined && formObj.residentType != ''){
+
+            if (formObj.residentType != undefined && formObj.residentType != '') {
                 statusType = formObj.residentType;
             }
-            
-            if(formObj.childrenNo != undefined && formObj.childrenNo != ''){
+
+            if (formObj.childrenNo != undefined && formObj.childrenNo != '') {
                 noOfChildren = formObj.childrenNo;
             }
-            
+
             $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Cust/SaveCust",
                 ContentType: 'application/json',
-                data:  {
-                      "user_id": $scope.leadId,
-                      "user_comp_guid": $cookieStore.get('comp_guid'),
-                      "Cust_User_Id_Assgnto": 1,
-                      "Cust_relationtype": relationType,
-                      "Cust_relationname": formObj.relationName,
-                      "Cust_status_type": statusType,
-                      "Cust_perm_add": formObj.address2,
-                      "Cust_status_other": "Cust_status_other",
-                      "Cust_pan": formObj.pan,
-                      "Cust_aadhar": formObj.aadhar,
-                      "Cust_alt_contactno": formObj.alternateContact,
-                      "Cust_qualification": formObj.qualification,
-                      "Cust_Profession": formObj.profession,
-                      "Cust_company": formObj.company,
-                      "Cust_desig": formObj.designation,
-                      "Cust_off_add": formObj.officeAddress,
-                      "Cust_off_email": formObj.officeEmailId,
-                      "Cust_spouse_nm": formObj.spouseName,
-                      "Cust_spouse_dob": formObj.spouseDob,
-                      "Cust_spouse_pan": formObj.spousePan,
-                      "Cust_spouse_aadhar": formObj.spouseAadhar,
-                      "Cust_noof_childrn": noOfChildren,
-                      "Cust_child1_nm": formObj.child1Name,
-                      "Cust_child1_dob": formObj.child1Dob,
-                      "Cust_child2_nm": formObj.child2Name,
-                      "Cust_child2_dob": formObj.child2Dob,
-                      "Cust_child3_nm": formObj.child3Name,
-                      "Cust_child3_dob": formObj.child3Dob,
-                      "Cust_child4_nm": formObj.child4Name,
-                      "Cust_child4_dob": formObj.child4Dob,
-                      "Cust_wedanv": formObj.weddingAnniversary,
-                      "Cust_bankloan": formObj.bankloan,
-                      "Cust_banknm": formObj.bankName,
-                      "Cust_bankaccno": formObj.accountNumber,
-                      "Cust_bankadd": formObj.bankAdress,
-                      "Cust_bankifsccode": formObj.ifscCode,
-                      "Cust_bankemailid": formObj.bankEmailId,
-                      "Cust_gpaholdr": formObj.gpaHolder,
-                      "Cust_gpa_nm": formObj.gpaName,
-                      "Cust_gpa_relationtype": gpaRelation,
-                      "Cust_gpa_dob": formObj.gpaDob,       
-                      "Cust_gpa_add": formObj.gpaAddress,
-                      "Cust_gpa_permadd": formObj.permanentAddress,
-                      "Cust_gpa_reltnwithcusty": formObj.relationWithcustomer,
-                      "Cust_gpa_pan": formObj.gpaPan,
-                      "Cust_gpa_aadhar": formObj.gpaAadhar
-                    }
+                data: {
+                    "user_id": $scope.leadId,
+                    "user_comp_guid": $cookieStore.get('comp_guid'),
+                    "Cust_User_Id_Assgnto": 1,
+                    "Cust_relationtype": relationType,
+                    "Cust_relationname": formObj.relationName,
+                    "Cust_status_type": statusType,
+                    "Cust_perm_add": formObj.address2,
+                    "Cust_status_other": "Cust_status_other",
+                    "Cust_pan": formObj.pan,
+                    "Cust_aadhar": formObj.aadhar,
+                    "Cust_alt_contactno": formObj.alternateContact,
+                    "Cust_qualification": formObj.qualification,
+                    "Cust_Profession": formObj.profession,
+                    "Cust_company": formObj.company,
+                    "Cust_desig": formObj.designation,
+                    "Cust_off_add": formObj.officeAddress,
+                    "Cust_off_email": formObj.officeEmailId,
+                    "Cust_spouse_nm": formObj.spouseName,
+                    "Cust_spouse_dob": formObj.spouseDob,
+                    "Cust_spouse_pan": formObj.spousePan,
+                    "Cust_spouse_aadhar": formObj.spouseAadhar,
+                    "Cust_noof_childrn": noOfChildren,
+                    "Cust_child1_nm": formObj.child1Name,
+                    "Cust_child1_dob": formObj.child1Dob,
+                    "Cust_child2_nm": formObj.child2Name,
+                    "Cust_child2_dob": formObj.child2Dob,
+                    "Cust_child3_nm": formObj.child3Name,
+                    "Cust_child3_dob": formObj.child3Dob,
+                    "Cust_child4_nm": formObj.child4Name,
+                    "Cust_child4_dob": formObj.child4Dob,
+                    "Cust_wedanv": formObj.weddingAnniversary,
+                    "Cust_bankloan": formObj.bankloan,
+                    "Cust_banknm": formObj.bankName,
+                    "Cust_bankaccno": formObj.accountNumber,
+                    "Cust_bankadd": formObj.bankAdress,
+                    "Cust_bankifsccode": formObj.ifscCode,
+                    "Cust_bankemailid": formObj.bankEmailId,
+                    "Cust_gpaholdr": formObj.gpaHolder,
+                    "Cust_gpa_nm": formObj.gpaName,
+                    "Cust_gpa_relationtype": gpaRelation,
+                    "Cust_gpa_dob": formObj.gpaDob,
+                    "Cust_gpa_add": formObj.gpaAddress,
+                    "Cust_gpa_permadd": formObj.permanentAddress,
+                    "Cust_gpa_reltnwithcusty": formObj.relationWithcustomer,
+                    "Cust_gpa_pan": formObj.gpaPan,
+                    "Cust_gpa_aadhar": formObj.gpaAadhar
+                }
             }).success(function(data) {
                 $state.go("/Leads");
                 angular.element(".loader").hide();
             }).error(function() {
                 alert("Error in save customer");
                 angular.element(".loader").hide();
-            }); 
+            });
         }
     };
-   $scope.appendFields = function() {
+    $scope.appendFields = function() {
         angular.element("#children").html('');
         for (i = 1; i <= $scope.customer.childrenNo; i++) {
             var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="customer.child' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="customer.child' + i + 'Dob"/></div>';
