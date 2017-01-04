@@ -509,7 +509,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             if ($scope.units[i].UnitDtls_Id == unitId) {
                 if ($scope.units[i].UnitDtls_Status == 1 || $scope.units[i].UnitDtls_Status == 2) {
                     if ($("#unit" + $scope.units[i].UnitDtls_Id).hasClass('selected')) {
-                        $("tr#" + $scope.units[i].UnitDtls_Id).remove();
+                        $scope.deleteRow($scope.projectDetails.projectName,$scope.units[i].UnitDtls_Id);
                     } else {
                         var projObj = {};
                         projObj.ProjId = parseInt($scope.projectDetails.projectName);
@@ -519,41 +519,47 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                         projObj = JSON.stringify(projObj);
                         //console.log(projObj);
 
-                        var projectRow = '<tr id="' + $scope.units[i].UnitDtls_Id + '"><td><div class="dispNone">' + projObj + '</div>' + $scope.units[i].UnitDtls_BRoom + 'BHK - ' + $scope.units[i].UnitDtls_No + ' - ' + $scope.units[i].UnitDtls_Floor + ' Floor</td><td>' + $scope.units[i].UnitDtls_Msrmnt + ' sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(' + $scope.units[i].UnitDtls_Id + ')"></span></td></tr>';
+                        var projectRow = '<tr id="' + $scope.units[i].UnitDtls_Id + '"><td><div class="dispNone">' + projObj + '</div>' + $scope.units[i].UnitDtls_BRoom + 'BHK - ' + $scope.units[i].UnitDtls_No + ' - ' + $scope.units[i].UnitDtls_Floor + ' Floor</td><td>' + $scope.units[i].UnitDtls_Msrmnt + ' sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow('+projectDetails.projectName+ ',' + $scope.units[i].UnitDtls_Id + ')"></span></td></tr>';
                         var projectRowComplied = $compile(projectRow)($scope);
                         angular.element(document.getElementById('projectList')).append(projectRowComplied);
                     }
-                    $("#unit" + $scope.units[i].UnitDtls_Id).toggleClass('selected');
+                    $("#unit" + $scope.units[i].UnitDtls_Id).addClass('selected');
                 } else {
                     alert($scope.flatStatusText[$scope.units[i].UnitDtls_Status - 1]);
                 }
             }
         }
     };
-    $scope.deleteRow = function(rowId) {
-        if(confirm("Are you sure you want to delete this project ?") == true){
-            angular.element(".loader").show();
-            $http({
+    $scope.deleteRow = function(projId,rowId) {		
+		angular.element(".loader").show();
+        $http({
             method: "POST",
-            url: "http://120.138.8.150/pratham/User/SaveUser",
+            url: "http://120.138.8.150/pratham/User/UpdateUser",
             ContentType: 'application/json',
             data: {
-                "user_id": $scope.leadId,
-                "user_proj": {
-                    "UserProj_comp_guid": $cookieStore.get('comp_guid'),
-                    "UserProj_user_id": $scope.leadId,
-                    "prjjson": [{"ProjId":rowId ,"Phase_Id":0,"Blocks_Id": 0, "UnitDtls_Id":0}]
-                }
-            }
-            }).success(function(data) {
-                angular.element(".loader").hide();
-                $("tr#" + rowId).remove();
-                $("#unit" + rowId).removeClass('selected');
-                console.log(JSON.stringify(data));
-            }).error(function() {
-                angular.element(".loader").hide();
-            });
-        }
+			  "user_proj": {
+				"UserProj_comp_guid": $cookieStore.get('comp_guid'),
+				"UserProj_user_id": $scope.leadId,
+				"UserProj_projid": projId,
+				"prjjson": [
+				  {
+					"ProjId": projId,
+					"Phase_Id": 0,
+					"Blocks_Id": 0,
+					"UnitDtls_Id": rowId
+				  }
+				]
+			  }
+			}
+        }).success(function(data) {
+			if(data.user_ErrorDesc == 0){
+				$("tr#" + rowId).remove();
+        		$("#unit" + rowId).removeClass('selected');
+			}
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     };
     $scope.saveLead = function(projectObj) {
         var projJson = [];

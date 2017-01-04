@@ -63,7 +63,7 @@
             <div class="col-md-12 padding0 marginBottom5">
                 <div class="subHeading col-md-6 padding0">Projects</div>
                 <div class="col-md-6 padding0 text-right">
-                    <button class="btn btn-default" ng-click="addLeadProjects(lead.user_id)">Add Projects</button>
+                    <button class="btn btn-default" ng-click="addLeadProjects(lead.user_id)">Update Projects</button>
                 </div>
             </div>
             <div ng-show="{{lead.projectlst==null}}">This lead does not have any projects.</div>
@@ -76,7 +76,6 @@
 						 <th>Type</th>
 						 <th>Block</th>
 						 <th>Unit</th>
-                         <th></th>
 					  </tr>
 				   </thead>
 				   <tbody id="projectList">
@@ -86,9 +85,6 @@
                          <td>{{unit.phaseType}}</td>
                          <td>{{unit.blockName}}</td>
                          <td>{{unit.unitObj.UnitDtls_Name}} / {{unit.phaseType}} No. {{unit.unitObj.UnitDtls_No}} / {{unit.unitObj.UnitDtls_Msrmnt}} sq ft / Floor {{unit.unitObj.UnitDtls_Floor}}</td>
-                         <td>
-                             <span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(unit.unitObj.UnitDtls_Id)"></span>
-                          </td>
 					  </tr>
 				   </tbody>
 				</table>
