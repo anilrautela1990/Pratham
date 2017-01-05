@@ -32,6 +32,11 @@ $stateProvider
 		templateUrl: 'partials/convertCustomer.html',
 		controller: 'convertCustomer'
 	})
+	.state('/Agents', {
+		url: '/Agents',
+		templateUrl: 'partials/agents.html',
+		controller: 'agents'
+	})
 });
 app.config(function($httpProvider){
     delete $httpProvider.defaults.headers.common['X-Requested-With'];

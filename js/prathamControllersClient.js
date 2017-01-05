@@ -745,3 +745,14 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
         }
     };
 });
+app.controller("agents", function($scope) {
+	$scope.addAgentFun = function(formObj, formName){
+		 $scope.submit = true;
+        if ($scope[formName].$valid) {
+			console.log(formObj);
+		}
+		else{
+			alert("Not valid!");
+		}
+	};
+});
