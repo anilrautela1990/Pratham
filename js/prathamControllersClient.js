@@ -745,11 +745,57 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
         }
     };
 });
-app.controller("agents", function($scope) {
+app.controller("agents", function($scope, $http, $cookieStore, $state) {
 	$scope.addAgentFun = function(formObj, formName){
-		 $scope.submit = true;
+        $scope.submit = true;
+        
         if ($scope[formName].$valid) {
 			console.log(formObj);
+            
+            angular.element(".loader").show();
+            
+            $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/SaveUser",
+            ContentType: 'application/json',
+            data: {
+                "user_type": formObj.type,
+                "user_comp_guid": $cookieStore.get('comp_guid'),
+                "user_first_name": formObj.firstName,
+                "user_middle_name": formObj.middleName,
+                "user_last_name": formObj.lastName,
+                "user_mobile_no": formObj.mobileNumber,
+                "user_email_address": formObj.emailId,
+                "user_password": formObj.password,
+                "Agent_assgnto_user_Id": 1,
+                "Agent_Branch_Id": 1,
+                "Agents_Indvdl": 1,
+                "Agents_firmname": formObj.firmName,
+                "Agents_firmtype": "Agents_firmtype",
+                "Agents_add": formObj.address,
+                "Agent_ctc": formObj.totCtc,
+                "Agents_pan": formObj.pan,
+                "Agents_aadhar": formObj.aadhar,
+                "Agents_alt_contactno": formObj.alternateContactNumber,
+                "Agents_alt_email": formObj.alternameEmailId,
+                "Agents_contactperson": formObj.contactPerson,
+                "Agents_servicetaxdtls": formObj.serviceTaxDetails,
+                "Agents_noofyrsinbsns": formObj.yearsInBusiness,
+                "Agents_totalyrsofexp": formObj.totalYearOfExp,
+                "Agents_banknm": formObj.bankName,
+                "Agents_bankacno": formObj.accountNumber,
+                "Agents_bankadd": formObj.bankAddress,
+                "Agents_banktypeofacn": formObj.accountType,
+                "Agents_bankifsccode": formObj.ifscCode,
+                "Agents_bankemailid": formObj.bankEmailID
+            }
+        }).success(function(data) {
+            console.log(data);
+            $state.go("/");
+            angular.element(".loader").hide();
+        }).error(function() {
+                angular.element(".loader").hide();
+        });
 		}
 		else{
 			alert("Not valid!");
