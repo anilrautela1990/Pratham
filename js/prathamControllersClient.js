@@ -748,7 +748,6 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
 app.controller("agents", function($scope, $http, $cookieStore, $state) {
 	$scope.addAgentFun = function(formObj, formName){
         $scope.submit = true;
-        
         if ($scope[formName].$valid) {
 			console.log(formObj);
             
@@ -801,4 +800,70 @@ app.controller("agents", function($scope, $http, $cookieStore, $state) {
 			alert("Not valid!");
 		}
 	};
+});
+
+app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {
+	($scope.getProjectList = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/ProjDtls/ByCompGuid",
+            ContentType: 'application/json',
+            data: {
+                "Proj_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            $scope.projectList = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+
+    $scope.getPhaseList = function(projectName) {
+        $scope.flatType = "";
+        $scope.projectDetails.phase = "";
+        $scope.projectDetails.blocks = "";
+        $scope.blockList = {};
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/PhaseDtls/ByPhaseProjId",
+            ContentType: 'application/json',
+            data: {
+                "Phase_Proj_Id": projectName,
+                "Phase_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            //console.log(data);
+            $scope.phaseList = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    $scope.getBlockList = function(phase, projectName) {
+        $scope.projectDetails.blocks = "";
+        for (i = 0; i < $scope.phaseList.length; i++) {
+            if ($scope.phaseList[i].Phase_Id == phase) {
+                $scope.flatType = $scope.phaseList[i].Phase_UnitType.UnitType_Name;
+            }
+        }
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/BlockDtls/ByPhaseBlocksId",
+            ContentType: 'application/json',
+            data: {
+                "Phase_Proj_Id": projectName,
+                "Blocks_Phase_Id": phase
+            }
+        }).success(function(data) {
+            console.log(data);
+            $scope.blockList = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
 });
