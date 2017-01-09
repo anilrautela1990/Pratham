@@ -360,3 +360,28 @@ span.link{
     border-top: 1px dashed #ccc;
     padding: 5px 0;
 }
+
+div.vacant{
+	background-color: green;
+}
+div.userinterest{
+	background-color: orange;
+}
+div.mgmtquota{
+	background-color: blue;
+}
+div.blockedbyadvnc{
+	background-color: maroon;
+}
+div.blockedbynotadvnc{
+	background-color: maroon;
+}
+div.sold{
+	background-color: red;
+}
+.unitStatus {
+    padding: 10px;
+    width: 0;
+    height: 0;
+    margin: auto;
+}

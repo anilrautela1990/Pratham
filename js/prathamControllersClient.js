@@ -746,64 +746,65 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
     };
 });
 app.controller("agents", function($scope, $http, $cookieStore, $state) {
-	$scope.addAgentFun = function(formObj, formName){
+    $scope.addAgentFun = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
-			console.log(formObj);
-            
+            console.log(formObj);
+
             angular.element(".loader").show();
-            
+
             $http({
-            method: "POST",
-            url: "http://120.138.8.150/pratham/User/SaveUser",
-            ContentType: 'application/json',
-            data: {
-                "user_type": formObj.type,
-                "user_comp_guid": $cookieStore.get('comp_guid'),
-                "user_first_name": formObj.firstName,
-                "user_middle_name": formObj.middleName,
-                "user_last_name": formObj.lastName,
-                "user_mobile_no": formObj.mobileNumber,
-                "user_email_address": formObj.emailId,
-                "user_password": formObj.password,
-                "Agent_assgnto_user_Id": 1,
-                "Agent_Branch_Id": 1,
-                "Agents_Indvdl": 1,
-                "Agents_firmname": formObj.firmName,
-                "Agents_firmtype": "Agents_firmtype",
-                "Agents_add": formObj.address,
-                "Agent_ctc": formObj.totCtc,
-                "Agents_pan": formObj.pan,
-                "Agents_aadhar": formObj.aadhar,
-                "Agents_alt_contactno": formObj.alternateContactNumber,
-                "Agents_alt_email": formObj.alternameEmailId,
-                "Agents_contactperson": formObj.contactPerson,
-                "Agents_servicetaxdtls": formObj.serviceTaxDetails,
-                "Agents_noofyrsinbsns": formObj.yearsInBusiness,
-                "Agents_totalyrsofexp": formObj.totalYearOfExp,
-                "Agents_banknm": formObj.bankName,
-                "Agents_bankacno": formObj.accountNumber,
-                "Agents_bankadd": formObj.bankAddress,
-                "Agents_banktypeofacn": formObj.accountType,
-                "Agents_bankifsccode": formObj.ifscCode,
-                "Agents_bankemailid": formObj.bankEmailID
-            }
-        }).success(function(data) {
-            console.log(data);
-            $state.go("/");
-            angular.element(".loader").hide();
-        }).error(function() {
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/SaveUser",
+                ContentType: 'application/json',
+                data: {
+                    "user_type": formObj.type,
+                    "user_comp_guid": $cookieStore.get('comp_guid'),
+                    "user_first_name": formObj.firstName,
+                    "user_middle_name": formObj.middleName,
+                    "user_last_name": formObj.lastName,
+                    "user_mobile_no": formObj.mobileNumber,
+                    "user_email_address": formObj.emailId,
+                    "user_password": formObj.password,
+                    "Agent_assgnto_user_Id": 1,
+                    "Agent_Branch_Id": 1,
+                    "Agents_Indvdl": 1,
+                    "Agents_firmname": formObj.firmName,
+                    "Agents_firmtype": "Agents_firmtype",
+                    "Agents_add": formObj.address,
+                    "Agent_ctc": formObj.totCtc,
+                    "Agents_pan": formObj.pan,
+                    "Agents_aadhar": formObj.aadhar,
+                    "Agents_alt_contactno": formObj.alternateContactNumber,
+                    "Agents_alt_email": formObj.alternameEmailId,
+                    "Agents_contactperson": formObj.contactPerson,
+                    "Agents_servicetaxdtls": formObj.serviceTaxDetails,
+                    "Agents_noofyrsinbsns": formObj.yearsInBusiness,
+                    "Agents_totalyrsofexp": formObj.totalYearOfExp,
+                    "Agents_banknm": formObj.bankName,
+                    "Agents_bankacno": formObj.accountNumber,
+                    "Agents_bankadd": formObj.bankAddress,
+                    "Agents_banktypeofacn": formObj.accountType,
+                    "Agents_bankifsccode": formObj.ifscCode,
+                    "Agents_bankemailid": formObj.bankEmailID
+                }
+            }).success(function(data) {
+                console.log(data);
+                $state.go("/");
                 angular.element(".loader").hide();
-        });
-		}
-		else{
-			alert("Not valid!");
-		}
-	};
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        } else {
+            alert("Not valid!");
+        }
+    };
 });
 
 app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {
-	($scope.getProjectList = function() {
+    $scope.unitStatus = ['vacant', 'userinterest', 'mgmtquota', 'blockedbyadvnc', 'blockedbynotadvnc', 'sold'];
+    $scope.unitStatusText = ['Vacant', 'User Interested', 'Management Quota', 'Blocked By Paying Advance', 'Blocked By Not Paying Advance', 'Sold'];
+    ($scope.getProjectList = function() {
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -859,11 +860,69 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {
                 "Blocks_Phase_Id": phase
             }
         }).success(function(data) {
-            console.log(data);
             $scope.blockList = data;
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
         });
     };
+    $scope.getUnitAllocation = function(obj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            var userProjData = [];
+            if (obj.blocks != "") {
+                userProjData.push({
+                    "Blocks_Id": obj.blocks
+                });
+            } else {
+                userProjData.push({
+                    "Phase_Id": obj.phase
+                });
+            }
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/AllocByUserType",
+                ContentType: 'application/json',
+                data: {
+                    "user_type": 3,
+                    "user_comp_guid": $cookieStore.get('comp_guid'),
+                    "user_proj": {
+                        "prjjson": userProjData
+
+                    }
+                }
+            }).success(function(data) {
+                $scope.unitAllocationData = [];
+                for (h = 0; h < data.length; h++) {
+                    for (i = 0; i < data[h].projectlst.length; i++) {
+                        for (j = 0; j < data[h].projectlst[i].Lstphases.length; j++) {
+                            for (k = 0; k < data[h].projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
+                                for (l = 0; l < data[h].projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
+                                    
+                                    $scope.unitAllocationObj = {};
+                                    
+                                    $scope.unitAllocationObj.name = data[h].user_first_name+' '+data[h].user_middle_name+' '+data[h].user_last_name;
+                                    $scope.unitAllocationObj.email = data[h].user_email_address;
+                                    $scope.unitAllocationObj.mobile = data[h].user_mobile_no;
+                                    $scope.unitAllocationObj.projName = data[h].projectlst[i].Proj_Name;
+                                    $scope.unitAllocationObj.phaseName = data[h].projectlst[i].Lstphases[j].Phase_Name;
+                                    $scope.unitAllocationObj.phaseType = data[h].projectlst[i].Lstphases[j].Phase_UnitType.UnitType_Name;
+                                    $scope.unitAllocationObj.blockName = data[h].projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Name;
+                                    $scope.unitAllocationObj.unitObj = data[h].projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];
+                                    
+                                    $scope.unitAllocationData.push($scope.unitAllocationObj);
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        }
+    }
 });

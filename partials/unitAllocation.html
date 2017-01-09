@@ -9,9 +9,9 @@
    </ol>
 </div>
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-   <form class="form">
+   <form class="form" name="unitAllocationForm">
       <div>
-         <select ng-model="projectDetails.projectName" name="projectName" class="form-control" ng-change="getPhaseList(projectDetails.projectName)" autofocus="true">
+         <select ng-model="projectDetails.projectName" name="projectName" class="form-control" ng-change="getPhaseList(projectDetails.projectName)" ng-required="true" ng-class="{blankInput: unitAllocationForm.projectName.$error.required &amp;&amp; submit}" autofocus="true">
             <option value="">
                Project
             </option>
@@ -21,7 +21,7 @@
          </select>
       </div>
       <div>
-         <select ng-model="projectDetails.phase" name="phase" class="form-control" ng-change="getBlockList(projectDetails.phase,projectDetails.projectName)">
+         <select ng-model="projectDetails.phase" name="phase" class="form-control" ng-change="getBlockList(projectDetails.phase,projectDetails.projectName)" ng-required="true" ng-class="{blankInput: unitAllocationForm.phase.$error.required &amp;&amp; submit}">
             <option value="">
                Phase
             </option>
@@ -34,14 +34,49 @@
          Type: <strong ng-model="projectDetails.flatType">{{flatType}}</strong>
       </div>
       <div>
-         <select ng-model="projectDetails.blocks" name="blocks" class="form-control" ng-change="getUnits(projectDetails.blocks)">
+         <select ng-model="projectDetails.blocks" name="blocks" class="form-control">
             <option value="">
-               Block
+                All Blocks
             </option>
             <option ng-repeat="x in blockList" value="{{x.Blocks_Id}}">
                {{x.Blocks_Name}}
             </option>
          </select>
       </div>
+       <div class="text-right">
+       <button type="button" class="btn btn-primary" ng-click="getUnitAllocation(projectDetails,'unitAllocationForm')">Get Units</button>
+       </div>
    </form>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginTop20">
+    <table class="table borderDef">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Project</th>
+                <th>Phase</th>
+                <th>Type</th>
+                <th>Block</th>
+                <th>Unit Detail</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="x in unitAllocationData">
+                <td>{{x.name}}</td>
+                <td>{{x.email}}</td>
+                <td>{{x.mobile}}</td>
+                <td>{{x.projName}}</td>
+                <td>{{x.phaseName}}</td>
+                <td>{{x.phaseType}}</td>
+                <td>{{x.blockName}}</td>
+                <td>Flat No.{{x.unitObj.UnitDtls_No}} - {{x.unitObj.UnitDtls_Rooms}} BHK - {{x.unitObj.UnitDtls_Msrmnt}} Sq.Ft. - Floor {{x.unitObj.UnitDtls_Floor}} / Unit ID {{x.unitObj.UnitDtls_Id}} </td>
+                <td class="text-center">
+                    <div class="unitStatus" ng-class="unitStatus[x.unitObj.UnitDtls_Status-1]" title="{{unitStatusText[x.unitObj.UnitDtls_Status-1]}}"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
