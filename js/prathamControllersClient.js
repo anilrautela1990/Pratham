@@ -926,3 +926,7 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {
         }
     }
 });
+app.controller("projects", function($scope, $http, $cookieStore, $state) {	
+});
+app.controller("addProject", function($scope, $http, $cookieStore, $state) {	
+});

@@ -42,6 +42,16 @@ $stateProvider
 		templateUrl: 'partials/unitAllocation.html',
 		controller: 'unitAllocation'
 	})
+	.state('/Projects', {
+		url: '/Projects',
+		templateUrl: 'partials/projects.html',
+		controller: 'projects'
+	})
+	.state('/AddProject', {
+		url: '/AddProject',
+		templateUrl: 'partials/addProject.html',
+		controller: 'addProject'
+	})
 });
 app.config(function($httpProvider){
     delete $httpProvider.defaults.headers.common['X-Requested-With'];

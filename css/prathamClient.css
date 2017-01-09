@@ -23,7 +23,10 @@ body{
 	color: #FFF;
 }
 .form{}
-.form div{
+.form label{
+	cursor: pointer;
+}
+.form > div{
     margin-bottom: 8px;
 }
 .blankInput{
@@ -117,6 +120,9 @@ input.search{
 }
 .marginBottom20{
 	margin-bottom: 20px;
+}
+.marginTop10 {
+	margin-top: 10px;
 }
 .marginTop20 {
 	margin-top: 20px;
@@ -384,4 +390,7 @@ div.sold{
     width: 0;
     height: 0;
     margin: auto;
+}
+.labelCntr{
+	padding: 7px 0;
 }
