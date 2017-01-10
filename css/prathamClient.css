@@ -394,3 +394,6 @@ div.sold{
 .labelCntr{
 	padding: 7px 0;
 }
+input[disabled]{
+    color: #999;
+}

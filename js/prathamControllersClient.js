@@ -928,5 +928,20 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {
 });
 app.controller("projects", function($scope, $http, $cookieStore, $state) {	
 });
-app.controller("addProject", function($scope, $http, $cookieStore, $state) {	
+app.controller("addProject", function($scope, $http, $cookieStore, $state) {
+    $scope.saveProject = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            console.log(formObj);
+            $state.go('/AddPhases', {
+            "projectID": 1
+            });
+        }
+    };
+});
+app.controller("addPhases", function($scope, $http, $cookieStore, $state, $stateParams) {
+    $scope.projectId = $stateParams.projectID;
+    $scope.addPhases = {
+        projectName : 'RNS'
+    };
 });

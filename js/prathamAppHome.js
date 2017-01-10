@@ -52,6 +52,11 @@ $stateProvider
 		templateUrl: 'partials/addProject.html',
 		controller: 'addProject'
 	})
+    .state('/AddPhases', {
+		url: '/AddPhases/:projectID',
+		templateUrl: 'partials/addPhases.html',
+		controller: 'addPhases'
+	})
 });
 app.config(function($httpProvider){
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
