@@ -801,7 +801,7 @@ app.controller("addAgentController", function($scope, $http, $cookieStore, $stat
     };
 });
 
-app.controller("agentsController", function($scope, $http, $cookieStore, $state) {
+app.controller("agentsController", function($scope, $http, $cookieStore, $state, $uibModal) {
     $scope.searchAgents = ''; // set the default search/filter term
     ($scope.getAgents = function() {
         angular.element(".loader").show();
@@ -821,6 +821,27 @@ app.controller("agentsController", function($scope, $http, $cookieStore, $state)
             angular.element(".loader").hide();
         });
     })();
+    
+    $scope.agentDetail = function(selectedItem) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'agentDetail.html',
+            controller: 'agentsDetailController',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return $scope.agents[selectedItem];
+                }
+            }
+        });
+    };
+});
+
+app.controller("agentsDetailController", function($scope, $http, $cookieStore, $uibModalInstance, item) {
+    $scope.agentDetail = item;
+    $scope.ok = function() {
+        $uibModalInstance.close();
+    };
 });
 
 app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {

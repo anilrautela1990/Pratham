@@ -31,9 +31,34 @@
 				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
 				<td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> Person</td>
 				<td>{{x.Agents_firmname}}</td>
-                <td><span class="link">View</span></td>
+                <td><span class="link" ng-click="agentDetail($index)">View</span></td>
 				<td><a><span class="link">Edit</span></a></td>
 			</tr>
 		</tbody>
 	</table>
 </div>
+<script type="text/ng-template" id="agentDetail.html">
+        <div class="modal-header">
+			<button type="button" class="close" ng-click="ok()">&times;</button>
+            <h3 class="modal-title" id="modal-title">{{agentDetail.user_first_name}} {{agentDetail.user_middle_name}} {{agentDetail.user_last_name}}</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+			<div class="subHeading">Contact Details</div>
+			<table class="leadDetail">
+				<tr>
+					<td>Email ID:</td>
+					<td>{{agentDetail.user_email_address}}</td>
+				</tr>
+				<tr>
+					<td>Mobile Number:</td>
+					<td>{{agentDetail.user_mobile_no}}</td>
+				</tr>
+				<tr ng-if="lead.user_dob !='0001-01-01T00:00:00'">
+					<td>D.O.B:</td>
+					<td>{{agentDetail.user_dob | date}}</td>
+				</tr>
+            </table>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">Done</button>
+        </div>
+</script>
