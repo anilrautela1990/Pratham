@@ -32,10 +32,15 @@ $stateProvider
 		templateUrl: 'partials/convertCustomer.html',
 		controller: 'convertCustomer'
 	})
-	.state('/Agents', {
+	.state('/AddAgent', {
+		url: '/AddAgent',
+		templateUrl: 'partials/addAgent.html',
+		controller: 'addAgentController'
+	})
+    .state('/Agents', {
 		url: '/Agents',
 		templateUrl: 'partials/agents.html',
-		controller: 'agents'
+		controller: 'agentsController'
 	})
 	.state('/UnitAllocation', {
 		url: '/UnitAllocation',

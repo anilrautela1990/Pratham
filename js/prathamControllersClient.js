@@ -745,7 +745,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
         }
     };
 });
-app.controller("agents", function($scope, $http, $cookieStore, $state) {
+app.controller("addAgentController", function($scope, $http, $cookieStore, $state) {
     $scope.addAgentFun = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -799,6 +799,28 @@ app.controller("agents", function($scope, $http, $cookieStore, $state) {
             alert("Not valid!");
         }
     };
+});
+
+app.controller("agentsController", function($scope, $http, $cookieStore, $state) {
+    $scope.searchAgents = ''; // set the default search/filter term
+    ($scope.getAgents = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserDtls/ByUserType",
+            ContentType: 'application/json',
+            data: {
+                "user_type" : 5,
+                "user_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            console.log(data);
+            angular.element(".loader").hide();
+            $scope.agents = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
 });
 
 app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {

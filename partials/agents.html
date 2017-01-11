@@ -1,111 +1,39 @@
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle ng-scope">
-	<h1>Agents</h1>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
+	<h1>Agents / Prospective</h1>
 </div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
 	<ol class="breadcrumb">
 	  <li><a ui-sref="/">Home</a></li>
 	  <li class="active">Agents</li>
 	</ol>	
 </div>
-<div class="col-lg-3 col-md-3 col-sm-3 hidden-xs"></div>
-<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-	<form name="addAgentForm" class="form" method="POST" novalidate="novalidate">
-		<div>
-			<select class="form-control" name="type" ng-model="addAgent.type" ng-required="true" ng-class="{blankInput: addAgentForm.type.$error.required &amp;&amp; submit}">
-                <option value="">
-                    Agent Type
-                </option>
-				<option value="6">
-                    Firm
-                </option>
-				<option value="5">
-                    Individual
-                </option>
-			</select>
-		</div>
-        <div>
-			<input type="text" placeholder="First Name*" class="form-control" name="firstName" ng-model="addAgent.firstName" ng-required="true" ng-class="{blankInput: addAgentForm.firstName.$error.required &amp;&amp; submit}"/>
-		</div>
-        <div>
-			<input type="text" placeholder="Middle Name" class="form-control" name="middleName" ng-model="addAgent.middleName"/>
-		</div>
-        <div>
-			<input type="text" placeholder="Last Name*" class="form-control" name="lastName" ng-model="addAgent.lastName" ng-required="true" ng-class="{blankInput: addAgentForm.lastName.$error.required &amp;&amp; submit}"/>
-		</div>
-        <div>
-			<input type="password" placeholder="Password*" class="form-control" name="password" ng-model="addAgent.password" ng-required="true" ng-class="{blankInput: addAgentForm.password.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Firm Name*" class="form-control" name="firmName" ng-model="addAgent.firmName" ng-required="true" ng-class="{blankInput: addAgentForm.firmName.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Email ID*" class="form-control" name="emailId" ng-model="addAgent.emailId" ng-required="true" ng-class="{blankInput: addAgentForm.emailId.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Address*" class="form-control"  name="address" ng-model="addAgent.address" ng-required="true" ng-class="{blankInput: addAgentForm.address.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Mobile Number*" class="form-control" name="mobileNumber" ng-model="addAgent.mobileNumber" ng-required="true" ng-class="{blankInput: addAgentForm.mobileNumber.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Fixed Line Number" class="form-control" name="fixedLine" ng-model="addAgent.fixedLine"/>
-		</div>
-		<div ng-show="addAgent.type == 2">
-			<input type="text" placeholder="D.O.B." class="form-control" name="dob" ng-model="addAgent.dob"/>
-		</div>
-		<div>
-			<input type="text" placeholder="PAN" class="form-control" name="pan" ng-model="addAgent.pan" ng-required="true" ng-class="{blankInput: addAgentForm.pan.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="AADHAR" class="form-control" name="aadhar" ng-model="addAgent.aadhar" ng-required="true" ng-class="{blankInput: addAgentForm.aadhar.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Alternate Contact Number" class="form-control" name="alternateContactNumber" ng-model="addAgent.alternateContactNumber"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Alternate Email ID*" class="form-control" name="alternameEmailId" ng-model="addAgent.alternameEmailId"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Contact Person" class="form-control" name="contactPerson" ng-model="addAgent.contactPerson" ng-required="true" ng-class="{blankInput: addAgentForm.contactPerson.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Service Tax Details" class="form-control" name="serviceTaxDetails" ng-model="addAgent.serviceTaxDetails" ng-required="true" ng-class="{blankInput: addAgentForm.serviceTaxDetails.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="No. of years in business" class="form-control" name="yearsInBusiness" ng-model="addAgent.yearsInBusiness" ng-required="true" ng-class="{blankInput: addAgentForm.yearsInBusiness.$error.required &amp;&amp; submit}"/>
-		</div>
-        <div>
-			<input type="text" placeholder="Total years of Experience" class="form-control" name="totalYearOfExp" ng-model="addAgent.totalYearOfExp" ng-required="true" ng-class="{blankInput: addAgentForm.totalYearOfExp.$error.required &amp;&amp; submit}"/>
-		</div>
-        <div>
-			<input type="text" placeholder="Total CTC" class="form-control" name="totCtc" ng-model="addAgent.totCtc" ng-required="true" ng-class="{blankInput: addAgentForm.totCtc.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Bank Name" class="form-control" name="bankName" ng-model="addAgent.bankName" ng-required="true" ng-class="{blankInput: addAgentForm.bankName.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Account Number" class="form-control" name="accountNumber" ng-model="addAgent.accountNumber" ng-required="true" ng-class="{blankInput: addAgentForm.accountNumber.$error.required &amp;&amp; submit}"/>
-		</div>
-		
-		<div>
-			<input type="text" placeholder="Bank Address" class="form-control" name="bankAddress" ng-model="addAgent.bankAddress" ng-required="true" ng-class="{blankInput: addAgentForm.bankAddress.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Account Type" class="form-control" name="accountType" ng-model="addAgent.accountType" ng-required="true" ng-class="{blankInput: addAgentForm.accountType.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="IFSC Code" class="form-control" name="ifscCode" ng-model="addAgent.ifscCode" ng-required="true" ng-class="{blankInput: addAgentForm.ifscCode.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Bank Email ID" class="form-control" name="bankEmailID" ng-model="addAgent.bankEmailID" ng-required="true" ng-class="{blankInput: addAgentForm.bankEmailID.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Website" class="form-control" name="website" ng-model="addAgent.website"/>
-		</div>
-		
-		<div class="text-center">
-			<button type="button" class="btn btn-success" ng-click="addAgentFun(addAgent,'addAgentForm')">+ Add Agent</button>
-		</div>
-	</form>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right ctaContainer">
+	<a ui-sref="/AddAgent" class="btn btn-primary">+ Add Agent</a> | 
+	<button type="button" class="btn btn-success">Import From CSV <span class="glyphicon glyphicon-import"></span></button> |
+	<a href="#">Download Format <span class="glyphicon glyphicon-download-alt"></span></a>
 </div>
-<div class="col-lg-3 col-md-3 col-sm-3 hidden-xs"></div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <input type="text" class="form-control marginBottom5 search" placeholder="Search Agents" ng-model="searchAgents"/>
+	<table class="table dataTable">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<th>Assigned To</th>
+                <th>Firm Name</th>
+				<th>Status</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="x in agents | filter:searchAgents track by $index">
+				<td>{{$index + 1}}</td>
+				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
+				<td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> Person</td>
+				<td>{{x.Agents_firmname}}</td>
+                <td><span class="link">View</span></td>
+				<td><a><span class="link">Edit</span></a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
