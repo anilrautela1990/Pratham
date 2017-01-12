@@ -1,11 +1,11 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle ng-scope">
-	<h1>Add Agent</h1>
+	<h1>{{pageTitle}}</h1>
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20">
 	<ol class="breadcrumb">
 	  <li><a ui-sref="/">Home</a></li>
 	  <li><a ui-sref="/Agents">Agents</a></li>
-      <li class="active">Add Agent</li>
+      <li class="active">{{pageTitle}}</li>
 	</ol>	
 </div>
 <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs"></div>
@@ -104,8 +104,11 @@
 			<input type="text" placeholder="Website" class="form-control" name="website" ng-model="addAgent.website"/>
 		</div>
 		
-		<div class="text-center">
-			<button type="button" class="btn btn-success" ng-click="addAgentFun(addAgent,'addAgentForm')">+ Add Agent</button>
+		<div class="text-center" ng-show="addAgentBtn">
+			<button type="button" class="btn btn-success" ng-click="addAgent(addAgent,'addAgentForm')">+ Add Agent</button>
+		</div>
+        <div class="text-center" ng-show="editAgentBtn">
+			<button type="button" class="btn btn-success" ng-click="editAgent(addAgent,'addAgentForm')">+ Update Agent</button>
 		</div>
 	</form>
 </div>

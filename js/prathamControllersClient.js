@@ -746,7 +746,9 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
     };
 });
 app.controller("addAgentController", function($scope, $http, $cookieStore, $state) {
-    $scope.addAgentFun = function(formObj, formName) {
+    $scope.pageTitle = "Add Agent";
+    $scope.addAgentBtn = true;
+    $scope.addAgent = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
             console.log(formObj);
@@ -842,6 +844,17 @@ app.controller("agentsDetailController", function($scope, $http, $cookieStore, $
     $scope.ok = function() {
         $uibModalInstance.close();
     };
+});
+
+app.controller("editAgentController", function($scope, $http, $state, $cookieStore, $stateParams, $filter) {
+    $scope.pageTitle = "Edit Agent";
+    $scope.editAgentBtn = true;
+    
+    ($scope.getAgentDetail = function() {
+        $scope.agentId = $stateParams.agentID;
+        
+        alert("Agent primary Key is : "+$scope.agentId);
+    })();
 });
 
 app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {

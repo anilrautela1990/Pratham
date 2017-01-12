@@ -42,6 +42,11 @@ $stateProvider
 		templateUrl: 'partials/agents.html',
 		controller: 'agentsController'
 	})
+    .state('/EditAgent', {
+		url: '/EditAgent/:agentID',
+		templateUrl: 'partials/addAgent.html',
+		controller: 'editAgentController'
+	})
 	.state('/UnitAllocation', {
 		url: '/UnitAllocation',
 		templateUrl: 'partials/unitAllocation.html',
