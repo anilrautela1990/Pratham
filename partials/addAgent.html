@@ -34,7 +34,7 @@
 			<input type="text" placeholder="Last Name*" class="form-control" name="lastName" ng-model="addAgent.lastName" ng-required="true" ng-class="{blankInput: addAgentForm.lastName.$error.required &amp;&amp; submit}"/>
 		</div>
         <div>
-			<input type="password" placeholder="Password*" class="form-control" name="password" ng-model="addAgent.password" ng-required="true" ng-class="{blankInput: addAgentForm.password.$error.required &amp;&amp; submit}"/>
+			<input type="password" placeholder="Password*" ng-show="addAgentBtn" class="form-control" name="password" ng-model="addAgent.password" ng-required="true" ng-class="{blankInput: addAgentForm.password.$error.required &amp;&amp; submit}"/>
 		</div>
 		<div>
 			<input type="text" placeholder="Firm Name*" class="form-control" name="firmName" ng-model="addAgent.firmName" ng-required="true" ng-class="{blankInput: addAgentForm.firmName.$error.required &amp;&amp; submit}"/>
@@ -99,9 +99,6 @@
 		</div>
 		<div>
 			<input type="text" placeholder="Bank Email ID" class="form-control" name="bankEmailID" ng-model="addAgent.bankEmailID" ng-required="true" ng-class="{blankInput: addAgentForm.bankEmailID.$error.required &amp;&amp; submit}"/>
-		</div>
-		<div>
-			<input type="text" placeholder="Website" class="form-control" name="website" ng-model="addAgent.website"/>
 		</div>
 		
 		<div class="text-center" ng-show="addAgentBtn">

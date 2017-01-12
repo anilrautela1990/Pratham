@@ -853,8 +853,110 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
     ($scope.getAgentDetail = function() {
         $scope.agentId = $stateParams.agentID;
         
-        alert("Agent primary Key is : "+$scope.agentId);
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserDtls",
+            ContentType: 'application/json',
+            data: {
+                "user_id": $scope.agentId,
+                "user_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            console.log(data);
+            
+            var dob = $filter('date')(data.user_dob, 'MMM dd, yyyy');
+
+            if (dob == "Jan 01, 0001") {
+                dob = "";
+            }
+            if (data.Agents_User_Id != 0) {
+                $scope.addAgent = {
+                    type: data.user_type+"",
+                    firstName: data.user_first_name,
+                    middleName: data.user_middle_name,
+                    lastName: data.user_last_name,
+                    firmName: data.Agents_firmname,
+                    emailId: data.user_email_address,
+                    address: data.Agents_add,
+                    mobileNumber: data.user_mobile_no,
+                    dob: dob,
+                    pan: data.Agents_pan,
+                    aadhar: data.Agents_aadhar,
+                    alternateContactNumber: data.Agents_alt_contactno,
+                    alternameEmailId: data.Agents_alt_email,
+                    contactPerson: data.Agents_contactperson,
+                    serviceTaxDetails: data.Agents_servicetaxdtls,
+                    yearsInBusiness: data.Agents_noofyrsinbsns,
+                    totalYearOfExp: data.Agents_totalyrsofexp,
+                    totCtc: data.Agent_ctc,
+                    bankName: data.Agents_banknm,
+                    accountNumber: data.Agents_bankacno,
+                    bankAddress: data.Agents_bankadd,
+                    accountType: data.Agents_banktypeofacn,
+                    ifscCode: data.Agents_bankifsccode,
+                    bankEmailID: data.Agents_bankemailid
+                }
+            } else {
+                $state.go("/Agents");
+            }
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     })();
+    
+    $scope.editAgent = function(formObj, formName) {
+        alert("test");
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            console.log(formObj);
+
+            angular.element(".loader").show();
+
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/UpdateUserAgent",
+                ContentType: 'application/json',
+                data: {
+                    "Agents_comp_guid": $cookieStore.get('comp_guid'),
+                    "user_first_name": formObj.firstName,
+                    "user_middle_name": formObj.middleName,
+                    "user_last_name": formObj.lastName,
+                    "user_mobile_no": formObj.mobileNumber,
+                    "user_email_address": formObj.emailId,
+                    "Agent_assgnto_user_Id": 1,
+                    "Agent_Branch_Id": 1,
+                    "Agents_Indvdl": 1,
+                    "Agents_firmname": formObj.firmName,
+                    "Agents_firmtype": "Agents_firmtype",
+                    "Agents_add": formObj.address,
+                    "Agent_ctc": formObj.totCtc,
+                    "Agents_pan": formObj.pan,
+                    "Agents_aadhar": formObj.aadhar,
+                    "Agents_alt_contactno": formObj.alternateContactNumber,
+                    "Agents_alt_email": formObj.alternameEmailId,
+                    "Agents_contactperson": formObj.contactPerson,
+                    "Agents_servicetaxdtls": formObj.serviceTaxDetails,
+                    "Agents_noofyrsinbsns": formObj.yearsInBusiness,
+                    "Agents_totalyrsofexp": formObj.totalYearOfExp,
+                    "Agents_banknm": formObj.bankName,
+                    "Agents_bankacno": formObj.accountNumber,
+                    "Agents_bankadd": formObj.bankAddress,
+                    "Agents_banktypeofacn": formObj.accountType,
+                    "Agents_bankifsccode": formObj.ifscCode,
+                    "Agents_bankemailid": formObj.bankEmailID
+                }
+            }).success(function(data) {
+                console.log(data);
+                $state.go("/");
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        } else {
+            alert("Not valid!");
+        }
+    };
 });
 
 app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {
