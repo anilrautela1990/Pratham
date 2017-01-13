@@ -51,9 +51,6 @@
 		<div>
 			<input type="text" placeholder="Fixed Line Number" class="form-control" name="fixedLine" ng-model="addAgent.fixedLine"/>
 		</div>
-		<div ng-show="addAgent.type == 2">
-			<input type="text" placeholder="D.O.B." class="form-control" name="dob" ng-model="addAgent.dob"/>
-		</div>
 		<div>
 			<input type="text" placeholder="PAN" class="form-control" name="pan" ng-model="addAgent.pan" ng-required="true" ng-class="{blankInput: addAgentForm.pan.$error.required &amp;&amp; submit}"/>
 		</div>
@@ -105,7 +102,7 @@
 			<button type="button" class="btn btn-success" ng-click="addAgent(addAgent,'addAgentForm')">+ Add Agent</button>
 		</div>
         <div class="text-center" ng-show="editAgentBtn">
-			<button type="button" class="btn btn-success" ng-click="editAgent(addAgent,'addAgentForm')">+ Update Agent</button>
+			<button type="button" class="btn btn-success" ng-click="updateAgent(addAgent,'addAgentForm')">+ Update Agent</button>
 		</div>
 	</form>
 </div>

@@ -864,11 +864,11 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
         }).success(function(data) {
             console.log(data);
             
-            var dob = $filter('date')(data.user_dob, 'MMM dd, yyyy');
+            /*var dob = $filter('date')(data.user_dob, 'MMM dd, yyyy');
 
             if (dob == "Jan 01, 0001") {
                 dob = "";
-            }
+            }*/
             if (data.Agents_User_Id != 0) {
                 $scope.addAgent = {
                     type: data.user_type+"",
@@ -879,7 +879,8 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
                     emailId: data.user_email_address,
                     address: data.Agents_add,
                     mobileNumber: data.user_mobile_no,
-                    dob: dob,
+                    password: data.user_password,
+//                    dob: dob,
                     pan: data.Agents_pan,
                     aadhar: data.Agents_aadhar,
                     alternateContactNumber: data.Agents_alt_contactno,
@@ -905,12 +906,11 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
         });
     })();
     
-    $scope.editAgent = function(formObj, formName) {
-        alert("test");
+    $scope.updateAgent = function(formObj, formName) {
         $scope.submit = true;
+               
         if ($scope[formName].$valid) {
             console.log(formObj);
-
             angular.element(".loader").show();
 
             $http({
@@ -919,6 +919,7 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
                 ContentType: 'application/json',
                 data: {
                     "Agents_comp_guid": $cookieStore.get('comp_guid'),
+                    "Agents_User_Id": $scope.agentId,
                     "user_first_name": formObj.firstName,
                     "user_middle_name": formObj.middleName,
                     "user_last_name": formObj.lastName,
@@ -948,7 +949,7 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
                 }
             }).success(function(data) {
                 console.log(data);
-                $state.go("/");
+                $state.go("/Agents");
                 angular.element(".loader").hide();
             }).error(function() {
                 angular.element(".loader").hide();
