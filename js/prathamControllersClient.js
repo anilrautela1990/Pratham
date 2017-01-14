@@ -960,7 +960,7 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
     };
 });
 
-app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {
+app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $uibModal) {
     $scope.unitStatus = ['vacant', 'userinterest', 'mgmtquota', 'blockedbyadvnc', 'blockedbynotadvnc', 'sold'];
     $scope.unitStatusText = ['Vacant', 'User Interested', 'Management Quota', 'Blocked By Paying Advance', 'Blocked By Not Paying Advance', 'Sold'];
     ($scope.getProjectList = function() {
@@ -1052,6 +1052,7 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {
                     }
                 }
             }).success(function(data) {
+                console.log(data);
                 $scope.unitAllocationData = [];
                 for (h = 0; h < data.length; h++) {
                     for (i = 0; i < data[h].projectlst.length; i++) {
@@ -1069,7 +1070,8 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {
                                     $scope.unitAllocationObj.phaseType = data[h].projectlst[i].Lstphases[j].Phase_UnitType.UnitType_Name;
                                     $scope.unitAllocationObj.blockName = data[h].projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Name;
                                     $scope.unitAllocationObj.unitObj = data[h].projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];
-                                    
+                                    $scope.unitAllocationObj.leadID = data[h].user_id;
+                                        
                                     $scope.unitAllocationData.push($scope.unitAllocationObj);
                                 }
 
@@ -1084,9 +1086,63 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state) {
             });
         }
     }
+    
+    $scope.updateUnitAllocationStatus = function(unitData) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'unitStatusUpdate.html',
+            controller: 'unitUpdateController',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return unitData;
+                }
+            }
+        });
+    };
 });
+
+app.controller("unitUpdateController", function($scope, $http, $cookieStore, $state, $uibModalInstance, item) {	
+    $scope.unit = item;
+    
+    $scope.ok = function() {
+        $uibModalInstance.close();
+    };
+    
+    $scope.updateStatus = function(formObj) {
+        if(formObj.updateStatus != undefined && formObj.updateStatus != ''){
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/UpdtUnitDtls/ByUnitDtlsID",
+                ContentType: 'application/json',
+                data: {
+                     "UnitDtls_comp_guid" : $cookieStore.get('comp_guid'),
+                     "UnitDtls_Id" : $scope.unit.unitObj.UnitDtls_Id,
+                     "UnitDtls_Status" : formObj.updateStatus
+                }
+            }).success(function(data) {
+                console.log(data);
+                $uibModalInstance.close();
+                if(data[0].UnitDtls_ErrorDesc == '0'){
+                    $uibModalInstance.close();
+                    $state.go("/ConvertCustomer", {
+                            "leadID": $scope.unit.leadID
+                    });
+                } else {
+                    alert('some error in changing unit status.');
+                }
+            }).error(function() {
+                alert('some error!!');
+            });
+        } else{
+            alert('Please select any option first.');
+        }
+    };
+});
+
 app.controller("projects", function($scope, $http, $cookieStore, $state) {	
 });
+
 app.controller("addProject", function($scope, $http, $cookieStore, $state) {
     $scope.saveProject = function(formObj, formName) {
         $scope.submit = true;

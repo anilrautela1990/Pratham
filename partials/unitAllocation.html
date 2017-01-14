@@ -61,6 +61,7 @@
                 <th>Block</th>
                 <th>Unit Detail</th>
                 <th>Status</th>
+                <th>Update Status</th>
             </tr>
         </thead>
         <tbody>
@@ -76,7 +77,35 @@
                 <td class="text-center">
                     <div class="unitStatus" ng-class="unitStatus[x.unitObj.UnitDtls_Status-1]" title="{{unitStatusText[x.unitObj.UnitDtls_Status-1]}}"></div>
                 </td>
+                <td>
+                    <button type="button" class="btn btn-primary" ng-click="updateUnitAllocationStatus(x)">Update Status</button>
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
+<script type="text/ng-template" id="unitStatusUpdate.html">
+        <div class="modal-header">
+			<button type="button" class="close" ng-click="ok()">&times;</button>
+            <h3 class="modal-title" id="modal-title">{{unit.name}}</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+			<div class="subHeading">Update Status</div>
+			<table class="leadDetail">
+				<tr>
+					<td>Status to Update:</td>
+					<td>
+                        <select name="firmBranch" class="form-control" name="updateStatus" ng-model="unit.updateStatus">
+                            <option value="">Select</option>
+                            <option value="4">Blocked by paying advance</option>
+                            <option value="5">Blocked by not paying advance</option>
+                            <option value="6">Sold</option>
+                        </select>
+                    </td>
+				</tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="updateStatus(unit)">Update Status</button>
+        </div>
+    </script>
