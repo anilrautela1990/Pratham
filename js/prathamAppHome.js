@@ -17,6 +17,11 @@ $stateProvider
 		templateUrl: 'partials/addLead.html',
 		controller: 'addLead'
 	})
+    .state('/Customers', {
+		url: '/Customers',
+		templateUrl: 'partials/customers.html',
+		controller: 'customerController'
+	})
 	.state('/EditLead', {
 		url: '/EditLead/:leadID',
 		templateUrl: 'partials/addLead.html',

@@ -606,6 +606,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                 "user_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
+            console.log(data);
             var state = data.user_state;
             var city = data.user_city;
             var dob = $filter('date')(data.user_dob, 'MMM dd, yyyy');
@@ -636,7 +637,8 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                     address: data.user_address,
                     zip: data.user_zipcode,
                     gpaHolder: 0,
-                    bankloan: 0
+                    bankloan: 0,
+                    qualification: data.Cust_qualification 
                 }
                 angular.element(".loader").hide();
             } else {
@@ -650,8 +652,6 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
 
         if ($scope[formName].$valid) {
             angular.element(".loader").show();
-            var formData = JSON.stringify(formObj);
-            console.log(formData);
 
             var relationType = 0;
             var statusType = 0;
@@ -727,7 +727,8 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                     "Cust_gpa_aadhar": formObj.gpaAadhar
                 }
             }).success(function(data) {
-                $state.go("/Leads");
+                console.log(data);
+                $state.go("/Customers");
                 angular.element(".loader").hide();
             }).error(function() {
                 alert("Error in save customer");
@@ -1158,5 +1159,72 @@ app.controller("addPhases", function($scope, $http, $cookieStore, $state, $state
     $scope.projectId = $stateParams.projectID;
     $scope.addPhases = {
         projectName : 'RNS'
+    };
+});
+
+app.controller("customerController", function($scope, $http, $cookieStore, $state, $uibModal) {	
+    ($scope.getCustomers = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserDtls/ByUserType",
+            ContentType: 'application/json',
+            data: {
+                "user_comp_guid": $cookieStore.get('comp_guid'),
+                "user_type": 4
+            }
+        }).success(function(data) {
+            console.log(data);
+            angular.element(".loader").hide();
+            $scope.customers = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
+    $scope.customerDetail = function(selectedItem) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'customerDetail.html',
+            controller: 'customerDetailController',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return $scope.customers[selectedItem];
+                }
+            }
+        });
+    };
+});
+
+app.controller("customerDetailController", function($scope, $http, $cookieStore, $state,    $uibModalInstance, item) {	
+    $scope.customer = item;
+    $scope.unitStatus = [];
+    $scope.unitStatus[4] = "Blocked by paying advance";
+    $scope.unitStatus[5] = "Blocked by not paying advance";
+    $scope.unitStatus[6] = "Sold";
+    if ($scope.customer.projectlst != null) {
+        $scope.leadProjects = [];
+        for (i = 0; i < $scope.customer.projectlst.length; i++) {
+            for (j = 0; j < $scope.customer.projectlst[i].Lstphases.length; j++) {
+                for (k = 0; k < $scope.customer.projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
+                    for (l = 0; l < $scope.customer.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
+                        $scope.leadUnitObj = {};
+                        $scope.leadUnitObj.projName = $scope.customer.projectlst[i].Proj_Name;
+                        $scope.leadUnitObj.phaseName = $scope.customer.projectlst[i].Lstphases[j].Phase_Name;
+                        $scope.leadUnitObj.phaseType = $scope.customer.projectlst[i].Lstphases[j].Phase_UnitType.UnitType_Name;
+                        $scope.leadUnitObj.blockName = $scope.customer.projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Name;
+                        $scope.leadUnitObj.unitObj = $scope.customer.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];
+                        $scope.leadUnitObj.unitViewStatus = $scope.unitStatus[$scope.customer.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l].UnitDtls_Status];
+        
+                        $scope.leadProjects.push($scope.leadUnitObj);
+                    }
+                }
+            }
+        }
+    }
+    
+    $scope.ok = function() {
+        $uibModalInstance.close();
     };
 });
