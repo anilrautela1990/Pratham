@@ -33,7 +33,7 @@ $stateProvider
 		controller: 'projectDetails'
 	})
 	.state('/ConvertCustomer', {
-		url: '/ConvertCustomer/:leadID',
+		url: '/ConvertCustomer/:action/:leadID',
 		templateUrl: 'partials/convertCustomer.html',
 		controller: 'convertCustomer'
 	})

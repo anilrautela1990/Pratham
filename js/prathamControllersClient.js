@@ -597,6 +597,9 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
     ($scope.convertCustomer = function() {
         angular.element(".loader").show();
         $scope.leadId = $stateParams.leadID;
+        $scope.action = $stateParams.action;
+        
+        //alert($scope.leadId+' : '+$scope.action);
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/User/UserDtls",
@@ -622,30 +625,72 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
             }
 
             if (data.user_id != 0) {
-                $scope.customer = {
-                    firstName: data.user_first_name,
-                    middleName: data.user_middle_name,
-                    lastName: data.user_last_name,
-                    mobileNumber: data.user_mobile_no,
-                    officeNumber: data.user_office_no,
-                    emailId: data.user_email_address,
-                    dob: dob,
-                    gender: data.user_gender,
-                    country: data.user_country,
-                    state: state + "",
-                    city: city + "",
-                    address: data.user_address,
-                    zip: data.user_zipcode,
-                    gpaHolder: 0,
-                    bankloan: 0,
-                    qualification: data.Cust_qualification
+                if($scope.action == 'addCustomer'){
+                    $scope.customer = {
+                        firstName: data.user_first_name,
+                        middleName: data.user_middle_name,
+                        lastName: data.user_last_name,
+                        mobileNumber: data.user_mobile_no,
+                        officeNumber: data.user_office_no,
+                        emailId: data.user_email_address,
+                        dob: dob,
+                        gender: data.user_gender,
+                        country: data.user_country,
+                        state: state + "",
+                        city: city + "",
+                        address: data.user_address,
+                        zip: data.user_zipcode,
+                        gpaHolder: 0,
+                        bankloan: 0
+                    }
+                } else if($scope.action == 'editCustomer'){
+                    $scope.customer = {
+                        firstName: data.user_first_name,
+                        middleName: data.user_middle_name,
+                        lastName: data.user_last_name,
+                        mobileNumber: data.user_mobile_no,
+                        officeNumber: data.user_office_no,
+                        emailId: data.user_email_address,
+                        dob: dob,
+                        gender: data.user_gender,
+                        country: data.user_country,
+                        state: state + "",
+                        city: city + "",
+                        address: data.user_address,
+                        zip: data.user_zipcode,
+                        gpaHolder: 0,
+                        bankloan: 0,
+                        relationType: data.Cust_relationtype+"",
+                        relationName: data.Cust_relationname,
+                        residentType: data.Cust_status_type+"",
+                        address2: data.Cust_perm_add,
+                        pan: data.Cust_pan,
+                        aadhar: data.Cust_aadhar,
+                        alternateContact: data.Cust_alt_contactno,
+                        qualification: data.Cust_qualification,
+                        profession: data.Cust_Profession,
+                        company: data.Cust_company,
+                        designation: data.Cust_desig,
+                        officeAddress: data.Cust_off_add,
+                        officeEmailId: data.Cust_off_email,
+                        spouseName : data.Cust_spouse_nm,
+                        spouseDob : data.Cust_spouse_dob,
+                        spousePan : data.Cust_spouse_pan,
+                        spouseAadhar: data.Cust_spouse_aadhar,
+                        childrenNo : data.Cust_noof_childrn+"",
+                        bankloan : data.Cust_bankloan
+
+                    }
                 }
                 angular.element(".loader").hide();
             } else {
-                $state.go("/Leads");
+                $state.go("/Customers");
             }
         }).error(function() {});
     })();
+    
+    $scope.updateCustomer = function(formObj, formName) {
+    }
 
     $scope.addCustomer = function(formObj, formName) {
         $scope.submit = true;
@@ -1127,7 +1172,8 @@ app.controller("unitUpdateController", function($scope, $http, $cookieStore, $st
                 if (data[0].UnitDtls_ErrorDesc == '0') {
                     $uibModalInstance.close();
                     $state.go("/ConvertCustomer", {
-                        "leadID": $scope.unit.leadID
+                        "leadID": $scope.unit.leadID,
+                        "action": 'addCustomer'
                     });
                 } else {
                     alert('some error in changing unit status.');

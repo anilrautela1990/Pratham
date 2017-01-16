@@ -271,8 +271,11 @@
                 <input type="text" placeholder="AADHAR" title="AADHAR" class="form-control"  name="gpaAadhar" ng-model="customer.gpaAadhar"/>
             </div>
         </div>
-        <div class="text-center marginTop20">
+        <div class="text-center marginTop20" ng-show="action == 'addCustomer'">
             <button type="button" class="btn btn-success width100" ng-click="addCustomer(customer,'addCustomerForm')">+ Add Customer</button>
+        </div>
+        <div class="text-center marginTop20" ng-show="action == 'editCustomer'">
+            <button type="button" class="btn btn-success width100" ng-click="updateCustomer(customer,'addCustomerForm')">+ Update Customer</button>
         </div>
     </div>
 	</form>

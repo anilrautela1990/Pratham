@@ -26,7 +26,7 @@
 				<td>{{$index + 1}}</td>
 				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
 				<td><span class="link" ng-click="customerDetail($index)">View</span></td>
-				<td><a ui-sref="/ConvertCustomer({ leadID: {{x.user_id}} })"><span class="link">Edit</span></a></td>
+				<td><a ui-sref="/ConvertCustomer({ leadID: {{x.user_id}} , action: 'editCustomer'})"><span class="link">Edit</span></a></td>
 			</tr>
 		</tbody>
 	</table>
