@@ -1199,6 +1199,7 @@ app.controller("customerController", function($scope, $http, $cookieStore, $stat
 app.controller("customerDetailController", function($scope, $http, $cookieStore, $state, $uibModalInstance, item) {
     $scope.customer = item;
     $scope.unitStatus = [];
+    $scope.unitStatus[2] = "User Interested";
     $scope.unitStatus[4] = "Blocked by paying advance";
     $scope.unitStatus[5] = "Blocked by not paying advance";
     $scope.unitStatus[6] = "Sold";
