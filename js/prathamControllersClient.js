@@ -1245,10 +1245,11 @@ app.controller("customerController", function($scope, $http, $cookieStore, $stat
 app.controller("customerDetailController", function($scope, $http, $cookieStore, $state, $uibModalInstance, item) {
     $scope.customer = item;
     $scope.unitStatus = [];
-    $scope.unitStatus[2] = "User Interested";
+    $scope.unitStatus[2] = "Interested";
     $scope.unitStatus[4] = "Blocked by paying advance";
     $scope.unitStatus[5] = "Blocked by not paying advance";
     $scope.unitStatus[6] = "Sold";
+    $scope.unitStatus[7] = "Cancelled";
     if ($scope.customer.projectlst != null) {
         $scope.leadProjects = [];
         for (i = 0; i < $scope.customer.projectlst.length; i++) {
