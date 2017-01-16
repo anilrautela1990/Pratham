@@ -70,6 +70,7 @@
 						 <th>Block</th>
 						 <th>Unit</th>
                          <th>Status</th>
+                         <th></th>
 					  </tr>
 				   </thead>
 				   <tbody id="projectList">
@@ -80,7 +81,11 @@
                          <td>{{unit.blockName}}</td>
                          <td>{{unit.unitObj.UnitDtls_Name}} / {{unit.phaseType}} No. {{unit.unitObj.UnitDtls_No}} / {{unit.unitObj.UnitDtls_Msrmnt}} sq ft / Floor {{unit.unitObj.UnitDtls_Floor}}</td>
                           <td>{{unit.unitViewStatus}}</td>
+                          <td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(unit.projId,unit.unitObj.UnitDtls_Id)"></span></td>
 					  </tr>
+                       
+                       <!--<tr ng-repeat="unit in leadProjects track by $index" id="{{unit.UnitDtls.UnitDtls_Id}}" class="ng-scope"><td><div class="dispNone">
+						{"ProjId":{{unit.ProjId}},"Phase_Id":{{unit.Phase_Id}},"Blocks_Id":{{unit.Blocks_Id}},"UnitDtls_Id":{{unit.UnitDtls.UnitDtls_Id}}}</div>{{unit.UnitDtls.UnitDtls_Name}} - {{unit.UnitDtls.UnitDtls_No}} - {{unit.UnitDtls.UnitDtls_Floor}} Floor</td><td>{{unit.UnitDtls.UnitDtls_Msrmnt}} sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(x.ProjId,x.UnitDtls.UnitDtls_Id)"></span></td></tr>-->
 				   </tbody>
 				</table>
 			</div>

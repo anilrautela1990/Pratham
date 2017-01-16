@@ -1250,6 +1250,9 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
     $scope.unitStatus[5] = "Blocked by not paying advance";
     $scope.unitStatus[6] = "Sold";
     $scope.unitStatus[7] = "Cancelled";
+    
+    $scope.leadId = $scope.customer.user_id;
+    
     if ($scope.customer.projectlst != null) {
         $scope.leadProjects = [];
         for (i = 0; i < $scope.customer.projectlst.length; i++) {
@@ -1258,6 +1261,7 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
                     for (l = 0; l < $scope.customer.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
                         $scope.leadUnitObj = {};
                         $scope.leadUnitObj.projName = $scope.customer.projectlst[i].Proj_Name;
+                        $scope.leadUnitObj.projId = $scope.customer.projectlst[i].ProjId;
                         $scope.leadUnitObj.phaseName = $scope.customer.projectlst[i].Lstphases[j].Phase_Name;
                         $scope.leadUnitObj.phaseType = $scope.customer.projectlst[i].Lstphases[j].Phase_UnitType.UnitType_Name;
                         $scope.leadUnitObj.blockName = $scope.customer.projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Name;
@@ -1270,6 +1274,34 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
             }
         }
     }
+    
+    $scope.deleteRow = function(projId, rowId) {
+
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UpdateUser",
+            ContentType: 'application/json',
+            data: {
+                "user_proj": {
+                    "UserProj_comp_guid": $cookieStore.get('comp_guid'),
+                    "UserProj_user_id": $scope.leadId,
+                    "UserProj_projid": projId,
+                    "prjjson": [{
+                        "ProjId": projId,
+                        "Phase_Id": 0,
+                        "Blocks_Id": 0,
+                        "UnitDtls_Id": rowId
+                    }]
+                }
+            }
+        }).success(function(data) {
+            if (data.user_ErrorDesc == 0) {
+                $("tr#" + rowId).remove();
+                $("#unit" + rowId).removeClass('selected');
+            }
+        }).error(function() {
+        });
+    };
 
     $scope.ok = function() {
         $uibModalInstance.close();
