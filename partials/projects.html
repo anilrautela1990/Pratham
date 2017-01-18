@@ -23,30 +23,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-				<td>1</td>
-				<td>RNS</td>
-				<td>Kengri, Banglore</td>
-				<td class="text-center">2</td>
-				<td class="text-center">Flats</td>
+			<tr ng-repeat="x in projectsList | filter:searchProjects track by $index">
+				<td>{{$index + 1}}</td>
+				<td>{{x.Proj_Name}}</td>
+				<td>{{x.Proj_Location}}</td>
+				<td class="text-center">{{x.Proj_Phases}}</td>
+				<td class="text-center">{{x.Proj_Types}}</td>
 				<td class="text-center"><a>Edit</a></td>
-            </tr>
-			<tr>
-				<td>2</td>
-				<td>RNS</td>
-				<td>Kengri, Banglore</td>
-				<td class="text-center">2</td>
-				<td class="text-center">Flats</td>
-				<td class="text-center"><a>Edit</a></td>
-            </tr>
-			<tr>
-				<td>3</td>
-				<td>RNS</td>
-				<td>Kengri, Banglore</td>
-				<td class="text-center">2</td>
-				<td class="text-center">Flats</td>
-				<td class="text-center"><a>Edit</a></td>
-            </tr>
+			</tr>
         </tbody>
     </table>
 </div>

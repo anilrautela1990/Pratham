@@ -1187,7 +1187,58 @@ app.controller("unitUpdateController", function($scope, $http, $cookieStore, $st
     };
 });
 
-app.controller("projects", function($scope, $http, $cookieStore, $state) {});
+app.controller("projects", function($scope, $http, $cookieStore, $state) {
+    
+    ($scope.getProjectsList = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/View",
+            ContentType: 'application/json',
+            data: {
+                "Proj_comp_guid": $cookieStore.get('comp_guid'),
+                "ProjId":0
+            }
+        }).success(function(data) {
+            for(var i = 0; i < data.length; i++){
+                if(data[i].Proj_Types.length > 1){
+                    var types = data[i].Proj_Types.split('#');
+                    var typeValue = '';
+                    for(var j = 0; j < types.length; j++){
+                        if(!(j == types.length-1))
+                            typeValue = typeValue+' , '+getTypeNameById(types[j]);
+                        else
+                            typeValue = typeValue+' & '+getTypeNameById(types[j]);
+                    }
+                    data[i].Proj_Types = typeValue.substring(2, typeValue.length);
+                }
+                else{
+                    data[i].Proj_Types = getTypeNameById(data[i].Proj_Types);
+                }       
+            }
+            $scope.projectsList = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
+    function getTypeNameById(typeId){
+        var typeName = '';
+        switch(parseInt(typeId)) {
+            case 1: typeName = 'Flat';
+                    break;
+            case 2: typeName = 'Sites';
+                    break;
+            case 3: typeName = 'Villa';
+                    break;
+            case 4: typeName = 'Row Houses';
+                    break;
+            default: console.log('eror');
+        }
+        return typeName;
+    }
+});
 
 app.controller("addProject", function($scope, $http, $cookieStore, $state) {
     $scope.saveProject = function(formObj, formName) {
