@@ -1,11 +1,11 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
-   <h1>Add Projects</h1>
+   <h1>{{pageTitle}}</h1>
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20">
    <ol class="breadcrumb">
       <li><a href="#">Home</a></li>
       <li><a ui-sref="/Projects">Projects</a></li>
-	   <li class="active">Add Project</li>
+	   <li class="active">{{pageTitle}}</li>
    </ol>
 </div>
 <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs"></div>
@@ -55,31 +55,24 @@
 				<input type="text" class="form-control" id="projCode" name="projCode" ng-model="addProject.projCode" ng-required="true" ng-class="{blankInput: addProjectForm.projCode.$error.required &amp;&amp; submit}"/>
 			</div>
 		</div>
-		
-<!--
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
-				<label for="type">Type</label>
+				<label for="phases">Project Type</label>
 			</div>
 			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-				<select name="firmBranch" class="form-control" id="type" multiple>
-					<option value="0">
-						Flat
-					</option>
-					<option value="1">
-						Plot
-					</option>
-					<option value="2">
-						Villa
-					</option>
-				</select>
+                <input type="checkbox" value="1" name="type1" ng-model="addProject.type1" ng-required="true" ng-class="{blankInput: addProjectForm.type1.$error.required &amp;&amp; submit}" />Flats
+                <input type="checkbox" value="2" name="type2" ng-model="addProject.type2" ng-class="{blankInput: addProjectForm.type2.$error.required &amp;&amp; submit}" />Sites
+                <input type="checkbox" value="3" name="type3" ng-model="addProject.type3" ng-class="{blankInput: addProjectForm.type3.$error.required &amp;&amp; submit}" />Villa
+                <input type="checkbox" value="4" name="type4" ng-model="addProject.type4" ng-class="{blankInput: addProjectForm.type4.$error.required &amp;&amp; submit}" />Row Houses
 			</div>
 		</div>
--->
+
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right padding0 marginTop10">
-			<button type="button" class="btn btn-success" ng-click="saveProject(addProject,'addProjectForm')">Next</button>
+			<button type="button" ng-show="addProjectBtn" class="btn btn-success" ng-click="saveProject(addProject,'addProjectForm')">Next</button>
+            <button type="button" ng-show="editProjectBtn" class="btn btn-success" ng-click="editProject(addProject,'addProjectForm')">Update & Next</button>
 			<button type="button" class="btn btn-default">Cancel</button>
 		</div>
+        
 	</form>
 </div>
 <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs"></div>

@@ -29,7 +29,7 @@
 				<td>{{x.Proj_Location}}</td>
 				<td class="text-center">{{x.Proj_Phases}}</td>
 				<td class="text-center">{{x.Proj_Types}}</td>
-				<td class="text-center"><a>Edit</a></td>
+                <td><a ui-sref="/EditProject({ projId: {{x.ProjId}} })"><span class="link">Edit</span></a></td>
 			</tr>
         </tbody>
     </table>
