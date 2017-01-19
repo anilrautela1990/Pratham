@@ -180,7 +180,7 @@ app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
                 }
             }*/
         }
-        //console.log(JSON.stringify($scope.leadProjects));
+        //console.log($scope.leadProjects);
     }
     $scope.ok = function() {
         $uibModalInstance.close();
@@ -344,12 +344,14 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                 "user_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
-            //			//console.log(data);
+			//console.log(data);
             if (data.user_id != 0) {
-                if (data.projectlst != null) {
+                if (data.userprojlist != null) {
                     $scope.leadProjects = [];
-                    for (i = 0; i < data.projectlst.length; i++) {
-                        for (j = 0; j < data.projectlst[i].Lstphases.length; j++) {
+                    for (i = 0; i < data.userprojlist.length; i++) {
+                        $scope.leadUnitObj = data.userprojlist[i];
+                        $scope.leadProjects.push($scope.leadUnitObj);
+                        /*for (j = 0; j < data.projectlst[i].Lstphases.length; j++) {
                             for (k = 0; k < data.projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
                                 for (l = 0; l < data.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
 
@@ -363,10 +365,9 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
 
                             }
 
-                        }
-
+                        }*/
                     }
-                    //                    console.log(JSON.stringify($scope.leadProjects));
+                    //console.log(JSON.stringify($scope.leadProjects));
                 }
                 angular.element(".loader").hide();
             } else {
@@ -533,23 +534,14 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         angular.element(".loader").show();
         $http({
             method: "POST",
-            url: "http://120.138.8.150/pratham/User/UpdateUser",
+            url: "http://120.138.8.150/pratham/User/ProjUnitDel",
             ContentType: 'application/json',
-            data: {
-                "user_proj": {
-                    "UserProj_comp_guid": $cookieStore.get('comp_guid'),
-                    "UserProj_user_id": $scope.leadId,
-                    "UserProj_projid": projId,
-                    "prjjson": [{
-                        "ProjId": projId,
-                        "Phase_Id": 0,
-                        "Blocks_Id": 0,
-                        "UnitDtls_Id": rowId
-                    }]
-                }
-            }
+            data: [{
+                    "comp_guid": $cookieStore.get('comp_guid'),
+                    "ProjDtl_Id":projId
+                  }]
         }).success(function(data) {
-            if (data.user_ErrorDesc == 0) {
+            if (data.Comm_ErrorDesc == '0|0') {
                 $("tr#" + rowId).remove();
                 $("#unit" + rowId).removeClass('selected');
             }
@@ -564,6 +556,9 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             //console.log(index + ": " + $(this).text());
             var projObj = $(this).text();
             projObj = angular.fromJson(projObj);
+            projObj.comp_guid = $cookieStore.get('comp_guid');
+            projObj.Projusrid = $scope.leadId;
+            projObj.ProjDtl_Status = 2;
             projJson.push(projObj);
         });
         //console.log(projJson);
@@ -572,23 +567,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             method: "POST",
             url: "http://120.138.8.150/pratham/User/ProjUnitSave",
             ContentType: 'application/json',
-            data:  [{
-                       "comp_guid" : $cookieStore.get('comp_guid'),
-                       "Projusrid":$scope.leadId,
-                       "ProjId":1,
-                       "Phase_Id":1,
-                       "Blocks_Id":1,
-                       "UnitDtls_Id":146,
-                       "ProjDtl_Status":1
-                  }]
-            /*{
-                "user_id": $scope.leadId,
-                "user_proj": {
-                    "UserProj_comp_guid": $cookieStore.get('comp_guid'),
-                    "UserProj_user_id": $scope.leadId,
-                    "prjjson": projJson
-                }
-            }*/
+            data: projJson
         }).success(function(data) {
             angular.element(".loader").hide();
             if (data.Comm_ErrorDesc == '0|0') {
