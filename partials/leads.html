@@ -66,8 +66,8 @@
                     <button class="btn btn-default" ng-click="addLeadProjects(lead.user_id)">Update Projects</button>
                 </div>
             </div>
-            <div ng-show="{{lead.projectlst==null}}">This lead does not have any projects.</div>
-			<div ng-show="{{lead.projectlst!=null}}">
+            <div ng-show="{{lead.userprojlist==null}}">This lead does not have any projects.</div>
+			<div ng-show="{{lead.userprojlist!=null}}">
 				<table class="table borderDef">
 				   <thead>
 					  <tr>
@@ -79,12 +79,12 @@
 					  </tr>
 				   </thead>
 				   <tbody id="projectList">
-					  <tr ng-repeat = "unit in leadProjects track by $index" id="{{unit.unitObj.UnitDtls_Id}}">
-						 <td>{{unit.projName}}</td>
-                         <td>{{unit.phaseName}}</td>
-                         <td>{{unit.phaseType}}</td>
-                         <td>{{unit.blockName}}</td>
-                         <td>{{unit.unitObj.UnitDtls_Name}} / {{unit.phaseType}} No. {{unit.unitObj.UnitDtls_No}} / {{unit.unitObj.UnitDtls_Msrmnt}} sq ft / Floor {{unit.unitObj.UnitDtls_Floor}}</td>
+					  <tr ng-repeat = "unit in leadProjects track by $index" id="{{unit.UnitDtls_Id}}">
+						 <td>{{unit.Proj_Name}}</td>
+                         <td>{{unit.Phase_Name}}</td>
+                         <td>{{unit.UnitType_Name}}</td>
+                         <td>{{unit.Blocks_Name}}</td>
+                         <td>{{unit.UnitDtls_Name}} / {{unit.phaseType}} No. {{unit.UnitDtls_No}} / {{unit.UnitDtls_Msrmnt}} sq ft / Floor {{unit.UnitDtls_Floor}}</td>
 					  </tr>
 				   </tbody>
 				</table>

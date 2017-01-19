@@ -161,10 +161,12 @@ app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
     $scope.states = ["Delhi"];
     $scope.cities = ["New Delhi"];
     $scope.lead = item;
-    if ($scope.lead.projectlst != null) {
+    if ($scope.lead.userprojlist != null) {
         $scope.leadProjects = [];
-        for (i = 0; i < $scope.lead.projectlst.length; i++) {
-            for (j = 0; j < $scope.lead.projectlst[i].Lstphases.length; j++) {
+        for (i = 0; i < $scope.lead.userprojlist.length; i++) { 
+            $scope.leadUnitObj = $scope.lead.userprojlist[i];
+            $scope.leadProjects.push($scope.leadUnitObj);
+            /*for (j = 0; j < $scope.lead.projectlst[i].Lstphases.length; j++) {
                 for (k = 0; k < $scope.lead.projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
                     for (l = 0; l < $scope.lead.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
                         $scope.leadUnitObj = {};
@@ -175,11 +177,8 @@ app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
                         $scope.leadUnitObj.unitObj = $scope.lead.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];
                         $scope.leadProjects.push($scope.leadUnitObj);
                     }
-
                 }
-
-            }
-
+            }*/
         }
         //console.log(JSON.stringify($scope.leadProjects));
     }
@@ -571,21 +570,33 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         angular.element(".loader").show();
         $http({
             method: "POST",
-            url: "http://120.138.8.150/pratham/User/SaveUser",
+            url: "http://120.138.8.150/pratham/User/ProjUnitSave",
             ContentType: 'application/json',
-            data: {
+            data:  [{
+                       "comp_guid" : $cookieStore.get('comp_guid'),
+                       "Projusrid":$scope.leadId,
+                       "ProjId":1,
+                       "Phase_Id":1,
+                       "Blocks_Id":1,
+                       "UnitDtls_Id":146,
+                       "ProjDtl_Status":1
+                  }]
+            /*{
                 "user_id": $scope.leadId,
                 "user_proj": {
                     "UserProj_comp_guid": $cookieStore.get('comp_guid'),
                     "UserProj_user_id": $scope.leadId,
                     "prjjson": projJson
                 }
-            }
+            }*/
         }).success(function(data) {
-            if (data.user_id != null) {
+            angular.element(".loader").hide();
+            if (data.Comm_ErrorDesc == '0|0') {
                 $cookieStore.remove('lead_id');
                 $state.go('/Leads');
                 angular.element(".loader").hide();
+            } else{
+                alert('Something went wrong.');
             }
             //console.log(JSON.stringify(data));
         }).error(function() {
@@ -1479,10 +1490,13 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
     
     $scope.leadId = $scope.customer.user_id;
     
-    if ($scope.customer.projectlst != null) {
+    if ($scope.customer.userprojlist != null) {
         $scope.leadProjects = [];
-        for (i = 0; i < $scope.customer.projectlst.length; i++) {
-            for (j = 0; j < $scope.customer.projectlst[i].Lstphases.length; j++) {
+        for (i = 0; i < $scope.customer.userprojlist.length; i++) {
+            $scope.leadUnitObj = $scope.customer.userprojlist[i];
+            $scope.leadProjects.push($scope.leadUnitObj);
+            
+            /*for (j = 0; j < $scope.customer.projectlst[i].Lstphases.length; j++) {
                 for (k = 0; k < $scope.customer.projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
                     for (l = 0; l < $scope.customer.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
                         $scope.leadUnitObj = {};
@@ -1497,7 +1511,7 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
                         $scope.leadProjects.push($scope.leadUnitObj);
                     }
                 }
-            }
+            }*/
         }
     }
     

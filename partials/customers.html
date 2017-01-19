@@ -59,8 +59,8 @@
             <div class="col-md-12 padding0 marginBottom5">
                 <div class="subHeading col-md-6 padding0">Project</div>
             </div>
-            <div ng-show="{{customer.projectlst==null}}">This lead does not have any projects.</div>
-			<div ng-show="{{customer.projectlst!=null}}">
+            <div ng-show="{{customer.userprojlist==null}}">This lead does not have any projects.</div>
+			<div ng-show="{{customer.userprojlist!=null}}">
 				<table class="table borderDef">
 				   <thead>
 					  <tr>
@@ -74,18 +74,14 @@
 					  </tr>
 				   </thead>
 				   <tbody id="projectList">
-					  <tr ng-repeat = "unit in leadProjects track by $index" id="{{unit.unitObj.UnitDtls_Id}}">
-						 <td>{{unit.projName}}</td>
-                         <td>{{unit.phaseName}}</td>
-                         <td>{{unit.phaseType}}</td>
-                         <td>{{unit.blockName}}</td>
-                         <td>{{unit.unitObj.UnitDtls_Name}} / {{unit.phaseType}} No. {{unit.unitObj.UnitDtls_No}} / {{unit.unitObj.UnitDtls_Msrmnt}} sq ft / Floor {{unit.unitObj.UnitDtls_Floor}}</td>
-                          <td>{{unit.unitViewStatus}}</td>
+					  <tr ng-repeat = "unit in leadProjects track by $index" id="{{unit.UnitDtls_Id}}">
+						 <td>{{unit.Proj_Name}}</td>
+                         <td>{{unit.Phase_Name}}</td>
+                         <td>{{unit.UnitType_Name}}</td>
+                         <td>{{unit.Blocks_Name}}</td>
+                         <td>{{unit.UnitDtls_Name}} / {{unit.phaseType}} No. {{unit.UnitDtls_No}} / {{unit.UnitDtls_Msrmnt}} sq ft / Floor {{unit.UnitDtls_Floor}}</td>
                           <td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(unit.projId,unit.unitObj.UnitDtls_Id)"></span></td>
 					  </tr>
-                       
-                       <!--<tr ng-repeat="unit in leadProjects track by $index" id="{{unit.UnitDtls.UnitDtls_Id}}" class="ng-scope"><td><div class="dispNone">
-						{"ProjId":{{unit.ProjId}},"Phase_Id":{{unit.Phase_Id}},"Blocks_Id":{{unit.Blocks_Id}},"UnitDtls_Id":{{unit.UnitDtls.UnitDtls_Id}}}</div>{{unit.UnitDtls.UnitDtls_Name}} - {{unit.UnitDtls.UnitDtls_No}} - {{unit.UnitDtls.UnitDtls_Floor}} Floor</td><td>{{unit.UnitDtls.UnitDtls_Msrmnt}} sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(x.ProjId,x.UnitDtls.UnitDtls_Id)"></span></td></tr>-->
 				   </tbody>
 				</table>
 			</div>
