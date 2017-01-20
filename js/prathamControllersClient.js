@@ -999,6 +999,7 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
 app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $uibModal) {
     $scope.unitStatus = ['vacant', 'userinterest', 'mgmtquota', 'blockedbyadvnc', 'blockedbynotadvnc', 'sold'];
     $scope.unitStatusText = ['Vacant', 'User Interested', 'Management Quota', 'Blocked By Paying Advance', 'Blocked By Not Paying Advance', 'Sold'];
+    
     ($scope.getProjectList = function() {
         angular.element(".loader").show();
         $http({
@@ -1009,6 +1010,7 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
                 "Proj_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
+            //console.log(data);
             $scope.projectList = data;
             angular.element(".loader").hide();
         }).error(function() {
@@ -1074,24 +1076,39 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
                     "Phase_Id": obj.phase
                 });
             }
+            
             angular.element(".loader").show();
             $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/User/AllocByUserType",
                 ContentType: 'application/json',
                 data: {
-                    "user_type": 3,
-                    "user_comp_guid": $cookieStore.get('comp_guid'),
-                    "user_proj": {
-                        "prjjson": userProjData
-
-                    }
-                }
+                        "comp_guid" : $cookieStore.get('comp_guid'),
+                        "Projusrtyp":3,
+                        "Phase_Id":obj.phase,
+                        "Blocks_Id":obj.blocks
+                      }
             }).success(function(data) {
                 console.log(data);
+                console.log(obj.projectName.value);
                 $scope.unitAllocationData = [];
                 for (h = 0; h < data.length; h++) {
-                    for (i = 0; i < data[h].projectlst.length; i++) {
+                    for (i = 0; i < data[h].userprojlist.length; i++) {
+                        $scope.unitAllocationObj = {};
+                        
+                        $scope.unitAllocationObj.name = data[h].user_first_name + ' ' + data[h].user_middle_name + ' ' + data[h].user_last_name;
+                        $scope.unitAllocationObj.email = data[h].user_email_address;
+                        $scope.unitAllocationObj.mobile = data[h].user_mobile_no;
+                        /*$scope.unitAllocationObj.projName = data[h].userprojlist[i].Proj_Name;
+                        $scope.unitAllocationObj.phaseName = data[h].userprojlist[i].Phase_Name;
+                        $scope.unitAllocationObj.phaseType = 'Temp Phase Type';
+                        $scope.unitAllocationObj.blockName = data[h].userprojlist[i].Blocks_Name;*/
+                        $scope.unitAllocationObj.unitObj = data[h].userprojlist[i];
+                        $scope.unitAllocationObj.leadID = data[h].user_id;
+                        
+                        $scope.unitAllocationData.push($scope.unitAllocationObj);
+                    }
+                    /*for (i = 0; i < data[h].projectlst.length; i++) {
                         for (j = 0; j < data[h].projectlst[i].Lstphases.length; j++) {
                             for (k = 0; k < data[h].projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
                                 for (l = 0; l < data[h].projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
@@ -1114,7 +1131,7 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
                             }
 
                         }
-                    }
+                    }*/
                 }
                 angular.element(".loader").hide();
             }).error(function() {

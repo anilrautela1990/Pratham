@@ -55,10 +55,10 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
-                <th>Project</th>
+                <!--<th>Project</th>
                 <th>Phase</th>
                 <th>Type</th>
-                <th>Block</th>
+                <th>Block</th>-->
                 <th>Unit Detail</th>
                 <th>Status</th>
                 <th>Update Status</th>
@@ -69,13 +69,13 @@
                 <td>{{x.name}}</td>
                 <td>{{x.email}}</td>
                 <td>{{x.mobile}}</td>
-                <td>{{x.projName}}</td>
+                <!--<td>{{x.projName}}</td>
                 <td>{{x.phaseName}}</td>
                 <td>{{x.phaseType}}</td>
-                <td>{{x.blockName}}</td>
+                <td>{{x.blockName}}</td>-->
                 <td>Flat No.{{x.unitObj.UnitDtls_No}} - {{x.unitObj.UnitDtls_Rooms}} BHK - {{x.unitObj.UnitDtls_Msrmnt}} Sq.Ft. - Floor {{x.unitObj.UnitDtls_Floor}} / Unit ID {{x.unitObj.UnitDtls_Id}} </td>
                 <td class="text-center">
-                    <div class="unitStatus" ng-class="unitStatus[x.unitObj.UnitDtls_Status-1]" title="{{unitStatusText[x.unitObj.UnitDtls_Status-1]}}"></div>
+                    <div class="unitStatus" ng-class="unitStatus[x.unitObj.ProjDtl_Status-1]" title="{{unitStatusText[x.unitObj.ProjDtl_Status-1]}}"></div>
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary" ng-click="updateUnitAllocationStatus(x)">Update Status</button>
