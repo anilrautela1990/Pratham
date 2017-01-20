@@ -80,7 +80,8 @@
                          <td>{{unit.UnitType_Name}}</td>
                          <td>{{unit.Blocks_Name}}</td>
                          <td>{{unit.UnitDtls_Name}} / {{unit.phaseType}} No. {{unit.UnitDtls_No}} / {{unit.UnitDtls_Msrmnt}} sq ft / Floor {{unit.UnitDtls_Floor}}</td>
-                          <td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(unit.projId,unit.unitObj.UnitDtls_Id)"></span></td>
+                          <td>{{unit.unitViewStatus}}</td>
+                          <td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(unit.ProjDtl_Id,unit.UnitDtls_Id)"></span></td>
 					  </tr>
 				   </tbody>
 				</table>

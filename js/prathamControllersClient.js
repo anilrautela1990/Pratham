@@ -1473,6 +1473,9 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
         $scope.leadProjects = [];
         for (i = 0; i < $scope.customer.userprojlist.length; i++) {
             $scope.leadUnitObj = $scope.customer.userprojlist[i];
+            $scope.leadUnitObj.unitViewStatus = "N/A";
+            if($scope.customer.userprojlist[i].UnitDtls_Status != 0)
+                $scope.leadUnitObj.unitViewStatus = $scope.unitStatus[$scope.customer.userprojlist[i].UnitDtls_Status];
             $scope.leadProjects.push($scope.leadUnitObj);
             
             /*for (j = 0; j < $scope.customer.projectlst[i].Lstphases.length; j++) {
@@ -1495,30 +1498,23 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
     }
     
     $scope.deleteRow = function(projId, rowId) {
-
         $http({
             method: "POST",
-            url: "http://120.138.8.150/pratham/User/UpdateUser",
+            url: "http://120.138.8.150/pratham/User/ProjUnitDel",
             ContentType: 'application/json',
-            data: {
-                "user_proj": {
-                    "UserProj_comp_guid": $cookieStore.get('comp_guid'),
-                    "UserProj_user_id": $scope.leadId,
-                    "UserProj_projid": projId,
-                    "prjjson": [{
-                        "ProjId": projId,
-                        "Phase_Id": 0,
-                        "Blocks_Id": 0,
-                        "UnitDtls_Id": rowId
-                    }]
-                }
-            }
+            data: [{
+                    "comp_guid": $cookieStore.get('comp_guid'),
+                    "ProjDtl_Id":projId
+                  }]
         }).success(function(data) {
-            if (data.user_ErrorDesc == 0) {
+            if (data.Comm_ErrorDesc == '0|0') {
                 $("tr#" + rowId).remove();
                 $("#unit" + rowId).removeClass('selected');
             }
+            angular.element(".loader").hide();
         }).error(function() {
+            alert('Something went wrong.');
+            angular.element(".loader").hide();
         });
     };
 
