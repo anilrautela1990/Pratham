@@ -1433,14 +1433,74 @@ app.controller("editProject", function($scope, $http, $cookieStore, $state, $sta
     }  
 });
 
-app.controller("addPhases", function($scope, $http, $cookieStore, $state, $stateParams) {
-    //$scope.projectId = $stateParams.projectID;
-    $scope.addPhases = {
-        projectName: 'RNS',
+app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compile) {
+    $scope.projectDetails = {
         phaseType: "0",
-        landType: "0",
-        minor: "1"
+        unitOfMeasurement: "0"
     };
+    
+    ($scope.getProjectList = function() {
+        $scope.perFloorUnits = [];
+        $scope.units = [];
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/ProjDtls/ByCompGuid",
+            ContentType: 'application/json',
+            data: {
+                "Proj_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            $scope.projectList = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+
+    $scope.getPhaseList = function(projectName) {
+        $scope.perFloorUnits = [];
+        $scope.units = [];
+        $scope.flatType = "";
+        $scope.projectDetails.phase = "";
+        $scope.projectDetails.blocks = "";
+        $scope.blockList = {};
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/PhaseDtls/ByPhaseProjId",
+            ContentType: 'application/json',
+            data: {
+                "Phase_Proj_Id": projectName,
+                "Phase_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            //console.log(data);
+            $scope.phaseList = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    
+    $scope.appendFields = function(noOfLocation) {
+        angular.element("#noOfBlocks").html('');
+        for (i = 1; i <= noOfLocation; i++) {
+            var childDiv = '<div><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="block' + i + 'Name" ng-model="projectDetails.location' + i + 'Name" ng-class="{blankInput: addPhaseForm.block.$error.required &amp;&amp; submit}"/></div>';
+            var childDivComplied = $compile(childDiv)($scope);
+            angular.element("#noOfBlocks").append(childDivComplied);
+        }
+    };
+    
+     $scope.addPhase = function(formObj, formName) {
+        $scope.submit = true;
+
+        if ($scope[formName].$valid) {
+            alert("Valid Form.");
+        } else {
+            alert("Not valid Form.");
+        }
+     };
 });
 
 app.controller("customerController", function($scope, $http, $cookieStore, $state, $uibModal) {
