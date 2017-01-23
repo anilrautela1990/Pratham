@@ -469,7 +469,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                 "UnitDtls_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
-            console.log(JSON.stringify(data));
+            //console.log(JSON.stringify(data));
             $scope.selectedUnits = [];
             $(".dispNone").each(function(index) {
                 var projObj = $(this).text();
@@ -1434,9 +1434,12 @@ app.controller("editProject", function($scope, $http, $cookieStore, $state, $sta
 });
 
 app.controller("addPhases", function($scope, $http, $cookieStore, $state, $stateParams) {
-    $scope.projectId = $stateParams.projectID;
+    //$scope.projectId = $stateParams.projectID;
     $scope.addPhases = {
-        projectName: 'RNS'
+        projectName: 'RNS',
+        phaseType: "0",
+        landType: "0",
+        minor: "1"
     };
 });
 
