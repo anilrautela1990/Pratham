@@ -1200,7 +1200,7 @@ app.controller("projects", function($scope, $http, $cookieStore, $state) {
         angular.element(".loader").show();
         $http({
             method: "POST",
-            url: "http://120.138.8.150/pratham/Proj/View",
+            url: "http://120.138.8.150/pratham/Proj/Proj/View",
             ContentType: 'application/json',
             data: {
                 "Proj_comp_guid": $cookieStore.get('comp_guid'),
@@ -1276,7 +1276,7 @@ app.controller("addProject", function($scope, $http, $cookieStore, $state) {
             angular.element(".loader").show();
             $http({
                 method: "POST",
-                url: "http://120.138.8.150/pratham/Proj/Save",
+                url: "http://120.138.8.150/pratham/Proj/Proj/Save",
                 ContentType: 'application/json',
                 data: {
                     "Proj_comp_guid": $cookieStore.get('comp_guid'),
@@ -1291,9 +1291,7 @@ app.controller("addProject", function($scope, $http, $cookieStore, $state) {
             }).success(function(data) {
 //                console.log(data);
                 angular.element(".loader").hide();
-                $state.go('/AddPhases', {
-                    "projectID": 1
-                });
+                $state.go('/Projects');
             }).error(function() {
                 angular.element(".loader").hide();
             });
@@ -1325,7 +1323,7 @@ app.controller("editProject", function($scope, $http, $cookieStore, $state, $sta
         $scope.projId = $stateParams.projId;
         $http({
                 method: "POST",
-                url: "http://120.138.8.150/pratham/Proj/View",
+                url: "http://120.138.8.150/pratham/Proj/Proj/View",
                 ContentType: 'application/json',
                 data: {
                     "Proj_comp_guid": $cookieStore.get('comp_guid'),
@@ -1392,7 +1390,7 @@ app.controller("editProject", function($scope, $http, $cookieStore, $state, $sta
             angular.element(".loader").show();
             $http({
                 method: "POST",
-                url: "http://120.138.8.150/pratham/Proj/Save",
+                url: "http://120.138.8.150/pratham/Proj/Proj/Save",
                 ContentType: 'application/json',
                 data: {
                     "Proj_comp_guid": $cookieStore.get('comp_guid'),
@@ -1407,9 +1405,7 @@ app.controller("editProject", function($scope, $http, $cookieStore, $state, $sta
             }).success(function(data) {
 //                console.log(data);
                 angular.element(".loader").hide();
-                $state.go('/AddPhases', {
-                    "projectID": 1
-                });
+                $state.go('/Projects');
             }).error(function() {
                 angular.element(".loader").hide();
             });
@@ -1434,12 +1430,92 @@ app.controller("editProject", function($scope, $http, $cookieStore, $state, $sta
 });
 
 app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compile) {
-    $scope.projectDetails = {
-        phaseType: "0",
-        unitOfMeasurement: "0"
-    };
     
     ($scope.getProjectList = function() {
+        $scope.perFloorUnits = [];
+        $scope.units = [];
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/ProjDtls/ByCompGuid",
+            ContentType: 'application/json',
+            data: {
+                "Proj_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            $scope.projectList = data;
+            $scope.projectDetails = {
+                phaseType: "1",
+                unitOfMeasurement: "1"
+            };
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
+    $scope.appendFields = function(noOfLocation) {
+        angular.element("#noOfBlocks").html('');
+        for (i = 1; i <= noOfLocation; i++) {
+            var childDiv = '<div><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" /></div>';
+            var childDivComplied = $compile(childDiv)($scope);
+            angular.element("#noOfBlocks").append(childDivComplied);
+        }
+    };
+    
+     $scope.addPhase = function(formObj, formName) {
+        $scope.submit = true;
+
+        if ($scope[formName].$valid) {
+            var blockLst = [];
+            
+            for(var i = 0; i < formObj.noOfBlocks; i++){
+                var tmp = {};
+                tmp.Blocks_Name = formObj.blockName[i];
+                tmp.Blocks_Id = 0; 
+                blockLst.push(tmp);
+            }
+            
+//            console.log(formObj);
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Phase/Save",
+                ContentType: 'application/json',
+                data: {
+                     "Phase_comp_guid": $cookieStore.get('comp_guid'),
+                     "Phase_Id": 0,
+                     "Phase_Proj_Id": formObj.projectName,
+                     "Phase_Name": formObj.phaseName,
+                     "Phase_Surveynos": formObj.surveyNos,
+                     "Phase_UnitMsmnt": {"UnitMsmnt_Id": formObj.unitOfMeasurement},
+                     "Phase_UnitType": {"UnitType_Id": formObj.phaseType},
+                     "Phase_NoofBlocks": formObj.noOfBlocks,
+                     "Phase_Location": formObj.location,
+                     "LstofBlocks": blockLst
+                }
+            }).success(function(data) {
+                console.log(data);
+                $scope.addPhaseResult = data;
+                angular.element(".loader").hide();
+                if($scope.addPhaseResult.Comm_ErrorDesc.match('0|')){
+                    $state.go("/Phases");
+                } else {
+                    alert("Something went wrong.");
+                }
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        } else {
+            alert("Not valid Form.");
+        }
+     };
+});
+
+app.controller("phases", function($scope, $http, $cookieStore, $state, $compile) {
+    $scope.typeNames = ['Flat','Sites','Villa','Row Houses'];
+    
+     ($scope.getProjectList = function() {
         $scope.perFloorUnits = [];
         $scope.units = [];
         angular.element(".loader").show();
@@ -1457,50 +1533,24 @@ app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compi
             angular.element(".loader").hide();
         });
     })();
-
-    $scope.getPhaseList = function(projectName) {
-        $scope.perFloorUnits = [];
-        $scope.units = [];
-        $scope.flatType = "";
-        $scope.projectDetails.phase = "";
-        $scope.projectDetails.blocks = "";
-        $scope.blockList = {};
-        angular.element(".loader").show();
+    
+    $scope.getPhases = function(projId) {
         $http({
             method: "POST",
-            url: "http://120.138.8.150/pratham/Proj/PhaseDtls/ByPhaseProjId",
+            url: "http://120.138.8.150/pratham//Proj/Phase/View",
             ContentType: 'application/json',
             data: {
-                "Phase_Proj_Id": projectName,
-                "Phase_comp_guid": $cookieStore.get('comp_guid')
+                "Phase_comp_guid": $cookieStore.get('comp_guid'),
+                "Phase_Proj_Id": projId
             }
         }).success(function(data) {
-            //console.log(data);
-            $scope.phaseList = data;
+            console.log(data);
             angular.element(".loader").hide();
+            $scope.phaseList = data;
         }).error(function() {
             angular.element(".loader").hide();
         });
     };
-    
-    $scope.appendFields = function(noOfLocation) {
-        angular.element("#noOfBlocks").html('');
-        for (i = 1; i <= noOfLocation; i++) {
-            var childDiv = '<div><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="block' + i + 'Name" ng-model="projectDetails.location' + i + 'Name" ng-class="{blankInput: addPhaseForm.block.$error.required &amp;&amp; submit}"/></div>';
-            var childDivComplied = $compile(childDiv)($scope);
-            angular.element("#noOfBlocks").append(childDivComplied);
-        }
-    };
-    
-     $scope.addPhase = function(formObj, formName) {
-        $scope.submit = true;
-
-        if ($scope[formName].$valid) {
-            alert("Valid Form.");
-        } else {
-            alert("Not valid Form.");
-        }
-     };
 });
 
 app.controller("customerController", function($scope, $http, $cookieStore, $state, $uibModal) {
@@ -1556,7 +1606,7 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
             $scope.leadUnitObj.unitViewStatus = "N/A";
             if($scope.customer.userprojlist[i].UnitDtls_Status != 0)
                 $scope.leadUnitObj.unitViewStatus = $scope.unitStatus[$scope.customer.userprojlist[i].UnitDtls_Status];
-            $scope.leadProjects.push($scope.leadUnitObj);
+                $scope.leadProjects.push($scope.leadUnitObj);
             
             /*for (j = 0; j < $scope.customer.projectlst[i].Lstphases.length; j++) {
                 for (k = 0; k < $scope.customer.projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
