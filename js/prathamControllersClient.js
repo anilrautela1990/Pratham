@@ -1433,7 +1433,95 @@ app.controller("editProject", function($scope, $http, $cookieStore, $state, $sta
     }  
 });
 
+app.controller("editPhases", function($scope, $http, $cookieStore, $state, $compile, $stateParams) {
+    $scope.pageTitle = "Edit Phase";
+    $scope.editPhaseBtn = true;
+    
+    ($scope.getPhaseInfo = function() {
+        
+        angular.element(".loader").show();
+         $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/ProjDtls/ByCompGuid",
+            ContentType: 'application/json',
+            data: {
+                "Proj_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            $scope.projectList = data;
+            $scope.projectDetails = {
+                projectName: $stateParams.projId
+            };
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+        
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Phase/View",
+            ContentType: 'application/json',
+            data: {
+                "Phase_comp_guid": $cookieStore.get('comp_guid'),
+                "Phase_Proj_Id": $stateParams.projId,
+                "Phase_Id": $stateParams.phaseId
+            }
+        }).success(function(data) {
+            //console.log(data);
+            editAppendFields(data);
+            var phaseList = [];
+            
+            for(var i = 0; i < data[0].LstofBlocks.length; i++){
+                phaseList.push(data[0].LstofBlocks[i].Blocks_Name);
+            }
+            
+            $scope.projectDetails = {
+                phaseName: data[0].Phase_Name,
+                location: data[0].Phase_Location,
+                surveyNos: data[0].Phase_Surveynos,
+                unitOfMeasurement: data[0].Phase_UnitMsmnt.UnitMsmnt_Id+"",
+                phaseType: data[0].Phase_UnitType.UnitType_Id,
+                noOfBlocks: data[0].Phase_NoofBlocks,
+                projectName: $stateParams.projId,
+                blockName: phaseList
+            };
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
+    function editAppendFields(data) {
+        angular.element("#noOfBlocks").html('');
+        for (i = 1; i <= data[0].LstofBlocks.length; i++) {
+            var childDiv = '<div ><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" />';
+            if(!data[0].LstofBlocks[i-1].blnunitexists)
+                childDiv = childDiv+"<span class='glyphicon glyphicon-trash delete'></span></div>";
+            else
+                childDiv = childDiv+"</div>";
+            var childDivComplied = $compile(childDiv)($scope);
+            angular.element("#noOfBlocks").append(childDivComplied);
+        }
+    };
+    
+    $scope.appendFields = function(noOfLocation) {
+        angular.element("#noOfBlocks").html('');
+        for (i = 1; i <= noOfLocation; i++) {
+            var childDiv = '<div><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" /></div>';
+            var childDivComplied = $compile(childDiv)($scope);
+            angular.element("#noOfBlocks").append(childDivComplied);
+        }
+    };
+    
+    $scope.editPhase = function(formObj, formName) {
+        alert("update phase");
+        console.log(formObj);
+    };
+});
+
 app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compile, $stateParams) {
+    $scope.pageTitle = "Add Phase";
+    $scope.addPhaseBtn = true;
     
     ($scope.getProjectList = function() {
         $scope.perFloorUnits = [];
@@ -1532,6 +1620,7 @@ app.controller("phases", function($scope, $http, $cookieStore, $state, $compile)
                 "Proj_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
+            //console.log(data);
             $scope.projectList = data;
             angular.element(".loader").hide();
         }).error(function() {
