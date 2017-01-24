@@ -78,7 +78,7 @@ $stateProvider
 		controller: 'phases'
 	})
     .state('/AddPhases', {
-		url: '/AddPhases',
+		url: '/AddPhases/:projId',
 		templateUrl: 'partials/addPhases.html',
 		controller: 'addPhases'
 	})

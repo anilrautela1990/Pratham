@@ -328,7 +328,7 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
         }
     };
 });
-app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $compile, $stateParams) {
+app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $compile, $stateParams, $window) {
     $scope.leadId = $stateParams.leadID;
     if ($scope.leadId == undefined) {
         $state.go('/AddLead');
@@ -531,24 +531,28 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         }
     };
     $scope.deleteRow = function(projId, rowId) {
-        angular.element(".loader").show();
-        $http({
-            method: "POST",
-            url: "http://120.138.8.150/pratham/User/ProjUnitDel",
-            ContentType: 'application/json',
-            data: [{
-                    "comp_guid": $cookieStore.get('comp_guid'),
-                    "ProjDtl_Id":projId
-                  }]
-        }).success(function(data) {
-            if (data.Comm_ErrorDesc == '0|0') {
-                $("tr#" + rowId).remove();
-                $("#unit" + rowId).removeClass('selected');
-            }
-            angular.element(".loader").hide();
-        }).error(function() {
-            angular.element(".loader").hide();
-        });
+        var deleteUser = $window.confirm('Are you sure you want to delete ?');
+
+        if (deleteUser) {
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/ProjUnitDel",
+                ContentType: 'application/json',
+                data: [{
+                        "comp_guid": $cookieStore.get('comp_guid'),
+                        "ProjDtl_Id":projId
+                      }]
+            }).success(function(data) {
+                if (data.Comm_ErrorDesc == '0|0') {
+                    $("tr#" + rowId).remove();
+                    $("#unit" + rowId).removeClass('selected');
+                }
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        }
     };
     $scope.saveLead = function(projectObj) {
         var projJson = [];
@@ -1429,7 +1433,7 @@ app.controller("editProject", function($scope, $http, $cookieStore, $state, $sta
     }  
 });
 
-app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compile) {
+app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compile, $stateParams) {
     
     ($scope.getProjectList = function() {
         $scope.perFloorUnits = [];
@@ -1446,7 +1450,8 @@ app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compi
             $scope.projectList = data;
             $scope.projectDetails = {
                 phaseType: "1",
-                unitOfMeasurement: "1"
+                unitOfMeasurement: "1",
+                projectName: $stateParams.projId
             };
             angular.element(".loader").hide();
         }).error(function() {
@@ -1551,6 +1556,21 @@ app.controller("phases", function($scope, $http, $cookieStore, $state, $compile)
             angular.element(".loader").hide();
         });
     };
+    
+    $scope.addPhase = function(formObj, formName) {
+        $scope.submit = true;
+
+        if ($scope[formName].$valid) {
+            console.log(formObj);
+            $state.go("/AddPhases", {
+                "projId": formObj.projectName
+            });
+            /*$state.go("/AddPhases");
+            $scope.projectDetails = {
+                projectName : formObj.projectName
+            };*/
+        }
+     };
 });
 
 app.controller("customerController", function($scope, $http, $cookieStore, $state, $uibModal) {
