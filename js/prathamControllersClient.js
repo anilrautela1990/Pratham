@@ -1175,7 +1175,8 @@ app.controller("unitUpdateController", function($scope, $http, $cookieStore, $st
                 data: {
                     "UnitDtls_comp_guid": $cookieStore.get('comp_guid'),
                     "UnitDtls_Id": $scope.unit.unitObj.UnitDtls_Id,
-                    "UnitDtls_Status": formObj.updateStatus
+                    "UnitDtls_Status": formObj.updateStatus,
+                    "UnitDtls_user_id": formObj.leadID
                 }
             }).success(function(data) {
                 console.log(data);
@@ -1494,9 +1495,9 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
     function editAppendFields(data) {
         angular.element("#noOfBlocks").html('');
         for (i = 1; i <= data[0].LstofBlocks.length; i++) {
-            var childDiv = '<div ><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" />';
+            var childDiv = '<div id="block'+data[0].LstofBlocks[i-1].Blocks_Id+'"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" />';
             if(!data[0].LstofBlocks[i-1].blnunitexists)
-                childDiv = childDiv+"<span class='glyphicon glyphicon-trash delete'></span></div>";
+                childDiv = childDiv+'<span ng-click="deleteBlock('+data[0].Phase_Id + ',' + data[0].LstofBlocks[i-1].Blocks_Id+')" class="glyphicon glyphicon-trash delete"></span></div>';
             else
                 childDiv = childDiv+"</div>";
             var childDivComplied = $compile(childDiv)($scope);
@@ -1516,6 +1517,26 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
     $scope.editPhase = function(formObj, formName) {
         alert("update phase");
         console.log(formObj);
+    };
+    
+    $scope.deleteBlock = function(blockId, phaseId) {
+        //alert(blockId+" delete block  "+phaseId);
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Block/Delete",
+            ContentType: 'application/json',
+            data: {
+                "Blocks_comp_guid": $cookieStore.get('comp_guid'),
+                "Blocks_Id": blockId,
+                "Blocks_Phase_Id": phaseId
+            }
+        }).success(function(data) {
+            $('#block'+phaseId).remove();
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     };
 });
 
