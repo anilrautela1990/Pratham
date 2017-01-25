@@ -1734,8 +1734,8 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
         for (i = 0; i < $scope.customer.userprojlist.length; i++) {
             $scope.leadUnitObj = $scope.customer.userprojlist[i];
             $scope.leadUnitObj.unitViewStatus = "N/A";
-            if($scope.customer.userprojlist[i].UnitDtls_Status != 0)
-                $scope.leadUnitObj.unitViewStatus = $scope.unitStatus[$scope.customer.userprojlist[i].UnitDtls_Status];
+            if($scope.customer.userprojlist[i].ProjDtl_Status != 0)
+                $scope.leadUnitObj.unitViewStatus = $scope.unitStatus[$scope.customer.userprojlist[i].ProjDtl_Status];
                 $scope.leadProjects.push($scope.leadUnitObj);
             
             /*for (j = 0; j < $scope.customer.projectlst[i].Lstphases.length; j++) {
