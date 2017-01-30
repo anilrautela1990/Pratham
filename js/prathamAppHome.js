@@ -77,6 +77,11 @@ $stateProvider
 		templateUrl: 'partials/phases.html',
 		controller: 'phases'
 	})
+    .state('/AccessRights', {
+		url: '/AccessRights',
+		templateUrl: 'partials/AccessRights.html',
+		controller: 'AccessRights'
+	})
     .state('/AddPhases', {
 		url: '/AddPhases/:projId',
 		templateUrl: 'partials/addPhases.html',

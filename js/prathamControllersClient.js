@@ -1718,6 +1718,132 @@ app.controller("customerController", function($scope, $http, $cookieStore, $stat
     };
 });
 
+app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
+    $scope.pageTitle = "Access Rights";
+     $scope.getRoleaccrgts = function(roleId) {
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/Roleaccrgts",
+            ContentType: 'application/json',
+            data: {
+                "RoleAccRgts_compguid": $cookieStore.get('comp_guid'),
+                "RoleAccRgts_RoleId": roleId
+            }
+        }).success(function(data) {
+            console.log(data);
+            angular.element(".loader").hide();
+            $scope.Roleaccrgts = data;
+            $scope.Roleaccrgts.ProjectAdd=true;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    $scope.SubmitRoleaccrgts = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/SaveRoleaccrgts",
+                ContentType: 'application/json',
+                data: [
+                            {
+                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
+                            "RoleAccRgts_RoleId": formObj.role,
+                            "RoleAccRgts_ModuleId": 1,
+                            "RoleAccRgts_Add": formObj.ProjectAdd,
+                            "RoleAccRgts_View": formObj.ProjectView,
+                            "RoleAccRgts_Edit": formObj.ProjectEdit,
+                            "RoleAccRgts_Del": formObj.ProjectDelete
+                            },
+                            {
+                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
+                            "RoleAccRgts_RoleId": formObj.role,
+                            "RoleAccRgts_ModuleId": 2,
+                            "RoleAccRgts_Add": formObj.PhaseAdd,
+                            "RoleAccRgts_View": formObj.PhaseView,
+                            "RoleAccRgts_Edit": formObj.PhaseEdit,
+                            "RoleAccRgts_Del": formObj.PhaseDelete
+
+                            },
+                            {
+                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
+                            "RoleAccRgts_RoleId": formObj.role,
+                            "RoleAccRgts_ModuleId": 3,
+                            "RoleAccRgts_Add": formObj.LeadAdd,
+                            "RoleAccRgts_View": formObj.LeadView,
+                            "RoleAccRgts_Edit": formObj.LeadEdit,
+                            "RoleAccRgts_Del": formObj.LeadDelete
+                            },
+                           {
+                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
+                            "RoleAccRgts_RoleId": formObj.role,
+                            "RoleAccRgts_ModuleId": 4,
+                            "RoleAccRgts_Add": formObj.CustomerAdd,
+                            "RoleAccRgts_View": formObj.CustomerView,
+                            "RoleAccRgts_Edit": formObj.CustomerEdit,
+                            "RoleAccRgts_Del": formObj.CustomerDelete
+                            },
+                            {
+                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
+                            "RoleAccRgts_RoleId": formObj.role,
+                            "RoleAccRgts_ModuleId": 5,
+                            "RoleAccRgts_Add": formObj.PhaseBlocksAdd,
+                            "RoleAccRgts_View": formObj.PhaseBlocksView,
+                            "RoleAccRgts_Edit": formObj.PhaseBlocksEdit,
+                            "RoleAccRgts_Del": formObj.PhaseBlocksDelete
+
+                            },
+                            {
+                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
+                            "RoleAccRgts_RoleId": formObj.role,
+                            "RoleAccRgts_ModuleId": 6,
+                            "RoleAccRgts_Add": formObj.PhaseUnitAdd,
+                            "RoleAccRgts_View": formObj.PhaseUnitView,
+                            "RoleAccRgts_Edit": formObj.PhaseUnitEdit,
+                            "RoleAccRgts_Del": formObj.PhaseUnitDelete
+                            },
+                            {
+                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
+                            "RoleAccRgts_RoleId": formObj.role,
+                            "RoleAccRgts_ModuleId": 7,
+                            "RoleAccRgts_Add": formObj.PhaseGenerateUnitsAdd,
+                            "RoleAccRgts_View": formObj.PhaseGenerateUnitsView,
+                            "RoleAccRgts_Edit": formObj.PhaseGenerateUnitsEdit,
+                            "RoleAccRgts_Del": formObj.PhaseGenerateUnitsDelete
+                            },
+                            {
+                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
+                            "RoleAccRgts_RoleId": formObj.role,
+                            "RoleAccRgts_ModuleId": 8,
+                            "RoleAccRgts_Add": formObj.UnitAllocationLeadAdd,
+                            "RoleAccRgts_View": formObj.UnitAllocationLeadView,
+                            "RoleAccRgts_Edit": formObj.UnitAllocationLeadEdit,
+                            "RoleAccRgts_Del": formObj.UnitAllocationLeadDelete
+
+                            },
+                            {
+                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
+                            "RoleAccRgts_RoleId": formObj.role,
+                            "RoleAccRgts_ModuleId": 9,
+                            "RoleAccRgts_Add": formObj.UnitAllocationCustAdd,
+                            "RoleAccRgts_View": formObj.UnitAllocationCustView,
+                            "RoleAccRgts_Edit": formObj.UnitAllocationCustEdit,
+                            "RoleAccRgts_Del": formObj.UnitAllocationCustDelete
+                            }
+                        ]
+            }).success(function(data) {
+                if (data[0].RoleErrorDesc == "0") {
+                    alert("Access Right Record Saved")
+                    $state.go("/Leads");
+                } else {
+                    alert("Some Error!");
+                }
+            }).error(function() {});
+        }
+    };
+});
+
+
 app.controller("customerDetailController", function($scope, $http, $cookieStore, $state, $uibModalInstance, item) {
     $scope.customer = item;
     $scope.unitStatus = [];

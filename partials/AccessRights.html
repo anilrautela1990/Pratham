@@ -1,0 +1,128 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
+	<h1>Acces Rights</h1>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
+	<ol class="breadcrumb">
+	  <li><a ui-sref="/">Home</a></li>
+	  <li class="active">Access Rights</li>
+	</ol>	
+</div>
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+   <form name="addRoleaccrgts" class="form" method="POST" novalidate="novalidate">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
+                <label for="type">Roles</label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+                <select ng-model="Roleaccrgts.role" name="projectName" class="form-control" autofocus="true" ng-required="true" ng-class="{blankInput: phasesForm.projectName.$error.required &amp;&amp; submit}">
+                    <option value="">
+                        Select Role
+                    </option>
+                     <option value="1">
+                        Administrator
+                    </option>
+                     <option value="2">
+                        Administratvie Manager
+                    </option>
+                     <option value="3">
+                        Manager - Sales
+                    </option>              
+                </select>
+            </div>
+        </div>
+
+ 
+	<table class="table dataTable" >
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Module</th>
+				<th>Add</th>
+				<th>View</th>
+				<th>Edit</th>
+				<th>Delete</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+                <td> 1</td>
+				<td>Project</td>
+				<td> <input type="checkbox" name="ProjectAdd" ng-model="Roleaccrgts.ProjectAdd" ng-true-value="1" ng-false-value="0"  /></td>
+				<td><input type="checkbox" name="ProjectView" ng-model="Roleaccrgts.ProjectView" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="ProjectEdit" ng-model="Roleaccrgts.ProjectEdit" ng-true-value="1" ng-false-value="0"  /></td>
+				<td><input type="checkbox" name="ProjectEdit" ng-model="Roleaccrgts.ProjectDelete" ng-true-value="1" ng-false-value="0"  /></td>
+			</tr>
+            <tr>
+                <td> 2</td>
+				<td>Phase</td>
+				<td> <input type="checkbox" name="PhaseAdd" ng-model="Roleaccrgts.PhaseAdd" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseView" ng-model="Roleaccrgts.PhaseView" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseEdit" ng-model="Roleaccrgts.PhaseEdit" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseDelete" ng-model="Roleaccrgts.PhaseDelete" ng-true-value="1" ng-false-value="0" /></td>
+			</tr>
+            <tr>
+                <td>3</td>
+				<td>Lead</td>
+				<td> <input type="checkbox" name="LeadAdd" ng-model="Roleaccrgts.LeadAdd" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="LeadView" ng-model="Roleaccrgts.LeadView" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="LeadEdit" ng-model="Roleaccrgts.LeadEdit" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="LeadDelete" ng-model="Roleaccrgts.LeadDelete" ng-true-value="1" ng-false-value="0" /></td>
+			</tr>
+            <tr>
+                <td> 4</td>
+				<td>Customer</td>
+				<td> <input type="checkbox" name="CustomerAdd" ng-model="Roleaccrgts.CustomerAdd" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="CustomerView" ng-model="Roleaccrgts.CustomerView" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="CustomerEdit" ng-model="Roleaccrgts.CustomerEdit" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="CustomerDelete" ng-model="Roleaccrgts.CustomerDelete" ng-true-value="1" ng-false-value="0" /></td>
+			</tr>
+            <tr>
+                <td> 5</td>
+				<td>Phase - Blocks</td>
+				<td> <input type="checkbox" name="PhaseBlocksAdd" ng-model="Roleaccrgts.PhaseBlocksAdd" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseBlocksView" ng-model="Roleaccrgts.PhaseBlocksView" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseBlocksEdit" ng-model="Roleaccrgts.PhaseBlocksEdit" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseBlocksDelete" ng-model="Roleaccrgts.PhaseBlocksDelete" ng-true-value="1" ng-false-value="0" /></td>
+			</tr>
+            <tr>
+                <td> 6</td>
+				<td>Phase - Unit Data</td>
+				<td> <input type="checkbox" name="PhaseUnitAdd" ng-model="Roleaccrgts.PhaseUnitAdd" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseUnitView" ng-model="Roleaccrgts.PhaseUnitView" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseUnitEdit" ng-model="Roleaccrgts.PhaseUnitEdit" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseUnitDelete" ng-model="Roleaccrgts.PhaseUnitDelete" ng-true-value="1" ng-false-value="0" /></td>
+			</tr>
+            <tr>
+                <td> 7</td>
+				<td>Phase - Generate Units</td>
+				<td> <input type="checkbox" name="PhaseGenerateUnitsAdd" ng-model="Roleaccrgts.PhaseGenerateUnitsAdd" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseGenerateUnitsView" ng-model="Roleaccrgts.PhaseGenerateUnitsView" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseGenerateUnitsEdit" ng-model="Roleaccrgts.PhaseGenerateUnitsEdit" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="PhaseGenerateUnitsDelete" ng-model="Roleaccrgts.PhaseGenerateUnitsDelete" ng-true-value="1" ng-false-value="0" /></td>
+			</tr>
+             <tr>
+                <td> 8</td>
+				<td>Unit Allocation - Lead</td>
+				<td> <input type="checkbox" name="UnitAllocationLeadAdd" ng-model="Roleaccrgts.UnitAllocationLeadAdd" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="UnitAllocationLeadView" ng-model="Roleaccrgts.UnitAllocationLeadView" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="UnitAllocationLeadEdit" ng-model="Roleaccrgts.UnitAllocationLeadEdit" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="UnitAllocationLeadDelete" ng-model="Roleaccrgts.UnitAllocationLeadDelete" ng-true-value="1" ng-false-value="0" /></td>
+			</tr>
+             <tr>
+                <td> 9</td>
+				<td>Unit Allocation - Cust</td>
+				<td> <input type="checkbox" name="UnitAllocationCustAdd" ng-model="Roleaccrgts.UnitAllocationCustAdd" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="UnitAllocationCustView" ng-model="Roleaccrgts.UnitAllocationCustView" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="UnitAllocationCustEdit" ng-model="Roleaccrgts.UnitAllocationCustEdit" ng-true-value="1" ng-false-value="0" /></td>
+				<td><input type="checkbox" name="UnitAllocationCustDelete" ng-model="Roleaccrgts.UnitAllocationCustDelete" ng-true-value="1" ng-false-value="0" /></td>
+			</tr>
+		</tbody>
+	</table>
+    <div class="text-center" >
+			<button type="button" class="btn btn-success" ng-click="SubmitRoleaccrgts(Roleaccrgts,'addRoleaccrgts')">Save</button>
+		</div>
+     </form>
+   
+</div>
