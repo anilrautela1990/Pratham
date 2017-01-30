@@ -1472,8 +1472,10 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
             editAppendFields(data);
             var phaseList = [];
             
-            for(var i = 0; i < data[0].LstofBlocks.length; i++){
-                phaseList.push(data[0].LstofBlocks[i].Blocks_Name);
+            if(data[0].LstofBlocks != null){
+                for(var i = 0; i < data[0].LstofBlocks.length; i++){
+                    phaseList.push(data[0].LstofBlocks[i].Blocks_Name);
+                }
             }
             
             $scope.projectDetails = {
@@ -1494,14 +1496,16 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
     
     function editAppendFields(data) {
         angular.element("#noOfBlocks").html('');
-        for (i = 1; i <= data[0].LstofBlocks.length; i++) {
-            var childDiv = '<div id="block'+data[0].LstofBlocks[i-1].Blocks_Id+'"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" />';
-            if(!data[0].LstofBlocks[i-1].blnunitexists)
-                childDiv = childDiv+'<span ng-click="deleteBlock('+data[0].Phase_Id + ',' + data[0].LstofBlocks[i-1].Blocks_Id+')" class="glyphicon glyphicon-trash delete"></span></div>';
-            else
-                childDiv = childDiv+"</div>";
-            var childDivComplied = $compile(childDiv)($scope);
-            angular.element("#noOfBlocks").append(childDivComplied);
+        if(data[0].LstofBlocks != null){
+            for (i = 1; i <= data[0].LstofBlocks.length; i++) {
+                var childDiv = '<div id="block'+data[0].LstofBlocks[i-1].Blocks_Id+'"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" />';
+                if(!data[0].LstofBlocks[i-1].blnunitexists)
+                    childDiv = childDiv+'<span ng-click="deleteBlock('+data[0].Phase_Id + ',' + data[0].LstofBlocks[i-1].Blocks_Id+')" class="glyphicon glyphicon-trash delete"></span></div>';
+                else
+                    childDiv = childDiv+"</div>";
+                var childDivComplied = $compile(childDiv)($scope);
+                angular.element("#noOfBlocks").append(childDivComplied);
+            }
         }
     };
     
@@ -1515,12 +1519,53 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
     };
     
     $scope.editPhase = function(formObj, formName) {
-        alert("update phase");
-        console.log(formObj);
+        $scope.submit = true;
+
+        if ($scope[formName].$valid) {
+            var blockLst = [];
+            
+            for(var i = 0; i < formObj.noOfBlocks; i++){
+                var tmp = {};
+                tmp.Blocks_Name = formObj.blockName[i];
+                tmp.Blocks_Id = 0; 
+                blockLst.push(tmp);
+            }
+
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Phase/Save",
+                ContentType: 'application/json',
+                data: {
+                     "Phase_comp_guid": $cookieStore.get('comp_guid'),
+                     "Phase_Id": $stateParams.phaseId,
+                     "Phase_Proj_Id": formObj.projectName,
+                     "Phase_Name": formObj.phaseName,
+                     "Phase_Surveynos": formObj.surveyNos,
+                     "Phase_UnitMsmnt": {"UnitMsmnt_Id": formObj.unitOfMeasurement},
+                     "Phase_UnitType": {"UnitType_Id": formObj.phaseType},
+                     "Phase_NoofBlocks": formObj.noOfBlocks,
+                     "Phase_Location": formObj.location,
+                     "LstofBlocks": blockLst
+                }
+            }).success(function(data) {
+                //console.log(data);
+                $scope.addPhaseResult = data;
+                angular.element(".loader").hide();
+                if($scope.addPhaseResult.Comm_ErrorDesc.match('0|')){
+                    $state.go("/Phases");
+                } else {
+                    alert("Something went wrong.");
+                }
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        } else {
+            alert("Not valid Form.");
+        }
     };
     
     $scope.deleteBlock = function(blockId, phaseId) {
-        //alert(blockId+" delete block  "+phaseId);
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -1528,11 +1573,43 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
             ContentType: 'application/json',
             data: {
                 "Blocks_comp_guid": $cookieStore.get('comp_guid'),
-                "Blocks_Id": blockId,
-                "Blocks_Phase_Id": phaseId
+                "Blocks_Id": phaseId,
+                "Blocks_Phase_Id": blockId
             }
         }).success(function(data) {
             $('#block'+phaseId).remove();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Phase/View",
+                ContentType: 'application/json',
+                data: {
+                    "Phase_comp_guid": $cookieStore.get('comp_guid'),
+                    "Phase_Proj_Id": $stateParams.projId,
+                    "Phase_Id": $stateParams.phaseId
+                }
+            }).success(function(data) {
+                var phaseList = [];
+
+                if(data[0].LstofBlocks != null){
+                    for(var i = 0; i < data[0].LstofBlocks.length; i++){
+                        phaseList.push(data[0].LstofBlocks[i].Blocks_Name);
+                    }
+                }
+
+                $scope.projectDetails = {
+                    phaseName: data[0].Phase_Name,
+                    location: data[0].Phase_Location,
+                    surveyNos: data[0].Phase_Surveynos,
+                    unitOfMeasurement: data[0].Phase_UnitMsmnt.UnitMsmnt_Id+"",
+                    phaseType: data[0].Phase_UnitType.UnitType_Id,
+                    noOfBlocks: data[0].Phase_NoofBlocks,
+                    projectName: $stateParams.projId,
+                    blockName: phaseList
+                };
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
@@ -1650,6 +1727,7 @@ app.controller("phases", function($scope, $http, $cookieStore, $state, $compile)
     })();
     
     $scope.getPhases = function(projId) {
+        angular.element(".loader").show();
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham//Proj/Phase/View",
@@ -1659,7 +1737,7 @@ app.controller("phases", function($scope, $http, $cookieStore, $state, $compile)
                 "Phase_Proj_Id": projId
             }
         }).success(function(data) {
-            console.log(data);
+            //console.log(data);
             angular.element(".loader").hide();
             $scope.phaseList = data;
         }).error(function() {
