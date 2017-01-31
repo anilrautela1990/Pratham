@@ -162,40 +162,23 @@ app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
     $scope.cities = ["New Delhi"];
     $scope.lead = item;
     if ($scope.lead.userprojlist != null) {
-        $scope.leadProjects = [];
-        for (i = 0; i < $scope.lead.userprojlist.length; i++) { 
-            $scope.leadUnitObj = $scope.lead.userprojlist[i];
-            $scope.leadProjects.push($scope.leadUnitObj);
-            /*for (j = 0; j < $scope.lead.projectlst[i].Lstphases.length; j++) {
-                for (k = 0; k < $scope.lead.projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
-                    for (l = 0; l < $scope.lead.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
-                        $scope.leadUnitObj = {};
-                        $scope.leadUnitObj.projName = $scope.lead.projectlst[i].Proj_Name;
-                        $scope.leadUnitObj.phaseName = $scope.lead.projectlst[i].Lstphases[j].Phase_Name;
-                        $scope.leadUnitObj.phaseType = $scope.lead.projectlst[i].Lstphases[j].Phase_UnitType.UnitType_Name;
-                        $scope.leadUnitObj.blockName = $scope.lead.projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Name;
-                        $scope.leadUnitObj.unitObj = $scope.lead.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];
-                        $scope.leadProjects.push($scope.leadUnitObj);
-                    }
-                }
-            }*/
-        }
-        //console.log($scope.leadProjects);
+        $scope.leadProjects = $scope.lead.userprojlist;
     }
+    
     $scope.ok = function() {
         $uibModalInstance.close();
     };
+    
     $scope.deleteRow = function(rowId) {
         angular.element("tr#" + rowId).remove();
     };
+    
     $scope.addLeadProjects = function(leadId) {
         $uibModalInstance.close();
         $state.go("/ProjectDetails", {
             "leadID": leadId
         });
     };
-
-
 });
 
 app.controller("addLead", function($scope, $http, $state, $cookieStore) {
