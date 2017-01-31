@@ -849,7 +849,7 @@ app.controller("agentsController", function($scope, $http, $cookieStore, $state,
         angular.element(".loader").show();
         $http({
             method: "POST",
-            url: "http://120.138.8.150/pratham/User/UserDtls/ByUserType",
+            url: "http://120.138.8.150/pratham/User/AgentDtls/ByUserType",
             ContentType: 'application/json',
             data: {
                 "user_type": 5,
