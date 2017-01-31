@@ -1481,7 +1481,7 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
         angular.element("#noOfBlocks").html('');
         if(data[0].LstofBlocks != null){
             for (i = 1; i <= data[0].LstofBlocks.length; i++) {
-                var childDiv = '<div id="block'+data[0].LstofBlocks[i-1].Blocks_Id+'"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" />';
+                var childDiv = '<div id="block'+data[0].LstofBlocks[i-1].Blocks_Id+'"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control inputWithIcon" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" />';
                 if(!data[0].LstofBlocks[i-1].blnunitexists)
                     childDiv = childDiv+'<span ng-click="deleteBlock('+data[0].Phase_Id + ',' + data[0].LstofBlocks[i-1].Blocks_Id+')" class="glyphicon glyphicon-trash delete"></span></div>';
                 else

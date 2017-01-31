@@ -52,13 +52,16 @@
 		</div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
-				<label for="type">No. Of bolcks</label>
+				<label for="type">No. Of Blocks</label>
 			</div>
 			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
                     <input type="number" class="form-control" name="noOfBlocks" ng-model="projectDetails.noOfBlocks" ng-required="true" ng-change="appendFields(projectDetails.noOfBlocks)" ng-disabled="editPhaseBtn" ng-class="{blankInput: addPhaseForm.noOfBlocks.$error.required &amp;&amp; submit}"/>
 			</div>
-            <div id="noOfBlocks"></div>
 		</div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+            <button type="button" name="addBlock" id="addBlock" class="btn btn-default">Add Block</button>
+        </div>
+        <div id="noOfBlocks" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0"></div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
 				<label for="type">Type</label>
@@ -79,7 +82,7 @@
 		</div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
-				<label for="type">Unit Of Measurement</label>
+				<label for="type">Unit Of Msrmt.</label>
 			</div>
 			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
 				<select name="phaseType" ng-model="projectDetails.unitOfMeasurement" class="form-control" id="type">
