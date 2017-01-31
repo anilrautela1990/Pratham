@@ -162,40 +162,23 @@ app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
     $scope.cities = ["New Delhi"];
     $scope.lead = item;
     if ($scope.lead.userprojlist != null) {
-        $scope.leadProjects = [];
-        for (i = 0; i < $scope.lead.userprojlist.length; i++) { 
-            $scope.leadUnitObj = $scope.lead.userprojlist[i];
-            $scope.leadProjects.push($scope.leadUnitObj);
-            /*for (j = 0; j < $scope.lead.projectlst[i].Lstphases.length; j++) {
-                for (k = 0; k < $scope.lead.projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
-                    for (l = 0; l < $scope.lead.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
-                        $scope.leadUnitObj = {};
-                        $scope.leadUnitObj.projName = $scope.lead.projectlst[i].Proj_Name;
-                        $scope.leadUnitObj.phaseName = $scope.lead.projectlst[i].Lstphases[j].Phase_Name;
-                        $scope.leadUnitObj.phaseType = $scope.lead.projectlst[i].Lstphases[j].Phase_UnitType.UnitType_Name;
-                        $scope.leadUnitObj.blockName = $scope.lead.projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Name;
-                        $scope.leadUnitObj.unitObj = $scope.lead.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];
-                        $scope.leadProjects.push($scope.leadUnitObj);
-                    }
-                }
-            }*/
-        }
-        //console.log($scope.leadProjects);
+        $scope.leadProjects = $scope.lead.userprojlist;
     }
+    
     $scope.ok = function() {
         $uibModalInstance.close();
     };
+    
     $scope.deleteRow = function(rowId) {
         angular.element("tr#" + rowId).remove();
     };
+    
     $scope.addLeadProjects = function(leadId) {
         $uibModalInstance.close();
         $state.go("/ProjectDetails", {
             "leadID": leadId
         });
     };
-
-
 });
 
 app.controller("addLead", function($scope, $http, $state, $cookieStore) {
@@ -1498,7 +1481,7 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
         angular.element("#noOfBlocks").html('');
         if(data[0].LstofBlocks != null){
             for (i = 1; i <= data[0].LstofBlocks.length; i++) {
-                var childDiv = '<div id="block'+data[0].LstofBlocks[i-1].Blocks_Id+'"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" />';
+                var childDiv = '<div id="block'+data[0].LstofBlocks[i-1].Blocks_Id+'"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control inputWithIcon" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" />';
                 if(!data[0].LstofBlocks[i-1].blnunitexists)
                     childDiv = childDiv+'<span ng-click="deleteBlock('+data[0].Phase_Id + ',' + data[0].LstofBlocks[i-1].Blocks_Id+')" class="glyphicon glyphicon-trash delete"></span></div>';
                 else
@@ -1577,39 +1560,11 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
                 "Blocks_Phase_Id": blockId
             }
         }).success(function(data) {
-            $('#block'+phaseId).remove();
-            $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Proj/Phase/View",
-                ContentType: 'application/json',
-                data: {
-                    "Phase_comp_guid": $cookieStore.get('comp_guid'),
-                    "Phase_Proj_Id": $stateParams.projId,
-                    "Phase_Id": $stateParams.phaseId
-                }
-            }).success(function(data) {
-                var phaseList = [];
-
-                if(data[0].LstofBlocks != null){
-                    for(var i = 0; i < data[0].LstofBlocks.length; i++){
-                        phaseList.push(data[0].LstofBlocks[i].Blocks_Name);
-                    }
-                }
-
-                $scope.projectDetails = {
-                    phaseName: data[0].Phase_Name,
-                    location: data[0].Phase_Location,
-                    surveyNos: data[0].Phase_Surveynos,
-                    unitOfMeasurement: data[0].Phase_UnitMsmnt.UnitMsmnt_Id+"",
-                    phaseType: data[0].Phase_UnitType.UnitType_Id,
-                    noOfBlocks: data[0].Phase_NoofBlocks,
-                    projectName: $stateParams.projId,
-                    blockName: phaseList
-                };
-                angular.element(".loader").hide();
-            }).error(function() {
-                angular.element(".loader").hide();
+            $state.go("/EditPhases", {
+                "projId"  : $stateParams.projId,
+                "phaseId" : $stateParams.phaseId
             });
+            $state.reload();
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();

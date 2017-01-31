@@ -397,3 +397,8 @@ div.sold{
 input[disabled]{
     color: #999;
 }
+.inputWithIcon{
+    width: 96%;
+    display: inline-block;
+    margin: 0px 5px 5px 0px;
+}
