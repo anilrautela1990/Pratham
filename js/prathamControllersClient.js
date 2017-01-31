@@ -887,11 +887,6 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
         }).success(function(data) {
             console.log(data);
 
-            /*var dob = $filter('date')(data.user_dob, 'MMM dd, yyyy');
-
-            if (dob == "Jan 01, 0001") {
-                dob = "";
-            }*/
             if (data.Agents_User_Id != 0) {
                 $scope.addAgent = {
                     type: data.user_type + "",
@@ -903,7 +898,6 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
                     address: data.Agents_add,
                     mobileNumber: data.user_mobile_no,
                     password: data.user_password,
-                    //                    dob: dob,
                     pan: data.Agents_pan,
                     aadhar: data.Agents_aadhar,
                     alternateContactNumber: data.Agents_alt_contactno,
@@ -931,7 +925,7 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
 
     $scope.updateAgent = function(formObj, formName) {
         $scope.submit = true;
-
+     
         if ($scope[formName].$valid) {
             console.log(formObj);
             angular.element(".loader").show();
@@ -978,6 +972,7 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
                 angular.element(".loader").hide();
             });
         } else {
+            console.log($scope[formName].$error);
             alert("Not valid!");
         }
     };
