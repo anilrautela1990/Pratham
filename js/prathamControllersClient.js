@@ -327,30 +327,9 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                 "user_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
-			//console.log(data);
             if (data.user_id != 0) {
                 if (data.userprojlist != null) {
-                    $scope.leadProjects = [];
-                    for (i = 0; i < data.userprojlist.length; i++) {
-                        $scope.leadUnitObj = data.userprojlist[i];
-                        $scope.leadProjects.push($scope.leadUnitObj);
-                        /*for (j = 0; j < data.projectlst[i].Lstphases.length; j++) {
-                            for (k = 0; k < data.projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
-                                for (l = 0; l < data.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
-
-                                    $scope.leadUnitObj = {};
-                                    $scope.leadUnitObj.ProjId = data.projectlst[i].ProjId;
-                                    $scope.leadUnitObj.Phase_Id = data.projectlst[i].Lstphases[j].Phase_Id;
-                                    $scope.leadUnitObj.Blocks_Id = data.projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Id;
-                                    $scope.leadUnitObj.UnitDtls = data.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];
-                                    $scope.leadProjects.push($scope.leadUnitObj);
-                                }
-
-                            }
-
-                        }*/
-                    }
-                    //console.log(JSON.stringify($scope.leadProjects));
+                    $scope.leadProjects = data.userprojlist;
                 }
                 angular.element(".loader").hide();
             } else {
@@ -1071,49 +1050,26 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
                         "Blocks_Id":obj.blocks
                       }
             }).success(function(data) {
-                console.log(data);
-                console.log(obj.projectName.value);
+            
                 $scope.unitAllocationData = [];
                 for (h = 0; h < data.length; h++) {
-                    for (i = 0; i < data[h].userprojlist.length; i++) {
-                        $scope.unitAllocationObj = {};
-                        
-                        $scope.unitAllocationObj.name = data[h].user_first_name + ' ' + data[h].user_middle_name + ' ' + data[h].user_last_name;
-                        $scope.unitAllocationObj.email = data[h].user_email_address;
-                        $scope.unitAllocationObj.mobile = data[h].user_mobile_no;
-                        /*$scope.unitAllocationObj.projName = data[h].userprojlist[i].Proj_Name;
-                        $scope.unitAllocationObj.phaseName = data[h].userprojlist[i].Phase_Name;
-                        $scope.unitAllocationObj.phaseType = 'Temp Phase Type';
-                        $scope.unitAllocationObj.blockName = data[h].userprojlist[i].Blocks_Name;*/
-                        $scope.unitAllocationObj.unitObj = data[h].userprojlist[i];
-                        $scope.unitAllocationObj.leadID = data[h].user_id;
-                        
-                        $scope.unitAllocationData.push($scope.unitAllocationObj);
-                    }
-                    /*for (i = 0; i < data[h].projectlst.length; i++) {
-                        for (j = 0; j < data[h].projectlst[i].Lstphases.length; j++) {
-                            for (k = 0; k < data[h].projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
-                                for (l = 0; l < data[h].projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
+                    if(data[h].userprojlist != null){
+                        for (i = 0; i < data[h].userprojlist.length; i++) {
+                            $scope.unitAllocationObj = {};
 
-                                    $scope.unitAllocationObj = {};
+                            $scope.unitAllocationObj.name = data[h].user_first_name + ' ' + data[h].user_middle_name + ' ' + data[h].user_last_name;
+                            $scope.unitAllocationObj.email = data[h].user_email_address;
+                            $scope.unitAllocationObj.mobile = data[h].user_mobile_no;
+                            /*$scope.unitAllocationObj.projName = data[h].userprojlist[i].Proj_Name;
+                            $scope.unitAllocationObj.phaseName = data[h].userprojlist[i].Phase_Name;
+                            $scope.unitAllocationObj.phaseType = 'Temp Phase Type';
+                            $scope.unitAllocationObj.blockName = data[h].userprojlist[i].Blocks_Name;*/
+                            $scope.unitAllocationObj.unitObj = data[h].userprojlist[i];
+                            $scope.unitAllocationObj.leadID = data[h].user_id;
 
-                                    $scope.unitAllocationObj.name = data[h].user_first_name + ' ' + data[h].user_middle_name + ' ' + data[h].user_last_name;
-                                    $scope.unitAllocationObj.email = data[h].user_email_address;
-                                    $scope.unitAllocationObj.mobile = data[h].user_mobile_no;
-                                    $scope.unitAllocationObj.projName = data[h].projectlst[i].Proj_Name;
-                                    $scope.unitAllocationObj.phaseName = data[h].projectlst[i].Lstphases[j].Phase_Name;
-                                    $scope.unitAllocationObj.phaseType = data[h].projectlst[i].Lstphases[j].Phase_UnitType.UnitType_Name;
-                                    $scope.unitAllocationObj.blockName = data[h].projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Name;
-                                    $scope.unitAllocationObj.unitObj = data[h].projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];
-                                    $scope.unitAllocationObj.leadID = data[h].user_id;
-
-                                    $scope.unitAllocationData.push($scope.unitAllocationObj);
-                                }
-
-                            }
-
+                            $scope.unitAllocationData.push($scope.unitAllocationObj);
                         }
-                    }*/
+                    }
                 }
                 angular.element(".loader").hide();
             }).error(function() {
@@ -1723,7 +1679,7 @@ app.controller("customerController", function($scope, $http, $cookieStore, $stat
                 "user_type": 4
             }
         }).success(function(data) {
-            console.log(data);
+            //console.log(data);
             angular.element(".loader").hide();
             $scope.customers = data;
         }).error(function() {
@@ -1891,23 +1847,6 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
             if($scope.customer.userprojlist[i].ProjDtl_Status != 0)
                 $scope.leadUnitObj.unitViewStatus = $scope.unitStatus[$scope.customer.userprojlist[i].ProjDtl_Status];
                 $scope.leadProjects.push($scope.leadUnitObj);
-            
-            /*for (j = 0; j < $scope.customer.projectlst[i].Lstphases.length; j++) {
-                for (k = 0; k < $scope.customer.projectlst[i].Lstphases[j].LstofBlocks.length; k++) {
-                    for (l = 0; l < $scope.customer.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls.length; l++) {
-                        $scope.leadUnitObj = {};
-                        $scope.leadUnitObj.projName = $scope.customer.projectlst[i].Proj_Name;
-                        $scope.leadUnitObj.projId = $scope.customer.projectlst[i].ProjId;
-                        $scope.leadUnitObj.phaseName = $scope.customer.projectlst[i].Lstphases[j].Phase_Name;
-                        $scope.leadUnitObj.phaseType = $scope.customer.projectlst[i].Lstphases[j].Phase_UnitType.UnitType_Name;
-                        $scope.leadUnitObj.blockName = $scope.customer.projectlst[i].Lstphases[j].LstofBlocks[k].Blocks_Name;
-                        $scope.leadUnitObj.unitObj = $scope.customer.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l];
-                        $scope.leadUnitObj.unitViewStatus = $scope.unitStatus[$scope.customer.projectlst[i].Lstphases[j].LstofBlocks[k].Lstofunitdtls[l].UnitDtls_Status];
-
-                        $scope.leadProjects.push($scope.leadUnitObj);
-                    }
-                }
-            }*/
         }
     }
     
@@ -1929,6 +1868,13 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
         }).error(function() {
             alert('Something went wrong.');
             angular.element(".loader").hide();
+        });
+    };
+    
+    $scope.addLeadProjects = function(leadId) {
+        $uibModalInstance.close();
+        $state.go("/ProjectDetails", {
+            "leadID": $scope.leadId
         });
     };
 

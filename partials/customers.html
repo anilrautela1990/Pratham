@@ -58,6 +58,9 @@
             </table>
             <div class="col-md-12 padding0 marginBottom5">
                 <div class="subHeading col-md-6 padding0">Project</div>
+                <div class="col-md-6 padding0 text-right">
+                    <button class="btn btn-default" ng-click="addLeadProjects(lead.user_id)">Update Projects</button>
+                </div>
             </div>
             <div ng-show="{{customer.userprojlist==null}}">This lead does not have any projects.</div>
 			<div ng-show="{{customer.userprojlist!=null}}">
