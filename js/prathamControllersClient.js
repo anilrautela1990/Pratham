@@ -895,7 +895,7 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
 
         $http({
             method: "POST",
-            url: "http://120.138.8.150/pratham/User/UserDtls",
+            url: "http://120.138.8.150/pratham/User/AgentUserDtls",
             ContentType: 'application/json',
             data: {
                 "user_id": $scope.agentId,
