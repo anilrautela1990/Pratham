@@ -164,15 +164,15 @@ app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
     if ($scope.lead.userprojlist != null) {
         $scope.leadProjects = $scope.lead.userprojlist;
     }
-    
+
     $scope.ok = function() {
         $uibModalInstance.close();
     };
-    
+
     $scope.deleteRow = function(rowId) {
         angular.element("tr#" + rowId).remove();
     };
-    
+
     $scope.addLeadProjects = function(leadId) {
         $uibModalInstance.close();
         $state.go("/ProjectDetails", {
@@ -502,9 +502,9 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                 url: "http://120.138.8.150/pratham/User/ProjUnitDel",
                 ContentType: 'application/json',
                 data: [{
-                        "comp_guid": $cookieStore.get('comp_guid'),
-                        "ProjDtl_Id":projId
-                      }]
+                    "comp_guid": $cookieStore.get('comp_guid'),
+                    "ProjDtl_Id": projId
+                }]
             }).success(function(data) {
                 if (data.Comm_ErrorDesc == '0|0') {
                     $("tr#" + rowId).remove();
@@ -540,7 +540,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                 $cookieStore.remove('lead_id');
                 $state.go('/Leads');
                 angular.element(".loader").hide();
-            } else{
+            } else {
                 alert('Something went wrong.');
             }
             //console.log(JSON.stringify(data));
@@ -554,7 +554,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
         angular.element(".loader").show();
         $scope.leadId = $stateParams.leadID;
         $scope.action = $stateParams.action;
-        
+
         //alert($scope.leadId+' : '+$scope.action);
         $http({
             method: "POST",
@@ -581,7 +581,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
             }
 
             if (data.user_id != 0) {
-                if($scope.action == 'addCustomer'){
+                if ($scope.action == 'addCustomer') {
                     $scope.customer = {
                         firstName: data.user_first_name,
                         middleName: data.user_middle_name,
@@ -599,7 +599,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                         gpaHolder: 0,
                         bankloan: 0
                     }
-                } else if($scope.action == 'editCustomer'){
+                } else if ($scope.action == 'editCustomer') {
                     $scope.customer = {
                         firstName: data.user_first_name,
                         middleName: data.user_middle_name,
@@ -616,9 +616,9 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                         zip: data.user_zipcode,
                         gpaHolder: 0,
                         bankloan: 0,
-                        relationType: data.Cust_relationtype+"",
+                        relationType: data.Cust_relationtype + "",
                         relationName: data.Cust_relationname,
-                        residentType: data.Cust_status_type+"",
+                        residentType: data.Cust_status_type + "",
                         address2: data.Cust_perm_add,
                         pan: data.Cust_pan,
                         aadhar: data.Cust_aadhar,
@@ -629,12 +629,12 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                         designation: data.Cust_desig,
                         officeAddress: data.Cust_off_add,
                         officeEmailId: data.Cust_off_email,
-                        spouseName : data.Cust_spouse_nm,
-                        spouseDob : data.Cust_spouse_dob,
-                        spousePan : data.Cust_spouse_pan,
+                        spouseName: data.Cust_spouse_nm,
+                        spouseDob: data.Cust_spouse_dob,
+                        spousePan: data.Cust_spouse_pan,
                         spouseAadhar: data.Cust_spouse_aadhar,
-                        childrenNo : data.Cust_noof_childrn+"",
-                        bankloan : data.Cust_bankloan
+                        childrenNo: data.Cust_noof_childrn + "",
+                        bankloan: data.Cust_bankloan
 
                     }
                 }
@@ -644,9 +644,8 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
             }
         }).error(function() {});
     })();
-    
-    $scope.updateCustomer = function(formObj, formName) {
-    }
+
+    $scope.updateCustomer = function(formObj, formName) {}
 
     $scope.addCustomer = function(formObj, formName) {
         $scope.submit = true;
@@ -904,7 +903,7 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
 
     $scope.updateAgent = function(formObj, formName) {
         $scope.submit = true;
-     
+
         if ($scope[formName].$valid) {
             console.log(formObj);
             angular.element(".loader").show();
@@ -960,7 +959,7 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
 app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $uibModal) {
     $scope.unitStatus = ['vacant', 'userinterest', 'mgmtquota', 'blockedbyadvnc', 'blockedbynotadvnc', 'sold'];
     $scope.unitStatusText = ['Vacant', 'User Interested', 'Management Quota', 'Blocked By Paying Advance', 'Blocked By Not Paying Advance', 'Sold'];
-    
+
     ($scope.getProjectList = function() {
         angular.element(".loader").show();
         $http({
@@ -1037,23 +1036,23 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
                     "Phase_Id": obj.phase
                 });
             }
-            
+
             angular.element(".loader").show();
             $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/User/AllocByUserType",
                 ContentType: 'application/json',
                 data: {
-                        "comp_guid" : $cookieStore.get('comp_guid'),
-                        "Projusrtyp":3,
-                        "Phase_Id":obj.phase,
-                        "Blocks_Id":obj.blocks
-                      }
+                    "comp_guid": $cookieStore.get('comp_guid'),
+                    "Projusrtyp": 3,
+                    "Phase_Id": obj.phase,
+                    "Blocks_Id": obj.blocks
+                }
             }).success(function(data) {
-            
+
                 $scope.unitAllocationData = [];
                 for (h = 0; h < data.length; h++) {
-                    if(data[h].userprojlist != null){
+                    if (data[h].userprojlist != null) {
                         for (i = 0; i < data[h].userprojlist.length; i++) {
                             $scope.unitAllocationObj = {};
 
@@ -1134,7 +1133,7 @@ app.controller("unitUpdateController", function($scope, $http, $cookieStore, $st
 });
 
 app.controller("projects", function($scope, $http, $cookieStore, $state) {
-    
+
     ($scope.getProjectsList = function() {
         angular.element(".loader").show();
         $http({
@@ -1143,24 +1142,23 @@ app.controller("projects", function($scope, $http, $cookieStore, $state) {
             ContentType: 'application/json',
             data: {
                 "Proj_comp_guid": $cookieStore.get('comp_guid'),
-                "ProjId":0
+                "ProjId": 0
             }
         }).success(function(data) {
-            for(var i = 0; i < data.length; i++){
-                if(data[i].Proj_Types.length > 1){
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].Proj_Types.length > 1) {
                     var types = data[i].Proj_Types.split('#');
                     var typeValue = '';
-                    for(var j = 0; j < types.length; j++){
-                        if(!(j == types.length-1))
-                            typeValue = typeValue+' , '+getTypeNameById(types[j]);
+                    for (var j = 0; j < types.length; j++) {
+                        if (!(j == types.length - 1))
+                            typeValue = typeValue + ' , ' + getTypeNameById(types[j]);
                         else
-                            typeValue = typeValue+' & '+getTypeNameById(types[j]);
+                            typeValue = typeValue + ' & ' + getTypeNameById(types[j]);
                     }
                     data[i].Proj_Types = typeValue.substring(2, typeValue.length);
-                }
-                else{
+                } else {
                     data[i].Proj_Types = getTypeNameById(data[i].Proj_Types);
-                }       
+                }
             }
             $scope.projectsList = data;
             angular.element(".loader").hide();
@@ -1168,19 +1166,24 @@ app.controller("projects", function($scope, $http, $cookieStore, $state) {
             angular.element(".loader").hide();
         });
     })();
-    
-    function getTypeNameById(typeId){
+
+    function getTypeNameById(typeId) {
         var typeName = '';
-        switch(parseInt(typeId)) {
-            case 1: typeName = 'Flat';
-                    break;
-            case 2: typeName = 'Sites';
-                    break;
-            case 3: typeName = 'Villa';
-                    break;
-            case 4: typeName = 'Row Houses';
-                    break;
-            default: console.log('eror');
+        switch (parseInt(typeId)) {
+            case 1:
+                typeName = 'Flat';
+                break;
+            case 2:
+                typeName = 'Sites';
+                break;
+            case 3:
+                typeName = 'Villa';
+                break;
+            case 4:
+                typeName = 'Row Houses';
+                break;
+            default:
+                console.log('eror');
         }
         return typeName;
     }
@@ -1190,28 +1193,28 @@ app.controller("addProject", function($scope, $http, $cookieStore, $state) {
     $scope.pageTitle = "Add Project";
     $scope.addProjectBtn = true;
     $scope.saveProject = function(formObj, formName) {
-        $scope.submit = true;                
+        $scope.submit = true;
         if ($scope[formName].$valid) {
             var projType = '';
-       
-            if(formObj.type1 == true)
+
+            if (formObj.type1 == true)
                 projType = '1';
-            if(formObj.type2 == true)
-                projType = projType+'2';
-            if(formObj.type3 == true)
-                projType = projType+'3';
-            if(formObj.type4 == true)
-                projType = projType+'4';
-       
+            if (formObj.type2 == true)
+                projType = projType + '2';
+            if (formObj.type3 == true)
+                projType = projType + '3';
+            if (formObj.type4 == true)
+                projType = projType + '4';
+
             var projTypes = projType.split('');
             projType = '';
-            for(var i = 0; i < projTypes.length; i++){
-                if(i != 0)
-                    projType = projType+'#'+projTypes[i];
+            for (var i = 0; i < projTypes.length; i++) {
+                if (i != 0)
+                    projType = projType + '#' + projTypes[i];
                 else
                     projType = projTypes[i];
             }
-    
+
             angular.element(".loader").show();
             $http({
                 method: "POST",
@@ -1219,16 +1222,16 @@ app.controller("addProject", function($scope, $http, $cookieStore, $state) {
                 ContentType: 'application/json',
                 data: {
                     "Proj_comp_guid": $cookieStore.get('comp_guid'),
-                    "ProjId":0,
-                    "Proj_Code":formObj.projCode,
+                    "ProjId": 0,
+                    "Proj_Code": formObj.projCode,
                     "Proj_Name": formObj.projectName,
                     "Proj_Location": formObj.location,
-                    "Proj_Surveyno":formObj.surveyNos,
-                    "Proj_Phases":formObj.phases,
-                    "Proj_Types":projType
+                    "Proj_Surveyno": formObj.surveyNos,
+                    "Proj_Phases": formObj.phases,
+                    "Proj_Types": projType
                 }
             }).success(function(data) {
-//                console.log(data);
+                //                console.log(data);
                 angular.element(".loader").hide();
                 $state.go('/Projects');
             }).error(function() {
@@ -1236,96 +1239,106 @@ app.controller("addProject", function($scope, $http, $cookieStore, $state) {
             });
         }
     };
-    
-    function getTypeIdByName(typeName){
+
+    function getTypeIdByName(typeName) {
         var typeId = '';
-        switch(typeName) {
-            case 'Flat':        typeId = 1;
-                                break;
-            case 'Sites':       typeId = 2;
-                                break;
-            case 'Villa':       typeId = 3;
-                                break;
-            case 'Row Houses':  typeId = 4;
-                                break;
-            default:            console.log('eror');
+        switch (typeName) {
+            case 'Flat':
+                typeId = 1;
+                break;
+            case 'Sites':
+                typeId = 2;
+                break;
+            case 'Villa':
+                typeId = 3;
+                break;
+            case 'Row Houses':
+                typeId = 4;
+                break;
+            default:
+                console.log('eror');
         }
         return typeId;
-    }    
+    }
 });
 
 app.controller("editProject", function($scope, $http, $cookieStore, $state, $stateParams) {
     $scope.pageTitle = "Edit Project";
     $scope.editProjectBtn = true;
-    
+
     ($scope.getProjectList = function() {
         $scope.projId = $stateParams.projId;
         $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Proj/Proj/View",
-                ContentType: 'application/json',
-                data: {
-                    "Proj_comp_guid": $cookieStore.get('comp_guid'),
-                    "ProjId":$scope.projId
-                }
-            }).success(function(data) {
-                angular.element(".loader").hide();
-                var projTypes = data[0].Proj_Types;
-                $scope.addProject = {
-                    location: data[0].Proj_Location,
-                    projectName: data[0].Proj_Name,
-                    phases: data[0].Proj_Phases,
-                    surveyNos: data[0].Proj_Surveyno,
-                    projCode: data[0].Proj_Code,
-                    type1: projTypes.indexOf("1") != -1,
-                    type2: projTypes.indexOf("2") != -1,
-                    type3: projTypes.indexOf("3") != -1,
-                    type4: projTypes.indexOf("4") != -1
-                };
-            }).error(function() {
-                angular.element(".loader").hide();
-            });
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Proj/View",
+            ContentType: 'application/json',
+            data: {
+                "Proj_comp_guid": $cookieStore.get('comp_guid'),
+                "ProjId": $scope.projId
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            var projTypes = data[0].Proj_Types;
+            $scope.addProject = {
+                location: data[0].Proj_Location,
+                projectName: data[0].Proj_Name,
+                phases: data[0].Proj_Phases,
+                surveyNos: data[0].Proj_Surveyno,
+                projCode: data[0].Proj_Code,
+                type1: projTypes.indexOf("1") != -1,
+                type2: projTypes.indexOf("2") != -1,
+                type3: projTypes.indexOf("3") != -1,
+                type4: projTypes.indexOf("4") != -1
+            };
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     })();
-    
-    function getTypeNameById(typeId){
+
+    function getTypeNameById(typeId) {
         var typeName = '';
-        switch(parseInt(typeId)) {
-            case 1: typeName = 'Flat';
-                    break;
-            case 2: typeName = 'Sites';
-                    break;
-            case 3: typeName = 'Villa';
-                    break;
-            case 4: typeName = 'Row Houses';
-                    break;
-            default: console.log('eror');
+        switch (parseInt(typeId)) {
+            case 1:
+                typeName = 'Flat';
+                break;
+            case 2:
+                typeName = 'Sites';
+                break;
+            case 3:
+                typeName = 'Villa';
+                break;
+            case 4:
+                typeName = 'Row Houses';
+                break;
+            default:
+                console.log('eror');
         }
         return typeName;
     }
-    
+
     $scope.editProject = function(formObj, formName) {
-        $scope.submit = true;                
+        $scope.submit = true;
         if ($scope[formName].$valid) {
             var projType = '';
-       
-            if(formObj.type1 == true)
+
+            if (formObj.type1 == true)
                 projType = '1';
-            if(formObj.type2 == true)
-                projType = projType+'2';
-            if(formObj.type3 == true)
-                projType = projType+'3';
-            if(formObj.type4 == true)
-                projType = projType+'4';
-       
+            if (formObj.type2 == true)
+                projType = projType + '2';
+            if (formObj.type3 == true)
+                projType = projType + '3';
+            if (formObj.type4 == true)
+                projType = projType + '4';
+
             var projTypes = projType.split('');
             projType = '';
-            for(var i = 0; i < projTypes.length; i++){
-                if(i != 0)
-                    projType = projType+'#'+projTypes[i];
+            for (var i = 0; i < projTypes.length; i++) {
+                if (i != 0)
+                    projType = projType + '#' + projTypes[i];
                 else
                     projType = projTypes[i];
             }
-    
+
             angular.element(".loader").show();
             $http({
                 method: "POST",
@@ -1333,16 +1346,16 @@ app.controller("editProject", function($scope, $http, $cookieStore, $state, $sta
                 ContentType: 'application/json',
                 data: {
                     "Proj_comp_guid": $cookieStore.get('comp_guid'),
-                    "ProjId":$scope.projId,
-                    "Proj_Code":formObj.projCode,
+                    "ProjId": $scope.projId,
+                    "Proj_Code": formObj.projCode,
                     "Proj_Name": formObj.projectName,
                     "Proj_Location": formObj.location,
-                    "Proj_Surveyno":formObj.surveyNos,
-                    "Proj_Phases":formObj.phases,
-                    "Proj_Types":projType
+                    "Proj_Surveyno": formObj.surveyNos,
+                    "Proj_Phases": formObj.phases,
+                    "Proj_Types": projType
                 }
             }).success(function(data) {
-//                console.log(data);
+                //                console.log(data);
                 angular.element(".loader").hide();
                 $state.go('/Projects');
             }).error(function() {
@@ -1350,32 +1363,37 @@ app.controller("editProject", function($scope, $http, $cookieStore, $state, $sta
             });
         }
     };
-    
-    function getTypeIdByName(typeName){
+
+    function getTypeIdByName(typeName) {
         var typeId = '';
-        switch(typeName) {
-            case 'Flat':        typeId = 1;
-                                break;
-            case 'Sites':       typeId = 2;
-                                break;
-            case 'Villa':       typeId = 3;
-                                break;
-            case 'Row Houses':  typeId = 4;
-                                break;
-            default:            console.log('eror');
+        switch (typeName) {
+            case 'Flat':
+                typeId = 1;
+                break;
+            case 'Sites':
+                typeId = 2;
+                break;
+            case 'Villa':
+                typeId = 3;
+                break;
+            case 'Row Houses':
+                typeId = 4;
+                break;
+            default:
+                console.log('eror');
         }
         return typeId;
-    }  
+    }
 });
 
 app.controller("editPhases", function($scope, $http, $cookieStore, $state, $compile, $stateParams) {
     $scope.pageTitle = "Edit Phase";
     $scope.editPhaseBtn = true;
-    
+
     ($scope.getPhaseInfo = function() {
-        
+
         angular.element(".loader").show();
-         $http({
+        $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/ProjDtls/ByCompGuid",
             ContentType: 'application/json',
@@ -1391,7 +1409,7 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
         }).error(function() {
             angular.element(".loader").hide();
         });
-        
+
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/Phase/View",
@@ -1405,18 +1423,18 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
             //console.log(data);
             editAppendFields(data);
             var phaseList = [];
-            
-            if(data[0].LstofBlocks != null){
-                for(var i = 0; i < data[0].LstofBlocks.length; i++){
+
+            if (data[0].LstofBlocks != null) {
+                for (var i = 0; i < data[0].LstofBlocks.length; i++) {
                     phaseList.push(data[0].LstofBlocks[i].Blocks_Name);
                 }
             }
-            
+
             $scope.projectDetails = {
                 phaseName: data[0].Phase_Name,
                 location: data[0].Phase_Location,
                 surveyNos: data[0].Phase_Surveynos,
-                unitOfMeasurement: data[0].Phase_UnitMsmnt.UnitMsmnt_Id+"",
+                unitOfMeasurement: data[0].Phase_UnitMsmnt.UnitMsmnt_Id + "",
                 phaseType: data[0].Phase_UnitType.UnitType_Id,
                 noOfBlocks: data[0].Phase_NoofBlocks,
                 projectName: $stateParams.projId,
@@ -1427,41 +1445,41 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
             angular.element(".loader").hide();
         });
     })();
-    
+
     function editAppendFields(data) {
         angular.element("#noOfBlocks").html('');
-        if(data[0].LstofBlocks != null){
+        if (data[0].LstofBlocks != null) {
             for (i = 1; i <= data[0].LstofBlocks.length; i++) {
-                var childDiv = '<div id="block'+data[0].LstofBlocks[i-1].Blocks_Id+'"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control inputWithIcon" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" />';
-                if(!data[0].LstofBlocks[i-1].blnunitexists)
-                    childDiv = childDiv+'<span ng-click="deleteBlock('+data[0].Phase_Id + ',' + data[0].LstofBlocks[i-1].Blocks_Id+')" class="glyphicon glyphicon-trash delete"></span></div>';
+                var childDiv = '<div id="block' + data[0].LstofBlocks[i - 1].Blocks_Id + '"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control inputWithIcon" name="blockName[' + (i - 1) + ']" ng-model="projectDetails.blockName[' + (i - 1) + ']" />';
+                if (!data[0].LstofBlocks[i - 1].blnunitexists)
+                    childDiv = childDiv + '<span ng-click="deleteBlock(' + data[0].Phase_Id + ',' + data[0].LstofBlocks[i - 1].Blocks_Id + ')" class="glyphicon glyphicon-trash delete"></span></div>';
                 else
-                    childDiv = childDiv+"</div>";
+                    childDiv = childDiv + "</div>";
                 var childDivComplied = $compile(childDiv)($scope);
                 angular.element("#noOfBlocks").append(childDivComplied);
             }
         }
     };
-    
+
     $scope.appendFields = function(noOfLocation) {
         angular.element("#noOfBlocks").html('');
         for (i = 1; i <= noOfLocation; i++) {
-            var childDiv = '<div><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" /></div>';
+            var childDiv = '<div><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i - 1) + ']" ng-model="projectDetails.blockName[' + (i - 1) + ']" /></div>';
             var childDivComplied = $compile(childDiv)($scope);
             angular.element("#noOfBlocks").append(childDivComplied);
         }
     };
-    
+
     $scope.editPhase = function(formObj, formName) {
         $scope.submit = true;
 
         if ($scope[formName].$valid) {
             var blockLst = [];
-            
-            for(var i = 0; i < formObj.noOfBlocks; i++){
+
+            for (var i = 0; i < formObj.noOfBlocks; i++) {
                 var tmp = {};
                 tmp.Blocks_Name = formObj.blockName[i];
-                tmp.Blocks_Id = 0; 
+                tmp.Blocks_Id = 0;
                 blockLst.push(tmp);
             }
 
@@ -1471,22 +1489,26 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
                 url: "http://120.138.8.150/pratham/Proj/Phase/Save",
                 ContentType: 'application/json',
                 data: {
-                     "Phase_comp_guid": $cookieStore.get('comp_guid'),
-                     "Phase_Id": $stateParams.phaseId,
-                     "Phase_Proj_Id": formObj.projectName,
-                     "Phase_Name": formObj.phaseName,
-                     "Phase_Surveynos": formObj.surveyNos,
-                     "Phase_UnitMsmnt": {"UnitMsmnt_Id": formObj.unitOfMeasurement},
-                     "Phase_UnitType": {"UnitType_Id": formObj.phaseType},
-                     "Phase_NoofBlocks": formObj.noOfBlocks,
-                     "Phase_Location": formObj.location,
-                     "LstofBlocks": blockLst
+                    "Phase_comp_guid": $cookieStore.get('comp_guid'),
+                    "Phase_Id": $stateParams.phaseId,
+                    "Phase_Proj_Id": formObj.projectName,
+                    "Phase_Name": formObj.phaseName,
+                    "Phase_Surveynos": formObj.surveyNos,
+                    "Phase_UnitMsmnt": {
+                        "UnitMsmnt_Id": formObj.unitOfMeasurement
+                    },
+                    "Phase_UnitType": {
+                        "UnitType_Id": formObj.phaseType
+                    },
+                    "Phase_NoofBlocks": formObj.noOfBlocks,
+                    "Phase_Location": formObj.location,
+                    "LstofBlocks": blockLst
                 }
             }).success(function(data) {
                 //console.log(data);
                 $scope.addPhaseResult = data;
                 angular.element(".loader").hide();
-                if($scope.addPhaseResult.Comm_ErrorDesc.match('0|')){
+                if ($scope.addPhaseResult.Comm_ErrorDesc.match('0|')) {
                     $state.go("/Phases");
                 } else {
                     alert("Something went wrong.");
@@ -1498,7 +1520,7 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
             alert("Not valid Form.");
         }
     };
-    
+
     $scope.deleteBlock = function(blockId, phaseId) {
         angular.element(".loader").show();
         $http({
@@ -1512,8 +1534,8 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
             }
         }).success(function(data) {
             $state.go("/EditPhases", {
-                "projId"  : $stateParams.projId,
-                "phaseId" : $stateParams.phaseId
+                "projId": $stateParams.projId,
+                "phaseId": $stateParams.phaseId
             });
             $state.reload();
             angular.element(".loader").hide();
@@ -1526,7 +1548,7 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
 app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compile, $stateParams) {
     $scope.pageTitle = "Add Phase";
     $scope.addPhaseBtn = true;
-    
+
     ($scope.getProjectList = function() {
         $scope.perFloorUnits = [];
         $scope.units = [];
@@ -1550,52 +1572,56 @@ app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compi
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.appendFields = function(noOfLocation) {
         angular.element("#noOfBlocks").html('');
         for (i = 1; i <= noOfLocation; i++) {
-            var childDiv = '<div><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i-1) + ']" ng-model="projectDetails.blockName[' + (i-1) + ']" /></div>';
+            var childDiv = '<div><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i - 1) + ']" ng-model="projectDetails.blockName[' + (i - 1) + ']" /></div>';
             var childDivComplied = $compile(childDiv)($scope);
             angular.element("#noOfBlocks").append(childDivComplied);
         }
     };
-    
-     $scope.addPhase = function(formObj, formName) {
+
+    $scope.addPhase = function(formObj, formName) {
         $scope.submit = true;
 
         if ($scope[formName].$valid) {
             var blockLst = [];
-            
-            for(var i = 0; i < formObj.noOfBlocks; i++){
+
+            for (var i = 0; i < formObj.noOfBlocks; i++) {
                 var tmp = {};
                 tmp.Blocks_Name = formObj.blockName[i];
-                tmp.Blocks_Id = 0; 
+                tmp.Blocks_Id = 0;
                 blockLst.push(tmp);
             }
-            
-//            console.log(formObj);
+
+            //            console.log(formObj);
             angular.element(".loader").show();
             $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Proj/Phase/Save",
                 ContentType: 'application/json',
                 data: {
-                     "Phase_comp_guid": $cookieStore.get('comp_guid'),
-                     "Phase_Id": 0,
-                     "Phase_Proj_Id": formObj.projectName,
-                     "Phase_Name": formObj.phaseName,
-                     "Phase_Surveynos": formObj.surveyNos,
-                     "Phase_UnitMsmnt": {"UnitMsmnt_Id": formObj.unitOfMeasurement},
-                     "Phase_UnitType": {"UnitType_Id": formObj.phaseType},
-                     "Phase_NoofBlocks": formObj.noOfBlocks,
-                     "Phase_Location": formObj.location,
-                     "LstofBlocks": blockLst
+                    "Phase_comp_guid": $cookieStore.get('comp_guid'),
+                    "Phase_Id": 0,
+                    "Phase_Proj_Id": formObj.projectName,
+                    "Phase_Name": formObj.phaseName,
+                    "Phase_Surveynos": formObj.surveyNos,
+                    "Phase_UnitMsmnt": {
+                        "UnitMsmnt_Id": formObj.unitOfMeasurement
+                    },
+                    "Phase_UnitType": {
+                        "UnitType_Id": formObj.phaseType
+                    },
+                    "Phase_NoofBlocks": formObj.noOfBlocks,
+                    "Phase_Location": formObj.location,
+                    "LstofBlocks": blockLst
                 }
             }).success(function(data) {
                 console.log(data);
                 $scope.addPhaseResult = data;
                 angular.element(".loader").hide();
-                if($scope.addPhaseResult.Comm_ErrorDesc.match('0|')){
+                if ($scope.addPhaseResult.Comm_ErrorDesc.match('0|')) {
                     $state.go("/Phases");
                 } else {
                     alert("Something went wrong.");
@@ -1606,13 +1632,13 @@ app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compi
         } else {
             alert("Not valid Form.");
         }
-     };
+    };
 });
 
 app.controller("phases", function($scope, $http, $cookieStore, $state, $compile) {
-    $scope.typeNames = ['Flat','Sites','Villa','Row Houses'];
-    
-     ($scope.getProjectList = function() {
+    $scope.typeNames = ['Flat', 'Sites', 'Villa', 'Row Houses'];
+
+    ($scope.getProjectList = function() {
         $scope.perFloorUnits = [];
         $scope.units = [];
         angular.element(".loader").show();
@@ -1631,7 +1657,7 @@ app.controller("phases", function($scope, $http, $cookieStore, $state, $compile)
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.getPhases = function(projId) {
         angular.element(".loader").show();
         $http({
@@ -1650,7 +1676,7 @@ app.controller("phases", function($scope, $http, $cookieStore, $state, $compile)
             angular.element(".loader").hide();
         });
     };
-    
+
     $scope.addPhase = function(formObj, formName) {
         $scope.submit = true;
 
@@ -1664,7 +1690,7 @@ app.controller("phases", function($scope, $http, $cookieStore, $state, $compile)
                 projectName : formObj.projectName
             };*/
         }
-     };
+    };
 });
 
 app.controller("customerController", function($scope, $http, $cookieStore, $state, $uibModal) {
@@ -1704,7 +1730,7 @@ app.controller("customerController", function($scope, $http, $cookieStore, $stat
 
 app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
     $scope.pageTitle = "Access Rights";
-     $scope.getRoleaccrgts = function(roleId) {
+    $scope.getRoleaccrgts = function(roleId) {
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/User/Roleaccrgts",
@@ -1717,7 +1743,7 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
             console.log(data);
             angular.element(".loader").hide();
             $scope.Roleaccrgts = data;
-            $scope.Roleaccrgts.ProjectAdd=true;
+            $scope.Roleaccrgts.ProjectAdd = true;
         }).error(function() {
             angular.element(".loader").hide();
         });
@@ -1729,92 +1755,91 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
                 method: "POST",
                 url: "http://120.138.8.150/pratham/User/SaveRoleaccrgts",
                 ContentType: 'application/json',
-                data: [
-                            {
-                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
-                            "RoleAccRgts_RoleId": formObj.role,
-                            "RoleAccRgts_ModuleId": 1,
-                            "RoleAccRgts_Add": formObj.ProjectAdd,
-                            "RoleAccRgts_View": formObj.ProjectView,
-                            "RoleAccRgts_Edit": formObj.ProjectEdit,
-                            "RoleAccRgts_Del": formObj.ProjectDelete
-                            },
-                            {
-                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
-                            "RoleAccRgts_RoleId": formObj.role,
-                            "RoleAccRgts_ModuleId": 2,
-                            "RoleAccRgts_Add": formObj.PhaseAdd,
-                            "RoleAccRgts_View": formObj.PhaseView,
-                            "RoleAccRgts_Edit": formObj.PhaseEdit,
-                            "RoleAccRgts_Del": formObj.PhaseDelete
+                data: [{
+                        "RoleAccRgts_compguid": $cookieStore.get('comp_guid'),
+                        "RoleAccRgts_RoleId": formObj.role,
+                        "RoleAccRgts_ModuleId": 1,
+                        "RoleAccRgts_Add": formObj.ProjectAdd,
+                        "RoleAccRgts_View": formObj.ProjectView,
+                        "RoleAccRgts_Edit": formObj.ProjectEdit,
+                        "RoleAccRgts_Del": formObj.ProjectDelete
+                    },
+                    {
+                        "RoleAccRgts_compguid": $cookieStore.get('comp_guid'),
+                        "RoleAccRgts_RoleId": formObj.role,
+                        "RoleAccRgts_ModuleId": 2,
+                        "RoleAccRgts_Add": formObj.PhaseAdd,
+                        "RoleAccRgts_View": formObj.PhaseView,
+                        "RoleAccRgts_Edit": formObj.PhaseEdit,
+                        "RoleAccRgts_Del": formObj.PhaseDelete
 
-                            },
-                            {
-                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
-                            "RoleAccRgts_RoleId": formObj.role,
-                            "RoleAccRgts_ModuleId": 3,
-                            "RoleAccRgts_Add": formObj.LeadAdd,
-                            "RoleAccRgts_View": formObj.LeadView,
-                            "RoleAccRgts_Edit": formObj.LeadEdit,
-                            "RoleAccRgts_Del": formObj.LeadDelete
-                            },
-                           {
-                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
-                            "RoleAccRgts_RoleId": formObj.role,
-                            "RoleAccRgts_ModuleId": 4,
-                            "RoleAccRgts_Add": formObj.CustomerAdd,
-                            "RoleAccRgts_View": formObj.CustomerView,
-                            "RoleAccRgts_Edit": formObj.CustomerEdit,
-                            "RoleAccRgts_Del": formObj.CustomerDelete
-                            },
-                            {
-                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
-                            "RoleAccRgts_RoleId": formObj.role,
-                            "RoleAccRgts_ModuleId": 5,
-                            "RoleAccRgts_Add": formObj.PhaseBlocksAdd,
-                            "RoleAccRgts_View": formObj.PhaseBlocksView,
-                            "RoleAccRgts_Edit": formObj.PhaseBlocksEdit,
-                            "RoleAccRgts_Del": formObj.PhaseBlocksDelete
+                    },
+                    {
+                        "RoleAccRgts_compguid": $cookieStore.get('comp_guid'),
+                        "RoleAccRgts_RoleId": formObj.role,
+                        "RoleAccRgts_ModuleId": 3,
+                        "RoleAccRgts_Add": formObj.LeadAdd,
+                        "RoleAccRgts_View": formObj.LeadView,
+                        "RoleAccRgts_Edit": formObj.LeadEdit,
+                        "RoleAccRgts_Del": formObj.LeadDelete
+                    },
+                    {
+                        "RoleAccRgts_compguid": $cookieStore.get('comp_guid'),
+                        "RoleAccRgts_RoleId": formObj.role,
+                        "RoleAccRgts_ModuleId": 4,
+                        "RoleAccRgts_Add": formObj.CustomerAdd,
+                        "RoleAccRgts_View": formObj.CustomerView,
+                        "RoleAccRgts_Edit": formObj.CustomerEdit,
+                        "RoleAccRgts_Del": formObj.CustomerDelete
+                    },
+                    {
+                        "RoleAccRgts_compguid": $cookieStore.get('comp_guid'),
+                        "RoleAccRgts_RoleId": formObj.role,
+                        "RoleAccRgts_ModuleId": 5,
+                        "RoleAccRgts_Add": formObj.PhaseBlocksAdd,
+                        "RoleAccRgts_View": formObj.PhaseBlocksView,
+                        "RoleAccRgts_Edit": formObj.PhaseBlocksEdit,
+                        "RoleAccRgts_Del": formObj.PhaseBlocksDelete
 
-                            },
-                            {
-                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
-                            "RoleAccRgts_RoleId": formObj.role,
-                            "RoleAccRgts_ModuleId": 6,
-                            "RoleAccRgts_Add": formObj.PhaseUnitAdd,
-                            "RoleAccRgts_View": formObj.PhaseUnitView,
-                            "RoleAccRgts_Edit": formObj.PhaseUnitEdit,
-                            "RoleAccRgts_Del": formObj.PhaseUnitDelete
-                            },
-                            {
-                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
-                            "RoleAccRgts_RoleId": formObj.role,
-                            "RoleAccRgts_ModuleId": 7,
-                            "RoleAccRgts_Add": formObj.PhaseGenerateUnitsAdd,
-                            "RoleAccRgts_View": formObj.PhaseGenerateUnitsView,
-                            "RoleAccRgts_Edit": formObj.PhaseGenerateUnitsEdit,
-                            "RoleAccRgts_Del": formObj.PhaseGenerateUnitsDelete
-                            },
-                            {
-                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
-                            "RoleAccRgts_RoleId": formObj.role,
-                            "RoleAccRgts_ModuleId": 8,
-                            "RoleAccRgts_Add": formObj.UnitAllocationLeadAdd,
-                            "RoleAccRgts_View": formObj.UnitAllocationLeadView,
-                            "RoleAccRgts_Edit": formObj.UnitAllocationLeadEdit,
-                            "RoleAccRgts_Del": formObj.UnitAllocationLeadDelete
+                    },
+                    {
+                        "RoleAccRgts_compguid": $cookieStore.get('comp_guid'),
+                        "RoleAccRgts_RoleId": formObj.role,
+                        "RoleAccRgts_ModuleId": 6,
+                        "RoleAccRgts_Add": formObj.PhaseUnitAdd,
+                        "RoleAccRgts_View": formObj.PhaseUnitView,
+                        "RoleAccRgts_Edit": formObj.PhaseUnitEdit,
+                        "RoleAccRgts_Del": formObj.PhaseUnitDelete
+                    },
+                    {
+                        "RoleAccRgts_compguid": $cookieStore.get('comp_guid'),
+                        "RoleAccRgts_RoleId": formObj.role,
+                        "RoleAccRgts_ModuleId": 7,
+                        "RoleAccRgts_Add": formObj.PhaseGenerateUnitsAdd,
+                        "RoleAccRgts_View": formObj.PhaseGenerateUnitsView,
+                        "RoleAccRgts_Edit": formObj.PhaseGenerateUnitsEdit,
+                        "RoleAccRgts_Del": formObj.PhaseGenerateUnitsDelete
+                    },
+                    {
+                        "RoleAccRgts_compguid": $cookieStore.get('comp_guid'),
+                        "RoleAccRgts_RoleId": formObj.role,
+                        "RoleAccRgts_ModuleId": 8,
+                        "RoleAccRgts_Add": formObj.UnitAllocationLeadAdd,
+                        "RoleAccRgts_View": formObj.UnitAllocationLeadView,
+                        "RoleAccRgts_Edit": formObj.UnitAllocationLeadEdit,
+                        "RoleAccRgts_Del": formObj.UnitAllocationLeadDelete
 
-                            },
-                            {
-                            "RoleAccRgts_compguid":  $cookieStore.get('comp_guid'),
-                            "RoleAccRgts_RoleId": formObj.role,
-                            "RoleAccRgts_ModuleId": 9,
-                            "RoleAccRgts_Add": formObj.UnitAllocationCustAdd,
-                            "RoleAccRgts_View": formObj.UnitAllocationCustView,
-                            "RoleAccRgts_Edit": formObj.UnitAllocationCustEdit,
-                            "RoleAccRgts_Del": formObj.UnitAllocationCustDelete
-                            }
-                        ]
+                    },
+                    {
+                        "RoleAccRgts_compguid": $cookieStore.get('comp_guid'),
+                        "RoleAccRgts_RoleId": formObj.role,
+                        "RoleAccRgts_ModuleId": 9,
+                        "RoleAccRgts_Add": formObj.UnitAllocationCustAdd,
+                        "RoleAccRgts_View": formObj.UnitAllocationCustView,
+                        "RoleAccRgts_Edit": formObj.UnitAllocationCustEdit,
+                        "RoleAccRgts_Del": formObj.UnitAllocationCustDelete
+                    }
+                ]
             }).success(function(data) {
                 if (data[0].RoleErrorDesc == "0") {
                     alert("Access Right Record Saved")
@@ -1836,29 +1861,29 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
     $scope.unitStatus[5] = "Blocked by not paying advance";
     $scope.unitStatus[6] = "Sold";
     $scope.unitStatus[7] = "Cancelled";
-    
+
     $scope.leadId = $scope.customer.user_id;
-    
+
     if ($scope.customer.userprojlist != null) {
         $scope.leadProjects = [];
         for (i = 0; i < $scope.customer.userprojlist.length; i++) {
             $scope.leadUnitObj = $scope.customer.userprojlist[i];
             $scope.leadUnitObj.unitViewStatus = "N/A";
-            if($scope.customer.userprojlist[i].ProjDtl_Status != 0)
+            if ($scope.customer.userprojlist[i].ProjDtl_Status != 0)
                 $scope.leadUnitObj.unitViewStatus = $scope.unitStatus[$scope.customer.userprojlist[i].ProjDtl_Status];
-                $scope.leadProjects.push($scope.leadUnitObj);
+            $scope.leadProjects.push($scope.leadUnitObj);
         }
     }
-    
+
     $scope.deleteRow = function(projId, rowId) {
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/User/ProjUnitDel",
             ContentType: 'application/json',
             data: [{
-                    "comp_guid": $cookieStore.get('comp_guid'),
-                    "ProjDtl_Id":projId
-                  }]
+                "comp_guid": $cookieStore.get('comp_guid'),
+                "ProjDtl_Id": projId
+            }]
         }).success(function(data) {
             if (data.Comm_ErrorDesc == '0|0') {
                 $("tr#" + rowId).remove();
@@ -1870,7 +1895,7 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
             angular.element(".loader").hide();
         });
     };
-    
+
     $scope.addLeadProjects = function(leadId) {
         $uibModalInstance.close();
         $state.go("/ProjectDetails", {
