@@ -1560,39 +1560,11 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
                 "Blocks_Phase_Id": blockId
             }
         }).success(function(data) {
-            $('#block'+phaseId).remove();
-            $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Proj/Phase/View",
-                ContentType: 'application/json',
-                data: {
-                    "Phase_comp_guid": $cookieStore.get('comp_guid'),
-                    "Phase_Proj_Id": $stateParams.projId,
-                    "Phase_Id": $stateParams.phaseId
-                }
-            }).success(function(data) {
-                var phaseList = [];
-
-                if(data[0].LstofBlocks != null){
-                    for(var i = 0; i < data[0].LstofBlocks.length; i++){
-                        phaseList.push(data[0].LstofBlocks[i].Blocks_Name);
-                    }
-                }
-
-                $scope.projectDetails = {
-                    phaseName: data[0].Phase_Name,
-                    location: data[0].Phase_Location,
-                    surveyNos: data[0].Phase_Surveynos,
-                    unitOfMeasurement: data[0].Phase_UnitMsmnt.UnitMsmnt_Id+"",
-                    phaseType: data[0].Phase_UnitType.UnitType_Id,
-                    noOfBlocks: data[0].Phase_NoofBlocks,
-                    projectName: $stateParams.projId,
-                    blockName: phaseList
-                };
-                angular.element(".loader").hide();
-            }).error(function() {
-                angular.element(".loader").hide();
+            $state.go("/EditPhases", {
+                "projId"  : $stateParams.projId,
+                "phaseId" : $stateParams.phaseId
             });
+            $state.reload();
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
