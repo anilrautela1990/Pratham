@@ -1461,22 +1461,30 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
         }
     };
 
-    $scope.appendFields = function(noOfLocation) {
-        angular.element("#noOfBlocks").html('');
-        for (i = 1; i <= noOfLocation; i++) {
-            var childDiv = '<div><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control" name="blockName[' + (i - 1) + ']" ng-model="projectDetails.blockName[' + (i - 1) + ']" /></div>';
-            var childDivComplied = $compile(childDiv)($scope);
-            angular.element("#noOfBlocks").append(childDivComplied);
-        }
+    $scope.appendFields = function() {
+        var index = 0;
+        var placeholder = 1;
+        var blockNumbers = $("#noOfBlocks > div").length;
+        
+        if(blockNumbers != 0){
+            var lastInputHtml = $("#noOfBlocks > div:last-child > input").attr('name');
+            index = parseInt(lastInputHtml.substring(lastInputHtml.indexOf('[') + 1, lastInputHtml.indexOf(']'))) + 1;
+            placeholder = index + 1;
+        } 
+        
+        var childDiv = '<div id="block' + index + '"><input type="text" placeholder="Block  ' + placeholder + ' Name" title="Block ' + index + ' Name" class="form-control inputWithIcon" name="blockName[' + (index) + ']" ng-model="projectDetails.blockName[' + (index) + ']" /></div>';
+        var childDivComplied = $compile(childDiv)($scope);
+        angular.element("#noOfBlocks").append(childDivComplied);
+        
+        var something = $("#blockCount").val(blockNumbers+1);
     };
 
     $scope.editPhase = function(formObj, formName) {
+        var noOfBlocks =  $("#blockCount").val();
         $scope.submit = true;
-
         if ($scope[formName].$valid) {
-            var blockLst = [];
-
-            for (var i = 0; i < formObj.noOfBlocks; i++) {
+            var blockLst = [];            
+            for (var i = 0; i < noOfBlocks; i++) {
                 var tmp = {};
                 tmp.Blocks_Name = formObj.blockName[i];
                 tmp.Blocks_Id = 0;
@@ -1500,7 +1508,7 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
                     "Phase_UnitType": {
                         "UnitType_Id": formObj.phaseType
                     },
-                    "Phase_NoofBlocks": formObj.noOfBlocks,
+                    "Phase_NoofBlocks": noOfBlocks,
                     "Phase_Location": formObj.location,
                     "LstofBlocks": blockLst
                 }
