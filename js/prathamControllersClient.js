@@ -1541,11 +1541,14 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
                 "Blocks_Phase_Id": blockId
             }
         }).success(function(data) {
-            $state.go("/EditPhases", {
-                "projId": $stateParams.projId,
-                "phaseId": $stateParams.phaseId
-            });
-            $state.reload();
+			$("#block"+phaseId).remove();
+			var blockNumbers = $("#noOfBlocks > div").length;
+			$("#blockCount").val(blockNumbers);
+//            $state.go("/EditPhases", {
+//                "projId": $stateParams.projId,
+//                "phaseId": $stateParams.phaseId
+//            });
+//            $state.reload();
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
