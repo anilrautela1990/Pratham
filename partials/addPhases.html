@@ -58,7 +58,7 @@
                     <input type="number" class="form-control" name="noOfBlocks" ng-model="projectDetails.noOfBlocks" ng-required="true" ng-change="appendFields(projectDetails.noOfBlocks)" ng-disabled="editPhaseBtn" ng-class="{blankInput: addPhaseForm.noOfBlocks.$error.required &amp;&amp; submit}" id="blockCount"/>
 			</div>
 		</div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="editPhaseBtn">
             <button type="button" name="addBlock" id="addBlock" class="btn btn-default" ng-click="appendFields()">Add Block</button>
         </div>
         <div id="noOfBlocks" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0"></div>
