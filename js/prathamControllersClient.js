@@ -1116,23 +1116,26 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
                     "Blocks_Id": obj.blocks
                 }
             }).success(function(data) {
+                console.log(data);
                 $scope.unitAllocationData = [];
                 for (h = 0; h < data.length; h++) {
                     if (data[h].userprojlist != null) {
                         for (i = 0; i < data[h].userprojlist.length; i++) {
-                            $scope.unitAllocationObj = {};
+                            if(data[h].userprojlist[i].ProjDtl_Status != 7){
+                                $scope.unitAllocationObj = {};
 
-                            $scope.unitAllocationObj.name = data[h].user_first_name + ' ' + data[h].user_middle_name + ' ' + data[h].user_last_name;
-                            $scope.unitAllocationObj.email = data[h].user_email_address;
-                            $scope.unitAllocationObj.mobile = data[h].user_mobile_no;
-                            /*$scope.unitAllocationObj.projName = data[h].userprojlist[i].Proj_Name;
-                            $scope.unitAllocationObj.phaseName = data[h].userprojlist[i].Phase_Name;
-                            $scope.unitAllocationObj.phaseType = 'Temp Phase Type';
-                            $scope.unitAllocationObj.blockName = data[h].userprojlist[i].Blocks_Name;*/
-                            $scope.unitAllocationObj.unitObj = data[h].userprojlist[i];
-                            $scope.unitAllocationObj.leadID = data[h].user_id;
+                                $scope.unitAllocationObj.name = data[h].user_first_name + ' ' + data[h].user_middle_name + ' ' + data[h].user_last_name;
+                                $scope.unitAllocationObj.email = data[h].user_email_address;
+                                $scope.unitAllocationObj.mobile = data[h].user_mobile_no;
+                                /*$scope.unitAllocationObj.projName = data[h].userprojlist[i].Proj_Name;
+                                $scope.unitAllocationObj.phaseName = data[h].userprojlist[i].Phase_Name;
+                                $scope.unitAllocationObj.phaseType = 'Temp Phase Type';
+                                $scope.unitAllocationObj.blockName = data[h].userprojlist[i].Blocks_Name;*/
+                                $scope.unitAllocationObj.unitObj = data[h].userprojlist[i];
+                                $scope.unitAllocationObj.leadID = data[h].user_id;
 
-                            $scope.unitAllocationData.push($scope.unitAllocationObj);
+                                $scope.unitAllocationData.push($scope.unitAllocationObj);
+                            }
                         }
                     }
                 }
