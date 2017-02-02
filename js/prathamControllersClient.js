@@ -1707,10 +1707,8 @@ app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compi
 
     $scope.addPhase = function(formObj, formName) {
         $scope.submit = true;
-
         if ($scope[formName].$valid) {
             var blockLst = [];
-
             for (var i = 0; i < formObj.noOfBlocks; i++) {
                 var tmp = {};
                 tmp.Blocks_Name = formObj.blockName[i];
@@ -1741,11 +1739,21 @@ app.controller("addPhases", function($scope, $http, $cookieStore, $state, $compi
                     "LstofBlocks": blockLst
                 }
             }).success(function(data) {
-                console.log(data);
+                console.log(data.Comm_ErrorDesc);
+				var resultData = data.Comm_ErrorDesc;
+				var resDataArray = resultData.split('|');
+				
+				console.log(resDataArray);
+				
                 $scope.addPhaseResult = data;
                 angular.element(".loader").hide();
-                if ($scope.addPhaseResult.Comm_ErrorDesc.match('0|')) {
-                    $state.go("/AddUnit");
+                if (resDataArray[0] == 0) {
+                    $state.go("/AddUnit", 
+							  { 
+							  projId: formObj.projectName,
+							  phaseId: resDataArray[1] 
+							  }
+							 );
                 } else {
                     alert("Something went wrong.");
                 }
@@ -2050,4 +2058,9 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
         }
         return typeName;
     }
+});
+app.controller("addUnit", function($scope, $http, $state, $cookieStore, $stateParams) {
+	$scope.projectId = $stateParams.projId;
+	$scope.phaseId = $stateParams.phaseId;
+	$scope.pageTitle = "Flat";
 });

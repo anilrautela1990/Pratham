@@ -92,6 +92,11 @@ $stateProvider
 		templateUrl: 'partials/addPhases.html',
 		controller: 'editPhases'
 	})
+	.state('/AddUnit', {
+		url: '/AddUnit/:projId/:phaseId',
+		templateUrl: 'partials/addUnit.html',
+		controller: 'addUnit'
+	})
 });
 app.config(function($httpProvider){
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
