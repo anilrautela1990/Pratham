@@ -576,7 +576,6 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
         $scope.leadId = $stateParams.leadID;
         $scope.action = $stateParams.action;
 
-        //alert($scope.leadId+' : '+$scope.action);
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/User/UserDtls",
@@ -586,19 +585,30 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                 "user_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
-            console.log(data);
+            var dateArray = [];
+            dateArray.push($filter('date')(data.user_dob, 'MMM dd, yyyy'));
+            dateArray.push($filter('date')(data.Cust_spouse_dob, 'MMM dd, yyyy'));
+            dateArray.push($filter('date')(data.Cust_wedanv, 'MMM dd, yyyy'));
+            dateArray.push($filter('date')(data.Cust_gpa_dob, 'MMM dd, yyyy'));
+            dateArray.push($filter('date')(data.Cust_child1_dob, 'MMM dd, yyyy'));
+            dateArray.push($filter('date')(data.Cust_child2_dob, 'MMM dd, yyyy'));
+            dateArray.push($filter('date')(data.Cust_child3_dob, 'MMM dd, yyyy'));
+            dateArray.push($filter('date')(data.Cust_child4_dob, 'MMM dd, yyyy'));
+            
+            for(var i = 0; i < dateArray.length; i++){
+                if(dateArray[i] == "Jan 01, 0001"){
+                    dateArray[i] = "";
+                }
+            }
+            
             var state = data.user_state;
             var city = data.user_city;
-            var dob = $filter('date')(data.user_dob, 'MMM dd, yyyy');
-
+            
             if (state == 0) {
                 state = "";
             }
             if (city == 0) {
                 city = "";
-            }
-            if (dob == "Jan 01, 0001") {
-                dob = "";
             }
 
             if (data.user_id != 0) {
@@ -610,7 +620,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                         mobileNumber: data.user_mobile_no,
                         officeNumber: data.user_office_no,
                         emailId: data.user_email_address,
-                        dob: dob,
+                        dob: dateArray[0],
                         gender: data.user_gender,
                         country: data.user_country,
                         state: state + "",
@@ -628,7 +638,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                         mobileNumber: data.user_mobile_no,
                         officeNumber: data.user_office_no,
                         emailId: data.user_email_address,
-                        dob: dob,
+                        dob: dateArray[0],
                         gender: data.user_gender,
                         country: data.user_country,
                         state: state + "",
@@ -643,6 +653,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                         address2: data.Cust_perm_add,
                         pan: data.Cust_pan,
                         aadhar: data.Cust_aadhar,
+                        weddingAnniversary: dateArray[2],
                         alternateContact: data.Cust_alt_contactno,
                         qualification: data.Cust_qualification,
                         profession: data.Cust_Profession,
@@ -651,13 +662,36 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                         officeAddress: data.Cust_off_add,
                         officeEmailId: data.Cust_off_email,
                         spouseName: data.Cust_spouse_nm,
-                        spouseDob: data.Cust_spouse_dob,
+                        spouseDob: dateArray[1],
                         spousePan: data.Cust_spouse_pan,
                         spouseAadhar: data.Cust_spouse_aadhar,
                         childrenNo: data.Cust_noof_childrn + "",
-                        bankloan: data.Cust_bankloan
-
+                        child1Name: data.Cust_child1_nm,
+                        child1Dob: dateArray[4],
+                        child2Name: data.Cust_child2_nm,
+                        child2Dob: dateArray[5],
+                        child3Name: data.Cust_child3_nm,
+                        child3Dob: dateArray[6],
+                        child4Name: data.Cust_child4_nm,
+                        child4Dob: dateArray[7],
+                        bankloan: data.Cust_bankloan,
+                        bankName: data.Cust_bankloan,
+                        accountNumber: data.Cust_bankaccno,
+                        ifscCode: data.Cust_bankifsccode,
+                        bankAdress: data.Cust_bankadd,
+                        bankEmailId: data.Cust_bankemailid,
+                        gpaHolder: data.Cust_gpaholdr,
+                        gpaRelation: data.Cust_gpa_relationtype + "",
+                        gpaName: data.Cust_gpa_nm,
+                        gpaDob: dateArray[3],
+                        gpaAddress: data.Cust_gpa_add,
+                        permanentAddress: data.Cust_gpa_permadd,
+                        relationWithcustomer: data.Cust_gpa_reltnwithcusty,
+                        gpaPan : data.Cust_gpa_pan,
+                        gpaAadhar: data.Cust_gpa_aadhar
                     }
+                    
+                    editAppendFields();
                 }
                 angular.element(".loader").hide();
             } else {
@@ -666,7 +700,9 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
         }).error(function() {});
     })();
 
-    $scope.updateCustomer = function(formObj, formName) {}
+    $scope.updateCustomer = function(formObj, formName) {
+        alert("update customer");
+    }
 
     $scope.addCustomer = function(formObj, formName) {
         $scope.submit = true;
@@ -758,6 +794,16 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
         }
     };
     $scope.appendFields = function() {
+        angular.element("#children").html('');
+        for (i = 1; i <= $scope.customer.childrenNo; i++) {
+            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="customer.child' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="customer.child' + i + 'Dob"/></div>';
+            var childDivComplied = $compile(childDiv)($scope);
+            angular.element("#children").append(childDivComplied);
+
+        }
+    };
+    
+    function editAppendFields(){
         angular.element("#children").html('');
         for (i = 1; i <= $scope.customer.childrenNo; i++) {
             var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="customer.child' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="customer.child' + i + 'Dob"/></div>';
