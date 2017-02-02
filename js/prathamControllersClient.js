@@ -179,6 +179,27 @@ app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
             "leadID": leadId
         });
     };
+    
+    $scope.getTypeNameById = function(typeId) {
+        var typeName = '';
+        switch (parseInt(typeId)) {
+            case 1:
+                typeName = 'Flat';
+                break;
+            case 2:
+                typeName = 'Sites';
+                break;
+            case 3:
+                typeName = 'Villa';
+                break;
+            case 4:
+                typeName = 'Row Houses';
+                break;
+            default:
+                console.log('eror');
+        }
+        return typeName;
+    }
 });
 
 app.controller("addLead", function($scope, $http, $state, $cookieStore) {
@@ -1049,7 +1070,6 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
                     "Blocks_Id": obj.blocks
                 }
             }).success(function(data) {
-
                 $scope.unitAllocationData = [];
                 for (h = 0; h < data.length; h++) {
                     if (data[h].userprojlist != null) {
@@ -1917,4 +1937,25 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
     $scope.ok = function() {
         $uibModalInstance.close();
     };
+    
+    $scope.getTypeNameById = function(typeId) {
+        var typeName = '';
+        switch (parseInt(typeId)) {
+            case 1:
+                typeName = 'Flat';
+                break;
+            case 2:
+                typeName = 'Sites';
+                break;
+            case 3:
+                typeName = 'Villa';
+                break;
+            case 4:
+                typeName = 'Row Houses';
+                break;
+            default:
+                console.log('eror');
+        }
+        return typeName;
+    }
 });

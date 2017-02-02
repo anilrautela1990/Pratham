@@ -82,7 +82,7 @@
 					  <tr ng-repeat = "unit in leadProjects track by $index" id="{{unit.UnitDtls_Id}}">
 						 <td>{{unit.Proj_Name}}</td>
                          <td>{{unit.Phase_Name}}</td>
-                         <td>{{unit.UnitType_Name}}</td>
+                         <td>{{getTypeNameById(unit.Phase_UnitType_Id)}}</td>
                          <td>{{unit.Blocks_Name}}</td>
                          <td>{{unit.UnitDtls_Name}} / {{unit.phaseType}} No. {{unit.UnitDtls_No}} / {{unit.UnitDtls_Msrmnt}} sq ft / Floor {{unit.UnitDtls_Floor}}</td>
 					  </tr>
