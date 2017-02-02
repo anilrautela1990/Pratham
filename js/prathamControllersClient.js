@@ -500,9 +500,9 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                         projObj.Blocks_Id = parseInt($scope.projectDetails.blocks);
                         projObj.UnitDtls_Id = $scope.units[i].UnitDtls_Id;
                         projObj = JSON.stringify(projObj);
-                        //console.log(projObj);
+//                        console.log($scope.projectDetails);
 
-                        var projectRow = '<tr id="' + $scope.units[i].UnitDtls_Id + '"><td><div class="dispNone">' + projObj + '</div>' + $scope.units[i].UnitDtls_BRoom + 'BHK - ' + $scope.units[i].UnitDtls_No + ' - ' + $scope.units[i].UnitDtls_Floor + ' Floor</td><td>' + $scope.units[i].UnitDtls_Msrmnt + ' sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(' + projectDetails.projectName + ',' + $scope.units[i].UnitDtls_Id + ')"></span></td></tr>';
+                        var projectRow = '<tr id="' + $scope.units[i].UnitDtls_Id + '"><td>'+$scope.units[i].Proj_Name+'</td><td>'+$scope.units[i].Phase_Name+'</td><td>'+getTypeNameById($scope.units[i].Phase_UnitType_Id)+'</td><td><div class="dispNone">' + projObj + '</div>' + $scope.units[i].UnitDtls_BRoom + 'BHK - ' + $scope.units[i].UnitDtls_No + ' - ' + $scope.units[i].UnitDtls_Floor + ' Floor</td><td>' + $scope.units[i].UnitDtls_Msrmnt + ' sq ft</td><td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(' + projectDetails.projectName + ',' + $scope.units[i].UnitDtls_Id + ')"></span></td></tr>';
                         var projectRowComplied = $compile(projectRow)($scope);
                         angular.element(document.getElementById('projectList')).append(projectRowComplied);
                     }
@@ -569,6 +569,48 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             angular.element(".loader").hide();
         });
     };
+    
+    $scope.getTypeNameById = function(typeId) {
+        var typeName = '';
+        switch (parseInt(typeId)) {
+            case 1:
+                typeName = 'Flat';
+                break;
+            case 2:
+                typeName = 'Sites';
+                break;
+            case 3:
+                typeName = 'Villa';
+                break;
+            case 4:
+                typeName = 'Row Houses';
+                break;
+            default:
+                console.log('eror');
+        }
+        return typeName;
+    }
+    
+    function getTypeNameById(typeId) {
+        var typeName = '';
+        switch (parseInt(typeId)) {
+            case 1:
+                typeName = 'Flat';
+                break;
+            case 2:
+                typeName = 'Sites';
+                break;
+            case 3:
+                typeName = 'Villa';
+                break;
+            case 4:
+                typeName = 'Row Houses';
+                break;
+            default:
+                console.log('eror');
+        }
+        return typeName;
+    }
 });
 app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore, $stateParams, $filter, $state) {
     ($scope.convertCustomer = function() {
