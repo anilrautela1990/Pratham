@@ -8,25 +8,26 @@
       <li class="active">{{pageTitle}}</li>
    </ol>
 </div>
-<div class="col-lg-3 col-md-3 col-sm-3 hidden-xs"></div>
-<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-	<form name="addPhaseForm" class="form" method="POST" novalidate="novalidate">
+<div class="col-lg-2 col-md-2 col-sm-2 hidden-xs"></div>
+<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+	<form name="addUnitForm" class="form" method="POST" novalidate="novalidate">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0 radioLabel">
-			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
 				<label for="type">Ownership</label>
 			</div>
-			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0 radioLabel">	
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0 radioLabel">
 				<input type="radio" name="ownerShipType" ng-model="ownerShipType" id="ownLand" value="0"/>
 				<label for="ownLand">Own Land</label>
 				<input type="radio" name="ownerShipType" ng-model="ownerShipType" id="joinDev" value="1"/>
 				<label for="joinDev">Join Development</label>
 			</div>
 		</div>
+<!--
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="ownerShipType == '1'">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
 				<label for="type">No. of Owners</label>
 			</div>
-			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
                     <select name="noOfOwners" class="form-control">
 						<option value="">Please Select</option>
 						<option value="2">2</option>
@@ -35,6 +36,350 @@
 					</select>
 			</div>
 		</div>
+-->
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Owner Name</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Owner Name"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">S/O - W/O - D/O</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Enter Name"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">D.O.B</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="D.O.B"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Address</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Address"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">PAN</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="PAN"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">If Minor, Then</label>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Guardian Name</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Guardian Name"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">S/O - W/O - D/O</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="S/O - W/O - D/O"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">D.O.B</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="D.O.B"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Address</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Address"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">PAN</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="PAN"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Relationship with Minor</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Relationship with Minor"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Total Land Area<br/>(Survey Numberwise)</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Total Land Area (Survey Numberwise)"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Total Hyne Area<br/>(Survey Numberwise)</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Total Land Area (Survey Numberwise)"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Total Karab Area<br/>(Survey Numberwise)</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Total Land Area (Survey Numberwise)"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Project Stage</label>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Land Converted?</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0 radioLabel">
+				<input type="radio" name="landConverted" ng-model="landConverted" id="landConvertedYes" value="1"/>
+				<label for="landConvertedYes">Yes</label>
+				<input type="radio" name="landConverted" ng-model="landConverted" id="landConvertedNo" value="0"/>
+				<label for="landConvertedNo">No</label>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="landConverted == '1'">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Conversion Order Document Number</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Conversion Order Document Number"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="landConverted == '1'">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Conversion Order Date</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Conversion Order Date"/>
+			</div>
+		</div>
+		
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Plan Approved?</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0 radioLabel">
+				<input type="radio" name="planApproved" ng-model="planApproved" id="planApprovedYes" value="1"/>
+				<label for="planApprovedYes">Yes</label>
+				<input type="radio" name="planApproved" ng-model="planApproved" id="planApprovedNo" value="0"/>
+				<label for="planApprovedNo">No</label>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="planApproved == '1'">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Plan Approval Number</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Plan Approval Number"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="planApproved == '1'">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Plan Approval Date</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Plan Approval Date"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="planApproved == '1'">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Plan Approval Authority</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+                    <input type="text" class="form-control" placeholder="Plan Approval Authority"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">NOC Obtained</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0 radioLabel">
+				<input type="radio" name="nocObtained" ng-model="nocObtained" id="nocObtainedYes" value="1"/>
+				<label for="nocObtainedYes">Yes</label>
+				<input type="radio" name="nocObtained" ng-model="nocObtained" id="nocObtainedNo" value="0"/>
+				<label for="nocObtainedNo">No</label>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Relinquish</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0 radioLabel">
+				<input type="radio" name="relinquish" ng-model="relinquish" id="relinquishYes" value="1"/>
+				<label for="relinquishYes">Yes</label>
+				<input type="radio" name="relinquish" ng-model="relinquish" id="relinquishNo" value="0"/>
+				<label for="relinquishNo">No</label>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="relinquish == '1'">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Document Number and Date</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Document Number and Date"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Total Saleable Area</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Total Saleable Area"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Total Plots</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Total Plots"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Area of Roads</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Area of Roads"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">UnitTypeData_arafrcivicamn</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Area of Parks"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">UnitTypeData_sprbltupara</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Area of Parks"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">UnitTypeData_grdnara</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Area of Parks"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">UnitTypeData_terara</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Area of Parks"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">tergrdn</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Area of Parks"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Carpet Area</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Carpet Area"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">pltnara</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Area of Parks"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">No. of Floors</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="No. of Floors"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">No. of Bedrooms</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="No. of Bedrooms"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Common Bathrooms</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Common Bathrooms"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Attached Bathrooms</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Attached Bathrooms"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Servant Room</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Servant Room"/>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+				<label for="type">Car Parking Area</label>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+				<input type="text" class="form-control" placeholder="Car Parking Area"/>
+			</div>
+		</div>
 	</form>
 </div>
-<div class="col-lg-3 col-md-3 col-sm-3 hidden-xs"></div>
+<div class="col-lg-2 col-md-2 col-sm-2 hidden-xs"></div>
