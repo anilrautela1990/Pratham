@@ -59,11 +59,15 @@
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
 				<label for="phases">Project Type</label>
 			</div>
-			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-                <input type="checkbox" value="1" name="type1" ng-model="addProject.type1" ng-required="true" ng-class="{blankInput: addProjectForm.type1.$error.required &amp;&amp; submit}" />Flats
-                <input type="checkbox" value="2" name="type2" ng-model="addProject.type2" ng-class="{blankInput: addProjectForm.type2.$error.required &amp;&amp; submit}" />Sites
-                <input type="checkbox" value="3" name="type3" ng-model="addProject.type3" ng-class="{blankInput: addProjectForm.type3.$error.required &amp;&amp; submit}" />Villa
-                <input type="checkbox" value="4" name="type4" ng-model="addProject.type4" ng-class="{blankInput: addProjectForm.type4.$error.required &amp;&amp; submit}" />Row Houses
+			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0 radioLabel">
+                <input type="checkbox" id="type1" value="1" name="type1" ng-model="addProject.type1" ng-required="true" ng-class="{blankInput: addProjectForm.type1.$error.required &amp;&amp; submit}"/>
+                <label for="type1">Flats</label>
+                <input type="checkbox" id="type2" value="2" name="type2" ng-model="addProject.type2" ng-class="{blankInput: addProjectForm.type2.$error.required &amp;&amp; submit}" />
+                <label for="type2">Sites</label>
+                <input type="checkbox" id="type3" value="3" name="type3" ng-model="addProject.type3" ng-class="{blankInput: addProjectForm.type3.$error.required &amp;&amp; submit}" />
+                <label for="type3">Villa</label>
+                <input type="checkbox" id="type4" value="4" name="type4" ng-model="addProject.type4" ng-class="{blankInput: addProjectForm.type4.$error.required &amp;&amp; submit}" />
+                <label for="type4">Row Houses</label>
 			</div>
 		</div>
 

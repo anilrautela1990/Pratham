@@ -418,3 +418,6 @@ input[disabled]{
 	background-color: #5cb85c;
 	color: #FFF;
 }
+#noOfBlocks > div{
+    margin-bottom: 8px;
+}
