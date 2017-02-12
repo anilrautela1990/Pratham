@@ -1,0 +1,219 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle ng-scope">
+   <h1>Unit Genaration</h1>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20 ng-scope">
+   <ol class="breadcrumb">
+      <li><a href="#">Home</a></li>
+      <li><a ui-sref="/Leads" href="#/Leads">Phases</a></li>
+      <li class="active">Unit Generation</li>
+   </ol>
+</div>
+<form class="ng-pristine ng-valid ng-scope">
+   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left labelDiv">
+            <label>Project:</label>
+         </div>
+         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+            <select ng-model="projectDetails.projectName" name="projectName" class="form-control ng-pristine ng-untouched ng-valid" disabled="">
+               <option value="">
+                  RNS Ultima
+               </option>
+               <!-- ngRepeat: x in projectList -->
+            </select>
+         </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left labelDiv">
+            <label>Phase:</label>
+         </div>
+         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+            <select ng-model="projectDetails.projectName" name="projectName" class="form-control ng-pristine ng-untouched ng-valid" disabled="">
+               <option value="">
+                  Phase I
+               </option>
+               <!-- ngRepeat: x in projectList -->
+            </select>
+         </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left labelDiv">
+            <label>Type:</label>
+         </div>
+         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+            <select ng-model="projectDetails.projectName" name="projectName" class="form-control ng-pristine ng-untouched ng-valid" disabled="">
+               <option value="">
+                  Type 1
+               </option>
+               <!-- ngRepeat: x in projectList -->
+            </select>
+         </div>
+      </div>
+   </div>
+   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left labelDiv">
+            <label>Block:</label>
+         </div>
+         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+            <select ng-model="projectDetails.projectName" name="projectName" class="form-control ng-pristine ng-untouched ng-valid">
+               <option value="">
+                  Block 1
+               </option>
+               <!-- ngRepeat: x in projectList -->
+            </select>
+         </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left labelDiv">
+            <label>No. of Floors:</label>
+         </div>
+         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+            <input type="text" class="form-control" placeholder="No. of Floors">
+         </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left labelDiv">
+            <label>Units Per Floor:</label>
+         </div>
+         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+            <input type="text" class="form-control" placeholder="Units Per Floor">
+         </div>
+      </div>
+   </div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ugf ng-scope">
+   <h4>Unit Generation Formula</h4>
+   <label for="unitNo">Starting Unit No. (For Each Floor): </label>
+   <input type="text" id="unitNo"> | 
+   <label for="skipBy">Skip By:</label>
+   <input type="text" id="skipBy"> | 
+   <label for="afn">Add Floor No.:</label>
+   <input type="checkbox" id="afn"> |
+   <label for="seperator">Seperator:</label>
+   <input type="text" id="seperator"> |
+   <label for="prefix">Prefix:</label>
+   <input type="checkbox" id="prefix"> | 
+   <label for="ifn">Increment Floor No.:</label>
+   <input type="checkbox" id="ifn"> | 
+   <label for="agf">Add Ground Floor:</label>
+   <input type="checkbox" id="agf">
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20 ng-scope">
+   <button type="button" class="btn btn-success" ng-click="">Add Sample Units</button>
+</div>
+</form>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ng-scope">
+   <h4>Sample Units</h4>
+	<table class="sampleUnits">
+		<thead>
+			<tr>
+				<th>Flat No.</th>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Bedroom</th>
+				<th>Balconies</th>
+				<th>Bathrooms</th>
+				<th>Super Built-up Area</th>
+				<th>% Age</th>
+				<th>Carpet Area</th>
+				<th>Premium</th>
+				<th>Position</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<select class="form-control">
+						<option>3</option>
+					</select>
+				</td>
+				<td>
+					<select class="form-control">
+						<option>3</option>
+					</select>
+				</td>
+				<td>
+					<select class="form-control">
+						<option>3</option>
+					</select>
+				</td>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<select class="form-control">
+						<option>Y</option>
+					</select>
+				</td>
+				<td>
+					<select class="form-control">
+						<option>E</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<select class="form-control">
+						<option>3</option>
+					</select>
+				</td>
+				<td>
+					<select class="form-control">
+						<option>3</option>
+					</select>
+				</td>
+				<td>
+					<select class="form-control">
+						<option>3</option>
+					</select>
+				</td>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<input type="text" class="form-control"/>
+				</td>
+				<td>
+					<select class="form-control">
+						<option>Y</option>
+					</select>
+				</td>
+				<td>
+					<select class="form-control">
+						<option>E</option>
+					</select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20 ng-scope">
+   <button type="button" class="btn btn-primary" ng-click="">Generate for all floors from sample units</button>
+</div>

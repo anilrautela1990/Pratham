@@ -421,3 +421,47 @@ input[disabled]{
 #noOfBlocks > div{
     margin-bottom: 8px;
 }
+.labelDiv{
+	padding: 7px 0;
+}
+.labelDiv > label{
+	margin: 0;
+}
+.ugf{
+	margin-top: 10px;
+}
+.ugf input[type='text']{
+	width: 50px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 3px 6px;
+}
+.ugf input[type='checkbox']{
+	position: relative;
+	top: 1px;
+}
+.ugf label{
+	cursor: pointer;
+}
+.ugf h4{
+	border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+.sampleUnits{
+	border: 1px solid #ccc;
+	border-left: 0;
+	border-right: 0;
+	width: 100%;
+}
+.sampleUnits thead tr th{
+	padding: 5px;
+}
+.sampleUnits thead{
+	border-bottom: 1px solid #ccc;
+}
+.sampleUnits tbody tr td{
+	padding: 5px;
+}
+.sampleUnits input[type='text']{
+	width: 100px;
+}
