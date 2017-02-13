@@ -8,15 +8,15 @@
       <li class="active">Unit Generation</li>
    </ol>
 </div>
-<form class="ng-pristine ng-valid ng-scope">
+<form name="untGenerationForm" class="form" method="POST" novalidate="novalidate">
    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left labelDiv">
             <label>Project:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select ng-model="projectDetails.projectName" name="projectName" class="form-control ng-pristine ng-untouched ng-valid" disabled="">
-               <option value="">
+            <select class="form-control" name="projectName" ng-model="untGeneration.projectName" disabled="">
+               <option value="1">
                   RNS Ultima
                </option>
                <!-- ngRepeat: x in projectList -->
@@ -28,8 +28,8 @@
             <label>Phase:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select ng-model="projectDetails.projectName" name="projectName" class="form-control ng-pristine ng-untouched ng-valid" disabled="">
-               <option value="">
+            <select class="form-control" name="phase" ng-model="untGeneration.phase" disabled="">
+               <option value="2">
                   Phase I
                </option>
                <!-- ngRepeat: x in projectList -->
@@ -41,8 +41,8 @@
             <label>Type:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select ng-model="projectDetails.projectName" name="projectName" class="form-control ng-pristine ng-untouched ng-valid" disabled="">
-               <option value="">
+            <select class="form-control" name="type" ng-model="untGeneration.type" disabled="">
+               <option value="3">
                   Type 1
                </option>
                <!-- ngRepeat: x in projectList -->
@@ -56,8 +56,11 @@
             <label>Block:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select ng-model="projectDetails.projectName" name="projectName" class="form-control ng-pristine ng-untouched ng-valid">
+            <select class="form-control" name="block" ng-model="untGeneration.block" ng-required="true" ng-class="{blankInput: untGenerationForm.block.$error.required &amp;&amp; submit}">
                <option value="">
+                  Block
+               </option>
+                <option value="1">
                   Block 1
                </option>
                <!-- ngRepeat: x in projectList -->
@@ -69,7 +72,7 @@
             <label>No. of Floors:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <input type="text" class="form-control" placeholder="No. of Floors">
+            <input type="text" class="form-control" placeholder="No. of Floors" name="noOfFloors" ng-model="untGeneration.noOfFloors" ng-required="true" ng-class="{blankInput: untGenerationForm.noOfFloors.$error.required &amp;&amp; submit}">
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -77,29 +80,31 @@
             <label>Units Per Floor:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <input type="text" class="form-control" placeholder="Units Per Floor">
+            <input type="text" class="form-control" placeholder="Units Per Floor" name="unitsPerFloor" ng-model="untGeneration.unitsPerFloor" ng-required="true" ng-class="{blankInput: untGenerationForm.unitsPerFloor.$error.required &amp;&amp; submit}">
          </div>
       </div>
    </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ugf ng-scope">
    <h4>Unit Generation Formula</h4>
    <label for="unitNo">Starting Unit No. (For Each Floor): </label>
-   <input type="text" id="unitNo"> | 
+   <input type="text" id="unitNo" name="unitNo" ng-model="untGeneration.unitNo" ng-required="true" ng-class="{blankInput: untGenerationForm.unitNo.$error.required &amp;&amp; submit}"> | 
    <label for="skipBy">Skip By:</label>
-   <input type="text" id="skipBy"> | 
+   <input type="text" id="skipBy" name="skipBy" ng-model="untGeneration.skipBy" ng-required="true" ng-class="{blankInput: untGenerationForm.skipBy.$error.required &amp;&amp; submit}"> | 
    <label for="afn">Add Floor No.:</label>
-   <input type="checkbox" id="afn"> |
+   <input type="checkbox" id="afn" ng-model="untGeneration.afn"> |
    <label for="seperator">Seperator:</label>
-   <input type="text" id="seperator"> |
+   <input type="text" id="seperator" ng-model="untGeneration.seperator"> |
    <label for="prefix">Prefix:</label>
-   <input type="checkbox" id="prefix"> | 
+   <input type="checkbox" id="prefix" ng-model="untGeneration.prefix"> | 
    <label for="ifn">Increment Floor No.:</label>
    <input type="checkbox" id="ifn"> | 
    <label for="agf">Add Ground Floor:</label>
-   <input type="checkbox" id="agf">
+   <input type="checkbox" id="agf" ng-model="untGeneration.ifn">
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20 ng-scope">
-   <button type="button" class="btn btn-success" ng-click="">Add Sample Units</button>
+   <button type="button" class="btn btn-success" ng-click="addSampleData(untGeneration,'untGenerationForm')">
+       Add Sample Units
+   </button>
 </div>
 </form>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ng-scope">

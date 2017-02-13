@@ -2066,9 +2066,17 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
 app.controller("addUnit", function($scope, $http, $state, $cookieStore, $stateParams) {
     var projectId = $stateParams.projId;
     var phaseId = $stateParams.phaseId;
-
+    
     $scope.pageTitle = "Add Phase";
-    $scope.ownerShipType = 0;
+    $scope.addUnit = {
+        ownerShipType:0,
+        nocObtained:0,
+        planApproved:0,
+        landConverted:0,
+        minor:0,
+        relinquish:0
+        
+    };
     $scope.savePhaseData = function() {
         $state.go("/UnitGeneration", {
             projId: projectId,
@@ -2080,6 +2088,50 @@ app.controller("addUnit", function($scope, $http, $state, $cookieStore, $statePa
 app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $stateParams) {
 	$scope.projectId = $stateParams.projId;
     $scope.phaseId = $stateParams.phaseId;
-	
-    $scope.test = "Ashish";
+    $scope.untGeneration = {
+        projectName:"1",
+        phase:"2",
+        type:"3"
+    };
+    $scope.addSampleData = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            alert("FORM IS VALID!");
+            console.log(formObj);
+            /*$http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/SaveUser",
+                ContentType: 'application/json',
+                data: {
+                    "user_comp_guid": $cookieStore.get('comp_guid'),
+                    "user_type": 3,
+                    "user_first_name": formObj.firstName,
+                    "user_middle_name": formObj.middleName,
+                    "user_last_name": formObj.lastName,
+                    "user_mobile_no": formObj.mobileNumber,
+                    "user_office_no": formObj.officeNumber,
+                    "user_email_address": formObj.emailId,
+                    "user_country": formObj.country,
+                    "user_city": formObj.city,
+                    "user_state": formObj.state,
+                    "user_address": formObj.address,
+                    "user_zipcode": formObj.zip,
+                    "user_dob": formObj.dob,
+                    "user_gender": parseInt(formObj.gender),
+                }
+            }).success(function(data) {
+                //console.log(data);
+                if (data.user_id != 0) {
+                    //$cookieStore.put('lead_id', data.user_id);
+                    $state.go("/ProjectDetails", {
+                        "leadID": data.user_id
+                    });
+                } else {
+                    alert("Some Error!");
+                }
+            }).error(function() {});*/
+        }
+    };
+    
+    
 });
