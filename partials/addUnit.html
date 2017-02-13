@@ -41,7 +41,7 @@
             <label for="type">Owner Name</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Owner Name"/>
+            <input type="text" class="form-control" name="ownerName" placeholder="Owner Name" ng-model="addUnit.ownerName" ng-required="true" ng-class="{blankInput: addUnitForm.ownerName.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -49,7 +49,7 @@
             <label for="type">S/O - W/O - D/O</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Enter Name"/>
+            <input type="text" class="form-control" name="ownerSowodo" placeholder="Enter Name" ng-model="addUnit.ownerSowodo" ng-required="true" ng-class="{blankInput: addUnitForm.ownerSowodo.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -57,7 +57,7 @@
             <label for="type">D.O.B</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="D.O.B"/>
+            <input type="text" class="form-control" placeholder="D.O.B. (YYYY-MM-DD)" ng-model="addUnit.ownerDob" ng-required="true" ng-class="{blankInput: addUnit.ownerDob.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -65,7 +65,7 @@
             <label for="type">Address</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Address"/>
+            <input type="text" class="form-control" placeholder="Address" ng-model="addUnit.ownerAddress" ng-required="true" ng-class="{blankInput: addUnit.ownerAddress.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -73,7 +73,7 @@
             <label for="type">PAN</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="PAN"/>
+            <input type="text" class="form-control" placeholder="PAN" ng-model="addUnit.ownerPan" ng-required="true" ng-class="{blankInput: addUnit.ownerPan.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -81,19 +81,19 @@
                <label for="type">Minor</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0 radioLabel">
-               <input type="radio" name="minor" ng-model="addUnit.minor" id="minorNo" value="0"/>
+               <input type="radio" name="minor" ng-model="addUnit.minor" id="minorNo" value="false"/>
                <label for="minorNo">No</label>
-               <input type="radio" name="minor" ng-model="addUnit.minor" id="minorYes" value="1"/>
+               <input type="radio" name="minor" ng-model="addUnit.minor" id="minorYes" value="true"/>
                <label for="minorYes">Yes</label>
             </div>
          </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.minor == '1'">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.minor == 'true'">
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
                <label for="type">Guardian Name</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" placeholder="Guardian Name"/>
+               <input type="text" class="form-control" placeholder="Guardian Name" ng-model="addUnit.guardianName" ng-required="true" ng-class="{blankInput: addUnit.guardianName.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -101,7 +101,7 @@
                <label for="type">S/O - W/O - D/O</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" placeholder="S/O - W/O - D/O"/>
+               <input type="text" class="form-control" placeholder="S/O - W/O - D/O" ng-model="addUnit.guardianSowodo" ng-required="true" ng-class="{blankInput: addUnit.guardianSowodo.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -109,7 +109,7 @@
                <label for="type">D.O.B</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" placeholder="D.O.B"/>
+               <input type="text" class="form-control" placeholder="D.O.B. (YYYY-MM-DD)" ng-model="addUnit.guardianDob" ng-required="true" ng-class="{blankInput: addUnit.guardianDob.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -117,7 +117,7 @@
                <label for="type">Address</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" placeholder="Address"/>
+               <input type="text" class="form-control" placeholder="Address" ng-model="addUnit.guardianAddress" ng-required="true" ng-class="{blankInput: addUnit.guardianAddress.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -125,7 +125,7 @@
                <label for="type">PAN</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" placeholder="PAN"/>
+               <input type="text" class="form-control" placeholder="PAN" ng-model="addUnit.guardianPan" ng-required="true" ng-class="{blankInput: addUnit.guardianPan.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -133,7 +133,7 @@
                <label for="type">Relationship with Minor</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" placeholder="Relationship with Minor"/>
+               <input type="text" class="form-control" placeholder="Relationship with Minor" ng-model="addUnit.relationshipWithMinor" ng-required="true" ng-class="{blankInput: addUnit.relationshipWithMinor.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
       </div>
@@ -142,7 +142,7 @@
             <label for="type">Total Land Area<br/>(Survey Numberwise)</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Total Land Area (Survey Numberwise)"/>
+            <input type="text" class="form-control" placeholder="Total Land Area (Survey Numberwise)" ng-model="addUnit.totalLandArea" ng-required="true" ng-class="{blankInput: addUnit.totalLandArea.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -150,7 +150,7 @@
             <label for="type">Total Hyne Area<br/>(Survey Numberwise)</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Total Land Area (Survey Numberwise)"/>
+            <input type="text" class="form-control" placeholder="Total Land Area (Survey Numberwise)" ng-model="addUnit.totalHyneArea" ng-required="true" ng-class="{blankInput: addUnit.totalHyneArea.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -158,7 +158,7 @@
             <label for="type">Total Karab Area<br/>(Survey Numberwise)</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Total Land Area (Survey Numberwise)"/>
+            <input type="text" class="form-control" placeholder="Total Land Area (Survey Numberwise)" ng-model="addUnit.totalKarabArea" ng-required="true" ng-class="{blankInput: addUnit.totalKarabArea.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -171,26 +171,26 @@
             <label for="type">Land Converted?</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0 radioLabel">
-            <input type="radio" name="landConverted" ng-model="addUnit.landConverted" id="landConvertedYes" value="1"/>
+            <input type="radio" name="landConverted" ng-model="addUnit.landConverted" id="landConvertedYes" value="true"/>
             <label for="landConvertedYes">Yes</label>
-            <input type="radio" name="landConverted" ng-model="addUnit.landConverted" id="landConvertedNo" value="0"/>
+            <input type="radio" name="landConverted" ng-model="addUnit.landConverted" id="landConvertedNo" value="false"/>
             <label for="landConvertedNo">No</label>
          </div>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.landConverted == '1'">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.landConverted == 'true'">
          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
             <label for="type">Conversion Order Document Number</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Conversion Order Document Number"/>
+            <input type="text" class="form-control" placeholder="Conversion Order Document Number" ng-model="addUnit.conversionOrderDocNo" ng-required="true" ng-class="{blankInput: addUnit.conversionOrderDocNo.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.landConverted == '1'">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.landConverted == 'true'">
          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
             <label for="type">Conversion Order Date</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Conversion Order Date"/>
+            <input type="text" class="form-control" placeholder="Conversion Order Date" ng-model="addUnit.conversionOrderDocDt" ng-required="true" ng-class="{blankInput: addUnit.conversionOrderDocDt.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -198,34 +198,34 @@
             <label for="type">Plan Approved?</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0 radioLabel">
-            <input type="radio" name="planApproved" ng-model="addUnit.planApproved" id="planApprovedYes" value="1"/>
+            <input type="radio" name="planApproved" ng-model="addUnit.planApproved" id="planApprovedYes" value="true"/>
             <label for="planApprovedYes">Yes</label>
-            <input type="radio" name="planApproved" ng-model="addUnit.planApproved" id="planApprovedNo" value="0"/>
+            <input type="radio" name="planApproved" ng-model="addUnit.planApproved" id="planApprovedNo" value="false"/>
             <label for="planApprovedNo">No</label>
          </div>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.planApproved == '1'">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.planApproved == 'true'">
          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
             <label for="type">Plan Approval Number</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Plan Approval Number"/>
+            <input type="text" class="form-control" placeholder="Plan Approval Number" ng-model="addUnit.planApproveNo" ng-required="true" ng-class="{blankInput: addUnit.planApproveNo.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.planApproved == '1'">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.planApproved == 'true'">
          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
             <label for="type">Plan Approval Date</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Plan Approval Date"/>
+            <input type="text" class="form-control" placeholder="Plan Approval Date" ng-model="addUnit.planApproveDt" ng-required="true" ng-class="{blankInput: addUnit.planApproveDt.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.planApproved == '1'">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.planApproved == 'true'">
          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
             <label for="type">Plan Approval Authority</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Plan Approval Authority"/>
+            <input type="text" class="form-control" placeholder="Plan Approval Authority" ng-model="addUnit.planApproveAuth" ng-required="true" ng-class="{blankInput: addUnit.planApproveAuth.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -233,10 +233,26 @@
             <label for="type">NOC Obtained</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0 radioLabel">
-            <input type="radio" name="nocObtained" ng-model="addUnit.nocObtained" id="nocObtainedYes" value="1"/>
+            <input type="radio" name="nocObtained" ng-model="addUnit.nocObtained" id="nocObtainedYes" value="true"/>
             <label for="nocObtainedYes">Yes</label>
-            <input type="radio" name="nocObtained" ng-model="addUnit.nocObtained" id="nocObtainedNo" value="0"/>
+            <input type="radio" name="nocObtained" ng-model="addUnit.nocObtained" id="nocObtainedNo" value="false"/>
             <label for="nocObtainedNo">No</label>
+         </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.nocObtained == 'true'">
+         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+            <label for="type">Noc Date</label>
+         </div>
+         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+            <input type="text" class="form-control" placeholder="Noc Date (YYYY-MM-DD)" ng-model="addUnit.nocDate" ng-required="true" ng-class="{blankInput: addUnit.nocDate.$error.required &amp;&amp; submit}"/>
+         </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.nocObtained == 'true'">
+         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+            <label for="type">Noc Doc Nnumber</label>
+         </div>
+         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+            <input type="text" class="form-control" placeholder="Noc Doc Nnumber" ng-model="addUnit.nocDocNo" ng-required="true" ng-class="{blankInput: addUnit.nocDocNo.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
    </div>
@@ -246,26 +262,34 @@
             <label for="type">Relinquish</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0 radioLabel">
-            <input type="radio" name="relinquish" ng-model="addUnit.relinquish" id="relinquishYes" value="1"/>
+            <input type="radio" name="relinquish" ng-model="addUnit.relinquish" id="relinquishYes" value="true"/>
             <label for="relinquishYes">Yes</label>
-            <input type="radio" name="relinquish" ng-model="addUnit.relinquish" id="relinquishNo" value="0"/>
+            <input type="radio" name="relinquish" ng-model="addUnit.relinquish" id="relinquishNo" value="false"/>
             <label for="relinquishNo">No</label>
          </div>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.relinquish == '1'">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.relinquish == 'true'">
          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
-            <label for="type">Document Number and Date</label>
+            <label for="type">Document Number</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Document Number and Date"/>
+            <input type="text" class="form-control" placeholder="Document Number and Date" ng-model="addUnit.docNum" ng-required="true" ng-class="{blankInput: addUnit.docNum.$error.required &amp;&amp; submit}"/>
          </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.relinquish == 'true'">
+         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+            <label for="type">Document Date</label>
+         </div>
+         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+            <input type="text" class="form-control" placeholder="Document Number and Date" ng-model="addUnit.docDate" ng-required="true" ng-class="{blankInput: addUnit.docDate.$error.required &amp;&amp; submit}"/>
+      </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
             <label for="type">Total Saleable Area</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Total Saleable Area"/>
+            <input type="text" class="form-control" placeholder="Total Saleable Area" ng-model="addUnit.totalSaleArea" ng-required="true" ng-class="{blankInput: addUnit.totalSaleArea.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -273,7 +297,7 @@
             <label for="type">Total Plots</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Total Plots"/>
+            <input type="text" class="form-control" placeholder="Total Plots" ng-model="addUnit.totalPlots" ng-required="true" ng-class="{blankInput: addUnit.totalPlots.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -281,7 +305,15 @@
             <label for="type">Area of Roads</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Area of Roads"/>
+            <input type="text" class="form-control" placeholder="Area of Roads" ng-model="addUnit.areaOfRoads" ng-required="true" ng-class="{blankInput: addUnit.areaOfRoads.$error.required &amp;&amp; submit}"/>
+         </div>
+      </div>
+       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelCntr">
+            <label for="type">Area of Parks</label>
+         </div>
+         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
+            <input type="text" class="form-control" placeholder="Area of Parks" ng-model="addUnit.areaOfParks" ng-required="true" ng-class="{blankInput: addUnit.areaOfParks.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -289,7 +321,7 @@
             <label for="type">Area for Civic Amenities</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Area of Parks"/>
+            <input type="text" class="form-control" placeholder="Area of Civic Amenities" ng-model="addUnit.areaOfCivicAmen" ng-required="true" ng-class="{blankInput: addUnit.areaOfParks.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -297,7 +329,7 @@
             <label for="type">Super Built-up Area</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Area of Parks"/>
+            <input type="text" class="form-control" placeholder="Super Built-up Area" ng-model="addUnit.superBuiltArea" ng-required="true" ng-class="{blankInput: addUnit.superBuiltArea.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -305,7 +337,7 @@
             <label for="type">Garden Area</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Area of Parks"/>
+            <input type="text" class="form-control" placeholder="Garden Area" ng-model="addUnit.gardenArea" ng-required="true" ng-class="{blankInput: addUnit.gardenArea.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -313,7 +345,7 @@
             <label for="type">Terrace Area</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Area of Parks"/>
+            <input type="text" class="form-control" placeholder="Terrace Area" ng-model="addUnit.terraceArea" ng-required="true" ng-class="{blankInput: addUnit.terraceArea.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -321,7 +353,7 @@
             <label for="type">Terrace Garden</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Area of Parks"/>
+            <input type="text" class="form-control" placeholder="Terrace Garden" ng-model="addUnit.terraceGarden" ng-required="true" ng-class="{blankInput: addUnit.terraceGarden.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -329,7 +361,7 @@
             <label for="type">Carpet Area</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Carpet Area"/>
+            <input type="text" class="form-control" placeholder="Carpet Area" ng-model="addUnit.carpetArea" ng-required="true" ng-class="{blankInput: addUnit.carpetArea.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -337,7 +369,7 @@
             <label for="type">Plinth Area</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Area of Parks"/>
+            <input type="text" class="form-control" placeholder="Plinth Area" ng-model="addUnit.plinthArea" ng-required="true" ng-class="{blankInput: addUnit.plinthArea.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -345,7 +377,7 @@
             <label for="type">No. of Floors</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="No. of Floors"/>
+            <input type="text" class="form-control" placeholder="No. of Floors" ng-model="addUnit.noOfFloors" ng-required="true" ng-class="{blankInput: addUnit.noOfFloors.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -353,7 +385,7 @@
             <label for="type">No. of Bedrooms</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="No. of Bedrooms"/>
+            <input type="text" class="form-control" placeholder="No. of Bedrooms" ng-model="addUnit.noOfBedrooms" ng-required="true" ng-class="{blankInput: addUnit.noOfBedrooms.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -361,7 +393,7 @@
             <label for="type">Common Bathrooms</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Common Bathrooms"/>
+            <input type="text" class="form-control" placeholder="Common Bathrooms" ng-model="addUnit.commonBathrooms" ng-required="true" ng-class="{blankInput: addUnit.commonBathrooms.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -369,7 +401,7 @@
             <label for="type">Attached Bathrooms</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Attached Bathrooms"/>
+            <input type="text" class="form-control" placeholder="Attached Bathrooms" ng-model="addUnit.attachedBathrooms" ng-required="true" ng-class="{blankInput: addUnit.attachedBathrooms.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -377,7 +409,7 @@
             <label for="type">Servant Room</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Servant Room"/>
+            <input type="text" class="form-control" placeholder="Servant Room" ng-model="addUnit.servantRoom" ng-required="true" ng-class="{blankInput: addUnit.servantRoom.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -385,11 +417,11 @@
             <label for="type">Car Parking Area</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Car Parking Area"/>
+            <input type="text" class="form-control" placeholder="Car Parking Area" ng-model="addUnit.carParkingArea" ng-required="true" ng-class="{blankInput: addUnit.carParkingArea.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
    </div>
    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0 text-center">
-      <button type="button" class="btn btn-success" ng-click="savePhaseData()">Save Details</button>
+      <button type="button" class="btn btn-success" ng-click="savePhaseData(addUnit,'addUnitForm')">Save Details</button>
    </div>
 </form>
