@@ -2085,7 +2085,7 @@ app.controller("addUnit", function($scope, $http, $state, $cookieStore, $statePa
     };
 });
 
-app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $stateParams) {
+app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $stateParams, $compile) {
 	$scope.projectId = $stateParams.projId;
     $scope.phaseId = $stateParams.phaseId;
     $scope.untGeneration = {
@@ -2096,8 +2096,32 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
     $scope.addSampleData = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
-            alert("FORM IS VALID!");
+            if(formObj.seperator==undefined){
+                formObj.seperator = "";
+            }
+            if(formObj.afn==true){
+                floorNo = 1;
+            }
+            else{
+                floorNo="";
+                formObj.seperator = "";
+            }
             console.log(formObj);
+            angular.element("#unitRows").html('');
+            var unitsPerFloor = formObj.unitsPerFloor;
+            var unitNo = parseInt(formObj.unitNo);
+            var skipBy = parseInt(formObj.skipBy);
+            var i = 1;
+            while(i<=unitsPerFloor){
+                var tableRow = '<tr><td><input type="text" class="form-control" value="'+floorNo+formObj.seperator+unitNo+'"/></td><td><input type="text" class="form-control"/></td><td><input type="text" class="form-control"/></td><td><select class="form-control"><option>3</option></select></td><td><select class="form-control"><option>3</option></select></td><td><select class="form-control"><option>3</option></select></td><td><input type="text" class="form-control"/></td><td><input type="text" class="form-control"/></td><td><input type="text" class="form-control"/></td><td><select class="form-control"><option>Y</option></select></td><td><select class="form-control"><option>E</option></select></td></tr>';                
+                var tableRowComplied = $compile(tableRow)($scope);
+                console.log(tableRowComplied);
+                angular.element("#unitRows").append(tableRowComplied);
+                
+                unitNo = unitNo+skipBy;
+                i++;
+            }
+            
             /*$http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/User/SaveUser",
