@@ -1628,7 +1628,6 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
                     "LstofBlocks": blockLst
                 }
             }).success(function(data) {
-
                 $scope.addPhaseResult = data;
                 angular.element(".loader").hide();
                 if ($scope.addPhaseResult.Comm_ErrorDesc.match('0|')) {
@@ -2068,22 +2067,124 @@ app.controller("addUnit", function($scope, $http, $state, $cookieStore, $statePa
     var phaseId = $stateParams.phaseId;
     
     $scope.pageTitle = "Add Phase";
-    $scope.addUnit = {
+    /*$scope.addUnit = {
         ownerShipType:0,
         nocObtained:"false",
         planApproved:"false",
         landConverted:"false",
         minor:"false",
-        relinquish:"false"
-        
-    };
+        relinquish:"false"  
+    };*/
+    
+    ($scope.getPhaseDetail = function() {
+        angular.element(".loader").show();
+        $scope.leadId = $stateParams.leadID;
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/UnitDt/Getdata",
+            ContentType: 'application/json',
+            data: {
+                "UnitTypeData_comp_guid" : $cookieStore.get('comp_guid'),
+                "UnitTypeData_Phase_Id"  : phaseId
+            }
+        }).success(function(data) {
+//            console.log(data);
+            if(data.UnitTypeData_Id != 0){
+                var minorType = "false";
+                var nocObtainedType = "false";
+                var planApprovedType = "false";
+                var landConvertedType = "false";
+                var relinquishType = "false";
+                
+                if(data.UnitTypeData_minor == "0"){
+                    minorType = "true";
+                }
+                if(data.UnitTypeData_noc == "0"){
+                    nocObtainedType = "true";
+                }
+                if(data.UnitTypeData_planappvd == "0"){
+                    planApprovedType = "true";
+                }
+                if(data.UnitTypeData_lndconv == "0"){
+                    landConvertedType = "true";
+                }
+                if(data.UnitTypeData_rlqyn == "0"){
+                    relinquishType = "true";
+                }
+                
+                $scope.addUnit = {
+                    ownerShipType : data.UnitTypeData_Phase_Id,
+                    ownerName : data.UnitTypeData_ownrnm,
+                    ownerSowodo : data.UnitTypeData_sowodo,
+                    ownerDob : data.UnitTypeData_dob,
+                    ownerAddress : data.UnitTypeData_add,
+                    ownerPan : data.UnitTypeData_pan,
+                    minor : minorType,
+                    guardianName : data.UnitTypeData_grdnm,
+                    guardianSowodo : data.UnitTypeData_gunsowodo,
+                    guardianDob : data.UnitTypeData_gundob,
+                    guardianAddress : data.UnitTypeData_gunadd,
+                    guardianPan : data.UnitTypeData_gunpan,
+                    relationshipWithMinor : data.UnitTypeData_gunrltnminor,
+                    totalLandArea : data.UnitTypeData_ttllndar,
+                    totalHyneArea : data.UnitTypeData_ttlhynlnd,
+                    totalKarabArea : data.UnitTypeData_krblnd,
+                    landConverted : landConvertedType,
+                    conversionOrderDocNo : data.UnitTypeData_convordr,
+                    conversionOrderDocDt : data.UnitTypeData_convordrdt,
+                    planApproved : planApprovedType,
+                    planApproveNo : data.UnitTypeData_lstplappv[0].plnappno,
+                    planApproveDt : data.UnitTypeData_lstplappv[0].plnappdt,
+                    planApproveAuth : data.UnitTypeData_lstplappv[0].plnappaut,
+                    nocObtained : nocObtainedType,
+                    nocDate : data.UnitTypeData_lstnoc[0].nocdt,
+                    nocDocNo : data.UnitTypeData_lstnoc[0].nocdocno,
+                    relinquish : relinquishType,
+                    docNum : data.UnitTypeData_lstlreq[0].reqsno,
+                    docDate : data.UnitTypeData_lstlreq[0].reqdocndt,
+                    totalSaleArea : data.UnitTypeData_ttlsalearea,
+                    totalPlots : data.UnitTypeData_ttlplots,
+                    areaOfRoads : data.UnitTypeData_areafrroads,
+                    areaOfParks : data.UnitTypeData_araafrprks,
+                    areaOfCivicAmen : data.UnitTypeData_arafrcivicamn,
+                    superBuiltArea : data.UnitTypeData_sprbltupara,
+                    gardenArea : data.UnitTypeData_grdnara,
+                    terraceArea : data.UnitTypeData_terara,
+                    terraceGarden : data.UnitTypeData_tergrdn,
+                    carpetArea : data.UnitTypeData_crptara,
+                    plinthArea : data.UnitTypeData_pltnara,
+                    noOfFloors : data.UnitTypeData_noflors,
+                    noOfBedrooms : data.UnitTypeData_nobdrms,
+                    commonBathrooms : data.UnitTypeData_cmnbtrms,
+                    attachedBathrooms : data.UnitTypeData_attchbtrms,
+                    servantRoom : data.UnitTypeData_srvntroom,
+                    carParkingArea : data.UnitTypeData_carprkara 
+                };
+            } else {
+//                alert("wrong");
+                $scope.addUnit = {
+                    ownerShipType:0,
+                    nocObtained:"false",
+                    planApproved:"false",
+                    landConverted:"false",
+                    minor:"false",
+                    relinquish:"false"  
+                };
+            }
+            
+            angular.element(".loader").hide();
+        }).error(function() {
+            alert("Something went wrong.");
+            angular.element(".loader").hide();
+        });
+    })();
     
     $scope.savePhaseData = function(formObj, formName) {
         $scope.submit = true;
         console.log(formObj);
         if ($scope[formName].$valid) {
-            alert("Valid Form");
-            /*angular.element(".loader").show();
+//            alert("Valid Form");
+            angular.element(".loader").show();
             $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Proj/UnitDt/Save",
@@ -2151,16 +2252,17 @@ app.controller("addUnit", function($scope, $http, $state, $cookieStore, $statePa
             }).success(function(data) {
                 console.log(data);
                 angular.element(".loader").hide();
+                $state.go("/UnitGeneration", {
+                    projId: projectId,
+                    phaseId: phaseId
+                });
             }).error(function() {
+                alert("Something went wrong.");
                 angular.element(".loader").hide();
-            });*/
+            });
         } else {
             alert("Not valid Form.");
         }
-        $state.go("/UnitGeneration", {
-            projId: projectId,
-            phaseId: phaseId
-        });
     };
 });
 

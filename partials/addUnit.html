@@ -93,7 +93,7 @@
                <label for="type">Guardian Name</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" name="guardianName" placeholder="Guardian Name" ng-model="addUnit.guardianName" ng-required="true" ng-class="{blankInput: addUnitForm.guardianName.$error.required &amp;&amp; submit}"/>
+               <input type="text" class="form-control" name="guardianName" placeholder="Guardian Name" ng-model="addUnit.guardianName" ng-required="addUnit.minor == 'true'" ng-class="{blankInput: addUnitForm.guardianName.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -101,7 +101,7 @@
                <label for="type">S/O - W/O - D/O</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" name="guardianSowodo" placeholder="S/O - W/O - D/O" ng-model="addUnit.guardianSowodo" ng-required="true" ng-class="{blankInput: addUnitForm.guardianSowodo.$error.required &amp;&amp; submit}"/>
+               <input type="text" class="form-control" name="guardianSowodo" placeholder="S/O - W/O - D/O" ng-model="addUnit.guardianSowodo" ng-required="addUnit.minor == 'true'" ng-class="{blankInput: addUnitForm.guardianSowodo.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -109,7 +109,7 @@
                <label for="type">D.O.B</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" name="guardianDob" placeholder="D.O.B. (YYYY-MM-DD)" ng-model="addUnit.guardianDob" ng-required="true" ng-class="{blankInput: addUnitForm.guardianDob.$error.required &amp;&amp; submit}"/>
+               <input type="text" class="form-control" name="guardianDob" placeholder="D.O.B. (YYYY-MM-DD)" ng-model="addUnit.guardianDob" ng-required="addUnit.minor == 'true'" ng-class="{blankInput: addUnitForm.guardianDob.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -117,7 +117,7 @@
                <label for="type">Address</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" name="guardianAddress" placeholder="Address" ng-model="addUnit.guardianAddress" ng-required="true" ng-class="{blankInput: addUnitForm.guardianAddress.$error.required &amp;&amp; submit}"/>
+               <input type="text" class="form-control" name="guardianAddress" placeholder="Address" ng-model="addUnit.guardianAddress" ng-required="addUnit.minor == 'true'" ng-class="{blankInput: addUnitForm.guardianAddress.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -125,7 +125,7 @@
                <label for="type">PAN</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" name="guardianPan" placeholder="PAN" ng-model="addUnit.guardianPan" ng-required="true" ng-class="{blankInput: addUnitForm.guardianPan.$error.required &amp;&amp; submit}"/>
+               <input type="text" class="form-control" name="guardianPan" placeholder="PAN" ng-model="addUnit.guardianPan" ng-required="addUnit.minor == 'true'" ng-class="{blankInput: addUnitForm.guardianPan.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -133,7 +133,7 @@
                <label for="type">Relationship with Minor</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-               <input type="text" class="form-control" name="relationshipWithMinor" placeholder="Relationship with Minor" ng-model="addUnit.relationshipWithMinor" ng-required="true" ng-class="{blankInput: addUnitForm.relationshipWithMinor.$error.required &amp;&amp; submit}"/>
+               <input type="text" class="form-control" name="relationshipWithMinor" placeholder="Relationship with Minor" ng-model="addUnit.relationshipWithMinor" ng-required="addUnit.minor == 'true'" ng-class="{blankInput: addUnitForm.relationshipWithMinor.$error.required &amp;&amp; submit}"/>
             </div>
          </div>
       </div>
@@ -182,7 +182,7 @@
             <label for="type">Conversion Order Document Number</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" name="conversionOrderDocNo" placeholder="Conversion Order Document Number" ng-model="addUnit.conversionOrderDocNo" ng-required="true" ng-class="{blankInput: addUnitForm.conversionOrderDocNo.$error.required &amp;&amp; submit}"/>
+            <input type="text" class="form-control" name="conversionOrderDocNo" placeholder="Conversion Order Document Number" ng-model="addUnit.conversionOrderDocNo" ng-required="addUnit.landConverted == 'true'" ng-class="{blankInput: addUnitForm.conversionOrderDocNo.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.landConverted == 'true'">
@@ -190,7 +190,7 @@
             <label for="type">Conversion Order Date</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" name="conversionOrderDocDt" placeholder="Conversion Order Date" ng-model="addUnit.conversionOrderDocDt" ng-required="true" ng-class="{blankInput: addUnitForm.conversionOrderDocDt.$error.required &amp;&amp; submit}"/>
+            <input type="text" class="form-control" name="conversionOrderDocDt" placeholder="Conversion Order Date" ng-model="addUnit.conversionOrderDocDt" ng-required="addUnit.landConverted == 'true'" ng-class="{blankInput: addUnitForm.conversionOrderDocDt.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -209,7 +209,7 @@
             <label for="type">Plan Approval Number</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" name="planApproveNo" placeholder="Plan Approval Number" ng-model="addUnit.planApproveNo" ng-required="true" ng-class="{blankInput: addUnitForm.planApproveNo.$error.required &amp;&amp; submit}"/>
+            <input type="text" class="form-control" name="planApproveNo" placeholder="Plan Approval Number" ng-model="addUnit.planApproveNo" ng-required="addUnit.planApproved == 'true'" ng-class="{blankInput: addUnitForm.planApproveNo.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.planApproved == 'true'">
@@ -217,7 +217,7 @@
             <label for="type">Plan Approval Date</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" name="planApproveDt" placeholder="Plan Approval Date" ng-model="addUnit.planApproveDt" ng-required="true" ng-class="{blankInput: addUnitForm.planApproveDt.$error.required &amp;&amp; submit}"/>
+            <input type="text" class="form-control" name="planApproveDt" placeholder="Plan Approval Date" ng-model="addUnit.planApproveDt" ng-required="addUnit.planApproved == 'true'" ng-class="{blankInput: addUnitForm.planApproveDt.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.planApproved == 'true'">
@@ -225,7 +225,7 @@
             <label for="type">Plan Approval Authority</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" name="planApproveAuth" placeholder="Plan Approval Authority" ng-model="addUnit.planApproveAuth" ng-required="true" ng-class="{blankInput: addUnitForm.planApproveAuth.$error.required &amp;&amp; submit}"/>
+            <input type="text" class="form-control" name="planApproveAuth" placeholder="Plan Approval Authority" ng-model="addUnit.planApproveAuth" ng-required="addUnit.planApproved == 'true'" ng-class="{blankInput: addUnitForm.planApproveAuth.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
@@ -244,7 +244,7 @@
             <label for="type">Noc Date</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" name="nocDate" placeholder="Noc Date (YYYY-MM-DD)" ng-model="addUnit.nocDate" ng-required="true" ng-class="{blankInput: addUnitForm.nocDate.$error.required &amp;&amp; submit}"/>
+            <input type="text" class="form-control" name="nocDate" placeholder="Noc Date (YYYY-MM-DD)" ng-model="addUnit.nocDate" ng-required="addUnit.nocObtained == 'true'" ng-class="{blankInput: addUnitForm.nocDate.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.nocObtained == 'true'">
@@ -252,7 +252,7 @@
             <label for="type">Noc Doc Nnumber</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" name="nocDocNo" placeholder="Noc Doc Nnumber" ng-model="addUnit.nocDocNo" ng-required="true" ng-class="{blankInput: addUnitForm.nocDocNo.$error.required &amp;&amp; submit}"/>
+            <input type="text" class="form-control" name="nocDocNo" placeholder="Noc Doc Nnumber" ng-model="addUnit.nocDocNo" ng-required="addUnit.nocObtained == 'true'" ng-class="{blankInput: addUnitForm.nocDocNo.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
    </div>
@@ -273,7 +273,7 @@
             <label for="type">Document Number</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" name="docNum" placeholder="Document Number and Date" ng-model="addUnit.docNum" ng-required="true" ng-class="{blankInput: addUnitForm.docNum.$error.required &amp;&amp; submit}"/>
+            <input type="text" class="form-control" name="docNum" placeholder="Document Number and Date" ng-model="addUnit.docNum" ng-required="addUnit.relinquish == 'true'" ng-class="{blankInput: addUnitForm.docNum.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="addUnit.relinquish == 'true'">
@@ -281,7 +281,7 @@
             <label for="type">Document Date</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" name="docDate" placeholder="Document Number and Date" ng-model="addUnit.docDate" ng-required="true" ng-class="{blankInput: addUnitForm.docDate.$error.required &amp;&amp; submit}"/>
+            <input type="text" class="form-control" name="docDate" placeholder="Document Number and Date" ng-model="addUnit.docDate" ng-required="addUnit.relinquish == 'true'" ng-class="{blankInput: addUnitForm.docDate.$error.required &amp;&amp; submit}"/>
       </div>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
