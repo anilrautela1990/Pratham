@@ -2165,6 +2165,7 @@ app.controller("addUnit", function($scope, $http, $state, $cookieStore, $statePa
 });
 
 app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $stateParams, $compile) {
+    $scope.untDetails = [];
 	$scope.projectId = $stateParams.projId;
     $scope.phaseId = $stateParams.phaseId;
     $scope.untGeneration = {
@@ -2172,14 +2173,20 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
         phase:"2",
         type:"3"
     };
+    
     $scope.addSampleData = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
             if(formObj.seperator==undefined){
                 formObj.seperator = "";
             }
-            if(formObj.afn==true){
-                floorNo = 1;
+            if(formObj.afn==true){                
+                if(formObj.noOfFloors > 9){                    
+                    floorNo = "01";    
+                }
+                else{
+                    floorNo = "1";       
+                }
             }
             else{
                 floorNo="";
@@ -2192,7 +2199,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             var skipBy = parseInt(formObj.skipBy);
             var i = 1;
             while(i<=unitsPerFloor){
-                var tableRow = '<tr><td><input type="text" class="form-control" value="'+floorNo+formObj.seperator+unitNo+'"/></td><td><input type="text" class="form-control"/></td><td><input type="text" class="form-control"/></td><td><select class="form-control"><option>3</option></select></td><td><select class="form-control"><option>3</option></select></td><td><select class="form-control"><option>3</option></select></td><td><input type="text" class="form-control"/></td><td><input type="text" class="form-control"/></td><td><input type="text" class="form-control"/></td><td><select class="form-control"><option>Y</option></select></td><td><select class="form-control"><option>E</option></select></td></tr>';                
+                var tableRow = '<tr><td><input type="text" class="form-control" value="'+floorNo+formObj.seperator+unitNo+'" name="unitNos"/></td> <td><input type="text" class="form-control" name="unitName" ng-model="untDetails['+i+'].unitName"/></td> <td><input type="text" class="form-control" name="unitType" ng-model="untDetails['+i+'].unitType"/></td> <td> <select class="form-control" name="unitBedroom" ng-model="untDetails['+i+'].unitBedroom"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBalconies" ng-model="untDetails['+i+'].unitBalconies"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBathrooms" ng-model="untDetails['+i+'].unitBathrooms"> <option value="">Select</option><option>3</option> </select> </td> <td><input type="text" class="form-control" name="unitSuperArea" ng-model="untDetails['+i+'].unitSuperArea"/></td> <td><input type="text" class="form-control" name="unitPercentage" ng-model="untDetails['+i+'].unitPercentage"/></td> <td><input type="text" class="form-control" name="unitCarpetArea" ng-model="untDetails['+i+'].unitCarpetArea"/></td> <td> <select class="form-control" name="unitPremium" ng-model="untDetails['+i+'].unitPremium"> <option value="">Select</option> <option>Y</option> </select> </td> <td> <select class="form-control" name="unitPosition" ng-model="untDetails['+i+'].unitPosition"> <option value="">Select</option> <option>E</option></select></td></tr>';                
                 var tableRowComplied = $compile(tableRow)($scope);
                 console.log(tableRowComplied);
                 angular.element("#unitRows").append(tableRowComplied);
@@ -2236,5 +2243,11 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
         }
     };
     
+    $scope.generateForAllFloors = function(formObj){
+        var unitDetailsArray = [];
+        
+        console.log(formObj);
+        
+    };
     
-});
+}); 
