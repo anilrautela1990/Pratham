@@ -2476,6 +2476,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
         phase:"2",
         type:"3"
     };
+    var unitNosArr = [];
     
     $scope.addSampleData = function(formObj, formName) {
         $scope.submit = true;
@@ -2502,15 +2503,16 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             var skipBy = parseInt(formObj.skipBy);
             var i = 1;
             while(i<=unitsPerFloor){
+                unitNosArr.push(unitNo);
                 var tableRow = '<tr><td><input type="text" class="form-control" value="'+floorNo+formObj.seperator+unitNo+'" name="unitNos"/></td> <td><input type="text" class="form-control" name="unitName" ng-model="untDetails['+i+'].unitName"/></td> <td><input type="text" class="form-control" name="unitType" ng-model="untDetails['+i+'].unitType"/></td> <td> <select class="form-control" name="unitBedroom" ng-model="untDetails['+i+'].unitBedroom"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBalconies" ng-model="untDetails['+i+'].unitBalconies"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBathrooms" ng-model="untDetails['+i+'].unitBathrooms"> <option value="">Select</option><option>3</option> </select> </td> <td><input type="text" class="form-control" name="unitSuperArea" ng-model="untDetails['+i+'].unitSuperArea"/></td> <td><input type="text" class="form-control" name="unitPercentage" ng-model="untDetails['+i+'].unitPercentage"/></td> <td><input type="text" class="form-control" name="unitCarpetArea" ng-model="untDetails['+i+'].unitCarpetArea"/></td> <td> <select class="form-control" name="unitPremium" ng-model="untDetails['+i+'].unitPremium"> <option value="">Select</option> <option>Y</option> </select> </td> <td> <select class="form-control" name="unitPosition" ng-model="untDetails['+i+'].unitPosition"> <option value="">Select</option> <option>E</option></select></td></tr>';                
                 var tableRowComplied = $compile(tableRow)($scope);
-                console.log(tableRowComplied);
+//                console.log(tableRowComplied);
                 angular.element("#unitRows").append(tableRowComplied);
                 
                 unitNo = unitNo+skipBy;
                 i++;
             }
-            
+            console.log(unitNosArr);
             /*$http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/User/SaveUser",
@@ -2546,10 +2548,41 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
         }
     };
     
-    $scope.generateForAllFloors = function(formObj){
-        var unitDetailsArray = [];
-        
-        console.log(formObj);
+    $scope.generateForAllFloors = function(formObj,parentObj){
+        alert(formObj.length);
+        var unitsJson = [];
+        for(i=1;i<=parentObj.noOfFloors;i++){
+            var unitObj = {};
+            for(j=1;j<formObj.length;j++){
+                console.log(formObj[j]);
+                var unitNo = unitNosArr[j-1];
+                if(parentObj.afn==true){   
+                    unitNo = i+parentObj.seperator+unitNo;
+                }
+                unitObj.UnitDtls_comp_guid = $cookieStore.get('comp_guid');
+                unitObj.UnitDtls_Unit_type_id = parentObj.type;
+                unitObj.UnitDtls_Block_Id = parentObj.block;
+                unitObj.UnitDtls_user_id = $cookieStore.get('user_id');;
+                unitObj.UnitDtls_No = unitNo;
+                unitObj.UnitDtls_Name = formObj[j].unitName;
+                unitObj.UnitDtls_Type = formObj[j].unitType;
+                unitObj.UnitDtls_Balcn = formObj[j].unitBalconies;
+                unitObj.UnitDtls_BRoom = formObj[j].unitBedroom;
+                unitObj.UnitDtls_Msrmnt = formObj[j].unitSuperArea;
+                unitObj.UnitDtls_Directn = formObj[j].unitPosition;
+                unitObj.UnitDtls_Floor = i;
+                unitObj.UnitDtls_Premium = formObj[j].unitPremium;
+                unitObj.UnitDtls_Cornerplot = 0;
+                unitObj.UnitDtls_EstMsrmnt = 0;
+                unitObj.UnitDtls_WstMsrmnt = 0;
+                unitObj.UnitDtls_NrtMsrmnt = 0;
+                unitObj.UnitDtls_SthMsrmnt = 0;
+                unitObj.UnitDtls_BuliltupArea = formObj[j].unitCarpetArea;
+                unitsJson.push(unitObj);
+            }
+            
+        }
+        console.log(JSON.stringify(unitsJson));
         
     };
     
