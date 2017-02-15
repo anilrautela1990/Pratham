@@ -2298,19 +2298,19 @@ app.controller("editUnit", function($scope, $http, $state, $cookieStore, $stateP
                 var landConvertedType = "false";
                 var relinquishType = "false";
                 
-                if(data.UnitTypeData_minor == "0"){
+                if(data.UnitTypeData_minor == "1"){
                     minorType = "true";
                 }
-                if(data.UnitTypeData_noc == "0"){
+                if(data.UnitTypeData_noc == "1"){
                     nocObtainedType = "true";
                 }
-                if(data.UnitTypeData_planappvd == "0"){
+                if(data.UnitTypeData_planappvd == "1"){
                     planApprovedType = "true";
                 }
-                if(data.UnitTypeData_lndconv == "0"){
+                if(data.UnitTypeData_lndconv == "1"){
                     landConvertedType = "true";
                 }
-                if(data.UnitTypeData_rlqyn == "0"){
+                if(data.UnitTypeData_rlqyn == "1"){
                     relinquishType = "true";
                 }
                 
