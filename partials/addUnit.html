@@ -421,7 +421,10 @@
          </div>
       </div>
    </div>
-   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0 text-center">
-      <button type="button" class="btn btn-success" ng-click="savePhaseData(addUnit,'addUnitForm')">Save Details</button>
+   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0 text-center" ng-show="addPhaseUnitBtn">
+      <button type="button" class="btn btn-success" ng-click="savePhaseData(addUnit,'addUnitForm')">Save Details & Next</button>
+   </div>
+   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0 text-center" ng-show="editPhaseUnitBtn">
+      <button type="button" class="btn btn-success" ng-click="editPhaseData(addUnit,'addUnitForm')">Update Details & Next</button>
    </div>
 </form>

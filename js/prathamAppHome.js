@@ -97,6 +97,11 @@ $stateProvider
 		templateUrl: 'partials/addUnit.html',
 		controller: 'addUnit'
 	})
+    .state('/EditUnit', {
+		url: '/EditUnit/:projId/:phaseId',
+		templateUrl: 'partials/addUnit.html',
+		controller: 'editUnit'
+	})
 	.state('/UnitGeneration', {
 		url: '/UnitGeneration/:projId/:phaseId',
 		templateUrl: 'partials/unitGeneration.html',
