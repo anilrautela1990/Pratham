@@ -60,9 +60,9 @@
                <option value="">
                   Block
                </option>
-                <option value="1">
-                  Block 1
-               </option>
+                <option ng-repeat="x in blockList" value="{{x.Blocks_Id}}">
+					{{x.Blocks_Name}}
+				</option>
                <!-- ngRepeat: x in projectList -->
             </select>
          </div>
@@ -95,7 +95,7 @@
    <label for="seperator">Seperator:</label>
    <input type="text" id="seperator" ng-model="untGeneration.seperator"> |  
    <label for="agf">Add Ground Floor:</label>
-   <input type="checkbox" id="agf" ng-model="untGeneration.ifn">
+   <input type="checkbox" id="agf" ng-model="untGeneration.agf">
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20 ng-scope">
    <button type="button" class="btn btn-success" ng-click="addSampleData(untGeneration,'untGenerationForm')">

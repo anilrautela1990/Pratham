@@ -332,7 +332,7 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
         }
     };
 });
-app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $compile, $stateParams, $window) {
+app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $compile, $stateParams, $window, myService) {
     $scope.leadId = $stateParams.leadID;
     if ($scope.leadId == undefined) {
         $state.go('/AddLead');
@@ -361,21 +361,11 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
 
     $scope.flatStatus = ['vacant', 'userinterest', 'mgmtquota', 'blockedbyadvnc', 'blockedbynotadvnc', 'sold'];
     $scope.flatStatusText = ['Vacant', 'User Interested', 'Management Quota', 'Blocked By Paying Advance', 'Blocked By Not Paying Advance', 'Sold'];
-    ($scope.getProjectList = function() {
-        $scope.perFloorUnits = [];
-        $scope.units = [];
+    
+    ($scope.projectListFun = function(){
         angular.element(".loader").show();
-        $http({
-            method: "POST",
-            url: "http://120.138.8.150/pratham/Proj/ProjDtls/ByCompGuid",
-            ContentType: 'application/json',
-            data: {
-                "Proj_comp_guid": $cookieStore.get('comp_guid')
-            }
-        }).success(function(data) {
-            $scope.projectList = data;
-            angular.element(".loader").hide();
-        }).error(function() {
+        myService.getProjectList($cookieStore.get('comp_guid')).then(function(response){
+            $scope.projectList = response.data;
             angular.element(".loader").hide();
         });
     })();
@@ -2066,7 +2056,7 @@ app.controller("customerDetailController", function($scope, $http, $cookieStore,
 app.controller("addUnit", function($scope, $http, $state, $cookieStore, $stateParams) {
     var projectId = $stateParams.projId;
     var phaseId = $stateParams.phaseId;
-    
+
     $scope.pageTitle = "Add Unit";
     $scope.addPhaseUnitBtn = "ture";
     /*$scope.addUnit = {
@@ -2077,7 +2067,7 @@ app.controller("addUnit", function($scope, $http, $state, $cookieStore, $statePa
         minor:"false",
         relinquish:"false"  
     };*/
-    
+
     ($scope.getPhaseDetail = function() {
         angular.element(".loader").show();
         $scope.leadId = $stateParams.leadID;
@@ -2086,106 +2076,106 @@ app.controller("addUnit", function($scope, $http, $state, $cookieStore, $statePa
             url: "http://120.138.8.150/pratham/Proj/UnitDt/Getdata",
             ContentType: 'application/json',
             data: {
-                "UnitTypeData_comp_guid" : $cookieStore.get('comp_guid'),
-                "UnitTypeData_Phase_Id"  : phaseId
+                "UnitTypeData_comp_guid": $cookieStore.get('comp_guid'),
+                "UnitTypeData_Phase_Id": phaseId
             }
         }).success(function(data) {
-//            console.log(data);
-            if(data.UnitTypeData_Id != 0){
+            //            console.log(data);
+            if (data.UnitTypeData_Id != 0) {
                 var minorType = "false";
                 var nocObtainedType = "false";
                 var planApprovedType = "false";
                 var landConvertedType = "false";
                 var relinquishType = "false";
-                
-                if(data.UnitTypeData_minor == "0"){
+
+                if (data.UnitTypeData_minor == "0") {
                     minorType = "true";
                 }
-                if(data.UnitTypeData_noc == "0"){
+                if (data.UnitTypeData_noc == "0") {
                     nocObtainedType = "true";
                 }
-                if(data.UnitTypeData_planappvd == "0"){
+                if (data.UnitTypeData_planappvd == "0") {
                     planApprovedType = "true";
                 }
-                if(data.UnitTypeData_lndconv == "0"){
+                if (data.UnitTypeData_lndconv == "0") {
                     landConvertedType = "true";
                 }
-                if(data.UnitTypeData_rlqyn == "0"){
+                if (data.UnitTypeData_rlqyn == "0") {
                     relinquishType = "true";
                 }
-                
+
                 $scope.addUnit = {
-                    ownerShipType : data.UnitTypeData_Phase_Id,
-                    ownerName : data.UnitTypeData_ownrnm,
-                    ownerSowodo : data.UnitTypeData_sowodo,
-                    ownerDob : data.UnitTypeData_dob,
-                    ownerAddress : data.UnitTypeData_add,
-                    ownerPan : data.UnitTypeData_pan,
-                    minor : minorType,
-                    guardianName : data.UnitTypeData_grdnm,
-                    guardianSowodo : data.UnitTypeData_gunsowodo,
-                    guardianDob : data.UnitTypeData_gundob,
-                    guardianAddress : data.UnitTypeData_gunadd,
-                    guardianPan : data.UnitTypeData_gunpan,
-                    relationshipWithMinor : data.UnitTypeData_gunrltnminor,
-                    totalLandArea : data.UnitTypeData_ttllndar,
-                    totalHyneArea : data.UnitTypeData_ttlhynlnd,
-                    totalKarabArea : data.UnitTypeData_krblnd,
-                    landConverted : landConvertedType,
-                    conversionOrderDocNo : data.UnitTypeData_convordr,
-                    conversionOrderDocDt : data.UnitTypeData_convordrdt,
-                    planApproved : planApprovedType,
-                    planApproveNo : data.UnitTypeData_lstplappv[0].plnappno,
-                    planApproveDt : data.UnitTypeData_lstplappv[0].plnappdt,
-                    planApproveAuth : data.UnitTypeData_lstplappv[0].plnappaut,
-                    nocObtained : nocObtainedType,
-                    nocDate : data.UnitTypeData_lstnoc[0].nocdt,
-                    nocDocNo : data.UnitTypeData_lstnoc[0].nocdocno,
-                    relinquish : relinquishType,
-                    docNum : data.UnitTypeData_lstlreq[0].reqsno,
-                    docDate : data.UnitTypeData_lstlreq[0].reqdocndt,
-                    totalSaleArea : data.UnitTypeData_ttlsalearea,
-                    totalPlots : data.UnitTypeData_ttlplots,
-                    areaOfRoads : data.UnitTypeData_areafrroads,
-                    areaOfParks : data.UnitTypeData_araafrprks,
-                    areaOfCivicAmen : data.UnitTypeData_arafrcivicamn,
-                    superBuiltArea : data.UnitTypeData_sprbltupara,
-                    gardenArea : data.UnitTypeData_grdnara,
-                    terraceArea : data.UnitTypeData_terara,
-                    terraceGarden : data.UnitTypeData_tergrdn,
-                    carpetArea : data.UnitTypeData_crptara,
-                    plinthArea : data.UnitTypeData_pltnara,
-                    noOfFloors : data.UnitTypeData_noflors,
-                    noOfBedrooms : data.UnitTypeData_nobdrms,
-                    commonBathrooms : data.UnitTypeData_cmnbtrms,
-                    attachedBathrooms : data.UnitTypeData_attchbtrms,
-                    servantRoom : data.UnitTypeData_srvntroom,
-                    carParkingArea : data.UnitTypeData_carprkara 
+                    ownerShipType: data.UnitTypeData_Phase_Id,
+                    ownerName: data.UnitTypeData_ownrnm,
+                    ownerSowodo: data.UnitTypeData_sowodo,
+                    ownerDob: data.UnitTypeData_dob,
+                    ownerAddress: data.UnitTypeData_add,
+                    ownerPan: data.UnitTypeData_pan,
+                    minor: minorType,
+                    guardianName: data.UnitTypeData_grdnm,
+                    guardianSowodo: data.UnitTypeData_gunsowodo,
+                    guardianDob: data.UnitTypeData_gundob,
+                    guardianAddress: data.UnitTypeData_gunadd,
+                    guardianPan: data.UnitTypeData_gunpan,
+                    relationshipWithMinor: data.UnitTypeData_gunrltnminor,
+                    totalLandArea: data.UnitTypeData_ttllndar,
+                    totalHyneArea: data.UnitTypeData_ttlhynlnd,
+                    totalKarabArea: data.UnitTypeData_krblnd,
+                    landConverted: landConvertedType,
+                    conversionOrderDocNo: data.UnitTypeData_convordr,
+                    conversionOrderDocDt: data.UnitTypeData_convordrdt,
+                    planApproved: planApprovedType,
+                    planApproveNo: data.UnitTypeData_lstplappv[0].plnappno,
+                    planApproveDt: data.UnitTypeData_lstplappv[0].plnappdt,
+                    planApproveAuth: data.UnitTypeData_lstplappv[0].plnappaut,
+                    nocObtained: nocObtainedType,
+                    nocDate: data.UnitTypeData_lstnoc[0].nocdt,
+                    nocDocNo: data.UnitTypeData_lstnoc[0].nocdocno,
+                    relinquish: relinquishType,
+                    docNum: data.UnitTypeData_lstlreq[0].reqsno,
+                    docDate: data.UnitTypeData_lstlreq[0].reqdocndt,
+                    totalSaleArea: data.UnitTypeData_ttlsalearea,
+                    totalPlots: data.UnitTypeData_ttlplots,
+                    areaOfRoads: data.UnitTypeData_areafrroads,
+                    areaOfParks: data.UnitTypeData_araafrprks,
+                    areaOfCivicAmen: data.UnitTypeData_arafrcivicamn,
+                    superBuiltArea: data.UnitTypeData_sprbltupara,
+                    gardenArea: data.UnitTypeData_grdnara,
+                    terraceArea: data.UnitTypeData_terara,
+                    terraceGarden: data.UnitTypeData_tergrdn,
+                    carpetArea: data.UnitTypeData_crptara,
+                    plinthArea: data.UnitTypeData_pltnara,
+                    noOfFloors: data.UnitTypeData_noflors,
+                    noOfBedrooms: data.UnitTypeData_nobdrms,
+                    commonBathrooms: data.UnitTypeData_cmnbtrms,
+                    attachedBathrooms: data.UnitTypeData_attchbtrms,
+                    servantRoom: data.UnitTypeData_srvntroom,
+                    carParkingArea: data.UnitTypeData_carprkara
                 };
             } else {
-//                alert("wrong");
+                //                alert("wrong");
                 $scope.addUnit = {
-                    ownerShipType:0,
-                    nocObtained:"false",
-                    planApproved:"false",
-                    landConverted:"false",
-                    minor:"false",
-                    relinquish:"false"  
+                    ownerShipType: 0,
+                    nocObtained: "false",
+                    planApproved: "false",
+                    landConverted: "false",
+                    minor: "false",
+                    relinquish: "false"
                 };
             }
-            
+
             angular.element(".loader").hide();
         }).error(function() {
             alert("Something went wrong.");
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.savePhaseData = function(formObj, formName) {
         $scope.submit = true;
         console.log(formObj);
         if ($scope[formName].$valid) {
-//            alert("Valid Form");
+            //            alert("Valid Form");
             angular.element(".loader").show();
             $http({
                 method: "POST",
@@ -2271,120 +2261,120 @@ app.controller("addUnit", function($scope, $http, $state, $cookieStore, $statePa
 app.controller("editUnit", function($scope, $http, $state, $cookieStore, $stateParams) {
     var projectId = $stateParams.projId;
     var phaseId = $stateParams.phaseId;
-    
+
     $scope.pageTitle = "Edit Unit";
     $scope.editPhaseUnitBtn = "ture";
     $scope.editTypeDataId = 0;
-    
+
     ($scope.getPhaseDetail = function() {
         angular.element(".loader").show();
-        
+
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/UnitDt/Getdata",
             ContentType: 'application/json',
             data: {
-                "UnitTypeData_comp_guid" : $cookieStore.get('comp_guid'),
-                "UnitTypeData_Phase_Id"  : phaseId
+                "UnitTypeData_comp_guid": $cookieStore.get('comp_guid'),
+                "UnitTypeData_Phase_Id": phaseId
             }
         }).success(function(data) {
             console.log(data);
-            if(data.UnitTypeData_Id != 0){
+            if (data.UnitTypeData_Id != 0) {
                 $scope.editTypeDataId = data.UnitTypeData_Id;
-                    
+
                 var minorType = "false";
                 var nocObtainedType = "false";
                 var planApprovedType = "false";
                 var landConvertedType = "false";
                 var relinquishType = "false";
-                
-                if(data.UnitTypeData_minor == "1"){
+
+                if (data.UnitTypeData_minor == "1") {
                     minorType = "true";
                 }
-                if(data.UnitTypeData_noc == "1"){
+                if (data.UnitTypeData_noc == "1") {
                     nocObtainedType = "true";
                 }
-                if(data.UnitTypeData_planappvd == "1"){
+                if (data.UnitTypeData_planappvd == "1") {
                     planApprovedType = "true";
                 }
-                if(data.UnitTypeData_lndconv == "1"){
+                if (data.UnitTypeData_lndconv == "1") {
                     landConvertedType = "true";
                 }
-                if(data.UnitTypeData_rlqyn == "1"){
+                if (data.UnitTypeData_rlqyn == "1") {
                     relinquishType = "true";
                 }
-                
+
                 $scope.addUnit = {
-                    ownerShipType : data.UnitTypeData_Phase_Id,
-                    ownerName : data.UnitTypeData_ownrnm,
-                    ownerSowodo : data.UnitTypeData_sowodo,
-                    ownerDob : data.UnitTypeData_dob,
-                    ownerAddress : data.UnitTypeData_add,
-                    ownerPan : data.UnitTypeData_pan,
-                    minor : minorType,
-                    guardianName : data.UnitTypeData_grdnm,
-                    guardianSowodo : data.UnitTypeData_gunsowodo,
-                    guardianDob : data.UnitTypeData_gundob,
-                    guardianAddress : data.UnitTypeData_gunadd,
-                    guardianPan : data.UnitTypeData_gunpan,
-                    relationshipWithMinor : data.UnitTypeData_gunrltnminor,
-                    totalLandArea : data.UnitTypeData_ttllndar,
-                    totalHyneArea : data.UnitTypeData_ttlhynlnd,
-                    totalKarabArea : data.UnitTypeData_krblnd,
-                    landConverted : landConvertedType,
-                    conversionOrderDocNo : data.UnitTypeData_convordr,
-                    conversionOrderDocDt : data.UnitTypeData_convordrdt,
-                    planApproved : planApprovedType,
-                    planApproveNo : data.UnitTypeData_lstplappv[0].plnappno,
-                    planApproveDt : data.UnitTypeData_lstplappv[0].plnappdt,
-                    planApproveAuth : data.UnitTypeData_lstplappv[0].plnappaut,
-                    nocObtained : nocObtainedType,
-                    nocDate : data.UnitTypeData_lstnoc[0].nocdt,
-                    nocDocNo : data.UnitTypeData_lstnoc[0].nocdocno,
-                    relinquish : relinquishType,
-                    docNum : data.UnitTypeData_lstlreq[0].reqsno,
-                    docDate : data.UnitTypeData_lstlreq[0].reqdocndt,
-                    totalSaleArea : data.UnitTypeData_ttlsalearea,
-                    totalPlots : data.UnitTypeData_ttlplots,
-                    areaOfRoads : data.UnitTypeData_areafrroads,
-                    areaOfParks : data.UnitTypeData_araafrprks,
-                    areaOfCivicAmen : data.UnitTypeData_arafrcivicamn,
-                    superBuiltArea : data.UnitTypeData_sprbltupara,
-                    gardenArea : data.UnitTypeData_grdnara,
-                    terraceArea : data.UnitTypeData_terara,
-                    terraceGarden : data.UnitTypeData_tergrdn,
-                    carpetArea : data.UnitTypeData_crptara,
-                    plinthArea : data.UnitTypeData_pltnara,
-                    noOfFloors : data.UnitTypeData_noflors,
-                    noOfBedrooms : data.UnitTypeData_nobdrms,
-                    commonBathrooms : data.UnitTypeData_cmnbtrms,
-                    attachedBathrooms : data.UnitTypeData_attchbtrms,
-                    servantRoom : data.UnitTypeData_srvntroom,
-                    carParkingArea : data.UnitTypeData_carprkara 
+                    ownerShipType: data.UnitTypeData_Phase_Id,
+                    ownerName: data.UnitTypeData_ownrnm,
+                    ownerSowodo: data.UnitTypeData_sowodo,
+                    ownerDob: data.UnitTypeData_dob,
+                    ownerAddress: data.UnitTypeData_add,
+                    ownerPan: data.UnitTypeData_pan,
+                    minor: minorType,
+                    guardianName: data.UnitTypeData_grdnm,
+                    guardianSowodo: data.UnitTypeData_gunsowodo,
+                    guardianDob: data.UnitTypeData_gundob,
+                    guardianAddress: data.UnitTypeData_gunadd,
+                    guardianPan: data.UnitTypeData_gunpan,
+                    relationshipWithMinor: data.UnitTypeData_gunrltnminor,
+                    totalLandArea: data.UnitTypeData_ttllndar,
+                    totalHyneArea: data.UnitTypeData_ttlhynlnd,
+                    totalKarabArea: data.UnitTypeData_krblnd,
+                    landConverted: landConvertedType,
+                    conversionOrderDocNo: data.UnitTypeData_convordr,
+                    conversionOrderDocDt: data.UnitTypeData_convordrdt,
+                    planApproved: planApprovedType,
+                    planApproveNo: data.UnitTypeData_lstplappv[0].plnappno,
+                    planApproveDt: data.UnitTypeData_lstplappv[0].plnappdt,
+                    planApproveAuth: data.UnitTypeData_lstplappv[0].plnappaut,
+                    nocObtained: nocObtainedType,
+                    nocDate: data.UnitTypeData_lstnoc[0].nocdt,
+                    nocDocNo: data.UnitTypeData_lstnoc[0].nocdocno,
+                    relinquish: relinquishType,
+                    docNum: data.UnitTypeData_lstlreq[0].reqsno,
+                    docDate: data.UnitTypeData_lstlreq[0].reqdocndt,
+                    totalSaleArea: data.UnitTypeData_ttlsalearea,
+                    totalPlots: data.UnitTypeData_ttlplots,
+                    areaOfRoads: data.UnitTypeData_areafrroads,
+                    areaOfParks: data.UnitTypeData_araafrprks,
+                    areaOfCivicAmen: data.UnitTypeData_arafrcivicamn,
+                    superBuiltArea: data.UnitTypeData_sprbltupara,
+                    gardenArea: data.UnitTypeData_grdnara,
+                    terraceArea: data.UnitTypeData_terara,
+                    terraceGarden: data.UnitTypeData_tergrdn,
+                    carpetArea: data.UnitTypeData_crptara,
+                    plinthArea: data.UnitTypeData_pltnara,
+                    noOfFloors: data.UnitTypeData_noflors,
+                    noOfBedrooms: data.UnitTypeData_nobdrms,
+                    commonBathrooms: data.UnitTypeData_cmnbtrms,
+                    attachedBathrooms: data.UnitTypeData_attchbtrms,
+                    servantRoom: data.UnitTypeData_srvntroom,
+                    carParkingArea: data.UnitTypeData_carprkara
                 };
             } else {
                 $scope.addUnit = {
-                    ownerShipType:0,
-                    nocObtained:"false",
-                    planApproved:"false",
-                    landConverted:"false",
-                    minor:"false",
-                    relinquish:"false"  
+                    ownerShipType: 0,
+                    nocObtained: "false",
+                    planApproved: "false",
+                    landConverted: "false",
+                    minor: "false",
+                    relinquish: "false"
                 };
             }
-            
+
             angular.element(".loader").hide();
         }).error(function() {
             alert("Something went wrong.");
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.editPhaseData = function(formObj, formName) {
         $scope.submit = true;
         console.log(formObj);
         if ($scope[formName].$valid) {
-//            alert("Valid Form");
+            //            alert("Valid Form");
             angular.element(".loader").show();
             $http({
                 method: "POST",
@@ -2469,95 +2459,102 @@ app.controller("editUnit", function($scope, $http, $state, $cookieStore, $stateP
 
 app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $stateParams, $compile) {
     $scope.untDetails = [];
-	$scope.projectId = $stateParams.projId;
+    $scope.projectId = $stateParams.projId;
     $scope.phaseId = $stateParams.phaseId;
     $scope.untGeneration = {
-        projectName:"1",
-        phase:"2",
-        type:"3"
+        projectName: "1",
+        phase: "2",
+        type: "3"
     };
     var unitNosArr = [];
-    
+
+    ($scope.getBlockList = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/BlockDtls/ByPhaseBlocksId",
+            ContentType: 'application/json',
+            data: {
+                "Phase_Proj_Id": $scope.projectId,
+                "Blocks_Phase_Id": $scope.phaseId
+            }
+        }).success(function(data) {
+            console.log(data);
+            $scope.blockList = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+
     $scope.addSampleData = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
-            if(formObj.seperator==undefined){
-                formObj.seperator = "";
-            }
-            if(formObj.afn==true){                
-                if(formObj.noOfFloors > 9){                    
-                    floorNo = "01";    
-                }
-                else{
-                    floorNo = "1";       
-                }
-            }
-            else{
-                floorNo="";
-                formObj.seperator = "";
-            }
-            console.log(formObj);
-            angular.element("#unitRows").html('');
-            var unitsPerFloor = formObj.unitsPerFloor;
-            var unitNo = parseInt(formObj.unitNo);
-            var skipBy = parseInt(formObj.skipBy);
-            var i = 1;
-            while(i<=unitsPerFloor){
-                unitNosArr.push(unitNo);
-                var tableRow = '<tr><td><input type="text" class="form-control" value="'+floorNo+formObj.seperator+unitNo+'" name="unitNos"/></td> <td><input type="text" class="form-control" name="unitName" ng-model="untDetails['+i+'].unitName"/></td> <td><input type="text" class="form-control" name="unitType" ng-model="untDetails['+i+'].unitType"/></td> <td> <select class="form-control" name="unitBedroom" ng-model="untDetails['+i+'].unitBedroom"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBalconies" ng-model="untDetails['+i+'].unitBalconies"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBathrooms" ng-model="untDetails['+i+'].unitBathrooms"> <option value="">Select</option><option>3</option> </select> </td> <td><input type="text" class="form-control" name="unitSuperArea" ng-model="untDetails['+i+'].unitSuperArea"/></td> <td><input type="text" class="form-control" name="unitPercentage" ng-model="untDetails['+i+'].unitPercentage"/></td> <td><input type="text" class="form-control" name="unitCarpetArea" ng-model="untDetails['+i+'].unitCarpetArea"/></td> <td> <select class="form-control" name="unitPremium" ng-model="untDetails['+i+'].unitPremium"> <option value="">Select</option> <option>Y</option> </select> </td> <td> <select class="form-control" name="unitPosition" ng-model="untDetails['+i+'].unitPosition"> <option value="">Select</option> <option>E</option></select></td></tr>';                
-                var tableRowComplied = $compile(tableRow)($scope);
-//                console.log(tableRowComplied);
-                angular.element("#unitRows").append(tableRowComplied);
-                
-                unitNo = unitNo+skipBy;
-                i++;
-            }
-            console.log(unitNosArr);
-            /*$http({
+            /*Update Block*/
+            $http({
                 method: "POST",
-                url: "http://120.138.8.150/pratham/User/SaveUser",
+                url: "http://120.138.8.150/pratham/Proj/Block/Updt",
                 ContentType: 'application/json',
                 data: {
-                    "user_comp_guid": $cookieStore.get('comp_guid'),
-                    "user_type": 3,
-                    "user_first_name": formObj.firstName,
-                    "user_middle_name": formObj.middleName,
-                    "user_last_name": formObj.lastName,
-                    "user_mobile_no": formObj.mobileNumber,
-                    "user_office_no": formObj.officeNumber,
-                    "user_email_address": formObj.emailId,
-                    "user_country": formObj.country,
-                    "user_city": formObj.city,
-                    "user_state": formObj.state,
-                    "user_address": formObj.address,
-                    "user_zipcode": formObj.zip,
-                    "user_dob": formObj.dob,
-                    "user_gender": parseInt(formObj.gender),
+                    "Blocks_comp_guid": $cookieStore.get('comp_guid'),
+                    "Blocks_Id": formObj.block,
+                    "Blocks_Floors": formObj.noOfFloors,
+                    "Blocks_UnitPerfloor": formObj.unitsPerFloor,
+                    "Blocks_Devation": "true"
                 }
             }).success(function(data) {
-                //console.log(data);
-                if (data.user_id != 0) {
-                    //$cookieStore.put('lead_id', data.user_id);
-                    $state.go("/ProjectDetails", {
-                        "leadID": data.user_id
-                    });
-                } else {
-                    alert("Some Error!");
+                var res = data.Comm_ErrorDesc;
+                var resSplit = res.split('|');
+                console.log(resSplit[0]);
+                if (resSplit[0] == 0) {
+                    if (formObj.seperator == undefined) {
+                        formObj.seperator = "";
+                    }
+                    if (formObj.afn == true) {
+                        if (formObj.noOfFloors > 9) {
+                            floorNo = "01";
+                        } else {
+                            floorNo = "1";
+                        }
+                    } else {
+                        floorNo = "";
+                        formObj.seperator = "";
+                    }
+                    angular.element("#unitRows").html('');
+                    var unitsPerFloor = formObj.unitsPerFloor;
+                    var unitNo = parseInt(formObj.unitNo);
+                    var skipBy = parseInt(formObj.skipBy);
+                    var i = 1;
+                    while (i <= unitsPerFloor) {
+                        unitNosArr.push(unitNo);
+                        var tableRow = '<tr><td><input type="text" class="form-control" value="' + floorNo + formObj.seperator + unitNo + '" name="unitNos"/></td> <td><input type="text" class="form-control" name="unitName" ng-model="untDetails[' + i + '].unitName"/></td> <td><input type="text" class="form-control" name="unitType" ng-model="untDetails[' + i + '].unitType"/></td> <td> <select class="form-control" name="unitBedroom" ng-model="untDetails[' + i + '].unitBedroom"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBalconies" ng-model="untDetails[' + i + '].unitBalconies"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBathrooms" ng-model="untDetails[' + i + '].unitBathrooms"> <option value="">Select</option><option>3</option> </select> </td> <td><input type="text" class="form-control" name="unitSuperArea" ng-model="untDetails[' + i + '].unitSuperArea"/></td> <td><input type="text" class="form-control" name="unitPercentage" ng-model="untDetails[' + i + '].unitPercentage"/></td> <td><input type="text" class="form-control" name="unitCarpetArea" ng-model="untDetails[' + i + '].unitCarpetArea"/></td> <td> <select class="form-control" name="unitPremium" ng-model="untDetails[' + i + '].unitPremium"> <option value="">Select</option> <option>Y</option> </select> </td> <td> <select class="form-control" name="unitPosition" ng-model="untDetails[' + i + '].unitPosition"> <option value="">Select</option> <option>E</option></select></td></tr>';
+                        var tableRowComplied = $compile(tableRow)($scope);
+                        angular.element("#unitRows").append(tableRowComplied);
+                        unitNo = unitNo + skipBy;
+                        i++;
+                    }
                 }
-            }).error(function() {});*/
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+            /*End Update Block*/
         }
     };
-    
-    $scope.generateForAllFloors = function(formObj,parentObj){
-        alert(formObj.length);
+
+    $scope.generateForAllFloors = function(formObj, parentObj) {
+        var initiator = 1;
+        if (parentObj.agf == true) {
+            initiator = 0;
+        }
         var unitsJson = [];
-        for(i=1;i<=parentObj.noOfFloors;i++){
+        for (i = initiator; i <= parentObj.noOfFloors; i++) {
             var unitObj = {};
-            for(j=1;j<formObj.length;j++){
+            for (j = 1; j < formObj.length; j++) {
                 console.log(formObj[j]);
-                var unitNo = unitNosArr[j-1];
-                if(parentObj.afn==true){   
-                    unitNo = i+parentObj.seperator+unitNo;
+                var unitNo = unitNosArr[j - 1];
+                if (parentObj.afn == true) {
+                    unitNo = i + parentObj.seperator + unitNo;
                 }
                 unitObj.UnitDtls_comp_guid = $cookieStore.get('comp_guid');
                 unitObj.UnitDtls_Unit_type_id = parentObj.type;
@@ -2580,10 +2577,27 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                 unitObj.UnitDtls_BuliltupArea = formObj[j].unitCarpetArea;
                 unitsJson.push(unitObj);
             }
-            
+
         }
         console.log(JSON.stringify(unitsJson));
-        
+        $state.go("/Units", {
+            projId: $scope.projectId,
+            phaseId: $scope.phaseId
+        });
+
     };
-    
-}); 
+
+});
+app.controller("units", function($scope, $http, $state, $cookieStore, $stateParams, $compile,myService) {    
+    $scope.title = "Units";
+    ($scope.projectListFun = function(){
+        angular.element(".loader").show();
+        myService.getProjectList($cookieStore.get('comp_guid')).then(function(response){
+            $scope.projectList = response.data;
+            angular.element(".loader").hide();
+        });
+    })();
+    $scope.unts = {
+        projectName:$stateParams.projId
+    };
+});
