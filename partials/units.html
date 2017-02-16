@@ -15,7 +15,7 @@
             <label>Project:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select class="form-control" name="projectName" ng-model="unts.projectName" ng-required="true" ng-class="{blankInput: untsForm.projectName.$error.required &amp;&amp; submit}">
+            <select class="form-control" name="projectName" ng-model="unts.projectName" ng-required="true" ng-class="{blankInput: untsForm.projectName.$error.required &amp;&amp; submit}" ng-change="phaseListFun(unts.projectName)" ng-disabled="{{disableProject}}">
                 <option value="">
                     Project
                 </option>
@@ -32,10 +32,13 @@
             <label>Phase:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select class="form-control" name="phase" ng-model="unts.phase" ng-required="true" ng-class="{blankInput: untsForm.phase.$error.required &amp;&amp; submit}">
-               <option value="2">
-                  Phase I
+            <select class="form-control" name="phase" ng-model="unts.phase" ng-required="true" ng-class="{blankInput: untsForm.phase.$error.required &amp;&amp; submit}" ng-disabled="{{disablePhase}}">
+               <option value="">
+                  Phase
                </option>
+               <option ng-repeat="x in phaseList" value="{{x.Phase_Id}}">
+					{{x.Phase_Name}}
+				</option>
             </select>
          </div>
       </div>

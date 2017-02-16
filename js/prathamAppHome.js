@@ -123,7 +123,7 @@ app.service('myService', function($http) {
     };
 
     this.getProjectList = function(compId) {
-        var promise =  $http({
+        var promise = $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/ProjDtls/ByCompGuid",
             ContentType: 'application/json',
@@ -133,8 +133,23 @@ app.service('myService', function($http) {
         }).success(function(data) {
             projectList = data;
             return projectList;
-        }).error(function() {
-        });
+        }).error(function() {});
+        return promise;
+    };
+
+    this.getPhaseList = function(compId,projectName) {
+        var promise = $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/PhaseDtls/ByPhaseProjId",
+            ContentType: 'application/json',
+            data: {
+                "Phase_Proj_Id": projectName,
+                "Phase_comp_guid": compId
+            }
+        }).success(function(data) {
+            phaseList = data;
+            return projectList;
+        }).error(function() {});
         return promise;
     };
 });

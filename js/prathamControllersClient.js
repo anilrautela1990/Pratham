@@ -369,8 +369,8 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             angular.element(".loader").hide();
         });
     })();
-
-    $scope.getPhaseList = function(projectName) {
+    
+    $scope.phaseListFun = function(projectName){
         $scope.perFloorUnits = [];
         $scope.units = [];
         $scope.flatType = "";
@@ -378,22 +378,12 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         $scope.projectDetails.blocks = "";
         $scope.blockList = {};
         angular.element(".loader").show();
-        $http({
-            method: "POST",
-            url: "http://120.138.8.150/pratham/Proj/PhaseDtls/ByPhaseProjId",
-            ContentType: 'application/json',
-            data: {
-                "Phase_Proj_Id": projectName,
-                "Phase_comp_guid": $cookieStore.get('comp_guid')
-            }
-        }).success(function(data) {
-            //console.log(data);
-            $scope.phaseList = data;
-            angular.element(".loader").hide();
-        }).error(function() {
+        myService.getPhaseList($cookieStore.get('comp_guid'),projectName).then(function(response){
+            $scope.phaseList = response.data;
             angular.element(".loader").hide();
         });
     };
+    
     $scope.getBlockList = function(phase, projectName) {
         $scope.perFloorUnits = [];
         $scope.units = [];
@@ -2588,16 +2578,33 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
     };
 
 });
-app.controller("units", function($scope, $http, $state, $cookieStore, $stateParams, $compile,myService) {    
+app.controller("units", function($scope, $http, $state, $cookieStore, $stateParams, $compile, myService) {    
     $scope.title = "Units";
+    
+    $scope.phaseListFun = function(projectName){
+        angular.element(".loader").show();
+        myService.getPhaseList($cookieStore.get('comp_guid'),projectName).then(function(response){
+            $scope.phaseList = response.data;
+            angular.element(".loader").hide();
+        });
+    };
+    
     ($scope.projectListFun = function(){
         angular.element(".loader").show();
         myService.getProjectList($cookieStore.get('comp_guid')).then(function(response){
             $scope.projectList = response.data;
+            $scope.phaseListFun($stateParams.projId);
             angular.element(".loader").hide();
         });
     })();
+    if($stateParams.projId!=""){
+        $scope.disableProject = true;
+    }
+    if($stateParams.phaseId!=""){
+        $scope.disablePhase = true;
+    }
     $scope.unts = {
-        projectName:$stateParams.projId
+        projectName:$stateParams.projId,
+        phase:$stateParams.phaseId
     };
 });
