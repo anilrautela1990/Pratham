@@ -2500,6 +2500,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                         formObj.seperator = "";
                     }
                     angular.element("#unitRows").html('');
+                    unitNosArr = [];
                     var unitsPerFloor = formObj.unitsPerFloor;
                     var unitNo = parseInt(formObj.unitNo);
                     var skipBy = parseInt(formObj.skipBy);
@@ -2512,6 +2513,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                         unitNo = unitNo + skipBy;
                         i++;
                     }
+                    console.log(unitNosArr);
                 }
                 angular.element(".loader").hide();
             }).error(function() {
@@ -2527,16 +2529,16 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
         }
         var unitsJson = [];
         for (i = initiator; i <= parentObj.noOfFloors; i++) {
-            var unitObj = {};
             for (j = 1; j < formObj.length; j++) {
+                var unitObj = {};
                 var unitNo = unitNosArr[j - 1];
                 if (parentObj.afn == true) {
-                    unitNo = i + parentObj.seperator + unitNo;
+                    unitNo = i+''+unitNo;
                 }
                 unitObj.UnitDtls_comp_guid = $cookieStore.get('comp_guid');
                 unitObj.UnitDtls_Unit_type_id = parentObj.type;
                 unitObj.UnitDtls_Block_Id = parentObj.block;
-                unitObj.UnitDtls_user_id = $cookieStore.get('user_id');;
+                unitObj.UnitDtls_user_id = $cookieStore.get('user_id');
                 unitObj.UnitDtls_No = unitNo;
                 unitObj.UnitDtls_Name = formObj[j].unitName;
                 unitObj.UnitDtls_Type = formObj[j].unitType;
@@ -2557,6 +2559,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
 
         }        
         unitsJson = JSON.stringify(unitsJson);
+        console.log(unitsJson);
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/Block/Unitdetail/Save",
