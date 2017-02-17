@@ -21,7 +21,7 @@
 			</select>
 		</div>
 		<div>
-			<select ng-model="projectDetails.phase" name="phase" class="form-control" ng-change="getBlockList(projectDetails.phase,projectDetails.projectName)">
+			<select ng-model="projectDetails.phase" name="phase" class="form-control" ng-change="blockListFun(projectDetails.phase,projectDetails.projectName)">
                 <option value="">
                     Phase
                 </option>

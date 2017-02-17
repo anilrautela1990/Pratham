@@ -361,16 +361,16 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
 
     $scope.flatStatus = ['vacant', 'userinterest', 'mgmtquota', 'blockedbyadvnc', 'blockedbynotadvnc', 'sold'];
     $scope.flatStatusText = ['Vacant', 'User Interested', 'Management Quota', 'Blocked By Paying Advance', 'Blocked By Not Paying Advance', 'Sold'];
-    
-    ($scope.projectListFun = function(){
+
+    ($scope.projectListFun = function() {
         angular.element(".loader").show();
-        myService.getProjectList($cookieStore.get('comp_guid')).then(function(response){
+        myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
             $scope.projectList = response.data;
             angular.element(".loader").hide();
         });
     })();
-    
-    $scope.phaseListFun = function(projectName){
+
+    $scope.phaseListFun = function(projectName) {
         $scope.perFloorUnits = [];
         $scope.units = [];
         $scope.flatType = "";
@@ -378,13 +378,13 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         $scope.projectDetails.blocks = "";
         $scope.blockList = {};
         angular.element(".loader").show();
-        myService.getPhaseList($cookieStore.get('comp_guid'),projectName).then(function(response){
+        myService.getPhaseList($cookieStore.get('comp_guid'), projectName).then(function(response) {
             $scope.phaseList = response.data;
             angular.element(".loader").hide();
         });
     };
-    
-    $scope.getBlockList = function(phase, projectName) {
+
+    $scope.blockListFun = function(phase, projectName) {
         $scope.perFloorUnits = [];
         $scope.units = [];
         $scope.projectDetails.blocks = "";
@@ -394,22 +394,12 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             }
         }
         angular.element(".loader").show();
-        $http({
-            method: "POST",
-            url: "http://120.138.8.150/pratham/Proj/BlockDtls/ByPhaseBlocksId",
-            ContentType: 'application/json',
-            data: {
-                "Phase_Proj_Id": projectName,
-                "Blocks_Phase_Id": phase
-            }
-        }).success(function(data) {
-            console.log(data);
-            $scope.blockList = data;
-            angular.element(".loader").hide();
-        }).error(function() {
+        myService.getBlockList(phase, projectName).then(function(response) {
+            $scope.blockList = response.data;
             angular.element(".loader").hide();
         });
     };
+
     $scope.getUnits = function(blocks) {
         $scope.units = [];
         $scope.perFloorUnits = [];
@@ -2476,7 +2466,6 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             angular.element(".loader").hide();
         });
     })();
-
     $scope.addSampleData = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -2531,7 +2520,6 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             /*End Update Block*/
         }
     };
-
     $scope.generateForAllFloors = function(formObj, parentObj) {
         var initiator = 1;
         if (parentObj.agf == true) {
@@ -2541,7 +2529,6 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
         for (i = initiator; i <= parentObj.noOfFloors; i++) {
             var unitObj = {};
             for (j = 1; j < formObj.length; j++) {
-                console.log(formObj[j]);
                 var unitNo = unitNosArr[j - 1];
                 if (parentObj.afn == true) {
                     unitNo = i + parentObj.seperator + unitNo;
@@ -2568,43 +2555,70 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                 unitsJson.push(unitObj);
             }
 
-        }
-        console.log(JSON.stringify(unitsJson));
-        $state.go("/Units", {
-            projId: $scope.projectId,
-            phaseId: $scope.phaseId
-        });
-
+        }        
+        unitsJson = JSON.stringify(unitsJson);
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Block/Unitdetail/Save",
+            ContentType: 'application/json',
+            data: unitsJson
+        }).success(function(data) {
+            console.log(data);
+            var res = data.Comm_ErrorDesc;
+            var resSplit = res.split('|');
+            console.log(resSplit[0]);
+            if (resSplit[0] == 0) {
+                $state.go("/Units", {
+                    projId: $scope.projectId,
+                    phaseId: $scope.phaseId,
+                    blockId: parentObj.block
+                });
+            }
+        }).error(function() {});
     };
-
 });
-app.controller("units", function($scope, $http, $state, $cookieStore, $stateParams, $compile, myService) {    
+app.controller("units", function($scope, $http, $state, $cookieStore, $stateParams, $compile, myService) {
     $scope.title = "Units";
     
-    $scope.phaseListFun = function(projectName){
+    $scope.projectListFun = function() {
         angular.element(".loader").show();
-        myService.getPhaseList($cookieStore.get('comp_guid'),projectName).then(function(response){
+        myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
+            $scope.projectList = response.data;
+            angular.element(".loader").hide();
+        });
+    };
+    
+    $scope.phaseListFun = function(projectName) {
+        angular.element(".loader").show();
+        myService.getPhaseList($cookieStore.get('comp_guid'), projectName).then(function(response) {
             $scope.phaseList = response.data;
             angular.element(".loader").hide();
         });
     };
     
-    ($scope.projectListFun = function(){
+    $scope.blockListFun = function(phase, projectName) {
         angular.element(".loader").show();
-        myService.getProjectList($cookieStore.get('comp_guid')).then(function(response){
-            $scope.projectList = response.data;
-            $scope.phaseListFun($stateParams.projId);
+        myService.getBlockList(phase, projectName).then(function(response) {
+            $scope.blockList = response.data;
             angular.element(".loader").hide();
         });
-    })();
-    if($stateParams.projId!=""){
+    };
+    
+    if ($stateParams.projId != "") {
+        $scope.projectListFun();
         $scope.disableProject = true;
     }
-    if($stateParams.phaseId!=""){
+    if ($stateParams.phaseId != "") {
+        $scope.phaseListFun($stateParams.projId);
         $scope.disablePhase = true;
     }
+    if ($stateParams.blockId != "") {
+        $scope.blockListFun($stateParams.phaseId,$stateParams.projId);
+        $scope.disableBlock = true;
+    }
     $scope.unts = {
-        projectName:$stateParams.projId,
-        phase:$stateParams.phaseId
+        projectName: $stateParams.projId,
+        phase: $stateParams.phaseId,
+        block: $stateParams.blockId
     };
 });

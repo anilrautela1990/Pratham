@@ -108,7 +108,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             controller: 'unitGeneration'
         })
         .state('/Units', {
-            url: '/Units/:projId/:phaseId',
+            url: '/Units/:projId/:phaseId/:blockId',
             templateUrl: 'partials/units.html',
             controller: 'units'
         })
@@ -149,6 +149,22 @@ app.service('myService', function($http) {
         }).success(function(data) {
             phaseList = data;
             return projectList;
+        }).error(function() {});
+        return promise;
+    };
+    
+    this.getBlockList = function(phase, projectName) {
+        var promise = $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/BlockDtls/ByPhaseBlocksId",
+            ContentType: 'application/json',
+            data: {
+                "Phase_Proj_Id": projectName,
+                "Blocks_Phase_Id": phase
+            }
+        }).success(function(data) {
+            blockList = data;
+            return blockList;
         }).error(function() {});
         return promise;
     };
