@@ -2489,16 +2489,12 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                     if (formObj.seperator == undefined) {
                         formObj.seperator = "";
                     }
-                    if (formObj.afn == true) {
-                        if (formObj.noOfFloors > 9) {
-                            floorNo = "01";
-                        } else {
-                            floorNo = "1";
-                        }
-                    } else {
-                        floorNo = "";
-                        formObj.seperator = "";
-                    }
+					if (formObj.noOfFloors > 9) {
+						floorNo = "01";
+					} else {
+						floorNo = "1";
+					}
+                    
                     angular.element("#unitRows").html('');
                     unitNosArr = [];
                     var unitsPerFloor = formObj.unitsPerFloor;
@@ -2532,9 +2528,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             for (j = 1; j < formObj.length; j++) {
                 var unitObj = {};
                 var unitNo = unitNosArr[j - 1];
-                if (parentObj.afn == true) {
-                    unitNo = i+''+unitNo;
-                }
+                unitNo = i+''+unitNo;
                 unitObj.UnitDtls_comp_guid = $cookieStore.get('comp_guid');
                 unitObj.UnitDtls_Unit_type_id = parentObj.type;
                 unitObj.UnitDtls_Block_Id = parentObj.block;
