@@ -2503,7 +2503,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                     var i = 1;
                     while (i <= unitsPerFloor) {
                         unitNosArr.push(unitNo);
-                        var tableRow = '<tr><td><input type="text" class="form-control" value="' + floorNo + formObj.seperator + unitNo + '" name="unitNos"/></td> <td><input type="text" class="form-control" name="unitName" ng-model="untDetails[' + i + '].unitName"/></td> <td><input type="text" class="form-control" name="unitType" ng-model="untDetails[' + i + '].unitType"/></td> <td> <select class="form-control" name="unitBedroom" ng-model="untDetails[' + i + '].unitBedroom"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBalconies" ng-model="untDetails[' + i + '].unitBalconies"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBathrooms" ng-model="untDetails[' + i + '].unitBathrooms"> <option value="">Select</option><option>3</option> </select> </td> <td><input type="text" class="form-control" name="unitSuperArea" ng-model="untDetails[' + i + '].unitSuperArea"/></td> <td><input type="text" class="form-control" name="unitPercentage" ng-model="untDetails[' + i + '].unitPercentage"/></td> <td><input type="text" class="form-control" name="unitCarpetArea" ng-model="untDetails[' + i + '].unitCarpetArea"/></td> <td> <select class="form-control" name="unitPremium" ng-model="untDetails[' + i + '].unitPremium"> <option value="">Select</option> <option>Y</option> </select> </td> <td> <select class="form-control" name="unitPosition" ng-model="untDetails[' + i + '].unitPosition"> <option value="">Select</option> <option>E</option></select></td></tr>';
+                        var tableRow = '<tr><td><input type="text" class="form-control" value="' + floorNo + formObj.seperator + unitNo + '" name="unitNos" ng-required="true"/></td> <td><input type="text" class="form-control" name="unitName" ng-model="untDetails[' + i + '].unitName"/></td> <td><input type="text" class="form-control" name="unitType" ng-model="untDetails[' + i + '].unitType"/></td> <td> <select class="form-control" name="unitBedroom" ng-model="untDetails[' + i + '].unitBedroom"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBalconies" ng-model="untDetails[' + i + '].unitBalconies"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBathrooms" ng-model="untDetails[' + i + '].unitBathrooms"> <option value="">Select</option><option>3</option> </select> </td> <td><input type="text" class="form-control" name="unitSuperArea" ng-model="untDetails[' + i + '].unitSuperArea"/></td> <td><input type="text" class="form-control" name="unitPercentage" ng-model="untDetails[' + i + '].unitPercentage"/></td> <td><input type="text" class="form-control" name="unitCarpetArea" ng-model="untDetails[' + i + '].unitCarpetArea"/></td> <td> <select class="form-control" name="unitPremium" ng-model="untDetails[' + i + '].unitPremium"> <option value="">Select</option> <option>Y</option> </select> </td> <td> <select class="form-control" name="unitPosition" ng-model="untDetails[' + i + '].unitPosition"> <option value="">Select</option> <option>E</option></select></td></tr>';
                         var tableRowComplied = $compile(tableRow)($scope);
                         angular.element("#unitRows").append(tableRowComplied);
                         unitNo = unitNo + skipBy;
@@ -2518,7 +2518,14 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             /*End Update Block*/
         }
     };
-    $scope.generateForAllFloors = function(formObj, parentObj) {
+    $scope.generateForAllFloors = function(formName, formObj, parentObj) {
+        /*$scope.submit = true;
+        if ($scope[formName].$valid) {
+            alert("Valid!");
+        }
+        else{
+            alert("Not Valid!");
+        }*/
         var initiator = 1;
         if (parentObj.agf == true) {
             initiator = 0;
@@ -2528,7 +2535,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             for (j = 1; j < formObj.length; j++) {
                 var unitObj = {};
                 var unitNo = unitNosArr[j - 1];
-                unitNo = i+''+unitNo;
+                unitNo = i+''+parentObj.seperator+unitNo;
                 unitObj.UnitDtls_comp_guid = $cookieStore.get('comp_guid');
                 unitObj.UnitDtls_Unit_type_id = parentObj.type;
                 unitObj.UnitDtls_Block_Id = parentObj.block;
@@ -2618,4 +2625,14 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
         phase: $stateParams.phaseId,
         block: $stateParams.blockId
     };
+    $scope.unitListFun = function(compId, blockId) {
+        angular.element(".loader").show();
+        myService.getUnitsByBlock(compId, blockId).then(function(response) {
+            $scope.units = response.data;
+            angular.element(".loader").hide();
+        });
+    };
+    
+    $scope.unitListFun($cookieStore.get('comp_guid'),$stateParams.blockId);
+    
 });

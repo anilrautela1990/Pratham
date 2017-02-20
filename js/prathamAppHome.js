@@ -168,4 +168,21 @@ app.service('myService', function($http) {
         }).error(function() {});
         return promise;
     };
+    
+    this.getUnitsByBlock = function(compId, blockId) {
+        console.log("blockId: "+blockId);
+        var promise = $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/UnitDtls/ByUnitDtlsBlocksId",
+            ContentType: 'application/json',
+            data: {
+                  "UnitDtls_Block_Id":blockId,
+                  "UnitDtls_comp_guid":compId
+                }
+        }).success(function(data) {
+            units = data;
+            return units;
+        }).error(function() {});
+        return promise;
+    };
 });
