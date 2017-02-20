@@ -1508,10 +1508,12 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
             //console.log(data);
             editAppendFields(data);
             var phaseList = [];
+            var blockIdList = [];
 
             if (data[0].LstofBlocks != null) {
                 for (var i = 0; i < data[0].LstofBlocks.length; i++) {
                     phaseList.push(data[0].LstofBlocks[i].Blocks_Name);
+                    blockIdList.push(data[0].LstofBlocks[i].Blocks_Id);
                 }
             }
 
@@ -1523,7 +1525,8 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
                 phaseType: data[0].Phase_UnitType.UnitType_Id,
                 noOfBlocks: data[0].Phase_NoofBlocks,
                 projectName: $stateParams.projId,
-                blockName: phaseList
+                blockName: phaseList,
+                blockId: blockIdList
             };
             angular.element(".loader").hide();
         }).error(function() {
@@ -1535,7 +1538,8 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
         angular.element("#noOfBlocks").html('');
         if (data[0].LstofBlocks != null) {
             for (i = 1; i <= data[0].LstofBlocks.length; i++) {
-                var childDiv = '<div id="block' + data[0].LstofBlocks[i - 1].Blocks_Id + '"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control inputWithIcon" name="blockName[' + (i - 1) + ']" ng-model="projectDetails.blockName[' + (i - 1) + ']" />';
+                var childDiv = '<div id="block' + data[0].LstofBlocks[i - 1].Blocks_Id + '"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control inputWithIcon" name="blockName[' + (i - 1) + ']" ng-model="projectDetails.blockName[' + (i - 1) + ']" /> <input type="text" class="form-control dispNone" ng-model="projectDetails.blockId[' + (i - 1) + ']" ng-value="'+data[0].LstofBlocks[i - 1].Blocks_Id+'" name="blockId[' + (i - 1) + ']"/>';
+                
                 if (!data[0].LstofBlocks[i - 1].blnunitexists)
                     childDiv = childDiv + '<span ng-click="deleteBlock(' + data[0].Phase_Id + ',' + data[0].LstofBlocks[i - 1].Blocks_Id + ')" class="glyphicon glyphicon-trash delete"></span></div>';
                 else
@@ -1573,6 +1577,8 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
                 var tmp = {};
                 tmp.Blocks_Name = formObj.blockName[i];
                 tmp.Blocks_Id = 0;
+                if(formObj.blockId[i] != undefined)
+                    tmp.Blocks_Id = formObj.blockId[i];
                 blockLst.push(tmp);
             }
 
@@ -2283,6 +2289,32 @@ app.controller("editUnit", function($scope, $http, $state, $cookieStore, $stateP
                 if (data.UnitTypeData_rlqyn == "1") {
                     relinquishType = "true";
                 }
+                
+                var planApproveNum = '';
+                var planApproveDate = '';
+                var planApproveAuth = '';
+                
+                if(data.UnitTypeData_lstplappv.length > 0){
+                    planApproveNum = data.UnitTypeData_lstplappv[0].plnappno;
+                    planApproveDate = data.UnitTypeData_lstplappv[0].plnappdt;
+                    planApproveAuth = data.UnitTypeData_lstplappv[0].plnappaut;
+                }
+                
+                var nocDate = '';
+                var nocNum = '';
+                
+                if(data.UnitTypeData_lstnoc.length > 0){
+                    nocDate = data.UnitTypeData_lstnoc[0].nocdt;
+                    nocNum = data.UnitTypeData_lstnoc[0].nocdocno;
+                }
+                
+                var reqsno = '';
+                var reqdocndt = '';
+                
+                if(data.UnitTypeData_lstlreq.length > 0){
+                    reqsno = data.UnitTypeData_lstlreq[0].reqsno;
+                    reqdocndt = data.UnitTypeData_lstlreq[0].reqdocndt;
+                }
 
                 $scope.addUnit = {
                     ownerShipType: data.UnitTypeData_Phase_Id,
@@ -2305,15 +2337,15 @@ app.controller("editUnit", function($scope, $http, $state, $cookieStore, $stateP
                     conversionOrderDocNo: data.UnitTypeData_convordr,
                     conversionOrderDocDt: data.UnitTypeData_convordrdt,
                     planApproved: planApprovedType,
-                    planApproveNo: data.UnitTypeData_lstplappv[0].plnappno,
-                    planApproveDt: data.UnitTypeData_lstplappv[0].plnappdt,
-                    planApproveAuth: data.UnitTypeData_lstplappv[0].plnappaut,
+                    planApproveNo: planApproveNum,
+                    planApproveDt: planApproveDate,
+                    planApproveAuth: planApproveAuth,
                     nocObtained: nocObtainedType,
-                    nocDate: data.UnitTypeData_lstnoc[0].nocdt,
-                    nocDocNo: data.UnitTypeData_lstnoc[0].nocdocno,
+                    nocDate: nocDate,
+                    nocDocNo: nocNum,
                     relinquish: relinquishType,
-                    docNum: data.UnitTypeData_lstlreq[0].reqsno,
-                    docDate: data.UnitTypeData_lstlreq[0].reqdocndt,
+                    docNum: reqsno,
+                    docDate: reqdocndt,
                     totalSaleArea: data.UnitTypeData_ttlsalearea,
                     totalPlots: data.UnitTypeData_ttlplots,
                     areaOfRoads: data.UnitTypeData_areafrroads,
