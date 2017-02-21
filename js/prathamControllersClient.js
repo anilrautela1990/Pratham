@@ -2577,7 +2577,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                 unitObj.UnitDtls_Type = formObj[j].unitType;
                 unitObj.UnitDtls_Balcn = formObj[j].unitBalconies;
                 unitObj.UnitDtls_BRoom = formObj[j].unitBedroom;
-                unitObj.UnitDtls_Msrmnt = formObj[j].unitSuperArea;
+                unitObj.UnitDtls_Msrmnt = formObj[j].unitCarpetArea;
                 unitObj.UnitDtls_Directn = formObj[j].unitPosition;
                 unitObj.UnitDtls_Floor = i;
                 unitObj.UnitDtls_Premium = formObj[j].unitPremium;
@@ -2586,7 +2586,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                 unitObj.UnitDtls_WstMsrmnt = 0;
                 unitObj.UnitDtls_NrtMsrmnt = 0;
                 unitObj.UnitDtls_SthMsrmnt = 0;
-                unitObj.UnitDtls_BuliltupArea = formObj[j].unitCarpetArea;
+                unitObj.UnitDtls_BuliltupArea = formObj[j].unitSuperArea;
                 unitsJson.push(unitObj);
             }
 
@@ -2667,4 +2667,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
     
     $scope.unitListFun($cookieStore.get('comp_guid'),$stateParams.blockId);
     
+});
+app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams) {
+	$scope.title = "Cost Sheet Template";
 });

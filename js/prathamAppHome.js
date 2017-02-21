@@ -112,6 +112,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/units.html',
             controller: 'units'
         })
+		.state('/CostSheetTemplate', {
+            url: '/CostSheetTemplate',
+            templateUrl: 'partials/costSheetTemplate.html',
+            controller: 'costSheetTemplate'
+        })
 });
 app.config(function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
