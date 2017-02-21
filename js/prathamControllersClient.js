@@ -2645,6 +2645,23 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
         angular.element(".loader").show();
         myService.getUnitsByBlock(compId, blockId).then(function(response) {
             var units = response.data[0];
+            var blockFloors = response.data[1].Blocks_Floors;
+            var blockUnitsPerFloor = response.data[1].Blocks_UnitPerfloor;
+            blockUnitsPerFloor = parseInt(blockUnitsPerFloor);
+            
+            var floors = [];
+            var count = 0;
+            for(i=0;i<blockFloors;i++){
+                var unitsPerFloor = [];
+                for(j=0;j<blockUnitsPerFloor;j++){
+                    unitsPerFloor.push(units[count]);
+                    count++;
+                }
+                floors.push(unitsPerFloor);
+            }
+            console.log(floors);
+            
+            $scope.floorsUnits = floors;
             angular.element(".loader").hide();
         });
     };
