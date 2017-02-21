@@ -2036,14 +2036,6 @@ app.controller("addUnit", function($scope, $http, $state, $cookieStore, $statePa
 
     $scope.pageTitle = "Add Unit";
     $scope.addPhaseUnitBtn = "ture";
-    /*$scope.addUnit = {
-        ownerShipType:0,
-        nocObtained:"false",
-        planApproved:"false",
-        landConverted:"false",
-        minor:"false",
-        relinquish:"false"  
-    };*/
 
     ($scope.getPhaseDetail = function() {
         angular.element(".loader").show();
@@ -2160,7 +2152,7 @@ app.controller("addUnit", function($scope, $http, $state, $cookieStore, $statePa
                 ContentType: 'application/json',
                 data: {
                     "UnitTypeData_comp_guid": $cookieStore.get('comp_guid'),
-                    "UnitTypeData_Phase_Id": formObj.ownerShipType,
+                    "UnitTypeData_Phase_Id": phaseId,
                     "UnitTypeData_ownrnm": formObj.ownerName,
                     "UnitTypeData_sowodo": formObj.ownerSowodo,
                     "UnitTypeData_dob": formObj.ownerDob,
@@ -2385,7 +2377,7 @@ app.controller("editUnit", function($scope, $http, $state, $cookieStore, $stateP
                 ContentType: 'application/json',
                 data: {
                     "UnitTypeData_comp_guid": $cookieStore.get('comp_guid'),
-                    "UnitTypeData_Phase_Id": formObj.ownerShipType,
+                    "UnitTypeData_Phase_Id": phaseId,
                     "UnitTypeData_ownrnm": formObj.ownerName,
                     "UnitTypeData_sowodo": formObj.ownerSowodo,
                     "UnitTypeData_dob": formObj.ownerDob,
