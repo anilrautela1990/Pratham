@@ -384,7 +384,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         });
     };
 
-    $scope.blockListFun = function(phase, projectName) {
+    $scope.blockListFun = function(phase, compId) {
         $scope.perFloorUnits = [];
         $scope.units = [];
         $scope.projectDetails.blocks = "";
@@ -394,7 +394,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             }
         }
         angular.element(".loader").show();
-        myService.getBlockList(phase, projectName).then(function(response) {
+        myService.getBlockList(phase, compId).then(function(response) {
             $scope.blockList = response.data;
             angular.element(".loader").hide();
         });
@@ -1468,41 +1468,30 @@ app.controller("editProject", function($scope, $http, $cookieStore, $state, $sta
     }
 });
 
-app.controller("editPhases", function($scope, $http, $cookieStore, $state, $compile, $stateParams) {
+app.controller("editPhases", function($scope, $http, $cookieStore, $state, $compile, $stateParams, myService) {
     var Phase_Proj_Id = $stateParams.projId;
     var Phase_Id = $stateParams.phaseId;
 
     $scope.pageTitle = "Edit Phase";
     $scope.editPhaseBtn = true;
-
-    ($scope.getPhaseInfo = function() {
-
+    
+    ($scope.projectListFun = function() {
         angular.element(".loader").show();
-        $http({
-            method: "POST",
-            url: "http://120.138.8.150/pratham/Proj/ProjDtls/ByCompGuid",
-            ContentType: 'application/json',
-            data: {
-                "Proj_comp_guid": $cookieStore.get('comp_guid')
-            }
-        }).success(function(data) {
-            $scope.projectList = data;
-            $scope.projectDetails = {
-                projectName: $stateParams.projId
-            };
-            angular.element(".loader").hide();
-        }).error(function() {
+        myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
+            $scope.projectList = response.data;
             angular.element(".loader").hide();
         });
-
+    })();
+    
+    ($scope.getPhaseInfo = function() {
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/Phase/View",
             ContentType: 'application/json',
             data: {
                 "Phase_comp_guid": $cookieStore.get('comp_guid'),
-                "Phase_Proj_Id": $stateParams.projId,
-                "Phase_Id": $stateParams.phaseId
+                "Phase_Proj_Id": Phase_Proj_Id,
+                "Phase_Id": Phase_Id
             }
         }).success(function(data) {
             //console.log(data);
@@ -1516,7 +1505,6 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
                     blockIdList.push(data[0].LstofBlocks[i].Blocks_Id);
                 }
             }
-
             $scope.projectDetails = {
                 phaseName: data[0].Phase_Name,
                 location: data[0].Phase_Location,
@@ -1531,8 +1519,11 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
-        });
+        });    
     })();
+
+
+        
 
     function editAppendFields(data) {
         angular.element("#noOfBlocks").html('');
@@ -2487,8 +2478,8 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             url: "http://120.138.8.150/pratham/Proj/BlockDtls/ByPhaseBlocksId",
             ContentType: 'application/json',
             data: {
-                "Phase_Proj_Id": $scope.projectId,
-                "Blocks_Phase_Id": $scope.phaseId
+                "Blocks_Phase_Id": $scope.phaseId,
+                "Blocks_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
             console.log(data);
@@ -2650,7 +2641,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
         $scope.disablePhase = true;
     }
     if ($stateParams.blockId != "") {
-        $scope.blockListFun($stateParams.phaseId,$stateParams.projId);
+        $scope.blockListFun($stateParams.phaseId,$cookieStore.get('comp_guid'));
         $scope.disableBlock = true;
     }
     $scope.unts = {

@@ -153,19 +153,19 @@ app.service('myService', function($http) {
             }
         }).success(function(data) {
             phaseList = data;
-            return projectList;
+            return phaseList;
         }).error(function() {});
         return promise;
     };
     
-    this.getBlockList = function(phase, projectName) {
+    this.getBlockList = function(phase, compId) {
         var promise = $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/BlockDtls/ByPhaseBlocksId",
             ContentType: 'application/json',
             data: {
-                "Phase_Proj_Id": projectName,
-                "Blocks_Phase_Id": phase
+                "Blocks_Phase_Id": phase,
+                "Blocks_comp_guid": compId
             }
         }).success(function(data) {
             blockList = data;
