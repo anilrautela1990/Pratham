@@ -1093,8 +1093,8 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
             url: "http://120.138.8.150/pratham/Proj/BlockDtls/ByPhaseBlocksId",
             ContentType: 'application/json',
             data: {
-                "Phase_Proj_Id": projectName,
-                "Blocks_Phase_Id": phase
+                "Blocks_Phase_Id": phase,
+                "Blocks_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
             $scope.blockList = data;
@@ -2587,6 +2587,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                 unitObj.UnitDtls_NrtMsrmnt = 0;
                 unitObj.UnitDtls_SthMsrmnt = 0;
                 unitObj.UnitDtls_BuliltupArea = formObj[j].unitSuperArea;
+                unitObj.UnitDtls_Status = 1;
                 unitsJson.push(unitObj);
             }
 
