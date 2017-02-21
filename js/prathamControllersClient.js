@@ -2644,7 +2644,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
     $scope.unitListFun = function(compId, blockId) {
         angular.element(".loader").show();
         myService.getUnitsByBlock(compId, blockId).then(function(response) {
-            $scope.units = response.data;
+            var units = response.data[0];
             angular.element(".loader").hide();
         });
     };
