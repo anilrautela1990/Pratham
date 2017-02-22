@@ -2648,7 +2648,6 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
             $scope.units = response.data[0];
             console.log($scope.units);
             $scope.UnitsArr = [];
-
             for (i = 0; i < $scope.units.length; i++) {
                 var unitObj = {};
                 unitObj.UnitDtls_No = $scope.units[i].UnitDtls_No;
@@ -2663,6 +2662,12 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
                 unitObj.UnitDtls_Directn = $scope.units[i].UnitDtls_Directn;
                 unitObj.UnitDtls_Floor = $scope.units[i].UnitDtls_Floor;
                 unitObj.UnitDtls_Id = $scope.units[i].UnitDtls_Id;
+                unitObj.UnitDtls_Cornerplot = 0;
+                unitObj.UnitDtls_EstMsrmnt = 0;
+                unitObj.UnitDtls_WstMsrmnt = 0;
+                unitObj.UnitDtls_NrtMsrmnt = 0;
+                unitObj.UnitDtls_SthMsrmnt = 0;
+                unitObj.UnitDtls_Status = $scope.units[i].UnitDtls_Status;
                 $scope.UnitsArr.push(unitObj);
             }
             angular.element(".loader").hide();
@@ -2671,14 +2676,23 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
 
     $scope.unitListFun($cookieStore.get('comp_guid'), $stateParams.blockId);
 
-    $scope.addBlockUnit = function(formObj, formName) {
+    $scope.addBlockUnit = function(formObj, formName, parentObj) {
+        for (i = 0; i < formObj.length; i++) {
+            formObj[i].UnitDtls_comp_guid = $cookieStore.get('comp_guid');
+            formObj[i].UnitDtls_Unit_type_id = 3;
+            formObj[i].UnitDtls_Block_Id = parentObj.block;
+            formObj[i].UnitDtls_user_id = $cookieStore.get('user_id');
+        }
+        
         console.log(formObj);
+        
+        var unitsData = JSON.stringify(formObj);
         
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/Block/Unitdetail/Save",
             ContentType: 'application/json',
-            data: formObj
+            data: unitsData
         }).success(function(data) {
             console.log(data);
             alert('Sucess');
@@ -2709,6 +2723,18 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
                 }
             }*/
         });
+    };
+    
+    $scope.saveCostSheetTemplate = function(formName, formObj){
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            console.log(formObj);    
+            alert("Yes");
+        }
+        else{
+            alert("No");
+        }
+        
     };
 });
 app.controller("costComponentFormula", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance) {

@@ -84,7 +84,19 @@
          <form name="addBlockUnitForm" class="form" method="POST" novalidate="novalidate">
             <tr ng-repeat="x in units track by $index" id="{{$index}}">
                <td><input type="text" class="form-control" name="UnitDtls_No" ng-model="UnitsArr[$index].UnitDtls_No" /></td>
-               <td>{{UnitsArr[$index].UnitDtls_Floor}} <input type="hidden" class="form-control" name="UnitDtls_Id" ng-model="UnitsArr[$index].UnitDtls_Id" /></td>
+               <td>
+                   {{UnitsArr[$index].UnitDtls_Floor}} 
+                   <input type="hidden" class="form-control" name="UnitDtls_Id" ng-model="UnitsArr[$index].UnitDtls_Id" />
+                   <input type="hidden" class="form-control" name="UnitDtls_Id" ng-model="UnitsArr[$index].UnitDtls_Id" />
+                   
+                   <input type="hidden" class="form-control" name="UnitDtls_Status" ng-model="UnitsArr[$index].UnitDtls_Status" />
+                   
+                   <input type="hidden" class="form-control" name="UnitDtls_Cornerplot" ng-model="UnitsArr[$index].UnitDtls_Cornerplot" />
+                   <input type="hidden" class="form-control" name="UnitDtls_EstMsrmnt" ng-model="UnitsArr[$index].UnitDtls_EstMsrmnt" />
+                   <input type="hidden" class="form-control" name="UnitDtls_WstMsrmnt" ng-model="UnitsArr[$index].UnitDtls_WstMsrmnt" />
+                   <input type="hidden" class="form-control" name="UnitDtls_NrtMsrmnt" ng-model="UnitsArr[$index].UnitDtls_NrtMsrmnt" />
+                   <input type="hidden" class="form-control" name="UnitDtls_SthMsrmnt" ng-model="UnitsArr[$index].UnitDtls_SthMsrmnt" />
+                </td>
                <td><input type="text" class="form-control" name="UnitDtls_Name" ng-model="UnitsArr[$index].UnitDtls_Name" /></td>
                <td><input type="text" class="form-control" name="UnitDtls_Type" ng-model="UnitsArr[$index].UnitDtls_Type" /></td>
                <td>
@@ -135,6 +147,6 @@
       </tbody>
    </table>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right padding0 marginTop10">
-        <button type="button" class="btn btn-success" ng-click="addBlockUnit(UnitsArr,'addBlockUnitForm')">Save & Next</button>
+        <button type="button" class="btn btn-success" ng-click="addBlockUnit(UnitsArr,'addBlockUnitForm',unts)">Save & Next</button>
     </div>
 </div>
