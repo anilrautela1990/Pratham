@@ -61,4 +61,74 @@
       </div>
    </div>
 </form>
-{{units}}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+   <h4>Sample Units</h4>
+	<table class="sampleUnits">
+		<thead>
+			<tr>
+				<th>Flat No.</th>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Bedroom</th>
+				<th>Balconies</th>
+				<th>Bathrooms</th>
+				<th>Super Built-up Area</th>
+				<th>% Age</th>
+				<th>Carpet Area</th>
+				<th>Premium</th>
+				<th>Position</th>
+			</tr>
+		</thead>
+		<tbody id="unitRows">
+            <tr ng-repeat="x in units track by $index" id="{{$index}}">
+               <td><input type="text" class="form-control" name="UnitDtls_No" ng-model="units[$index].UnitDtls_No" ng-required="true"/></td>
+               <td><input type="text" class="form-control" name="UnitDtls_Name" ng-model="units[$index].UnitDtls_Name"/></td>
+               <td><input type="text" class="form-control" name="UnitDtls_Type" ng-model="units[$index].UnitDtls_Type"/></td>
+               <td>
+                  <select class="form-control" name="UnitDtls_BRoom" ng-model="units[$index].UnitDtls_BRoom">
+                     <option value="">Select</option>
+                     <option value="0">0</option>
+                     <option value="1">1</option>
+                     <option value="2">2</option>
+                     <option value="3">3</option>
+                  </select>
+               </td>
+               <td>
+                  <select class="form-control" name="UnitDtls_Balcn" ng-model="units[$index].UnitDtls_Balcn">
+                     <option value="">Select</option>
+                     <option value="0">0</option>
+                     <option value="1">1</option>
+                     <option value="2">2</option>
+                     <option value="3">3</option>
+                  </select>
+               </td>
+               <td>
+                  <select class="form-control" name="UnitDtls_BRoom" ng-model="units[$index].UnitDtls_BRoom">
+                     <option value="">Select</option>
+                     <option value="0">0</option>
+                     <option value="1">1</option>
+                     <option value="2">2</option>
+                     <option>3</option>
+                  </select>
+               </td>
+               <td><input type="text" class="form-control" name="UnitDtls_BuliltupArea" ng-model="units[$index].UnitDtls_BuliltupArea"/></td>
+               <td><input type="text" class="form-control" name="unitPercentage" ng-model="units[$index].unitPercentage"/></td>
+               <td><input type="text" class="form-control" name="UnitDtls_Msrmnt" ng-model="units[$index].UnitDtls_Msrmnt"/></td>
+               <td>
+                  <select class="form-control" name="UnitDtls_Premium" ng-model="units[$index].UnitDtls_Premium">
+                     <option value="">Select</option>
+                     <option value="0">Y</option>
+                     <option value="1">N</option>
+                  </select>
+               </td>
+               <td>
+                  <select class="form-control" name="UnitDtls_Directn" ng-model="units[$index].UnitDtls_Directn">
+                     <option value="">Select</option>
+                     <option value="E">E</option>
+                  </select>
+               </td>
+            </tr>
+        </tbody>
+	</table>
+</div>
