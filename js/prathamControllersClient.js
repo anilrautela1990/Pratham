@@ -2685,15 +2685,34 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
         }).error(function() {});
     }
 });
-app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams, $compile) {
+app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams, $compile,$uibModal) {
     $scope.title = "Cost Sheet Template";
     $scope.openFormulaDialog = function(){
       
     };
     $scope.addCostComponent = function() {
-        var costComponentRow = '<tr> <td> <label>Code</label> </td> <td> <input type="text" class="form-control"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="floorFrom" ng-model="untGeneration.floorFrom"> <option value=""> Select </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="value" ng-model="untGeneration.value"/> </td> <td> <button type="button" class="btn btn-warning" ng-click="openFormulaDialog()"> Formula </button> </td> <td> <input type="text" class="form-control" placeholder="Comment" name="comment" ng-model="untGeneration.comment"/> </td> </tr>';
+        var costComponentRow = '<tr> <td> <label>Code</label> </td> <td> <input type="text" class="form-control" name=""/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="floorFrom" ng-model="untGeneration.floorFrom"> <option value=""> Select </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="value" ng-model="untGeneration.value"/> </td> <td> <button type="button" class="btn btn-warning" ng-click="openFormulaModal()"> Formula </button> </td> <td> <input type="text" class="form-control" placeholder="Comment" name="comment" ng-model="untGeneration.comment"/> </td> </tr>';
 
         costComponentRow = $compile(costComponentRow)($scope);
         angular.element(".formulaTable").append(costComponentRow);
+    };
+    
+    $scope.openFormulaModal = function() {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'formula.html',
+            controller: 'costComponentFormula',
+            size: 'md',
+            backdrop: 'static',
+            /*resolve: {
+                item: function() {
+                    return $scope.leads[selectedItem];
+                }
+            }*/
+        });
+    };
+});
+app.controller("costComponentFormula", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance) {
+    $scope.close = function() {
+        $uibModalInstance.close();
     };
 });
