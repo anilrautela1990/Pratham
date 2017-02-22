@@ -2646,6 +2646,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
         angular.element(".loader").show();
         myService.getUnitsByBlock(compId, blockId).then(function(response) {
             $scope.units = response.data[0];
+            console.log($scope.units);
             $scope.UnitsArr = [];
 
             for (i = 0; i < $scope.units.length; i++) {
@@ -2660,6 +2661,8 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
                 unitObj.UnitDtls_Msrmnt = $scope.units[i].UnitDtls_Msrmnt;
                 unitObj.UnitDtls_Premium = $scope.units[i].UnitDtls_Premium + "";
                 unitObj.UnitDtls_Directn = $scope.units[i].UnitDtls_Directn;
+                unitObj.UnitDtls_Floor = $scope.units[i].UnitDtls_Floor;
+                unitObj.UnitDtls_Id = $scope.units[i].UnitDtls_Id;
                 $scope.UnitsArr.push(unitObj);
             }
             angular.element(".loader").hide();
@@ -2670,6 +2673,16 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
 
     $scope.addBlockUnit = function(formObj, formName) {
         console.log(formObj);
+        
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Block/Unitdetail/Save",
+            ContentType: 'application/json',
+            data: formObj
+        }).success(function(data) {
+            console.log(data);
+            alert('Sucess');
+        }).error(function() {});
     }
 });
 app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams, $compile) {
