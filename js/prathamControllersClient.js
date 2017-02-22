@@ -2647,9 +2647,20 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
         myService.getUnitsByBlock(compId, blockId).then(function(response) {
             $scope.units = response.data[0];
             $scope.UnitsArr = [];
-            
-            for(i=0;i<units.length;i++){
-                console.log(i);
+
+            for (i = 0; i < $scope.units.length; i++) {
+                var unitObj = {};
+                unitObj.UnitDtls_No = $scope.units[i].UnitDtls_No;
+                unitObj.UnitDtls_Name = $scope.units[i].UnitDtls_Name;
+                unitObj.UnitDtls_Type = $scope.units[i].UnitDtls_Type;
+                unitObj.UnitDtls_Rooms = $scope.units[i].UnitDtls_Rooms+"";
+                unitObj.UnitDtls_BRoom = $scope.units[i].UnitDtls_BRoom+"";
+                unitObj.UnitDtls_Balcn = $scope.units[i].UnitDtls_Balcn+"";
+                unitObj.UnitDtls_BuliltupArea = $scope.units[i].UnitDtls_BuliltupArea;
+                unitObj.UnitDtls_Msrmnt = $scope.units[i].UnitDtls_Msrmnt;
+                unitObj.UnitDtls_Premium = $scope.units[i].UnitDtls_Premium+"";
+                unitObj.UnitDtls_Directn = $scope.units[i].UnitDtls_Directn;
+                $scope.UnitsArr.push(unitObj);
             }
             angular.element(".loader").hide();
         });
@@ -2657,8 +2668,9 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
     
     $scope.unitListFun($cookieStore.get('comp_guid'),$stateParams.blockId);
     
-    
-    
+    $scope.addBlockUnit = function(formObj, formName) {
+        console.log(formObj);
+    }
 });
 app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams) {
 	$scope.title = "Cost Sheet Template";
