@@ -1474,7 +1474,7 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
 
     $scope.pageTitle = "Edit Phase";
     $scope.editPhaseBtn = true;
-    
+
     ($scope.projectListFun = function() {
         angular.element(".loader").show();
         myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
@@ -1482,7 +1482,7 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
             angular.element(".loader").hide();
         });
     })();
-    
+
     ($scope.getPhaseInfo = function() {
         $http({
             method: "POST",
@@ -1519,18 +1519,18 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
-        });    
+        });
     })();
 
 
-        
+
 
     function editAppendFields(data) {
         angular.element("#noOfBlocks").html('');
         if (data[0].LstofBlocks != null) {
             for (i = 1; i <= data[0].LstofBlocks.length; i++) {
-                var childDiv = '<div id="block' + data[0].LstofBlocks[i - 1].Blocks_Id + '"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control inputWithIcon" name="blockName[' + (i - 1) + ']" ng-model="projectDetails.blockName[' + (i - 1) + ']" /> <input type="text" class="form-control dispNone" ng-model="projectDetails.blockId[' + (i - 1) + ']" ng-value="'+data[0].LstofBlocks[i - 1].Blocks_Id+'" name="blockId[' + (i - 1) + ']"/>';
-                
+                var childDiv = '<div id="block' + data[0].LstofBlocks[i - 1].Blocks_Id + '"><input type="text" placeholder="Block  ' + i + ' Name" title="Block ' + i + ' Name" class="form-control inputWithIcon" name="blockName[' + (i - 1) + ']" ng-model="projectDetails.blockName[' + (i - 1) + ']" /> <input type="text" class="form-control dispNone" ng-model="projectDetails.blockId[' + (i - 1) + ']" ng-value="' + data[0].LstofBlocks[i - 1].Blocks_Id + '" name="blockId[' + (i - 1) + ']"/>';
+
                 if (!data[0].LstofBlocks[i - 1].blnunitexists)
                     childDiv = childDiv + '<span ng-click="deleteBlock(' + data[0].Phase_Id + ',' + data[0].LstofBlocks[i - 1].Blocks_Id + ')" class="glyphicon glyphicon-trash delete"></span></div>';
                 else
@@ -1568,7 +1568,7 @@ app.controller("editPhases", function($scope, $http, $cookieStore, $state, $comp
                 var tmp = {};
                 tmp.Blocks_Name = formObj.blockName[i];
                 tmp.Blocks_Id = 0;
-                if(formObj.blockId[i] != undefined)
+                if (formObj.blockId[i] != undefined)
                     tmp.Blocks_Id = formObj.blockId[i];
                 blockLst.push(tmp);
             }
@@ -2272,29 +2272,29 @@ app.controller("editUnit", function($scope, $http, $state, $cookieStore, $stateP
                 if (data.UnitTypeData_rlqyn == "1") {
                     relinquishType = "true";
                 }
-                
+
                 var planApproveNum = '';
                 var planApproveDate = '';
                 var planApproveAuth = '';
-                
-                if(data.UnitTypeData_lstplappv.length > 0){
+
+                if (data.UnitTypeData_lstplappv.length > 0) {
                     planApproveNum = data.UnitTypeData_lstplappv[0].plnappno;
                     planApproveDate = data.UnitTypeData_lstplappv[0].plnappdt;
                     planApproveAuth = data.UnitTypeData_lstplappv[0].plnappaut;
                 }
-                
+
                 var nocDate = '';
                 var nocNum = '';
-                
-                if(data.UnitTypeData_lstnoc.length > 0){
+
+                if (data.UnitTypeData_lstnoc.length > 0) {
                     nocDate = data.UnitTypeData_lstnoc[0].nocdt;
                     nocNum = data.UnitTypeData_lstnoc[0].nocdocno;
                 }
-                
+
                 var reqsno = '';
                 var reqdocndt = '';
-                
-                if(data.UnitTypeData_lstlreq.length > 0){
+
+                if (data.UnitTypeData_lstlreq.length > 0) {
                     reqsno = data.UnitTypeData_lstlreq[0].reqsno;
                     reqdocndt = data.UnitTypeData_lstlreq[0].reqdocndt;
                 }
@@ -2504,12 +2504,12 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                     if (formObj.seperator == undefined) {
                         formObj.seperator = "";
                     }
-					if (formObj.noOfFloors > 9) {
-						floorNo = "01";
-					} else {
-						floorNo = "1";
-					}
-                    
+                    if (formObj.noOfFloors > 9) {
+                        floorNo = "01";
+                    } else {
+                        floorNo = "1";
+                    }
+
                     angular.element("#unitRows").html('');
                     unitNosArr = [];
                     var unitsPerFloor = formObj.unitsPerFloor;
@@ -2550,7 +2550,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             for (j = 1; j < formObj.length; j++) {
                 var unitObj = {};
                 var unitNo = unitNosArr[j - 1];
-                unitNo = i+''+parentObj.seperator+unitNo;
+                unitNo = i + '' + parentObj.seperator + unitNo;
                 unitObj.UnitDtls_comp_guid = $cookieStore.get('comp_guid');
                 unitObj.UnitDtls_Unit_type_id = parentObj.type;
                 unitObj.UnitDtls_Block_Id = parentObj.block;
@@ -2575,7 +2575,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                 unitsJson.push(unitObj);
             }
 
-        }        
+        }
         unitsJson = JSON.stringify(unitsJson);
         console.log(unitsJson);
         $http({
@@ -2600,7 +2600,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
 });
 app.controller("units", function($scope, $http, $state, $cookieStore, $stateParams, $compile, myService) {
     $scope.title = "Units";
-    
+
     $scope.projectListFun = function() {
         angular.element(".loader").show();
         myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
@@ -2608,7 +2608,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
             angular.element(".loader").hide();
         });
     };
-    
+
     $scope.phaseListFun = function(projectName) {
         angular.element(".loader").show();
         myService.getPhaseList($cookieStore.get('comp_guid'), projectName).then(function(response) {
@@ -2616,7 +2616,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
             angular.element(".loader").hide();
         });
     };
-    
+
     $scope.blockListFun = function(phase, projectName) {
         angular.element(".loader").show();
         myService.getBlockList(phase, projectName).then(function(response) {
@@ -2624,7 +2624,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
             angular.element(".loader").hide();
         });
     };
-    
+
     if ($stateParams.projId != "") {
         $scope.projectListFun();
         $scope.disableProject = true;
@@ -2634,7 +2634,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
         $scope.disablePhase = true;
     }
     if ($stateParams.blockId != "") {
-        $scope.blockListFun($stateParams.phaseId,$cookieStore.get('comp_guid'));
+        $scope.blockListFun($stateParams.phaseId, $cookieStore.get('comp_guid'));
         $scope.disableBlock = true;
     }
     $scope.unts = {
@@ -2653,25 +2653,34 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
                 unitObj.UnitDtls_No = $scope.units[i].UnitDtls_No;
                 unitObj.UnitDtls_Name = $scope.units[i].UnitDtls_Name;
                 unitObj.UnitDtls_Type = $scope.units[i].UnitDtls_Type;
-                unitObj.UnitDtls_Rooms = $scope.units[i].UnitDtls_Rooms+"";
-                unitObj.UnitDtls_BRoom = $scope.units[i].UnitDtls_BRoom+"";
-                unitObj.UnitDtls_Balcn = $scope.units[i].UnitDtls_Balcn+"";
+                unitObj.UnitDtls_Rooms = $scope.units[i].UnitDtls_Rooms + "";
+                unitObj.UnitDtls_BRoom = $scope.units[i].UnitDtls_BRoom + "";
+                unitObj.UnitDtls_Balcn = $scope.units[i].UnitDtls_Balcn + "";
                 unitObj.UnitDtls_BuliltupArea = $scope.units[i].UnitDtls_BuliltupArea;
                 unitObj.UnitDtls_Msrmnt = $scope.units[i].UnitDtls_Msrmnt;
-                unitObj.UnitDtls_Premium = $scope.units[i].UnitDtls_Premium+"";
+                unitObj.UnitDtls_Premium = $scope.units[i].UnitDtls_Premium + "";
                 unitObj.UnitDtls_Directn = $scope.units[i].UnitDtls_Directn;
                 $scope.UnitsArr.push(unitObj);
             }
             angular.element(".loader").hide();
         });
     };
-    
-    $scope.unitListFun($cookieStore.get('comp_guid'),$stateParams.blockId);
-    
+
+    $scope.unitListFun($cookieStore.get('comp_guid'), $stateParams.blockId);
+
     $scope.addBlockUnit = function(formObj, formName) {
         console.log(formObj);
     }
 });
-app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams) {
-	$scope.title = "Cost Sheet Template";
+app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams, $compile) {
+    $scope.title = "Cost Sheet Template";
+    $scope.openFormulaDialog = function(){
+      
+    };
+    $scope.addCostComponent = function() {
+        var costComponentRow = '<tr> <td> <label>Code</label> </td> <td> <input type="text" class="form-control"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="floorFrom" ng-model="untGeneration.floorFrom"> <option value=""> Select </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="value" ng-model="untGeneration.value"/> </td> <td> <button type="button" class="btn btn-warning" ng-click="openFormulaDialog()"> Formula </button> </td> <td> <input type="text" class="form-control" placeholder="Comment" name="comment" ng-model="untGeneration.comment"/> </td> </tr>';
+
+        costComponentRow = $compile(costComponentRow)($scope);
+        angular.element(".formulaTable").append(costComponentRow);
+    };
 });

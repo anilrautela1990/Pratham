@@ -465,3 +465,12 @@ input[disabled]{
 .sampleUnits input[type='text']{
 	width: 100px;
 }
+.formulaTable{
+    margin-top: 10px;
+}
+.formulaTable td{
+    padding: 5px;
+}
+.formulaTable td > input[type="text"]{
+    max-width: 120px;
+}
