@@ -2646,11 +2646,18 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
         angular.element(".loader").show();
         myService.getUnitsByBlock(compId, blockId).then(function(response) {
             $scope.units = response.data[0];
+            $scope.UnitsArr = [];
+            
+            for(i=0;i<units.length;i++){
+                console.log(i);
+            }
             angular.element(".loader").hide();
         });
     };
     
     $scope.unitListFun($cookieStore.get('comp_guid'),$stateParams.blockId);
+    
+    
     
 });
 app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams) {
