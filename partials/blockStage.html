@@ -42,25 +42,40 @@
    </select>
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20">
-	<button type="button" class="btn btn-primary" ng-click="addStatusChange(projectDetails.blocks)">Add Stages</button>
+   <button type="button" class="btn btn-primary" ng-click="addStatusChange(projectDetails.blocks)">Add Stages</button>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="blockStages">
 </div>
 <script type="text/ng-template" id="blockStatusChange.html">
-    <div class="modal-header">
-   <button type="button" class="close" ng-click="ok()">&times;</button>
-   <h3 class="modal-title" id="modal-title">{{unit.name}}</h3>
-</div>
-<div class="modal-body" id="modal-body">
-   <div class="subHeading">Add Block Stage Name</div>
-       <table class="leadDetail">
-          <tr>
-             <td>Block Stage Name:</td>
-             <td>
-                <input type="text" name="blockStageName" class="form-control" ng-model="blockStageName.name" />
-             </td>
-          </tr>
-       </table>
-    </div>
-    <div class="modal-footer">
-       <button class="btn btn-primary" type="button" ng-click="updateStatus(unit)">Update Status</button>
-    </div>
+   <div class="modal-header">
+      <button type="button" class="close" ng-click="ok()">&times;</button>
+      <h3 class="modal-title" id="modal-title">Add Block Stage</h3>
+   </div>
+   <div class="modal-body" id="modal-body">
+      <div class="subHeading">Add Block Stage Name</div>
+       <form name="blockStageForm" class="form" method="POST" novalidate="novalidate">
+          <table class="leadDetail">
+             <tr>
+                <td>Block Stage Name:</td>
+                <td>
+                   <input type="text" name="blockStageName" class="form-control" ng-model="blockStage.name" placeholder="Block Stage Name" ng-required="true" ng-class="{blankInput: blockStageForm.blockStageName.$error.required &amp;&amp; submit}" />
+                </td>
+             </tr>
+              <tr>
+                <td>Completed:</td>
+                <td>
+                   <div class="radioLabel">
+                       <input type="radio" name="yes" ng-model="blockStage.completed" id="yes" value="1"/>
+                       <label for="yes">Yes</label>
+                       <input type="radio" name="no" ng-model="blockStage.completed" id="no" value="0"/>
+                       <label for="no">No</label>
+                   </div>
+                </td>
+             </tr>
+          </table>
+       </form>
+       </div>
+       <div class="modal-footer">
+          <button class="btn btn-primary" type="button" ng-click="addBlockStage(blockStage, 'blockStageForm')">Add Block Stage</button>
+       </div>
 </script>

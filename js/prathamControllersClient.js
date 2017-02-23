@@ -2888,17 +2888,125 @@ app.controller("blockStageController", function($scope, $http, $state, $cookieSt
     };
     
     $scope.addStatusChange = function(blockId) {
-        alert(blockId);
+        //alert(blockId);
         var modalInstance = $uibModal.open({
             templateUrl: 'blockStatusChange.html',
-            controller: 'blockStageController',
+            controller: 'blockStageChangeController',
             size: 'lg',
             backdrop: 'static',
             resolve: {
                 item: function() {
-                    //return $scope.agents[selectedItem];
+                    return blockId;
                 }
             }
         });
+    };
+});
+
+app.controller("blockStageChangeController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, item) {
+    $scope.blockStage = {
+        completed: "0"
+    };
+    
+    $scope.ok = function() {
+        $uibModalInstance.close();
+    };
+    
+    $scope.addBlockStage = function(formObj, formName) {        
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Blk/BlockStage/Save",
+                ContentType: 'application/json',
+                data: {
+                    "blockstageCompGuid": $cookieStore.get('comp_guid'),
+                    "blockstageName": formObj.name,
+                    "blocksatgeCompleted": formObj.completed,
+                    "blockstageBlockId":item
+                }
+            }).success(function(data) {
+                console.log(data);
+                $uibModalInstance.close();
+                showBlockStages();
+                angular.element(".loader").hide();
+            }).error(function() {
+                alert('Something Went wrong.');
+                angular.element(".loader").hide();
+            });
+        }
+    }
+    
+    function showBlockStages() {
+        angular.element("#blockStages").html('');
+        $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Blk/BlockStage/ByblockstageBlockId",
+                ContentType: 'application/json',
+                data: {
+                    "blockstageCompGuid": $cookieStore.get('comp_guid'),
+                    "blockstageBlockId": item
+                }
+            }).success(function(data) {
+                console.log(data);  
+                var childDiv = '<h4>Block Stages</h4><table class="sampleUnits"><thead><tr><th>Block Stage Name</th><th>Completed</th><th></th></tr></thead>';
+                var childDivComplied = $compile(childDiv)($scope);
+                angular.element("#blockStages").append(childDivComplied);
+            
+                for (i = 0; i < data.length; i++) {
+                    childDiv = '<tr><td>'+data[i].blockstageName+'</td><td>'+getStatus(data[i].blocksatgeCompleted)+'</td><td><button class="btn btn-default" ng-click="editBlockStage('+data[i].blockstageId+')">Edit</button></td></tr>';
+                    
+                    childDivComplied = $compile(childDiv)($scope);
+                    angular.element("#blockStages").append(childDivComplied);
+                }
+                childDiv = '</table>';   
+                childDivComplied = $compile(childDiv)($scope);
+                angular.element("#blockStages").append(childDivComplied);
+            
+                angular.element(".loader").hide();
+            }).error(function() {
+                alert('Something Went wrong.');
+                angular.element(".loader").hide();
+            });
+    };
+    
+    $scope.editBlockStage = function(blockstageId) {    
+        alert(blockstageId);
+        
+        angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Blk/BlockStage/ByblockstageId",
+                ContentType: 'application/json',
+                data: {
+                    "blockstageCompGuid": $cookieStore.get('comp_guid'),
+                    "blockstageId": blockstageId
+                }
+            }).success(function(data) {
+                console.log(data);
+                angular.element(".loader").hide();
+                    var modalInstance = $uibModal.open({
+                    templateUrl: 'blockStatusChange.html',
+                    controller: 'blockStageChangeController',
+                    size: 'lg',
+                    backdrop: 'static',
+                    resolve: {
+                        item: function() {
+                            //return item;
+                        }
+                    }
+                });
+            }).error(function() {
+                alert('Something Went wrong.');
+                angular.element(".loader").hide();
+            });
+    }; 
+    
+    function getStatus(statusId) {
+        if(statusId == 0)
+            return "No";
+        else
+            return "Yes";
     };
 });
