@@ -406,12 +406,12 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         if (blocks == "") {
             return;
         }
-        for (i = 0; i < $scope.blockList.length; i++) {
+        /*for (i = 0; i < $scope.blockList.length; i++) {
             if ($scope.blockList[i].Blocks_Id == blocks) {
                 $scope.blockFloors = $scope.blockList[i].Blocks_Floors;
                 $scope.blockFloorUnits = $scope.blockList[i].Blocks_UnitPerfloor;
             }
-        }
+        }*/
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -422,7 +422,15 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                 "UnitDtls_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
-            //console.log(JSON.stringify(data));
+            console.log(JSON.stringify(data));
+            
+            $scope.blockFloors = data[1].Blocks_Floors;
+            $scope.blockFloorUnits = data[1].Blocks_UnitPerfloor;
+            
+            var dataOfUnits = data[0];
+            
+            console.log($scope.blockFloors+" - "+$scope.blockFloorUnits);
+            
             $scope.selectedUnits = [];
             $(".dispNone").each(function(index) {
                 var projObj = $(this).text();
@@ -430,10 +438,10 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
                 $scope.selectedUnits.push(projObj.UnitDtls_Id);
             });
 
-            for (i = 0; i < data.length; i++) {
+            for (i = 0; i < dataOfUnits.length; i++) {
                 for (j = 0; j < $scope.selectedUnits.length; j++) {
-                    if (data[i].UnitDtls_Id == $scope.selectedUnits[j]) {
-                        data[i].markUp = "selected";
+                    if (dataOfUnits[i].UnitDtls_Id == $scope.selectedUnits[j]) {
+                        dataOfUnits[i].markUp = "selected";
                         break;
                     }
                 }
@@ -442,12 +450,12 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             for (k = 0; k < $scope.blockFloors; k++) {
                 var floorUnits = [];
                 for (l = 0; l < $scope.blockFloorUnits; l++) {
-                    floorUnits.push(data[count]);
+                    floorUnits.push(dataOfUnits[count]);
                     count++;
                 }
                 $scope.perFloorUnits.push(floorUnits);
             }
-            $scope.units = data;
+            $scope.units = dataOfUnits;
             angular.element(".loader").hide();
 
         }).error(function() {
