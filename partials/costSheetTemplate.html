@@ -31,12 +31,12 @@
             <label>Floor Raise Direction</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <select class="form-control" name="floorRaiseDirection" ng-model="costSheetTemplate.floorRaiseDirection" ng-required="true" ng-class="{blankInput: costSheetTemplateForm.floorRaiseDirection.$error.required &amp;&amp; submit}">
+            <select class="form-control" name="floorRaiseDirection" ng-model="costSheetTemplate.floorRaiseDirection">
                <option value="">
                   Select
                </option>
-                <option value="0">Ascending</option>
-                <option value="1">Descending</option>
+                <option value="1">Ascending</option>
+                <option value="2">Descending</option>
             </select>
          </div>
       </div>
@@ -45,7 +45,7 @@
             <label>Floor From</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <select class="form-control" name="floorFrom" ng-model="costSheetTemplate.floorFrom" ng-required="true" ng-class="{blankInput: costSheetTemplateForm.floorFrom.$error.required &amp;&amp; submit}">
+            <select class="form-control" name="floorFrom" ng-model="costSheetTemplate.floorFrom" ng-required="costSheetTemplate.floorRaiseDirection!=undefined" ng-class="{blankInput: costSheetTemplateForm.floorFrom.$error.required &amp;&amp; submit}">
                <option value="">
                   Select
                </option>
@@ -63,7 +63,7 @@
             <label>Floor To</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <select class="form-control" name="floorTo" ng-model="costSheetTemplate.floorTo" ng-required="true" ng-class="{blankInput: costSheetTemplateForm.floorTo.$error.required &amp;&amp; submit}">
+            <select class="form-control" name="floorTo" ng-model="costSheetTemplate.floorTo" ng-required="costSheetTemplate.floorRaiseDirection!=undefined" ng-class="{blankInput: costSheetTemplateForm.floorTo.$error.required &amp;&amp; submit}">
                <option value="">
                   Select
                </option>
@@ -81,7 +81,7 @@
             <label>Floor Raise Cost</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Floor Raise Cost" name="floorRaiseCost" ng-model="costSheetTemplate.floorRaiseCost" ng-required="true" ng-class="{blankInput: costSheetTemplateForm.floorRaiseCost.$error.required &amp;&amp; submit}"/>
+            <input type="text" class="form-control" placeholder="Floor Raise Cost" name="floorRaiseCost" ng-model="costSheetTemplate.floorRaiseCost" ng-required="costSheetTemplate.floorRaiseDirection!=undefined" ng-class="{blankInput: costSheetTemplateForm.floorRaiseCost.$error.required &amp;&amp; submit}"/>
          </div>
       </div>
    </div>

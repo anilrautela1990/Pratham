@@ -2690,7 +2690,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
         
         $http({
             method: "POST",
-            url: "http://120.138.8.150/pratham/Proj/Block/Unitdetail/Save",
+            url: "http://120.138.8.150/pratham/Proj/Block/Unitdetail/Update",
             ContentType: 'application/json',
             data: unitsData
         }).success(function(data) {
