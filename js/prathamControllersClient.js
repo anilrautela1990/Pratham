@@ -2701,44 +2701,127 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
 });
 app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams, $compile,$uibModal) {
     $scope.title = "Cost Sheet Template";
-    $scope.openFormulaDialog = function(){
-      
+    
+    $scope.costSheetTemplate = {
+        Untctcm_Ascending:'',
     };
     $scope.addCostComponent = function() {
-        var costComponentRow = '<tr> <td> <label>Code</label> </td> <td> <input type="text" class="form-control" name=""/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="floorFrom" ng-model="untGeneration.floorFrom"> <option value=""> Select </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="value" ng-model="untGeneration.value"/> </td> <td> <button type="button" class="btn btn-warning" ng-click="openFormulaModal()"> Formula </button> </td> <td> <input type="text" class="form-control" placeholder="Comment" name="comment" ng-model="untGeneration.comment"/> </td> </tr>';
+        var trCount = $(".formulaTable > tr").length;
+        var increment = trCount+1;
+        if(increment>=7){            
+            increment = increment+1;
+        }
+        if(increment>=20){
+            return;
+        }
+        var costComponentRow = '<tr> <td> <label>Code'+increment+'</label> </td> <td> <input type="text" class="form-control" name="Untctcm_code'+increment+'" ng-model="costSheetTemplate.Untctcm_code'+increment+'"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="Untctcm_name'+increment+'" ng-model="costSheetTemplate.Untctcm_name'+increment+'"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="Untctcm_calctyp'+increment+'" ng-model="costSheetTemplate.Untctcm_calctyp'+increment+'" ng-change="toggleFields('+increment+')"> <option value=""> Select </option> <option value="0"> Flat </option> <option value="1"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="Untctcm_val_formula'+increment+'" ng-model="costSheetTemplate.Untctcm_val_formula'+increment+'" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn'+increment+'" ng-click="openFormulaModal('+increment+')" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="Untctcm_comments'+increment+'" ng-model="costSheetTemplate.Untctcm_comments'+increment+'"/> </td></tr>';
 
         costComponentRow = $compile(costComponentRow)($scope);
         angular.element(".formulaTable").append(costComponentRow);
     };
     
-    $scope.openFormulaModal = function() {
+    $scope.toggleFields = function(increment){
+        var fieldName = "Untctcm_calctyp"+increment;
+        if($scope.costSheetTemplate[fieldName] == 0){
+            $("input[name='Untctcm_val_formula"+increment+"']").attr("disabled", false);
+            $("button[name='formulaBtn"+increment+"']").attr("disabled", true);
+        }
+        else{
+            $("input[name='Untctcm_val_formula"+increment+"']").attr("disabled", true);
+            $("button[name='formulaBtn"+increment+"']").attr("disabled", false);
+        }
+    };
+    
+    $scope.openFormulaModal = function(val) {
         var modalInstance = $uibModal.open({
             templateUrl: 'formula.html',
             controller: 'costComponentFormula',
+            scope: $scope,
             size: 'md',
             backdrop: 'static',
-            /*resolve: {
+            resolve: {
                 item: function() {
-                    return $scope.leads[selectedItem];
+                    return val;
                 }
-            }*/
+            }
         });
     };
     
     $scope.saveCostSheetTemplate = function(formName, formObj){
         $scope.submit = true;
         if ($scope[formName].$valid) {
-            console.log(formObj);    
-            alert("Yes");
+            formObj.Untctcm_comp_guid = $cookieStore.get('comp_guid');
+            formObj.Untctcm_Blocks_Id = 0;
+            formObj.Untctcm_SBA = 0;
+            formObj.Untctcm_SiteArea = 0;
+            
+            console.log(formObj);  
+            
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Save",
+                ContentType: 'application/json',
+                data: formObj
+            }).success(function(data) {
+                console.log(data);
+                angular.element(".loader").hide();
+                var res = data.Comm_ErrorDesc;
+                var resSplit = res.split('|');
+                if (resSplit[0] == 0) {                    
+                    $state.go("/CostSheetTemplates");
+                }
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+            
         }
-        else{
-            alert("No");
-        }
-        
     };
 });
-app.controller("costComponentFormula", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance) {
+app.controller("costComponentFormula", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance,item) {
+    $scope.formulaGen = "";
+    $scope.fieldCount = item;
+    var fieldName = "Untctcm_val_formula"+item;
     $scope.close = function() {
         $uibModalInstance.close();
     };
+    $scope.addFormula = function(formName, formObj){
+      $scope.submit = true;
+        if($scope[formName].$valid){
+            var formula = formObj.abbreviation+formObj.operator+formObj.value
+            console.log(formula);
+            $scope.formulaGen = formula; 
+            /*angular.element("#Untctcm_val_formula"+item).val(formula);*/
+        }
+    };
+    $scope.saveFormula = function(){
+        if($scope.formulaGen!=""){
+            $scope.costSheetTemplate[fieldName] = $scope.formulaGen;
+            $uibModalInstance.close();
+        }
+    };
+});
+
+app.controller("costSheetTemplates", function($scope, $http, $state, $cookieStore, $stateParams, $compile,$uibModal) {
+    $scope.title = "Cost Sheet Templates";
+    ($scope.getCostSheetTemplates = function(){
+        angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Getall",
+                ContentType: 'application/json',
+                data: {
+                    "Untctcm_comp_guid": $cookieStore.get('comp_guid'),
+                    "Untctcm_Id": 0 ,
+                    "Untctcm_Blocks_Id": 0 
+                }
+            }).success(function(data) {
+                console.log(data);
+                $scope.costSheetTemplates = data;
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+    })();
+    
 });

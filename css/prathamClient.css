@@ -474,3 +474,12 @@ input[disabled]{
 .formulaTable td > input[type="text"]{
     max-width: 120px;
 }
+.dispBlock{
+    display: block!important;
+}
+.formulaTable td > input[type="text"].comment{
+    max-width: 200px;
+}
+.formulaTable td > input[type="text"]:disabled{
+    background-color: #DDD;
+}
