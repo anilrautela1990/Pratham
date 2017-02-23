@@ -384,7 +384,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
         });
     };
 
-    $scope.blockListFun = function(phase, compId) {
+    $scope.blockListFun = function(phase) {
         $scope.perFloorUnits = [];
         $scope.units = [];
         $scope.projectDetails.blocks = "";
@@ -394,7 +394,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             }
         }
         angular.element(".loader").show();
-        myService.getBlockList(phase, compId).then(function(response) {
+        myService.getBlockList(phase, $cookieStore.get('comp_guid')).then(function(response) {
             $scope.blockList = response.data;
             angular.element(".loader").hide();
         });
@@ -2631,9 +2631,9 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
         });
     };
 
-    $scope.blockListFun = function(phase, projectName) {
+    $scope.blockListFun = function(phase) {
         angular.element(".loader").show();
-        myService.getBlockList(phase, projectName).then(function(response) {
+        myService.getBlockList(phase, $cookieStore.get('comp_guid')).then(function(response) {
             $scope.blockList = response.data;
             angular.element(".loader").hide();
         });
@@ -2840,5 +2840,42 @@ app.controller("costSheetTemplates", function($scope, $http, $state, $cookieStor
     
 });
 
-app.controller("blockStageController", function($scope, $http, $state, $cookieStore, $stateParams, $compile,$uibModal) {
+app.controller("blockStageController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, myService) {
+    ($scope.projectListFun = function() {
+        angular.element(".loader").show();
+        myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
+            $scope.projectList = response.data;
+            angular.element(".loader").hide();
+        });
+    })();
+
+    $scope.phaseListFun = function(projectName) {
+        $scope.perFloorUnits = [];
+        $scope.units = [];
+        $scope.flatType = "";
+        $scope.projectDetails.phase = "";
+        $scope.projectDetails.blocks = "";
+        $scope.blockList = {};
+        angular.element(".loader").show();
+        myService.getPhaseList($cookieStore.get('comp_guid'), projectName).then(function(response) {
+            $scope.phaseList = response.data;
+            angular.element(".loader").hide();
+        });
+    };
+
+    $scope.blockListFun = function(phase) {
+        $scope.perFloorUnits = [];
+        $scope.units = [];
+        $scope.projectDetails.blocks = "";
+        for (i = 0; i < $scope.phaseList.length; i++) {
+            if ($scope.phaseList[i].Phase_Id == phase) {
+                $scope.flatType = $scope.phaseList[i].Phase_UnitType.UnitType_Name;
+            }
+        }
+        angular.element(".loader").show();
+        myService.getBlockList(phase, $cookieStore.get('comp_guid')).then(function(response) {
+            $scope.blockList = response.data;
+            angular.element(".loader").hide();
+        });
+    };
 });
