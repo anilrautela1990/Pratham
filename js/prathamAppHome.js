@@ -122,8 +122,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/CostSheetTemplates.html',
             controller: 'costSheetTemplates'
         })
-    
-    
+        .state('/BlockStage', {
+            url: '/BlockStage',
+            templateUrl: 'partials/BlockStage.html',
+            controller: 'blockStageController'
+        })
 });
 app.config(function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];

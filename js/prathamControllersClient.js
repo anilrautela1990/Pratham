@@ -2839,3 +2839,6 @@ app.controller("costSheetTemplates", function($scope, $http, $state, $cookieStor
     })();
     
 });
+
+app.controller("blockStageController", function($scope, $http, $state, $cookieStore, $stateParams, $compile,$uibModal) {
+});
