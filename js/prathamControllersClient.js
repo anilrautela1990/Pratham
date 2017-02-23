@@ -2878,4 +2878,19 @@ app.controller("blockStageController", function($scope, $http, $state, $cookieSt
             angular.element(".loader").hide();
         });
     };
+    
+    $scope.addStatusChange = function(blockId) {
+        alert(blockId);
+        var modalInstance = $uibModal.open({
+            templateUrl: 'blockStatusChange.html',
+            controller: 'blockStageController',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    //return $scope.agents[selectedItem];
+                }
+            }
+        });
+    };
 });

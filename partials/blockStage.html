@@ -41,3 +41,26 @@
       </option>
    </select>
 </div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20">
+	<button type="button" class="btn btn-primary" ng-click="addStatusChange(projectDetails.blocks)">Add Stages</button>
+</div>
+<script type="text/ng-template" id="blockStatusChange.html">
+    <div class="modal-header">
+   <button type="button" class="close" ng-click="ok()">&times;</button>
+   <h3 class="modal-title" id="modal-title">{{unit.name}}</h3>
+</div>
+<div class="modal-body" id="modal-body">
+   <div class="subHeading">Add Block Stage Name</div>
+       <table class="leadDetail">
+          <tr>
+             <td>Block Stage Name:</td>
+             <td>
+                <input type="text" name="blockStageName" class="form-control" ng-model="blockStageName.name" />
+             </td>
+          </tr>
+       </table>
+    </div>
+    <div class="modal-footer">
+       <button class="btn btn-primary" type="button" ng-click="updateStatus(unit)">Update Status</button>
+    </div>
+</script>
