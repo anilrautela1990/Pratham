@@ -423,14 +423,14 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             }
         }).success(function(data) {
             console.log(JSON.stringify(data));
-            
+
             $scope.blockFloors = data[1].Blocks_Floors;
             $scope.blockFloorUnits = data[1].Blocks_UnitPerfloor;
-            
+
             var dataOfUnits = data[0];
-            
-            console.log($scope.blockFloors+" - "+$scope.blockFloorUnits);
-            
+
+            console.log($scope.blockFloors + " - " + $scope.blockFloorUnits);
+
             $scope.selectedUnits = [];
             $(".dispNone").each(function(index) {
                 var projObj = $(this).text();
@@ -2526,7 +2526,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                     var i = 1;
                     while (i <= unitsPerFloor) {
                         unitNosArr.push(unitNo);
-                        var tableRow = '<tr><td><input type="text" class="form-control" value="' + floorNo + formObj.seperator + unitNo + '" name="unitNos" ng-required="true"/></td> <td><input type="text" class="form-control" name="unitName" ng-model="untDetails[' + i + '].unitName"/></td> <td><input type="text" class="form-control" name="unitType" ng-model="untDetails[' + i + '].unitType"/></td> <td> <select class="form-control" name="unitBedroom" ng-model="untDetails[' + i + '].unitBedroom"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBalconies" ng-model="untDetails[' + i + '].unitBalconies"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBathrooms" ng-model="untDetails[' + i + '].unitBathrooms"> <option value="">Select</option><option>3</option> </select> </td> <td><input type="text" class="form-control" name="unitSuperArea" id="untDetails'+i+'unitSuperArea" ng-model="untDetails[' + i + '].unitSuperArea"/></td> <td><input type="number" ng-keyup="calculatePercentage('+i+')" id="untDetails'+i+'unitPercentage" class="form-control" name="unitPercentage" ng-model="untDetails[' + i + '].unitPercentage"/></td> <td><input type="text" class="form-control" ng-disabled="true" name="unitCarpetArea" id="untDetails'+i+'unitCarpetArea" ng-model="untDetails[' + i + '].unitCarpetArea"/></td> <td> <select class="form-control" name="unitPremium" ng-model="untDetails[' + i + '].unitPremium"> <option value="">Select</option> <option>Y</option> </select> </td> <td> <select class="form-control" name="unitPosition" ng-model="untDetails[' + i + '].unitPosition"> <option value="">Select</option> <option>E</option></select></td></tr>';
+                        var tableRow = '<tr><td><input type="text" class="form-control" value="' + floorNo + formObj.seperator + unitNo + '" name="unitNos" ng-required="true"/></td> <td><input type="text" class="form-control" name="unitName" ng-model="untDetails[' + i + '].unitName"/></td> <td><input type="text" class="form-control" name="unitType" ng-model="untDetails[' + i + '].unitType"/></td> <td> <select class="form-control" name="unitBedroom" ng-model="untDetails[' + i + '].unitBedroom"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBalconies" ng-model="untDetails[' + i + '].unitBalconies"> <option value="">Select</option> <option value="1">1</option> </select> </td> <td> <select class="form-control" name="unitBathrooms" ng-model="untDetails[' + i + '].unitBathrooms"> <option value="">Select</option><option>3</option> </select> </td> <td><input type="text" class="form-control" name="unitSuperArea" id="untDetails' + i + 'unitSuperArea" ng-model="untDetails[' + i + '].unitSuperArea"/></td> <td><input type="number" ng-keyup="calculatePercentage(' + i + ')" id="untDetails' + i + 'unitPercentage" class="form-control" name="unitPercentage" ng-model="untDetails[' + i + '].unitPercentage"/></td> <td><input type="text" class="form-control" ng-disabled="true" name="unitCarpetArea" id="untDetails' + i + 'unitCarpetArea" ng-model="untDetails[' + i + '].unitCarpetArea"/></td> <td> <select class="form-control" name="unitPremium" ng-model="untDetails[' + i + '].unitPremium"> <option value="">Select</option> <option>Y</option> </select> </td> <td> <select class="form-control" name="unitPosition" ng-model="untDetails[' + i + '].unitPosition"> <option value="">Select</option> <option>E</option></select></td></tr>';
                         var tableRowComplied = $compile(tableRow)($scope);
                         angular.element("#unitRows").append(tableRowComplied);
                         unitNo = unitNo + skipBy;
@@ -2541,20 +2541,20 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             /*End Update Block*/
         }
     };
-    
+
     $scope.calculatePercentage = function(id) {
-        var percentage = $('#untDetails'+id+'unitPercentage').val();
-        
-        if(percentage > 0 && percentage <= 100){
-            var superBuiltArea = $('#untDetails'+id+'unitSuperArea').val();    
-            var carpetArea = superBuiltArea - (superBuiltArea * (percentage/100));
-            $('#untDetails'+id+'unitCarpetArea').val(Math.round(parseFloat(carpetArea)));
+        var percentage = $('#untDetails' + id + 'unitPercentage').val();
+
+        if (percentage > 0 && percentage <= 100) {
+            var superBuiltArea = $('#untDetails' + id + 'unitSuperArea').val();
+            var carpetArea = superBuiltArea - (superBuiltArea * (percentage / 100));
+            $('#untDetails' + id + 'unitCarpetArea').val(Math.round(parseFloat(carpetArea)));
         } else {
             alert("Percentage value should be between 0-100.");
             return false;
         }
     };
-    
+
     $scope.generateForAllFloors = function(formName, formObj, parentObj) {
         /*$scope.submit = true;
         if ($scope[formName].$valid) {
@@ -2705,11 +2705,11 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
             formObj[i].UnitDtls_Block_Id = parentObj.block;
             formObj[i].UnitDtls_user_id = $cookieStore.get('user_id');
         }
-        
+
         console.log(formObj);
-        
+
         var unitsData = JSON.stringify(formObj);
-        
+
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/Block/Unitdetail/Update",
@@ -2721,39 +2721,38 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
         }).error(function() {});
     }
 });
-app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams, $compile,$uibModal) {
+app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal) {
     $scope.title = "Cost Sheet Template";
-    
+
     $scope.costSheetTemplate = {
-        Untctcm_Ascending:'',
+        Untctcm_Ascending: '',
     };
     $scope.addCostComponent = function() {
         var trCount = $(".formulaTable > tr").length;
-        var increment = trCount+1;
-        if(increment>=7){            
-            increment = increment+1;
+        var increment = trCount + 1;
+        if (increment >= 7) {
+            increment = increment + 1;
         }
-        if(increment>=20){
+        if (increment >= 20) {
             return;
         }
-        var costComponentRow = '<tr> <td> <label>Code'+increment+'</label> </td> <td> <input type="text" class="form-control" name="Untctcm_code'+increment+'" ng-model="costSheetTemplate.Untctcm_code'+increment+'"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="Untctcm_name'+increment+'" ng-model="costSheetTemplate.Untctcm_name'+increment+'"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="Untctcm_calctyp'+increment+'" ng-model="costSheetTemplate.Untctcm_calctyp'+increment+'" ng-change="toggleFields('+increment+')"> <option value=""> Select </option> <option value="0"> Flat </option> <option value="1"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="Untctcm_val_formula'+increment+'" ng-model="costSheetTemplate.Untctcm_val_formula'+increment+'" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn'+increment+'" ng-click="openFormulaModal('+increment+')" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="Untctcm_comments'+increment+'" ng-model="costSheetTemplate.Untctcm_comments'+increment+'"/> </td></tr>';
+        var costComponentRow = '<tr> <td> <label>Code' + increment + '</label> </td> <td> <input type="text" class="form-control" name="Untctcm_code' + increment + '" ng-model="costSheetTemplate.Untctcm_code' + increment + '"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="Untctcm_name' + increment + '" ng-model="costSheetTemplate.Untctcm_name' + increment + '"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="Untctcm_calctyp' + increment + '" ng-model="costSheetTemplate.Untctcm_calctyp' + increment + '" ng-change="toggleFields(' + increment + ')"> <option value=""> Select </option> <option value="0"> Flat </option> <option value="1"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="Untctcm_val_formula' + increment + '" ng-model="costSheetTemplate.Untctcm_val_formula' + increment + '" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn' + increment + '" ng-click="openFormulaModal(' + increment + ')" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="Untctcm_comments' + increment + '" ng-model="costSheetTemplate.Untctcm_comments' + increment + '"/> </td></tr>';
 
         costComponentRow = $compile(costComponentRow)($scope);
         angular.element(".formulaTable").append(costComponentRow);
     };
-    
-    $scope.toggleFields = function(increment){
-        var fieldName = "Untctcm_calctyp"+increment;
-        if($scope.costSheetTemplate[fieldName] == 0){
-            $("input[name='Untctcm_val_formula"+increment+"']").attr("disabled", false);
-            $("button[name='formulaBtn"+increment+"']").attr("disabled", true);
-        }
-        else{
-            $("input[name='Untctcm_val_formula"+increment+"']").attr("disabled", true);
-            $("button[name='formulaBtn"+increment+"']").attr("disabled", false);
+
+    $scope.toggleFields = function(increment) {
+        var fieldName = "Untctcm_calctyp" + increment;
+        if ($scope.costSheetTemplate[fieldName] == 0) {
+            $("input[name='Untctcm_val_formula" + increment + "']").attr("disabled", false);
+            $("button[name='formulaBtn" + increment + "']").attr("disabled", true);
+        } else {
+            $("input[name='Untctcm_val_formula" + increment + "']").attr("disabled", true);
+            $("button[name='formulaBtn" + increment + "']").attr("disabled", false);
         }
     };
-    
+
     $scope.openFormulaModal = function(val) {
         var modalInstance = $uibModal.open({
             templateUrl: 'formula.html',
@@ -2768,17 +2767,17 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
             }
         });
     };
-    
-    $scope.saveCostSheetTemplate = function(formName, formObj){
+
+    $scope.saveCostSheetTemplate = function(formName, formObj) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
             formObj.Untctcm_comp_guid = $cookieStore.get('comp_guid');
             formObj.Untctcm_Blocks_Id = 0;
             formObj.Untctcm_SBA = 0;
             formObj.Untctcm_SiteArea = 0;
-            
-            console.log(formObj);  
-            
+
+            console.log(formObj);
+
             angular.element(".loader").show();
             $http({
                 method: "POST",
@@ -2790,62 +2789,62 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
                 angular.element(".loader").hide();
                 var res = data.Comm_ErrorDesc;
                 var resSplit = res.split('|');
-                if (resSplit[0] == 0) {                    
+                if (resSplit[0] == 0) {
                     $state.go("/CostSheetTemplates");
                 }
             }).error(function() {
                 angular.element(".loader").hide();
             });
-            
+
         }
     };
 });
-app.controller("costComponentFormula", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance,item) {
+app.controller("costComponentFormula", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, item) {
     $scope.formulaGen = "";
     $scope.fieldCount = item;
-    var fieldName = "Untctcm_val_formula"+item;
+    var fieldName = "Untctcm_val_formula" + item;
     $scope.close = function() {
         $uibModalInstance.close();
     };
-    $scope.addFormula = function(formName, formObj){
-      $scope.submit = true;
-        if($scope[formName].$valid){
-            var formula = formObj.abbreviation+formObj.operator+formObj.value
+    $scope.addFormula = function(formName, formObj) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            var formula = formObj.abbreviation + formObj.operator + formObj.value
             console.log(formula);
-            $scope.formulaGen = formula; 
+            $scope.formulaGen = formula;
             /*angular.element("#Untctcm_val_formula"+item).val(formula);*/
         }
     };
-    $scope.saveFormula = function(){
-        if($scope.formulaGen!=""){
+    $scope.saveFormula = function() {
+        if ($scope.formulaGen != "") {
             $scope.costSheetTemplate[fieldName] = $scope.formulaGen;
             $uibModalInstance.close();
         }
     };
 });
 
-app.controller("costSheetTemplates", function($scope, $http, $state, $cookieStore, $stateParams, $compile,$uibModal) {
+app.controller("costSheetTemplates", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal) {
     $scope.title = "Cost Sheet Templates";
-    ($scope.getCostSheetTemplates = function(){
+    ($scope.getCostSheetTemplates = function() {
         angular.element(".loader").show();
-            $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Getall",
-                ContentType: 'application/json',
-                data: {
-                    "Untctcm_comp_guid": $cookieStore.get('comp_guid'),
-                    "Untctcm_Id": 0 ,
-                    "Untctcm_Blocks_Id": 0 
-                }
-            }).success(function(data) {
-                console.log(data);
-                $scope.costSheetTemplates = data;
-                angular.element(".loader").hide();
-            }).error(function() {
-                angular.element(".loader").hide();
-            });
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Getall",
+            ContentType: 'application/json',
+            data: {
+                "Untctcm_comp_guid": $cookieStore.get('comp_guid'),
+                "Untctcm_Id": 0,
+                "Untctcm_Blocks_Id": 0
+            }
+        }).success(function(data) {
+            console.log(data);
+            $scope.costSheetTemplates = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     })();
-    
+
 });
 
 app.controller("blockStageController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $rootScope, myService) {
@@ -2886,7 +2885,7 @@ app.controller("blockStageController", function($scope, $http, $state, $cookieSt
             angular.element(".loader").hide();
         });
     };
-    
+
     $scope.getBlockStageList = function(blockId) {
         angular.element(".loader").show();
         $http({
@@ -2905,7 +2904,7 @@ app.controller("blockStageController", function($scope, $http, $state, $cookieSt
             angular.element(".loader").hide();
         });
     };
-    
+
     $scope.addStatusChange = function(blockId) {
         var modalInstance = $uibModal.open({
             templateUrl: 'blockStatusChange.html',
@@ -2922,7 +2921,7 @@ app.controller("blockStageController", function($scope, $http, $state, $cookieSt
             }
         });
     };
-    
+
     $scope.editStatusChange = function(blockstageId, currentBlockId) {
         var modalInstance = $uibModal.open({
             templateUrl: 'blockStatusChange.html',
@@ -2943,15 +2942,15 @@ app.controller("blockStageController", function($scope, $http, $state, $cookieSt
 });
 
 app.controller("blockStageChangeController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, $rootScope, item) {
-    
+
     ($scope.getBlockStageDetail = function() {
-        if(item.action == 'add'){
-             $scope.blockStage = {
+        if (item.action == 'add') {
+            $scope.blockStage = {
                 completed: "0",
                 action: "add"
             };
-        } 
-        if(item.action == 'edit'){
+        }
+        if (item.action == 'edit') {
             angular.element(".loader").show();
             $http({
                 method: "POST",
@@ -2963,7 +2962,7 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
                 }
             }).success(function(data) {
                 $scope.blockStage = {
-                    completed: data.blocksatgeCompleted+"",
+                    completed: data.blocksatgeCompleted + "",
                     name: data.blockstageName,
                     action: "edit"
                 };
@@ -2974,12 +2973,12 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
             });
         }
     })();
-    
+
     $scope.ok = function() {
         $uibModalInstance.close();
     };
-    
-    $scope.addBlockStage = function(formObj, formName) {        
+
+    $scope.addBlockStage = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
             angular.element(".loader").show();
@@ -2991,7 +2990,7 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
                     "blockstageCompGuid": $cookieStore.get('comp_guid'),
                     "blockstageName": formObj.name,
                     "blocksatgeCompleted": parseInt(formObj.completed),
-                    "blockstageBlockId":item.blockId
+                    "blockstageBlockId": item.blockId
                 }
             }).success(function(data) {
                 $uibModalInstance.close();
@@ -3003,7 +3002,7 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
             });
         }
     }
-    
+
     function getBlockStageList(blockId) {
         angular.element(".loader").show();
         $http({
@@ -3022,8 +3021,8 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
             angular.element(".loader").hide();
         });
     };
-    
-    $scope.editBlockStage = function(formObj, formName) {        
+
+    $scope.editBlockStage = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
             angular.element(".loader").show();
@@ -3035,7 +3034,7 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
                     "blockstageCompGuid": $cookieStore.get('comp_guid'),
                     "blockstageName": formObj.name,
                     "blocksatgeCompleted": parseInt(formObj.completed),
-                    "blockstageBlockId":item.blockId,
+                    "blockstageBlockId": item.blockId,
                     "blockstageId": item.blockstageId
                 }
             }).success(function(data) {

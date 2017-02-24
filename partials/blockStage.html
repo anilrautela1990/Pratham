@@ -44,28 +44,26 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20">
    <button type="button" class="btn btn-primary" ng-click="addStatusChange(projectDetails.blocks)">Add Stages</button>
 </div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="blockStages">
-</div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	<table class="table dataTable">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Block Stage Name</th>
-				<th>Completed</th>
-				<th>Action</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="x in blockStageList track by $index">
-				<td>{{$index + 1}}</td>
-				<td>{{x.blockstageName}}</td>
-				<td ng-show="x.blocksatgeCompleted == 1">Yes</td>
-				<td ng-show="x.blocksatgeCompleted == 0">No</td>
-				<td><a ng-click="editStatusChange(x.blockstageId, x.blockstageBlockId)"><span class="link">Edit</span></a></td>
-			</tr>
-		</tbody>
-	</table>
+   <table class="table dataTable">
+      <thead>
+         <tr>
+            <th>#</th>
+            <th>Block Stage Name</th>
+            <th>Completed</th>
+            <th>Action</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr ng-repeat="x in blockStageList track by $index">
+            <td>{{$index + 1}}</td>
+            <td>{{x.blockstageName}}</td>
+            <td ng-show="x.blocksatgeCompleted == 1">Yes</td>
+            <td ng-show="x.blocksatgeCompleted == 0">No</td>
+            <td><a ng-click="editStatusChange(x.blockstageId, x.blockstageBlockId)"><span class="link">Edit</span></a></td>
+         </tr>
+      </tbody>
+   </table>
 </div>
 <script type="text/ng-template" id="blockStatusChange.html">
    <div class="modal-header">
