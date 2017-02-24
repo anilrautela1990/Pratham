@@ -32,7 +32,7 @@
    Type: <strong ng-model="projectDetails.flatType">{{flatType}}</strong>
 </div>
 <div>
-   <select ng-model="projectDetails.blocks" name="blocks" class="form-control">
+   <select ng-model="projectDetails.blocks" name="blocks" class="form-control" ng-change="getBlockStageList(projectDetails.blocks)">
       <option value="">
          Block
       </option>
@@ -45,6 +45,27 @@
    <button type="button" class="btn btn-primary" ng-click="addStatusChange(projectDetails.blocks)">Add Stages</button>
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="blockStages">
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	<table class="table dataTable">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Block Stage Name</th>
+				<th>Completed</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="x in blockStageList track by $index">
+				<td>{{$index + 1}}</td>
+				<td>{{x.blockstageName}}</td>
+				<td ng-show="x.blocksatgeCompleted == 1">Yes</td>
+				<td ng-show="x.blocksatgeCompleted == 0">No</td>
+				<td><a ng-click="editStatusChange(x.blockstageId, x.blockstageBlockId)"><span class="link">Edit</span></a></td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 <script type="text/ng-template" id="blockStatusChange.html">
    <div class="modal-header">
@@ -75,7 +96,10 @@
           </table>
        </form>
        </div>
-       <div class="modal-footer">
+       <div class="modal-footer" ng-show="blockStage.action == 'add'">
           <button class="btn btn-primary" type="button" ng-click="addBlockStage(blockStage, 'blockStageForm')">Add Block Stage</button>
+       </div>
+       <div class="modal-footer" ng-show="blockStage.action == 'edit'">
+          <button class="btn btn-primary" type="button" ng-click="editBlockStage(blockStage, 'blockStageForm')">Edit Block Stage</button>
        </div>
 </script>
