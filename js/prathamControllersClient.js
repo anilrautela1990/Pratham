@@ -2848,7 +2848,7 @@ app.controller("costSheetTemplates", function($scope, $http, $state, $cookieStor
     
 });
 
-app.controller("blockStageController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, myService) {
+app.controller("blockStageController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $rootScope, myService) {
     ($scope.projectListFun = function() {
         angular.element(".loader").show();
         myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
@@ -2898,8 +2898,7 @@ app.controller("blockStageController", function($scope, $http, $state, $cookieSt
                 "blockstageBlockId": blockId
             }
         }).success(function(data) {
-            console.log(data);
-            $scope.blockStageList = data;
+            $rootScope.blockStageList = data;
             angular.element(".loader").hide();
         }).error(function() {
             alert('Something Went wrong.');
@@ -2943,7 +2942,7 @@ app.controller("blockStageController", function($scope, $http, $state, $cookieSt
     };
 });
 
-app.controller("blockStageChangeController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, item) {
+app.controller("blockStageChangeController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, $rootScope, item) {
     
     ($scope.getBlockStageDetail = function() {
         if(item.action == 'add'){
@@ -2963,7 +2962,6 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
                     "blockstageId": item.blockstageId
                 }
             }).success(function(data) {
-                console.log(data);
                 $scope.blockStage = {
                     completed: data.blocksatgeCompleted+"",
                     name: data.blockstageName,
@@ -2996,7 +2994,6 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
                     "blockstageBlockId":item.blockId
                 }
             }).success(function(data) {
-                console.log(data);
                 $uibModalInstance.close();
                 getBlockStageList(data.blockstageBlockId);
                 angular.element(".loader").hide();
@@ -3018,8 +3015,7 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
                 "blockstageBlockId": blockId
             }
         }).success(function(data) {
-            console.log(data);
-            $scope.blockStageList = data;
+            $rootScope.blockStageList = data;
             angular.element(".loader").hide();
         }).error(function() {
             alert('Something Went wrong.');
@@ -3033,7 +3029,7 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
             angular.element(".loader").show();
             $http({
                 method: "POST",
-                url: "http://120.138.8.150/pratham/Proj/Blk/BlockStage/Save",
+                url: "http://120.138.8.150/pratham/Proj/Blk/BlockStage/Update",
                 ContentType: 'application/json',
                 data: {
                     "blockstageCompGuid": $cookieStore.get('comp_guid'),
@@ -3043,10 +3039,9 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
                     "blockstageId": item.blockstageId
                 }
             }).success(function(data) {
-                console.log(data);
                 angular.element(".loader").hide();
                 $uibModalInstance.close();
-                getBlockStageList(data.blockstageId);
+                getBlockStageList(data.blockstageBlockId);
             }).error(function() {
                 alert('Something Went wrong.');
                 angular.element(".loader").hide();
