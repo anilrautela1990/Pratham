@@ -3089,7 +3089,8 @@ app.controller("paymentScheduleController", function($scope, $http, $state, $coo
     };
     
     $scope.getPaymentScheduleList = function(blockId) {
-        $http({
+        if(blockId != ''){
+            $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Proj/Blk/PaymentSchedule/ByblockId",
                 ContentType: 'application/json',
@@ -3104,6 +3105,7 @@ app.controller("paymentScheduleController", function($scope, $http, $state, $coo
                 alert('Something Went wrong.');
                 angular.element(".loader").hide();
             });
+        }
     };
 });
                                                        
