@@ -3046,7 +3046,7 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
                 angular.element(".loader").hide();
             });
         }
-    }
+    };
 });
 
 app.controller("paymentScheduleController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, myService) {
@@ -3107,5 +3107,102 @@ app.controller("paymentScheduleController", function($scope, $http, $state, $coo
             });
         }
     };
+    
+    $scope.addPaymentSchedule = function(blockId) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'paymentScheduleChange.html',
+            controller: 'paymentScheduleChangeController',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    var blocks = {};
+                    blocks.blockId = blockId;
+                    blocks.action = 'add';
+                    return blocks;
+                }
+            }
+        });
+    };
 });
-                                                       
+
+app.controller("paymentScheduleChangeController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, $rootScope, item) {
+    
+    ($scope.getPaymentScheduleDetail = function() {
+        if (item.action == 'add') {
+            $scope.blockStage = {
+                action: "add"
+            };
+        }
+        if (item.action == 'edit') {
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Blk/BlockStage/ByblockstageId",
+                ContentType: 'application/json',
+                data: {
+                    "blockstageCompGuid": $cookieStore.get('comp_guid'),
+                    "blockstageId": item.blockstageId
+                }
+            }).success(function(data) {
+                $scope.blockStage = {
+                    completed: data.blocksatgeCompleted + "",
+                    name: data.blockstageName,
+                    action: "edit"
+                };
+                angular.element(".loader").hide();
+            }).error(function() {
+                alert('Something Went wrong.');
+                angular.element(".loader").hide();
+            });
+        }
+    })();
+    
+    $scope.addPaymentSchedule = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            /*angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Blk/PaymentSchedule/Save",
+                ContentType: 'application/json',
+                data: {                    
+                    "PaymentScheduleBlockstageId": 7,
+                    "PaymentScheduleCompGuid": $cookieStore.get('comp_guid'),
+                    "PaymentScheduleCalcTypeValue": 1,
+                    "PaymentScheduleCalcValue": formObj.paymentScheduleValue
+                }
+            }).success(function(data) {
+                $uibModalInstance.close();
+                getBlockStageList(data.blockstageBlockId);
+                angular.element(".loader").hide();
+            }).error(function() {
+                alert('Something Went wrong.');
+                angular.element(".loader").hide();
+            });*/
+        }
+    }
+
+    function getBlockStageList(blockId) {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Blk/BlockStage/ByblockstageBlockId",
+            ContentType: 'application/json',
+            data: {
+                "blockstageCompGuid": $cookieStore.get('comp_guid'),
+                "blockstageBlockId": blockId
+            }
+        }).success(function(data) {
+            $rootScope.blockStageList = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            alert('Something Went wrong.');
+            angular.element(".loader").hide();
+        });
+    };
+
+    $scope.ok = function() {
+        $uibModalInstance.close();
+    };
+});

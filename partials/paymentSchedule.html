@@ -41,6 +41,9 @@
       </option>
    </select>
 </div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20">
+   <button type="button" class="btn btn-primary" ng-click="addPaymentSchedule(projectDetails.blocks)">Add Payment Schedule</button>
+</div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
    <table class="table dataTable">
       <thead>
@@ -59,3 +62,34 @@
       </tbody>
    </table>
 </div>
+<script type="text/ng-template" id="paymentScheduleChange.html">
+   <div class="modal-header">
+      <button type="button" class="close" ng-click="ok()">&times;</button>
+      <h3 class="modal-title" id="modal-title">Add Payment Schedule</h3>
+   </div>
+   <div class="modal-body" id="modal-body">
+      <div class="subHeading">Add Payment Schedule</div>
+       <form name="blockStageForm" class="form" method="POST" novalidate="novalidate">
+          <table class="leadDetail">
+             <tr>
+                <td>Block Stage Name:</td>
+                <td>
+                   <input type="text" name="blockStageName" class="form-control" ng-model="blockStage.name" placeholder="Block Stage Name" ng-required="true" ng-class="{blankInput: blockStageForm.blockStageName.$error.required &amp;&amp; submit}" />
+                </td>
+             </tr>
+              <tr>
+                <td>Payment Schedule Value:</td>
+                <td>        
+                    <input type="text" name="paymentScheduleValue" class="form-control" ng-model="blockStage.paymentScheduleValue" placeholder="Payment Schedule Value" ng-required="true" ng-class="{blankInput: blockStageForm.paymentScheduleValue.$error.required &amp;&amp; submit}" />
+                </td>
+             </tr>
+          </table>
+       </form>
+       </div>
+       <div class="modal-footer" ng-show="blockStage.action == 'add'">
+          <button class="btn btn-primary" type="button" ng-click="addPaymentSchedule(blockStage, 'blockStageForm')">Add Payment Schedule</button>
+       </div>
+       <div class="modal-footer" ng-show="blockStage.action == 'edit'">
+          <button class="btn btn-primary" type="button" ng-click="editPaymentSchedule(blockStage, 'blockStageForm')">Edit Payment Schedule</button>
+       </div>
+</script>
