@@ -3048,3 +3048,7 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
         }
     }
 });
+
+app.controller("paymentScheduleChangeController", function($scope, $http, $state, $cookieStore, $stateParams, $compile) {
+});
+                                                       
