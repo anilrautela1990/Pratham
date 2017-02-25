@@ -3208,4 +3208,51 @@ app.controller("paymentScheduleChangeController", function($scope, $http, $state
 });
 
 app.controller("employeeDetailsController", function($scope, $http, $cookieStore, $state) {
+    
+    ($scope.getEmployeesDetails = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/EmployeeDtls/ByUserType",
+            ContentType: 'application/json',
+            data: {
+                "user_comp_guid": $cookieStore.get('comp_guid'),
+                "user_type": 2
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.employees = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
 });
+
+app.controller("addEmployeeController", function($scope, $http, $cookieStore, $state) {
+    $scope.pageTitle = "Add Employee";
+    $scope.addEmployeeBtn = true;
+}); 
+
+app.controller("editEmployeeController", function($scope, $http, $cookieStore, $state, $stateParams) {
+    $scope.pageTitle = "Edit Employee";
+    $scope.editEmployeeBtn = true;
+    
+    ($scope.getEmployeeDetail = function() {
+        angular.element(".loader").show();
+        $scope.employeeId = $stateParams.employeeId;
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/EmployeeUserDtls",
+            ContentType: 'application/json',
+            data: {
+                "user_id": $scope.employeeId,
+                "user_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            console.log(data);
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+}); 

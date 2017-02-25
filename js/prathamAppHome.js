@@ -137,6 +137,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/employeeDetails.html',
             controller: 'employeeDetailsController'
         })
+        .state('/AddEmployee', {
+            url: '/AddEmployee',
+            templateUrl: 'partials/addEmployee.html',
+            controller: 'addEmployeeController'
+        })
+        .state('/EditEmployee', {
+            url: '/EditEmployee/:employeeId',
+            templateUrl: 'partials/addEmployee.html',
+            controller: 'editEmployeeController'
+        })
 });
 app.config(function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
