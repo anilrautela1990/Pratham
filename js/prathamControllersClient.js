@@ -3235,50 +3235,43 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
     $scope.addEmployee = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
+            angular.element(".loader").show();
             console.log(formObj);
-            /*$http({
+            $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/User/SaveUser",
                 ContentType: 'application/json',
                 data: {
                     "user_comp_guid": $cookieStore.get('comp_guid'),
                     "user_type": 2,
-                    "user_first_name": formObj.firstName,
-                    "user_middle_name": formObj.middleName,
-                    "user_last_name": formObj.lastName,
-                    "user_mobile_no": formObj.mobileNumber,
-                    "user_office_no": formObj.officeNumber,
-                    "user_email_address": formObj.emailId,
-                    "user_country": formObj.country,
-                    "user_city": formObj.city,
-                    "user_state": formObj.state,
-                    "user_address": formObj.address,
-                    "user_zipcode": formObj.zip,
-                    "user_dob": formObj.dob,
-                    "user_gender": parseInt(formObj.gender),
+                    "user_first_name": formObj.employeeFirstName,
+                    "user_middle_name": formObj.employeeMiddleName,
+                    "user_last_name": formObj.employeeLastName,
+                    "user_mobile_no": formObj.employeeMobileNumber,
+                    "user_address": formObj.employeeAddress,
+                    "user_dob": formObj.employeeDob,
+                    "user_doj": formObj.employeeDoj,
+                    "Emp_off_email": formObj.employeeEmail,
+                    "user_password": "Employee123"
                 }
             }).success(function(data) {
-                //console.log(data);
-                if (data.user_id != 0) {
-                    //$cookieStore.put('lead_id', data.user_id);
-                    $state.go("/ProjectDetails", {
-                        "leadID": data.user_id
-                    });
-                } else {
-                    alert("Some Error!");
-                }
-            }).error(function() {});*/
+                console.log(data);
+                $state.go("/EmployeeDetails");
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
         }
     };
 }); 
 
-app.controller("editEmployeeController", function($scope, $http, $cookieStore, $state, $stateParams) {
+app.controller("editEmployeeController", function($scope, $http, $cookieStore, $state, $stateParams, $filter) {
     $scope.pageTitle = "Edit Employee";
     $scope.editEmployeeBtn = true;
+    $scope.employeeId = $stateParams.employeeId;
     
     ($scope.getEmployeeDetail = function() {
         angular.element(".loader").show();
-        $scope.employeeId = $stateParams.employeeId;
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/User/EmployeeUserDtls",
@@ -3289,7 +3282,16 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             }
         }).success(function(data) {
             console.log(data);
-            $scope.addEmployee = data;
+            $scope.addEmployee = {
+                employeeFirstName: data.user_first_name,
+                employeeMiddleName: data.user_middle_name,
+                employeeLastName: data.user_last_name,
+                employeeMobileNumber: parseInt(data.user_mobile_no),
+                employeeAddress: data.user_address,
+                employeeDob: $filter('date')(data.user_dob, 'yyyy-MM-dd'),
+                employeeDoj: $filter('date')(data.user_doj, 'yyyy-MM-dd'),
+                employeeEmail: data.Emp_off_email
+            };
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
@@ -3300,38 +3302,30 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
         $scope.submit = true;
         if ($scope[formName].$valid) {
             console.log(formObj);
-            /*$http({
+            angular.element(".loader").show();
+            $http({
                 method: "POST",
-                url: "http://120.138.8.150/pratham/User/SaveUser",
+                url: "http://120.138.8.150/pratham/User/UpdateUserEmployee",
                 ContentType: 'application/json',
                 data: {
-                    "user_comp_guid": $cookieStore.get('comp_guid'),
-                    "user_type": 2,
-                    "user_first_name": formObj.firstName,
-                    "user_middle_name": formObj.middleName,
-                    "user_last_name": formObj.lastName,
-                    "user_mobile_no": formObj.mobileNumber,
-                    "user_office_no": formObj.officeNumber,
-                    "user_email_address": formObj.emailId,
-                    "user_country": formObj.country,
-                    "user_city": formObj.city,
-                    "user_state": formObj.state,
-                    "user_address": formObj.address,
-                    "user_zipcode": formObj.zip,
-                    "user_dob": formObj.dob,
-                    "user_gender": parseInt(formObj.gender),
+                    "Emp_comp_guid": $cookieStore.get('comp_guid'),
+                    "Emp_User_Id": $scope.employeeId,
+                    "user_first_name": formObj.employeeFirstName,
+                    "user_middle_name": formObj.employeeMiddleName,
+                    "user_last_name": formObj.employeeLastName,
+                    "user_mobile_no": formObj.employeeMobileNumber,
+                    "user_address": formObj.employeeAddress,
+                    "user_dob": formObj.employeeDob,
+                    "user_doj": formObj.employeeDoj,
+                    "Emp_off_email": formObj.employeeEmail
                 }
             }).success(function(data) {
-                //console.log(data);
-                if (data.user_id != 0) {
-                    //$cookieStore.put('lead_id', data.user_id);
-                    $state.go("/ProjectDetails", {
-                        "leadID": data.user_id
-                    });
-                } else {
-                    alert("Some Error!");
-                }
-            }).error(function() {});*/
+                console.log(data);
+                $state.go("/EmployeeDetails");
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
         }
     };
 }); 

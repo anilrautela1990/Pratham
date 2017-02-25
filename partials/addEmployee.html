@@ -10,8 +10,14 @@
 </div>
 <form name="addEmployeeForm" class="form" method="POST" novalidate="novalidate">
    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form">
-      <div>
-          <input type="text" placeholder="Employee Name*" class="form-control" name="employeeName" ng-model="addEmployee.employeeName" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeName.$error.required &amp;&amp; submit}"/>
+        <div>
+          <input type="text" placeholder="Employee First Name*" class="form-control" name="employeeFirstName" ng-model="addEmployee.employeeFirstName" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeFirstName.$error.required &amp;&amp; submit}"/>
+       </div>
+       <div>
+          <input type="text" placeholder="Employee Middle Name" class="form-control" name="employeeMiddleName" ng-model="addEmployee.employeeMiddleName"/>
+       </div>
+       <div>
+          <input type="text" placeholder="Employee Last Name*" class="form-control" name="employeeLastName" ng-model="addEmployee.employeeLastName" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeLastName.$error.required &amp;&amp; submit}"/>
        </div>
        <div>
           <input type="number" placeholder="Mobile Number*" class="form-control" name="employeeMobileNumber" ng-model="addEmployee.employeeMobileNumber" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeMobileNumber.$error.required &amp;&amp; submit}"/>
@@ -40,7 +46,7 @@
    </div>
    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form">
       <div>
-			<select class="form-control" name="department" ng-model="addEmployee.department" ng-required="true" ng-class="{blankInput: addEmployeeForm.department.$error.required &amp;&amp; submit}">
+			<select class="form-control" name="department" ng-model="addEmployee.department">
                 <option value="">
                     Select Department
                 </option>
