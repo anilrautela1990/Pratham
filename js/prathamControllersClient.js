@@ -3206,3 +3206,6 @@ app.controller("paymentScheduleChangeController", function($scope, $http, $state
         $uibModalInstance.close();
     };
 });
+
+app.controller("employeeDetailsController", function($scope, $http, $cookieStore, $state) {
+});
