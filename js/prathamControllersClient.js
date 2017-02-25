@@ -3228,9 +3228,48 @@ app.controller("employeeDetailsController", function($scope, $http, $cookieStore
     })();
 });
 
-app.controller("addEmployeeController", function($scope, $http, $cookieStore, $state) {
+app.controller("addEmployeeController", function($scope, $http, $state, $cookieStore, $compile, $stateParams, $window) {
     $scope.pageTitle = "Add Employee";
     $scope.addEmployeeBtn = true;
+    
+    $scope.addEmployee = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            console.log(formObj);
+            /*$http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/SaveUser",
+                ContentType: 'application/json',
+                data: {
+                    "user_comp_guid": $cookieStore.get('comp_guid'),
+                    "user_type": 2,
+                    "user_first_name": formObj.firstName,
+                    "user_middle_name": formObj.middleName,
+                    "user_last_name": formObj.lastName,
+                    "user_mobile_no": formObj.mobileNumber,
+                    "user_office_no": formObj.officeNumber,
+                    "user_email_address": formObj.emailId,
+                    "user_country": formObj.country,
+                    "user_city": formObj.city,
+                    "user_state": formObj.state,
+                    "user_address": formObj.address,
+                    "user_zipcode": formObj.zip,
+                    "user_dob": formObj.dob,
+                    "user_gender": parseInt(formObj.gender),
+                }
+            }).success(function(data) {
+                //console.log(data);
+                if (data.user_id != 0) {
+                    //$cookieStore.put('lead_id', data.user_id);
+                    $state.go("/ProjectDetails", {
+                        "leadID": data.user_id
+                    });
+                } else {
+                    alert("Some Error!");
+                }
+            }).error(function() {});*/
+        }
+    };
 }); 
 
 app.controller("editEmployeeController", function($scope, $http, $cookieStore, $state, $stateParams) {
@@ -3250,9 +3289,49 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             }
         }).success(function(data) {
             console.log(data);
+            $scope.addEmployee = data;
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
         });
     })();
+    
+    $scope.editEmployee = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            console.log(formObj);
+            /*$http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/SaveUser",
+                ContentType: 'application/json',
+                data: {
+                    "user_comp_guid": $cookieStore.get('comp_guid'),
+                    "user_type": 2,
+                    "user_first_name": formObj.firstName,
+                    "user_middle_name": formObj.middleName,
+                    "user_last_name": formObj.lastName,
+                    "user_mobile_no": formObj.mobileNumber,
+                    "user_office_no": formObj.officeNumber,
+                    "user_email_address": formObj.emailId,
+                    "user_country": formObj.country,
+                    "user_city": formObj.city,
+                    "user_state": formObj.state,
+                    "user_address": formObj.address,
+                    "user_zipcode": formObj.zip,
+                    "user_dob": formObj.dob,
+                    "user_gender": parseInt(formObj.gender),
+                }
+            }).success(function(data) {
+                //console.log(data);
+                if (data.user_id != 0) {
+                    //$cookieStore.put('lead_id', data.user_id);
+                    $state.go("/ProjectDetails", {
+                        "leadID": data.user_id
+                    });
+                } else {
+                    alert("Some Error!");
+                }
+            }).error(function() {});*/
+        }
+    };
 }); 
