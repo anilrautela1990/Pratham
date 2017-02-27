@@ -3304,7 +3304,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                 employeeEmail: data.Emp_off_email,
                 employeePassword: data.user_password,
                 employeeAadharNumber: parseInt(data.Emp_aadhar),
-                employeePanNumber: parseInt(data.Emp_pan),
+                employeePanNumber: data.Emp_pan,
                 employeeCtc: data.Emp_ctc,
                 employeeNetSalary: data.Emp_netSallary,
                 employeeDesignation: data.Emp_desig,
