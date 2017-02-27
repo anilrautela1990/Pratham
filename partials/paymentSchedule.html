@@ -41,9 +41,7 @@
       </option>
    </select>
 </div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20">
-   <button type="button" class="btn btn-primary" ng-click="addPaymentSchedule(projectDetails.blocks)">Add Payment Schedule</button>
-</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20"></div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
    <table class="table dataTable">
       <thead>
@@ -51,6 +49,7 @@
             <th>#</th>
             <th>Block Stage Name</th>
             <th>Payment Schedule Value</th>
+            <th>Action</th>
          </tr>
       </thead>
       <tbody>
@@ -58,6 +57,7 @@
             <td>{{$index + 1}}</td>
             <td>{{x.blockstageName}}</td>
             <td>{{x.PaymentScheduleCalcValue}}</td>
+            <td><a ng-click="editPaymentSchedule(x)"><span class="link">Edit</span></a></td>
          </tr>
       </tbody>
    </table>
@@ -71,12 +71,6 @@
       <div class="subHeading">Add Payment Schedule</div>
        <form name="blockStageForm" class="form" method="POST" novalidate="novalidate">
           <table class="leadDetail">
-             <tr>
-                <td>Block Stage Name:</td>
-                <td>
-                   <input type="text" name="blockStageName" class="form-control" ng-model="blockStage.name" placeholder="Block Stage Name" ng-required="true" ng-class="{blankInput: blockStageForm.blockStageName.$error.required &amp;&amp; submit}" />
-                </td>
-             </tr>
               <tr>
                 <td>Payment Schedule Value:</td>
                 <td>        
@@ -86,10 +80,7 @@
           </table>
        </form>
        </div>
-       <div class="modal-footer" ng-show="blockStage.action == 'add'">
-          <button class="btn btn-primary" type="button" ng-click="addPaymentSchedule(blockStage, 'blockStageForm')">Add Payment Schedule</button>
-       </div>
-       <div class="modal-footer" ng-show="blockStage.action == 'edit'">
-          <button class="btn btn-primary" type="button" ng-click="editPaymentSchedule(blockStage, 'blockStageForm')">Edit Payment Schedule</button>
+       <div class="modal-footer">
+          <button class="btn btn-primary" type="button" ng-click="updatePaymentSchedule(blockStage, 'blockStageForm')">Edit Payment Schedule</button>
        </div>
 </script>

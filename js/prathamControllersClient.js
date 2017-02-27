@@ -3049,7 +3049,7 @@ app.controller("blockStageChangeController", function($scope, $http, $state, $co
     };
 });
 
-app.controller("paymentScheduleController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, myService) {
+app.controller("paymentScheduleController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $rootScope, myService) {
     ($scope.projectListFun = function() {
         angular.element(".loader").show();
         myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
@@ -3090,6 +3090,7 @@ app.controller("paymentScheduleController", function($scope, $http, $state, $coo
     
     $scope.getPaymentScheduleList = function(blockId) {
         if(blockId != ''){
+            angular.element(".loader").show();
             $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Proj/Blk/PaymentSchedule/ByblockId",
@@ -3099,7 +3100,8 @@ app.controller("paymentScheduleController", function($scope, $http, $state, $coo
                     "blockstageBlockId": blockId
                 }
             }).success(function(data) {
-                $scope.paymentScheduleList = data;
+                console.log(data);
+                $rootScope.paymentScheduleList = data;
                 angular.element(".loader").hide();
             }).error(function() {
                 alert('Something Went wrong.');
@@ -3108,7 +3110,7 @@ app.controller("paymentScheduleController", function($scope, $http, $state, $coo
         }
     };
     
-    $scope.addPaymentSchedule = function(blockId) {
+    $scope.editPaymentSchedule = function(paymentSchduleObj) {
         var modalInstance = $uibModal.open({
             templateUrl: 'paymentScheduleChange.html',
             controller: 'paymentScheduleChangeController',
@@ -3116,10 +3118,7 @@ app.controller("paymentScheduleController", function($scope, $http, $state, $coo
             backdrop: 'static',
             resolve: {
                 item: function() {
-                    var blocks = {};
-                    blocks.blockId = blockId;
-                    blocks.action = 'add';
-                    return blocks;
+                    return paymentSchduleObj;
                 }
             }
         });
@@ -3129,77 +3128,57 @@ app.controller("paymentScheduleController", function($scope, $http, $state, $coo
 app.controller("paymentScheduleChangeController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, $rootScope, item) {
     
     ($scope.getPaymentScheduleDetail = function() {
-        if (item.action == 'add') {
-            $scope.blockStage = {
-                action: "add"
+        $scope.blockStage = {
+                paymentScheduleValue: item.PaymentScheduleCalcValue
             };
-        }
-        if (item.action == 'edit') {
+    })();
+    
+    $scope.updatePaymentSchedule = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
             angular.element(".loader").show();
             $http({
                 method: "POST",
-                url: "http://120.138.8.150/pratham/Proj/Blk/BlockStage/ByblockstageId",
+                url: "http://120.138.8.150/pratham/Proj/Blk/PaymentSchedule/Update",
+                ContentType: 'application/json',
+                data: {	
+                      "PaymentScheduleId":item.PaymentScheduleId,
+                      "PaymentScheduleBlockstageId":item.blockstageId,
+                      "PaymentScheduleCompGuid":$cookieStore.get('comp_guid'),
+                      "PaymentScheduleCalcTypeValue":1,
+                      "PaymentScheduleCalcValue":formObj.paymentScheduleValue
+                }
+            }).success(function(data) {
+                angular.element(".loader").hide();
+                $uibModalInstance.close();
+                getPaymentScheduleList(item.blockstageBlockId);
+            }).error(function() {
+                alert('Something Went wrong.');
+                angular.element(".loader").hide();
+            });
+        }
+    }
+
+    function getPaymentScheduleList(blockId) {
+        if(blockId != ''){
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Blk/PaymentSchedule/ByblockId",
                 ContentType: 'application/json',
                 data: {
                     "blockstageCompGuid": $cookieStore.get('comp_guid'),
-                    "blockstageId": item.blockstageId
+                    "blockstageBlockId": blockId
                 }
             }).success(function(data) {
-                $scope.blockStage = {
-                    completed: data.blocksatgeCompleted + "",
-                    name: data.blockstageName,
-                    action: "edit"
-                };
+                console.log(data);
+                $rootScope.paymentScheduleList = data;
                 angular.element(".loader").hide();
             }).error(function() {
                 alert('Something Went wrong.');
                 angular.element(".loader").hide();
             });
         }
-    })();
-    
-    $scope.addPaymentSchedule = function(formObj, formName) {
-        $scope.submit = true;
-        if ($scope[formName].$valid) {
-            /*angular.element(".loader").show();
-            $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Proj/Blk/PaymentSchedule/Save",
-                ContentType: 'application/json',
-                data: {                    
-                    "PaymentScheduleBlockstageId": 7,
-                    "PaymentScheduleCompGuid": $cookieStore.get('comp_guid'),
-                    "PaymentScheduleCalcTypeValue": 1,
-                    "PaymentScheduleCalcValue": formObj.paymentScheduleValue
-                }
-            }).success(function(data) {
-                $uibModalInstance.close();
-                getBlockStageList(data.blockstageBlockId);
-                angular.element(".loader").hide();
-            }).error(function() {
-                alert('Something Went wrong.');
-                angular.element(".loader").hide();
-            });*/
-        }
-    }
-
-    function getBlockStageList(blockId) {
-        angular.element(".loader").show();
-        $http({
-            method: "POST",
-            url: "http://120.138.8.150/pratham/Proj/Blk/BlockStage/ByblockstageBlockId",
-            ContentType: 'application/json',
-            data: {
-                "blockstageCompGuid": $cookieStore.get('comp_guid'),
-                "blockstageBlockId": blockId
-            }
-        }).success(function(data) {
-            $rootScope.blockStageList = data;
-            angular.element(".loader").hide();
-        }).error(function() {
-            alert('Something Went wrong.');
-            angular.element(".loader").hide();
-        });
     };
 
     $scope.ok = function() {
@@ -3263,7 +3242,9 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
                     "Emp_bankaccno": formObj.employeeBankAccountNo,
                     "Emp_bankadd": formObj.employeeBankAddress,
                     "Emp_bankemailid": formObj.employeeBankEmailId,
-                    "Emp_bankifsccode": formObj.employeeBankIfscCode
+                    "Emp_bankifsccode": formObj.employeeBankIfscCode,
+                    "Emp_alt_contactno": formObj.employeeAlternateNumber1,
+                    "Emp_off_email" : formObj.employeeAlternateEmail
                 }
             }).success(function(data) {
                 console.log(data);
@@ -3313,7 +3294,9 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                 employeeBankAccountNo : data.Emp_bankaccno,
                 employeeBankAddress: data.Emp_bankadd,
                 employeeBankEmailId: data.Emp_bankemailid,
-                employeeBankIfscCode: data.Emp_bankifsccode
+                employeeBankIfscCode: data.Emp_bankifsccode,
+                employeeAlternateNumber1: parseInt(data.Emp_alt_contactno),
+                employeeAlternateEmail: data.Emp_off_email
             };
             angular.element(".loader").hide();
         }).error(function() {
@@ -3352,7 +3335,9 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                     "Emp_bankaccno": formObj.employeeBankAccountNo,
                     "Emp_bankadd": formObj.employeeBankAddress,
                     "Emp_bankemailid": formObj.employeeBankEmailId,
-                    "Emp_bankifsccode": formObj.employeeBankIfscCode
+                    "Emp_bankifsccode": formObj.employeeBankIfscCode,
+                    "Emp_alt_contactno": formObj.employeeAlternateNumber1,
+                    "Emp_off_email" : formObj.employeeAlternateEmail
                 }
             }).success(function(data) {
                 console.log(data);
