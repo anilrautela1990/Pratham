@@ -3252,7 +3252,18 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
                     "user_dob": formObj.employeeDob,
                     "user_doj": formObj.employeeDoj,
                     "Emp_off_email": formObj.employeeEmail,
-                    "user_password": "Employee123"
+                    "user_password": formObj.employeePassword,
+                    "Emp_pan": formObj.employeePanNumber,
+                    "Emp_aadhar": formObj.employeeAadharNumber,
+                    "Emp_ctc": formObj.employeeCtc,
+                    "Emp_netSallary": formObj.employeeNetSalary,
+                    "Emp_desig": formObj.employeeDesignation,
+                    "Emp_BankName": formObj.employeeBankName,
+                    "Emp_BankBranch": formObj.employeeBankBranch,
+                    "Emp_bankaccno": formObj.employeeBankAccountNo,
+                    "Emp_bankadd": formObj.employeeBankAddress,
+                    "Emp_bankemailid": formObj.employeeBankEmailId,
+                    "Emp_bankifsccode": formObj.employeeBankIfscCode
                 }
             }).success(function(data) {
                 console.log(data);
@@ -3290,7 +3301,19 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                 employeeAddress: data.user_address,
                 employeeDob: $filter('date')(data.user_dob, 'yyyy-MM-dd'),
                 employeeDoj: $filter('date')(data.user_doj, 'yyyy-MM-dd'),
-                employeeEmail: data.Emp_off_email
+                employeeEmail: data.Emp_off_email,
+                employeePassword: data.user_password,
+                employeeAadharNumber: parseInt(data.Emp_aadhar),
+                employeePanNumber: parseInt(data.Emp_pan),
+                employeeCtc: data.Emp_ctc,
+                employeeNetSalary: data.Emp_netSallary,
+                employeeDesignation: data.Emp_desig,
+                employeeBankName: data.Emp_BankName,
+                employeeBankBranch : data.Emp_BankBranch,
+                employeeBankAccountNo : data.Emp_bankaccno,
+                employeeBankAddress: data.Emp_bankadd,
+                employeeBankEmailId: data.Emp_bankemailid,
+                employeeBankIfscCode: data.Emp_bankifsccode
             };
             angular.element(".loader").hide();
         }).error(function() {
@@ -3317,7 +3340,19 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                     "user_address": formObj.employeeAddress,
                     "user_dob": formObj.employeeDob,
                     "user_doj": formObj.employeeDoj,
-                    "Emp_off_email": formObj.employeeEmail
+                    "Emp_off_email": formObj.employeeEmail,
+                    "user_password": formObj.user_password,
+                    "Emp_pan": formObj.employeePanNumber,
+                    "Emp_aadhar": formObj.employeeAadharNumber,
+                    "Emp_ctc": formObj.employeeCtc,
+                    "Emp_netSallary": formObj.employeeNetSalary,
+                    "Emp_desig": formObj.employeeDesignation,
+                    "Emp_BankName": formObj.employeeBankName,
+                    "Emp_BankBranch": formObj.employeeBankBranch,
+                    "Emp_bankaccno": formObj.employeeBankAccountNo,
+                    "Emp_bankadd": formObj.employeeBankAddress,
+                    "Emp_bankemailid": formObj.employeeBankEmailId,
+                    "Emp_bankifsccode": formObj.employeeBankIfscCode
                 }
             }).success(function(data) {
                 console.log(data);
