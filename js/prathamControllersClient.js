@@ -3087,9 +3087,9 @@ app.controller("paymentScheduleController", function($scope, $http, $state, $coo
             angular.element(".loader").hide();
         });
     };
-    
+
     $scope.getPaymentScheduleList = function(blockId) {
-        if(blockId != ''){
+        if (blockId != '') {
             angular.element(".loader").show();
             $http({
                 method: "POST",
@@ -3109,7 +3109,7 @@ app.controller("paymentScheduleController", function($scope, $http, $state, $coo
             });
         }
     };
-    
+
     $scope.editPaymentSchedule = function(paymentSchduleObj) {
         var modalInstance = $uibModal.open({
             templateUrl: 'paymentScheduleChange.html',
@@ -3126,13 +3126,13 @@ app.controller("paymentScheduleController", function($scope, $http, $state, $coo
 });
 
 app.controller("paymentScheduleChangeController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, $rootScope, item) {
-    
+
     ($scope.getPaymentScheduleDetail = function() {
         $scope.blockStage = {
-                paymentScheduleValue: item.PaymentScheduleCalcValue
-            };
+            paymentScheduleValue: item.PaymentScheduleCalcValue
+        };
     })();
-    
+
     $scope.updatePaymentSchedule = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -3141,12 +3141,12 @@ app.controller("paymentScheduleChangeController", function($scope, $http, $state
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Proj/Blk/PaymentSchedule/Update",
                 ContentType: 'application/json',
-                data: {	
-                      "PaymentScheduleId":item.PaymentScheduleId,
-                      "PaymentScheduleBlockstageId":item.blockstageId,
-                      "PaymentScheduleCompGuid":$cookieStore.get('comp_guid'),
-                      "PaymentScheduleCalcTypeValue":1,
-                      "PaymentScheduleCalcValue":formObj.paymentScheduleValue
+                data: {
+                    "PaymentScheduleId": item.PaymentScheduleId,
+                    "PaymentScheduleBlockstageId": item.blockstageId,
+                    "PaymentScheduleCompGuid": $cookieStore.get('comp_guid'),
+                    "PaymentScheduleCalcTypeValue": 1,
+                    "PaymentScheduleCalcValue": formObj.paymentScheduleValue
                 }
             }).success(function(data) {
                 angular.element(".loader").hide();
@@ -3160,7 +3160,7 @@ app.controller("paymentScheduleChangeController", function($scope, $http, $state
     }
 
     function getPaymentScheduleList(blockId) {
-        if(blockId != ''){
+        if (blockId != '') {
             angular.element(".loader").show();
             $http({
                 method: "POST",
@@ -3187,7 +3187,7 @@ app.controller("paymentScheduleChangeController", function($scope, $http, $state
 });
 
 app.controller("employeeDetailsController", function($scope, $http, $cookieStore, $state) {
-    
+
     ($scope.getEmployeesDetails = function() {
         angular.element(".loader").show();
         $http({
@@ -3210,7 +3210,7 @@ app.controller("employeeDetailsController", function($scope, $http, $cookieStore
 app.controller("addEmployeeController", function($scope, $http, $state, $cookieStore, $compile, $stateParams, $window) {
     $scope.pageTitle = "Add Employee";
     $scope.addEmployeeBtn = true;
-    
+
     $scope.addEmployee = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -3244,7 +3244,21 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
                     "Emp_bankemailid": formObj.employeeBankEmailId,
                     "Emp_bankifsccode": formObj.employeeBankIfscCode,
                     "Emp_alt_contactno": formObj.employeeAlternateNumber1,
-                    "Emp_off_email" : formObj.employeeAlternateEmail
+                    "Emp_off_email": formObj.employeeAlternateEmail,
+                    "Emp_Hobbies": formObj.employeeHobbies,
+                    "Emp_Reference1Address": formObj.employeeReference1Address,
+                    "Emp_Reference1ContactNumber": formObj.employeeReference1ContactNumber,
+                    "Emp_Reference1EmailID": formObj.employeeReference1Email,
+                    "Emp_Reference1Name": formObj.employeeReference1Name,
+                    "Emp_Reference2Address": formObj.employeeReference2Address,
+                    "Emp_Reference2ContactNumber": formObj.employeeReference2ContactNumber,
+                    "Emp_Reference2EmailID": formObj.employeeReference2Email,
+                    "Emp_Reference2Name": formObj.employeeReference2Name,
+                    "Emp_SourceofRecruitment": formObj.employeeSourceOfRecruit,
+                    "Emp_spouse_aadhar": formObj.employeeSpouseAadhar,
+                    "Emp_spouse_dob": formObj.employeeSpouseDob,
+                    "Emp_spouse_nm": formObj.employeeSpouseName,
+                    "Emp_spouse_pan": formObj.employeeSpousePan
                 }
             }).success(function(data) {
                 console.log(data);
@@ -3255,13 +3269,22 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
             });
         }
     };
-}); 
+    
+    $scope.appendFields = function(noOfChild) {
+        angular.element("#children").html('');
+        for (i = 1; i <= noOfChild; i++) {
+            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployeeForm.child' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployeeForm.child' + i + 'Dob"/></div>';
+            var childDivComplied = $compile(childDiv)($scope);
+            angular.element("#children").append(childDivComplied);
+        }
+    };
+});
 
-app.controller("editEmployeeController", function($scope, $http, $cookieStore, $state, $stateParams, $filter) {
+app.controller("editEmployeeController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Edit Employee";
     $scope.editEmployeeBtn = true;
     $scope.employeeId = $stateParams.employeeId;
-    
+
     ($scope.getEmployeeDetail = function() {
         angular.element(".loader").show();
         $http({
@@ -3274,14 +3297,15 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             }
         }).success(function(data) {
             console.log(data);
+
             $scope.addEmployee = {
                 employeeFirstName: data.user_first_name,
                 employeeMiddleName: data.user_middle_name,
                 employeeLastName: data.user_last_name,
                 employeeMobileNumber: parseInt(data.user_mobile_no),
                 employeeAddress: data.user_address,
-                employeeDob: $filter('date')(data.user_dob, 'yyyy-MM-dd'),
-                employeeDoj: $filter('date')(data.user_doj, 'yyyy-MM-dd'),
+                employeeDob: (data.user_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.user_dob, 'yyyy-MM-dd'),
+                employeeDoj: (data.user_doj == '0001-01-01T00:00:00') ? '' : $filter('date')(data.user_doj, 'yyyy-MM-dd'),
                 employeeEmail: data.user_email_address,
                 employeePassword: data.user_password,
                 employeeAadharNumber: parseInt(data.Emp_aadhar),
@@ -3290,20 +3314,35 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                 employeeNetSalary: data.Emp_netSallary,
                 employeeDesignation: data.Emp_desig,
                 employeeBankName: data.Emp_BankName,
-                employeeBankBranch : data.Emp_BankBranch,
-                employeeBankAccountNo : data.Emp_bankaccno,
+                employeeBankBranch: data.Emp_BankBranch,
+                employeeBankAccountNo: data.Emp_bankaccno,
                 employeeBankAddress: data.Emp_bankadd,
                 employeeBankEmailId: data.Emp_bankemailid,
                 employeeBankIfscCode: data.Emp_bankifsccode,
                 employeeAlternateNumber1: parseInt(data.Emp_alt_contactno),
-                employeeAlternateEmail: data.Emp_off_email
+                employeeAlternateEmail: data.Emp_off_email,
+                employeeHobbies: data.Emp_Hobbies,
+                employeeReference1Address: data.Emp_Reference1Address,
+                employeeReference1ContactNumber: data.Emp_Reference1ContactNumber,
+                employeeReference1Email: data.Emp_Reference1EmailID,
+                employeeReference1Name: data.Emp_Reference1Name,
+                employeeReference2Address: data.Emp_Reference2Address,
+                employeeReference2ContactNumber: data.Emp_Reference2ContactNumber,
+                employeeReference2Email: data.Emp_Reference2EmailID,
+                employeeReference2Name: data.Emp_Reference2Name,
+                employeeSourceOfRecruit: data.Emp_SourceofRecruitment,
+                employeeSpouseAadhar: parseInt(data.Emp_spouse_aadhar),
+                employeeSpouseDob: (data.Emp_spouse_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.Emp_spouse_dob, 'yyyy-MM-dd'),
+                employeeSpouseName: data.Emp_spouse_nm,
+                employeeSpousePan: data.Emp_spouse_pan,
+                employeeChildrenNo: data.Emp_noof_childrn
             };
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.editEmployee = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -3337,7 +3376,21 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                     "Emp_bankemailid": formObj.employeeBankEmailId,
                     "Emp_bankifsccode": formObj.employeeBankIfscCode,
                     "Emp_alt_contactno": formObj.employeeAlternateNumber1,
-                    "Emp_off_email" : formObj.employeeAlternateEmail
+                    "Emp_off_email": formObj.employeeAlternateEmail,
+                    "Emp_Hobbies": formObj.employeeHobbies,
+                    "Emp_Reference1Address": formObj.employeeReference1Address,
+                    "Emp_Reference1ContactNumber": formObj.employeeReference1ContactNumber,
+                    "Emp_Reference1EmailID": formObj.employeeReference1Email,
+                    "Emp_Reference1Name": formObj.employeeReference1Name,
+                    "Emp_Reference2Address": formObj.employeeReference2Address,
+                    "Emp_Reference2ContactNumber": formObj.employeeReference2ContactNumber,
+                    "Emp_Reference2EmailID": formObj.employeeReference2Email,
+                    "Emp_Reference2Name": formObj.employeeReference2Name,
+                    "Emp_SourceofRecruitment": formObj.employeeSourceOfRecruit,
+                    "Emp_spouse_aadhar": formObj.employeeSpouseAadhar,
+                    "Emp_spouse_dob": formObj.employeeSpouseDob,
+                    "Emp_spouse_nm": formObj.employeeSpouseName,
+                    "Emp_spouse_pan": formObj.employeeSpousePan
                 }
             }).success(function(data) {
                 console.log(data);
@@ -3348,4 +3401,13 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             });
         }
     };
-}); 
+    
+    $scope.appendFields = function(noOfChild) {
+        angular.element("#children").html('');
+        for (i = 1; i <= noOfChild; i++) {
+            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployeeForm.child' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployeeForm.child' + i + 'Dob"/></div>';
+            var childDivComplied = $compile(childDiv)($scope);
+            angular.element("#children").append(childDivComplied);
+        }
+    };
+});

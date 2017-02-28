@@ -19,7 +19,7 @@
       <div>
          <input type="text" placeholder="Employee Last Name*" class="form-control" name="employeeLastName" ng-model="addEmployee.employeeLastName" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeLastName.$error.required &amp;&amp; submit}"/>
       </div>
-       <div>
+      <div>
          <input type="text" placeholder="Email *" class="form-control"  name="employeeEmail" ng-model="addEmployee.employeeEmail" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeEmail.$error.required &amp;&amp; submit}"/>
       </div>
       <div>
@@ -40,8 +40,35 @@
       <div>
          <input type="text" placeholder="Date of Joining (YYYY-MM-DD) *" class="form-control"  name="employeeDoj" ng-model="addEmployee.employeeDoj" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeDoj.$error.required &amp;&amp; submit}"/>
       </div>
-       <div>
+      <div>
          <input type="text" placeholder="Alternate Email" class="form-control" name="employeeAlternateEmail" ng-model="addEmployee.employeeAlternateEmail"/>
+      </div>
+      <div>
+         <input type="text" placeholder="Hobbies *" class="form-control" name="employeeHobbies" ng-model="addEmployee.employeeHobbies" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeHobbies.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="text" placeholder="Reference 1 Name *" class="form-control" name="employeeReference1Name" ng-model="addEmployee.employeeReference1Name" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeReference1Name.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="text" placeholder="Reference 1 Contact Number *" class="form-control" name="employeeReference1ContactNumber" ng-model="addEmployee.employeeReference1ContactNumber" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeReference1ContactNumber.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="email" placeholder="Reference 1 Email Address *" class="form-control" name="employeeReference1Email" ng-model="addEmployee.employeeReference1Email" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeReference1Email.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="text" placeholder="Reference 1 Address *" class="form-control" name="employeeReference1Address" ng-model="addEmployee.employeeReference1Address" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeReference1Address.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="text" placeholder="Spouse Name *" class="form-control" name="employeeSpouseName" ng-model="addEmployee.employeeSpouseName" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeSpouseName.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="text" placeholder="Spouse D.O.B. (YYYY-MM-DD) *" class="form-control" name="employeeSpouseDob" ng-model="addEmployee.employeeSpouseDob" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeSpouseDob.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="number" placeholder="Spouse Aadhar *" class="form-control" name="employeeSpouseAadhar" ng-model="addEmployee.employeeSpouseAadhar" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeSpouseAadhar.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="text" placeholder="Spouse Pan *" class="form-control" name="employeeSpousePan" ng-model="addEmployee.employeeSpousePan" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeSpousePan.$error.required &amp;&amp; submit}"/>
       </div>
    </div>
    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form">
@@ -91,6 +118,41 @@
       <div>
          <input type="text" placeholder="Bank Ifsc Code *" class="form-control" name="employeeBankIfscCode" ng-model="addEmployee.employeeBankIfscCode" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeBankIfscCode.$error.required &amp;&amp; submit}"/>
       </div>
+      <div>
+         <input type="text" placeholder="Reference 2 Name *" class="form-control" name="employeeReference2Name" ng-model="addEmployee.employeeReference2Name" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeReference2Name.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="text" placeholder="Reference 2 Contact Number *" class="form-control" name="employeeReference2ContactNumber" ng-model="addEmployee.employeeReference2ContactNumber" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeReference2ContactNumber.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="email" placeholder="Reference 2 Email Address *" class="form-control" name="employeeReference2Email" ng-model="addEmployee.employeeReference2Email" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeReference2Email.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="text" placeholder="Reference 2 Address *" class="form-control" name="employeeReference2Address" ng-model="addEmployee.employeeReference2Address" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeReference2Address.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div>
+         <input type="text" placeholder="Source Of Recruitment *" class="form-control" name="employeeSourceOfRecruit" ng-model="addEmployee.employeeSourceOfRecruit" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeSourceOfRecruit.$error.required &amp;&amp; submit}"/>
+      </div>
+       <div>
+            <select class="form-control" name="childrenNo" ng-model="addEmployeeForm.employeeChildrenNo" title="No. of Children" ng-change="appendFields(addEmployeeForm.employeeChildrenNo)" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeChildrenNo.$error.required &amp;&amp; submit}">
+                <option value="">
+                    No. of Children
+                </option>
+                <option value="1">
+                    1
+                </option>
+                <option value="2">
+                    2
+                </option>
+                <option value="3">
+                    3
+                </option>
+                <option value="4">
+                    4
+                </option>
+            </select>
+        </div>
+		<div id="children"></div>
    </div>
    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
       <button type="button" class="btn btn-success" ng-click="addEmployee(addEmployee,'addEmployeeForm')" ng-show="addEmployeeBtn">Save Employee</button>
