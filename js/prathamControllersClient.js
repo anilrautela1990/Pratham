@@ -3510,10 +3510,24 @@ app.controller("salaryComponentDetailsController", function($scope, $http, $cook
 app.controller("addSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Add Salary Component";
     $scope.addSalaryComponentBtn = true;
+    
+    $scope.addSalaryComponent = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            console.log(formObj);
+        }
+    };
 });
 
 app.controller("editSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Edit Salary Component";
     $scope.editSalaryComponentBtn = true;
     $scope.salaryHeadId = $stateParams.salaryHeadId;
+    
+    $scope.editSalaryComponent = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            console.log(formObj);
+        }
+    };
 });
