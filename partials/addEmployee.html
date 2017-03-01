@@ -134,7 +134,7 @@
          <input type="text" placeholder="Source Of Recruitment *" class="form-control" name="employeeSourceOfRecruit" ng-model="addEmployee.employeeSourceOfRecruit" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeSourceOfRecruit.$error.required &amp;&amp; submit}"/>
       </div>
        <div>
-            <select class="form-control" name="childrenNo" ng-model="addEmployeeForm.employeeChildrenNo" title="No. of Children" ng-change="appendFields(addEmployeeForm.employeeChildrenNo)" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeChildrenNo.$error.required &amp;&amp; submit}">
+            <select class="form-control" name="employeeChildrenNo" ng-model="addEmployee.employeeChildrenNo" title="No. of Children" ng-change="appendFields(addEmployee.employeeChildrenNo)" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeChildrenNo.$error.required &amp;&amp; submit}">
                 <option value="">
                     No. of Children
                 </option>

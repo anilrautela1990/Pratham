@@ -3258,7 +3258,16 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
                     "Emp_spouse_aadhar": formObj.employeeSpouseAadhar,
                     "Emp_spouse_dob": formObj.employeeSpouseDob,
                     "Emp_spouse_nm": formObj.employeeSpouseName,
-                    "Emp_spouse_pan": formObj.employeeSpousePan
+                    "Emp_spouse_pan": formObj.employeeSpousePan,
+                    "Emp_child1_dob": formObj.employeeChild1Dob,
+                    "Emp_child1_nm": formObj.employeeChild1Name,
+                    "Emp_child2_dob": formObj.employeeChild2Dob,
+                    "Emp_child2_nm": formObj.employeeChild2Name,
+                    "Emp_child3_dob": formObj.employeeChild3Dob,
+                    "Emp_child3_nm": formObj.employeeChild3Name,
+                    "Emp_child4_dob": formObj.employeeChild4Dob,
+                    "Emp_child4_nm": formObj.employeeChild4Name,
+                    "Emp_noof_childrn": formObj.employeeChildrenNo
                 }
             }).success(function(data) {
                 console.log(data);
@@ -3273,7 +3282,7 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
     $scope.appendFields = function(noOfChild) {
         angular.element("#children").html('');
         for (i = 1; i <= noOfChild; i++) {
-            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployeeForm.child' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployeeForm.child' + i + 'Dob"/></div>';
+            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployee.employeeChild' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployee.employeeChild' + i + 'Dob"/></div>';
             var childDivComplied = $compile(childDiv)($scope);
             angular.element("#children").append(childDivComplied);
         }
@@ -3297,15 +3306,24 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             }
         }).success(function(data) {
             console.log(data);
-
+            
+            var dateArray = [];
+            dateArray.push((data.user_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.user_dob, 'yyyy-MM-dd'));
+            dateArray.push((data.user_doj == '0001-01-01T00:00:00') ? '' : $filter('date')(data.user_doj, 'yyyy-MM-dd'));
+            dateArray.push((data.Emp_spouse_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.Emp_spouse_dob, 'yyyy-MM-dd'));
+            dateArray.push((data.Emp_child1_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.Emp_child1_dob, 'yyyy-MM-dd'));
+            dateArray.push((data.Emp_child2_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.Emp_child2_dob, 'yyyy-MM-dd'));
+            dateArray.push((data.Emp_child3_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.Emp_child3_dob, 'yyyy-MM-dd'));
+            dateArray.push((data.Emp_child4_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.Emp_child4_dob, 'yyyy-MM-dd'));
+            
             $scope.addEmployee = {
                 employeeFirstName: data.user_first_name,
                 employeeMiddleName: data.user_middle_name,
                 employeeLastName: data.user_last_name,
                 employeeMobileNumber: parseInt(data.user_mobile_no),
                 employeeAddress: data.user_address,
-                employeeDob: (data.user_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.user_dob, 'yyyy-MM-dd'),
-                employeeDoj: (data.user_doj == '0001-01-01T00:00:00') ? '' : $filter('date')(data.user_doj, 'yyyy-MM-dd'),
+                employeeDob: dateArray[0],
+                employeeDoj: dateArray[1],
                 employeeEmail: data.user_email_address,
                 employeePassword: data.user_password,
                 employeeAadharNumber: parseInt(data.Emp_aadhar),
@@ -3332,11 +3350,20 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                 employeeReference2Name: data.Emp_Reference2Name,
                 employeeSourceOfRecruit: data.Emp_SourceofRecruitment,
                 employeeSpouseAadhar: parseInt(data.Emp_spouse_aadhar),
-                employeeSpouseDob: (data.Emp_spouse_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.Emp_spouse_dob, 'yyyy-MM-dd'),
+                employeeSpouseDob: dateArray[2],
                 employeeSpouseName: data.Emp_spouse_nm,
                 employeeSpousePan: data.Emp_spouse_pan,
+                employeeChild1Dob: dateArray[3],
+                employeeChild1Name: data.Emp_child1_nm,
+                employeeChild2Dob: dateArray[4],
+                employeeChild2Name: data.Emp_child2_nm,
+                employeeChild3Dob: dateArray[5],
+                employeeChild3Name: data.Emp_child3_nm,
+                employeeChild4Dob: dateArray[6],
+                employeeChild4Name: data.Emp_child4_nm,
                 employeeChildrenNo: data.Emp_noof_childrn
             };
+            appendFields(data.Emp_noof_childrn);
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
@@ -3390,7 +3417,16 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                     "Emp_spouse_aadhar": formObj.employeeSpouseAadhar,
                     "Emp_spouse_dob": formObj.employeeSpouseDob,
                     "Emp_spouse_nm": formObj.employeeSpouseName,
-                    "Emp_spouse_pan": formObj.employeeSpousePan
+                    "Emp_spouse_pan": formObj.employeeSpousePan,
+                    "Emp_child1_dob": formObj.employeeChild1Dob,
+                    "Emp_child1_nm": formObj.employeeChild1Name,
+                    "Emp_child2_dob": formObj.employeeChild2Dob,
+                    "Emp_child2_nm": formObj.employeeChild2Name,
+                    "Emp_child3_dob": formObj.employeeChild3Dob,
+                    "Emp_child3_nm": formObj.employeeChild3Name,
+                    "Emp_child4_dob": formObj.employeeChild4Dob,
+                    "Emp_child4_nm": formObj.employeeChild4Name,
+                    "Emp_noof_childrn": formObj.employeeChildrenNo
                 }
             }).success(function(data) {
                 console.log(data);
@@ -3405,7 +3441,16 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
     $scope.appendFields = function(noOfChild) {
         angular.element("#children").html('');
         for (i = 1; i <= noOfChild; i++) {
-            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployeeForm.child' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployeeForm.child' + i + 'Dob"/></div>';
+            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployee.employeeChild' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployee.employeeChild' + i + 'Dob"/></div>';
+            var childDivComplied = $compile(childDiv)($scope);
+            angular.element("#children").append(childDivComplied);
+        }
+    };
+    
+    function appendFields(noOfChild) {
+        angular.element("#children").html('');
+        for (i = 1; i <= noOfChild; i++) {
+            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployee.employeeChild' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployee.employeeChild' + i + 'Dob"/></div>';
             var childDivComplied = $compile(childDiv)($scope);
             angular.element("#children").append(childDivComplied);
         }
