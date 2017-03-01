@@ -3486,3 +3486,6 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
         }
     };
 });
+
+app.controller("salaryHeadDetailsController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+});
