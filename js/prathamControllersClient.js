@@ -3221,13 +3221,12 @@ app.controller("heirarchyController", function($scope, $http, $cookieStore, $sta
         }).success(function(data) {
             angular.element(".loader").hide();
             $scope.dept_heirarchy = data[0]; 
-            $scope.dept_heirarchy.title="Test Manager";
             var datasource= $scope.dept_heirarchy;
     
             $('#chart-container').orgchart({
               'data' : datasource,
-              'depth': 999,
-              'nodeContent': 'dept_name',
+              'depth': 999,          
+              'nodeContent': 'dept_head_name',
               'nodeId': 'dept_id'
             });
 

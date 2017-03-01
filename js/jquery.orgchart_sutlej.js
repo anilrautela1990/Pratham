@@ -25,7 +25,7 @@
     var defaultOptions = {
       'nodeTitle': 'dept_name',
       'nodeId': 'dept_id',
-      'nemps':'dept_emp',
+      'nodeContent':'dept_head_name',
       'toggleSiblingsResp': false,
       'depth': 999,
       'chartClass': '',
@@ -618,7 +618,7 @@
     var $nodeDiv = $('<div' + (opts.draggable ? ' draggable="true"' : '') + (nodeData[opts.nodeId] ? ' id="' + nodeData[opts.nodeId] + '"' : '') + (nodeData.parentId ? ' data-parent="' + nodeData.parentId + '"' : '') + '>')
       .addClass('node ' + (nodeData.className || '') +  (level >= opts.depth ? ' slide-up' : ''))
       .append('<div class="title">' + nodeData[opts.nodeTitle] + '</div>')
-      .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + (nodeData[opts.nemps] || '') + '</div>' : '')
+      .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + (nodeData[opts.nodeContent] || '') + '</div>' : '')
       ;
     // append 4 direction arrows or expand/collapse buttons
     var flags = nodeData.relationship || '';
