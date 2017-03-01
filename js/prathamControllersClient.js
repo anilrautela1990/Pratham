@@ -3487,9 +3487,9 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
     };
 });
 
-app.controller("salaryHeadDetailsController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+app.controller("salaryComponentDetailsController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     
-    ($scope.getSalaryHeadDetails = function() {
+    ($scope.getSalaryComponentDetails = function() {
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -3500,20 +3500,20 @@ app.controller("salaryHeadDetailsController", function($scope, $http, $cookieSto
             }
         }).success(function(data) {
             angular.element(".loader").hide();
-            $scope.salaryHeadDetails = data;
+            $scope.salaryComponentDetails = data;
         }).error(function() {
             angular.element(".loader").hide();
         });
     })();
 });
 
-app.controller("addSalaryHeadController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
-    $scope.pageTitle = "Add Salary Head";
-    $scope.addSalaryHeadBtn = true;
+app.controller("addSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+    $scope.pageTitle = "Add Salary Component";
+    $scope.addSalaryComponentBtn = true;
 });
 
-app.controller("editSalaryHeadController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
-    $scope.pageTitle = "Edit Salary Head";
-    $scope.editSalaryHeadBtn = true;
+app.controller("editSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+    $scope.pageTitle = "Edit Salary Component";
+    $scope.editSalaryComponentBtn = true;
     $scope.salaryHeadId = $stateParams.salaryHeadId;
 });
