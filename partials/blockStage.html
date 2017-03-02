@@ -8,6 +8,8 @@
       <li class="active">Stage / Status</li>
    </ol>
 </div>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 marginBottom20">
+   <form class="form">
 <div>
    <select ng-model="projectDetails.projectName" name="projectName" class="form-control" ng-change="phaseListFun(projectDetails.projectName)" autofocus="true">
       <option value="">
@@ -41,9 +43,12 @@
       </option>
    </select>
 </div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20">
-   <button type="button" class="btn btn-primary" ng-click="addStatusChange(projectDetails.blocks)">Add Stages</button>
+    <div class="marginTop20 text-right">
+        <button type="button" class="btn btn-primary" ng-click="addStatusChange(projectDetails.blocks)">Add Stages</button>
+       </div>
+    </form>
 </div>
+<!--
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
    <table class="table dataTable">
       <thead>
@@ -64,6 +69,14 @@
          </tr>
       </tbody>
    </table>
+</div>
+-->
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="stageBox status{{x.blocksatgeCompleted}}" ng-repeat="x in blockStageList track by $index">
+        <div class="name">
+            {{x.blockstageName}} <span class="glyphicon glyphicon-pencil icon" ng-click="editStatusChange(x.blockstageId, x.blockstageBlockId)"></span>
+        </div>
+    </div>
 </div>
 <script type="text/ng-template" id="blockStatusChange.html">
    <div class="modal-header">

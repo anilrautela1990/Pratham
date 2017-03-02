@@ -401,7 +401,7 @@ input[disabled]{
     color: #999;
 }
 .inputWithIcon{
-    width: 96%;
+    width: 95%;
     display: inline-block;
     margin: 0px 5px 5px 0px;
 }
@@ -594,4 +594,22 @@ color: #FFF;
 .steps > div.step.done{
 background-color: green;
 color: #FFF;
+}
+.stageBox{
+    float: left;
+    margin: 0px 10px 10px 0;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+}
+.stageBox > .name > span.icon{
+ cursor: pointer;
+    margin-left: 10px;
+}
+.stageBox.status1{
+    background-color: green;
+}
+.stageBox.status0{
+    background-color: grey;
 }
