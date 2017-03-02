@@ -74,7 +74,9 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="stageBox status{{x.blocksatgeCompleted}}" ng-repeat="x in blockStageList track by $index">
         <div class="name">
-            {{x.blockstageName}} <span class="glyphicon glyphicon-pencil icon" ng-click="editStatusChange(x.blockstageId, x.blockstageBlockId)"></span>
+            {{x.blockstageName}}
+            <span class="glyphicon glyphicon-ok marginLeft10" ng-show="x.blocksatgeCompleted == 1"></span>
+            <span class="glyphicon glyphicon-pencil icon" ng-click="editStatusChange(x.blockstageId, x.blockstageBlockId)"></span>
         </div>
     </div>
 </div>

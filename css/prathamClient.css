@@ -112,6 +112,9 @@ input.search{
 .marginRight10{
 	margin-right: 10px;
 }
+.marginLeft10{
+	margin-left: 10px;
+}
 .marginRight5{
 	margin-right: 5px;
 }
@@ -141,6 +144,7 @@ input.search{
 }
 .pageContent{
 	padding: 0;
+    margin-bottom: 50px;
 }
 .bgBlue{
 	border: 1px solid #3dc4f5;
@@ -596,20 +600,21 @@ background-color: green;
 color: #FFF;
 }
 .stageBox{
-    float: left;
+/*    float: left;*/
     margin: 0px 10px 10px 0;
-    padding: 10px;
-    text-align: center;
+    padding: 15px;
+/*    text-align: center;*/
     border-radius: 5px;
     color: #fff;
 }
 .stageBox > .name > span.icon{
  cursor: pointer;
-    margin-left: 10px;
+/*    margin-left: 10px;*/
+    float: right;
 }
 .stageBox.status1{
     background-color: green;
 }
 .stageBox.status0{
-    background-color: grey;
+    background-color: #999;
 }
