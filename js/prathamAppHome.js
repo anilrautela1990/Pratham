@@ -147,11 +147,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/addEmployee.html',
             controller: 'editEmployeeController'
         })
-    
-      .state('/Heirarchy', {
+       .state('/Heirarchy', {
             url: '/Heirarchy',
             templateUrl: 'partials/Heirarchy.html',
             controller: 'heirarchyController'
+        })
+        .state('/SalaryComponentDetails', {
+            url: '/SalaryComponentDetails',
+            templateUrl: 'partials/salaryComponentDetails.html',
+            controller: 'salaryComponentDetailsController'
+        })
+        .state('/AddSalaryComponent', {
+            url: '/AddSalaryComponent',
+            templateUrl: 'partials/addSalaryComponent.html',
+            controller: 'addSalaryComponentController'
+        })
+        .state('/EditSalaryComponent', {
+            url: '/EditSalaryComponent/:salaryHeadId',
+            templateUrl: 'partials/addSalaryComponent.html',
+            controller: 'editSalaryComponentController'
         })
 });
 app.config(function($httpProvider) {

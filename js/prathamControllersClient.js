@@ -3485,3 +3485,48 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
         }
     };
 });
+
+app.controller("salaryComponentDetailsController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+    
+    ($scope.getSalaryComponentDetails = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/SalaryHeadsGet",
+            ContentType: 'application/json',
+            data: {
+                "SalHeads_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.salaryComponentDetails = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+});
+
+app.controller("addSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+    $scope.pageTitle = "Add Salary Component";
+    $scope.addSalaryComponentBtn = true;
+    
+    $scope.addSalaryComponent = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            console.log(formObj);
+        }
+    };
+});
+
+app.controller("editSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+    $scope.pageTitle = "Edit Salary Component";
+    $scope.editSalaryComponentBtn = true;
+    $scope.salaryHeadId = $stateParams.salaryHeadId;
+    
+    $scope.editSalaryComponent = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            console.log(formObj);
+        }
+    };
+});
