@@ -3555,7 +3555,7 @@ app.controller("addSalaryComponentController", function($scope, $http, $cookieSt
                     "SalHead_CalTyp" : formObj.salaryCalculationType,
                     "SalHead_CalTypVal" : formObj.salaryCalculationValue,
                     "SalHead_PrtofCTC" : formObj.salaryPartOfCtc,
-                    "SalHead_VarFxd":formObj.salaryComponentName,
+                    "SalHead_VarFxd":formObj.salaryComponentType,
                     "SalHead_Code": formObj.salaryAbbreviation
                 }
             }).success(function(data) {
@@ -3627,7 +3627,7 @@ app.controller("editSalaryComponentController", function($scope, $http, $cookieS
                     "SalHead_CalTyp" : formObj.salaryCalculationType,
                     "SalHead_CalTypVal" : formObj.salaryCalculationValue,
                     "SalHead_PrtofCTC" : formObj.salaryPartOfCtc,
-                    "SalHead_VarFxd":formObj.salaryComponentName,
+                    "SalHead_VarFxd":formObj.salaryComponentType,
                     "SalHead_Code": formObj.salaryAbbreviation
                 }
             }).success(function(data) {
