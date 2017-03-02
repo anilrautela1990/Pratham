@@ -18,6 +18,7 @@
             <th>#</th>
             <th>Salary Head Name</th>
             <th>Salary Head Code</th>
+            <th>Salary Calculation Value</th>
             <th>Actions</th>
          </tr>
       </thead>
@@ -26,6 +27,7 @@
             <td>{{$index + 1}}</td>
             <td>{{x.SalHeads_Name}}</td>
             <td>{{x.SalHead_Code}}</td>
+            <td>{{x.SalHead_CalTypVal}}</td>
             <td><a ng-click="editSalaryComponent($index)"><span class="link">Edit</span></a></td>
          </tr>
       </tbody>
