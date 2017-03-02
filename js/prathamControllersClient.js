@@ -3486,7 +3486,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
     };
 });
 
-app.controller("salaryComponentDetailsController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+app.controller("salaryComponentDetailsController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $rootScope) {
     
     ($scope.getSalaryComponentDetails = function() {
         angular.element(".loader").show();
@@ -3499,14 +3499,42 @@ app.controller("salaryComponentDetailsController", function($scope, $http, $cook
             }
         }).success(function(data) {
             angular.element(".loader").hide();
-            $scope.salaryComponentDetails = data;
+            $rootScope.salaryComponentDetails = data;
         }).error(function() {
             angular.element(".loader").hide();
         });
     })();
+    
+    $scope.editSalaryComponent = function(selectedItem) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'addSalaryComponent.html',
+            controller: 'editSalaryComponentController',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return $scope.salaryComponentDetails[selectedItem];
+                }
+            }
+        });
+    };
+    
+    $scope.addSalaryComponent = function() {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'addSalaryComponent.html',
+            controller: 'addSalaryComponentController',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return 0;
+                }
+            }
+        });
+    };
 });
 
-app.controller("addSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+app.controller("addSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModalInstance, $rootScope, item) {
     $scope.pageTitle = "Add Salary Component";
     $scope.addSalaryComponentBtn = true;
     
@@ -3514,19 +3542,123 @@ app.controller("addSalaryComponentController", function($scope, $http, $cookieSt
         $scope.submit = true;
         if ($scope[formName].$valid) {
             console.log(formObj);
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/SalaryHeadsInsert",
+                ContentType: 'application/json',
+                data: {
+                    "SalHeads_comp_guid" : $cookieStore.get('comp_guid'),
+                    "SalHeads_Name" : formObj.salaryComponentName,
+                    "SalHead_Paytyp" : formObj.salaryPayType,
+                    "SalHead_TxSts" : formObj.salaryTaxStatus,
+                    "SalHead_CalTyp" : formObj.salaryCalculationType,
+                    "SalHead_CalTypVal" : formObj.salaryCalculationValue,
+                    "SalHead_PrtofCTC" : formObj.salaryPartOfCtc,
+                    "SalHead_VarFxd":formObj.salaryComponentName,
+                    "SalHead_Code": formObj.salaryAbbreviation
+                }
+            }).success(function(data) {
+                angular.element(".loader").hide();
+                $uibModalInstance.close();
+                getSalaryComponentDetails();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
         }
+    };
+    
+    function getSalaryComponentDetails() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/SalaryHeadsGet",
+            ContentType: 'application/json',
+            data: {
+                "SalHeads_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            console.log(data);
+            angular.element(".loader").hide();
+            $rootScope.salaryComponentDetails = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    
+    $scope.ok = function() {
+        $uibModalInstance.close();
     };
 });
 
-app.controller("editSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+app.controller("editSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModalInstance, $rootScope, item) {
     $scope.pageTitle = "Edit Salary Component";
     $scope.editSalaryComponentBtn = true;
-    $scope.salaryHeadId = $stateParams.salaryHeadId;
+    
+    ($scope.getSalaryComponentDetails = function() {
+        console.log(item);
+        $scope.addSalaryComponent = {
+            salaryComponentName: item.SalHeads_Name,
+            salaryAbbreviation: item.SalHead_Code,
+            salaryPayType: item.SalHead_Paytyp+'',
+            salaryTaxStatus: item.SalHead_TxSts,
+            salaryCalculationType: item.SalHead_CalTyp+'',
+            salaryCalculationValue: item.SalHead_CalTypVal,
+            salaryPartOfCtc: item.SalHead_PrtofCTC,
+            salaryComponentType: item.SalHead_VarFxd
+        };
+    })();
     
     $scope.editSalaryComponent = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
             console.log(formObj);
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/SalaryHeadsUpdate",
+                ContentType: 'application/json',
+                data: {
+                    "SalHeads_Id":item.SalHeads_Id,
+                    "SalHeads_comp_guid" : $cookieStore.get('comp_guid'),
+                    "SalHeads_Name" : formObj.salaryComponentName,
+                    "SalHead_Paytyp" : formObj.salaryPayType,
+                    "SalHead_TxSts" : formObj.salaryTaxStatus,
+                    "SalHead_CalTyp" : formObj.salaryCalculationType,
+                    "SalHead_CalTypVal" : formObj.salaryCalculationValue,
+                    "SalHead_PrtofCTC" : formObj.salaryPartOfCtc,
+                    "SalHead_VarFxd":formObj.salaryComponentName,
+                    "SalHead_Code": formObj.salaryAbbreviation
+                }
+            }).success(function(data) {
+                angular.element(".loader").hide();
+                $uibModalInstance.close();
+                getSalaryComponentDetails();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
         }
+    };
+    
+    function getSalaryComponentDetails() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/SalaryHeadsGet",
+            ContentType: 'application/json',
+            data: {
+                "SalHeads_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            console.log(data);
+            angular.element(".loader").hide();
+            $rootScope.salaryComponentDetails = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    
+    $scope.ok = function() {
+        $uibModalInstance.close();
     };
 });
