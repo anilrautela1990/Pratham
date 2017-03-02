@@ -3662,3 +3662,6 @@ app.controller("editSalaryComponentController", function($scope, $http, $cookieS
         $uibModalInstance.close();
     };
 });
+
+app.controller("addDepartmentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+});
