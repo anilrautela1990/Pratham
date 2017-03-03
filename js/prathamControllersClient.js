@@ -1910,7 +1910,6 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
     
     $scope.SubmitRoleaccrgts = function(formObj, formName) {
         $scope.submit = true;
-        console.log(formObj);
         var rolesRightDataArray = [];
         for(var i = 0; i < formObj.length; i++){
             var rolesAccesRgt = {};
@@ -1924,9 +1923,8 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
             
             rolesRightDataArray.push(rolesAccesRgt);
         }
-        console.log(rolesRightDataArray);
         
-        if ($scope[formName].$valid && false) {
+        if ($scope[formName].$valid) {
             $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/User/SaveRoleaccrgts",
