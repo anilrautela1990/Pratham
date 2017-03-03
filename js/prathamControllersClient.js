@@ -1840,7 +1840,48 @@ app.controller("customerController", function($scope, $http, $cookieStore, $stat
 
 app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
     $scope.pageTitle = "Access Rights";
-    $scope.getRoleaccrgts = function(roleId) {
+    $scope.currentRoleId = 0;
+    
+    ($scope.getRolesList = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/RoleGet",
+            ContentType: 'application/json',
+            data: {
+                "role_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.rolesList = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
+    $scope.getModulesList = function(roleId) {
+        if(roleId != undefined && roleId != ''){
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/ModulesGet",
+                ContentType: 'application/json',
+                data: {
+                }
+            }).success(function(data) {
+                $scope.currentRoleId = roleId;
+                angular.element(".loader").hide();
+                $scope.modulesList = data;
+                getRoleaccrgts(roleId);
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        } else {
+            $scope.modulesList = [];
+        }
+    };
+    
+    function getRoleaccrgts(roleId) {
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/User/Roleaccrgts",
@@ -1852,15 +1893,41 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
         }).success(function(data) {
             console.log(data);
             angular.element(".loader").hide();
-            $scope.Roleaccrgts = data;
-            $scope.Roleaccrgts.ProjectAdd = true;
+            $scope.Roleaccrgts = [];
+            for(var i = 0; i < data.length; i++){
+                var rolesAccesRgt = {};
+                rolesAccesRgt.Add = data[i].RoleAccRgts_Add;
+                rolesAccesRgt.View = data[i].RoleAccRgts_View;
+                rolesAccesRgt.Edit = data[i].RoleAccRgts_Edit;
+                rolesAccesRgt.Delete = data[i].RoleAccRgts_Del;
+                $scope.Roleaccrgts.push(rolesAccesRgt);
+            }
+            console.log($scope.Roleaccrgts);
+            /*$scope.Roleaccrgts = data;
+            $scope.Roleaccrgts.ProjectAdd = true;*/
         }).error(function() {
             angular.element(".loader").hide();
         });
     };
+    
     $scope.SubmitRoleaccrgts = function(formObj, formName) {
         $scope.submit = true;
-        if ($scope[formName].$valid) {
+        
+        var rolesRightDataArray = [];
+        for(var i = 0; i < formObj.length; i++){
+            var rolesAccesRgt = {};
+            rolesAccesRgt.RoleAccRgts_compguid = $cookieStore.get('comp_guid');
+            rolesAccesRgt.RoleAccRgts_RoleId = $scope.currentRoleId;
+            rolesAccesRgt.RoleAccRgts_ModuleId = formObj[i].RoleAccRgts_Edit;
+            rolesAccesRgt.RoleAccRgts_Add = formObj[i].Add;
+            rolesAccesRgt.RoleAccRgts_View = formObj[i].View;
+            rolesAccesRgt.RoleAccRgts_Edit = formObj[i].Edit;
+            rolesAccesRgt.RoleAccRgts_Del = formObj[i].Delete;
+            
+            rolesRightDataArray.push(rolesAccesRgt);
+        }
+        
+        if ($scope[formName].$valid && false) {
             $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/User/SaveRoleaccrgts",
