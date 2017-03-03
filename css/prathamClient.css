@@ -618,3 +618,9 @@ color: #FFF;
 .stageBox.status0{
     background-color: #999;
 }
+a.link{
+	cursor: pointer;
+}
+.modal-title{
+	text-transform: capitalize;
+}

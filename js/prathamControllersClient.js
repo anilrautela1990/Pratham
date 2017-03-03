@@ -1920,7 +1920,6 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
             rolesAccesRgt.RoleAccRgts_View = formObj[i].View;
             rolesAccesRgt.RoleAccRgts_Edit = formObj[i].Edit;
             rolesAccesRgt.RoleAccRgts_Del = formObj[i].Delete;
-            
             rolesRightDataArray.push(rolesAccesRgt);
         }
         
@@ -2440,7 +2439,7 @@ app.controller("editUnit", function($scope, $http, $state, $cookieStore, $stateP
     };
 });
 
-app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $stateParams, $compile) {
+app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $stateParams, $compile, myService) {
     $scope.untDetails = [];
     $scope.projectId = $stateParams.projId;
     $scope.phaseId = $stateParams.phaseId;
@@ -2598,6 +2597,38 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                 });
             }
         }).error(function() {});
+    };
+	
+	$scope.checkBlockUnits = function(blockId) {
+		var compId = $cookieStore.get('comp_guid');
+        angular.element(".loader").show();
+        myService.getUnitsByBlock(compId, blockId).then(function(response) {
+            $scope.units = response.data[0];
+            $scope.UnitsArr = [];
+            for (i = 0; i < $scope.units.length; i++) {
+                var unitObj = {};
+                unitObj.UnitDtls_No = $scope.units[i].UnitDtls_No;
+                unitObj.UnitDtls_Name = $scope.units[i].UnitDtls_Name;
+                unitObj.UnitDtls_Type = $scope.units[i].UnitDtls_Type;
+                unitObj.UnitDtls_Rooms = $scope.units[i].UnitDtls_Rooms + "";
+                unitObj.UnitDtls_BRoom = $scope.units[i].UnitDtls_BRoom + "";
+                unitObj.UnitDtls_Balcn = $scope.units[i].UnitDtls_Balcn + "";
+                unitObj.UnitDtls_BuliltupArea = $scope.units[i].UnitDtls_BuliltupArea;
+                unitObj.UnitDtls_Msrmnt = $scope.units[i].UnitDtls_Msrmnt;
+                unitObj.UnitDtls_Premium = $scope.units[i].UnitDtls_Premium + "";
+                unitObj.UnitDtls_Directn = $scope.units[i].UnitDtls_Directn;
+                unitObj.UnitDtls_Floor = $scope.units[i].UnitDtls_Floor;
+                unitObj.UnitDtls_Id = $scope.units[i].UnitDtls_Id;
+                unitObj.UnitDtls_Cornerplot = 0;
+                unitObj.UnitDtls_EstMsrmnt = 0;
+                unitObj.UnitDtls_WstMsrmnt = 0;
+                unitObj.UnitDtls_NrtMsrmnt = 0;
+                unitObj.UnitDtls_SthMsrmnt = 0;
+                unitObj.UnitDtls_Status = $scope.units[i].UnitDtls_Status;
+                $scope.UnitsArr.push(unitObj);			
+            }			
+            angular.element(".loader").hide();
+        });
     };
 });
 app.controller("units", function($scope, $http, $state, $cookieStore, $stateParams, $compile, myService) {
@@ -2824,7 +2855,28 @@ app.controller("costSheetTemplates", function($scope, $http, $state, $cookieStor
             angular.element(".loader").hide();
         });
     })();
+	
+	$scope.showTemplateDetails = function(obj){
+		console.log(obj);
+		var modalInstance = $uibModal.open({
+            templateUrl: 'costSheetDetail.html',
+            controller: 'costSheetDetail',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return obj;
+                }
+            }
+        });
+	};
+});
 
+app.controller("costSheetDetail", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModalInstance, item) {
+	$scope.costSheetDetail = item;
+	$scope.ok = function() {
+        $uibModalInstance.close();
+    };
 });
 
 app.controller("blockStageController", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $rootScope, myService) {
