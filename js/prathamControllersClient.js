@@ -1860,6 +1860,7 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
     })();
     
     $scope.getModulesList = function(roleId) {
+        $scope.currentRoleId = roleId;
         if(roleId != undefined && roleId != ''){
             angular.element(".loader").show();
             $http({
@@ -1869,7 +1870,6 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
                 data: {
                 }
             }).success(function(data) {
-                $scope.currentRoleId = roleId;
                 angular.element(".loader").hide();
                 $scope.modulesList = data;
                 getRoleaccrgts(roleId);
@@ -1891,7 +1891,6 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
                 "RoleAccRgts_RoleId": roleId
             }
         }).success(function(data) {
-            console.log(data);
             angular.element(".loader").hide();
             $scope.Roleaccrgts = [];
             for(var i = 0; i < data.length; i++){
@@ -1902,26 +1901,54 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
                 rolesAccesRgt.Delete = data[i].RoleAccRgts_Del;
                 $scope.Roleaccrgts.push(rolesAccesRgt);
             }
-            console.log($scope.Roleaccrgts);
         }).error(function() {
             angular.element(".loader").hide();
         });
     };
     
+    function checkUndefined(checkBoxValue) {
+        if(checkBoxValue == undefined){
+            return 0;
+        } else {
+            return checkBoxValue;
+        }
+    };
+    
     $scope.SubmitRoleaccrgts = function(formObj, formName) {
+        
+        if($scope.currentRoleId == undefined || $scope.currentRoleId == ''){
+            alert("Please select any Role first.");
+            return false;
+        }
         $scope.submit = true;
+        
+        console.log($scope.modulesList);
+        console.log(formObj);
+        
         var rolesRightDataArray = [];
+        
         for(var i = 0; i < formObj.length; i++){
             var rolesAccesRgt = {};
             rolesAccesRgt.RoleAccRgts_compguid = $cookieStore.get('comp_guid');
             rolesAccesRgt.RoleAccRgts_RoleId = $scope.currentRoleId;
+            console.log($scope.modulesList[i]);
             rolesAccesRgt.RoleAccRgts_ModuleId = $scope.modulesList[i].module_id;
-            rolesAccesRgt.RoleAccRgts_Add = formObj[i].Add;
-            rolesAccesRgt.RoleAccRgts_View = formObj[i].View;
-            rolesAccesRgt.RoleAccRgts_Edit = formObj[i].Edit;
-            rolesAccesRgt.RoleAccRgts_Del = formObj[i].Delete;
+            if(formObj[i] != undefined){
+                rolesAccesRgt.RoleAccRgts_Add = checkUndefined(formObj[i].Add);
+                rolesAccesRgt.RoleAccRgts_View = checkUndefined(formObj[i].View);
+                rolesAccesRgt.RoleAccRgts_Edit = checkUndefined(formObj[i].Edit);
+                rolesAccesRgt.RoleAccRgts_Del = checkUndefined(formObj[i].Delete);
+            } else {
+                rolesAccesRgt.RoleAccRgts_Add = 0;
+                rolesAccesRgt.RoleAccRgts_View = 0;
+                rolesAccesRgt.RoleAccRgts_Edit = 0;
+                rolesAccesRgt.RoleAccRgts_Del = 0;
+            }
+            
             rolesRightDataArray.push(rolesAccesRgt);
         }
+        
+        console.log(rolesRightDataArray);
         
         if ($scope[formName].$valid) {
             $http({
