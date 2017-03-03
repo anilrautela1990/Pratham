@@ -1922,16 +1922,12 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
         }
         $scope.submit = true;
         
-        console.log($scope.modulesList);
-        console.log(formObj);
-        
         var rolesRightDataArray = [];
         
-        for(var i = 0; i < formObj.length; i++){
+        for(var i = 0; i < $scope.modulesList.length; i++){
             var rolesAccesRgt = {};
             rolesAccesRgt.RoleAccRgts_compguid = $cookieStore.get('comp_guid');
             rolesAccesRgt.RoleAccRgts_RoleId = $scope.currentRoleId;
-            console.log($scope.modulesList[i]);
             rolesAccesRgt.RoleAccRgts_ModuleId = $scope.modulesList[i].module_id;
             if(formObj[i] != undefined){
                 rolesAccesRgt.RoleAccRgts_Add = checkUndefined(formObj[i].Add);
