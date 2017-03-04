@@ -2761,7 +2761,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
     }
 });
 app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal) {
-    $scope.title = "Cost Sheet Template";
+    $scope.title = "Add Cost Sheet Template";
 
     $scope.costSheetTemplate = {
         Untctcm_Ascending: '',
@@ -2839,20 +2839,27 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
     };
 });
 app.controller("costComponentFormula", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, item) {
+	$scope.formula = {
+		brackets:'',
+		abbreviation:'',
+		operator:''
+	};
     $scope.formulaGen = "";
     $scope.fieldCount = item;
     var fieldName = "Untctcm_val_formula" + item;
     $scope.close = function() {
         $uibModalInstance.close();
     };
-    $scope.addFormula = function(formName, formObj) {
-        $scope.submit = true;
-        if ($scope[formName].$valid) {
-            var formula = formObj.abbreviation + formObj.operator + formObj.value
-            console.log(formula);
-            $scope.formulaGen = formula;
-            /*angular.element("#Untctcm_val_formula"+item).val(formula);*/
-        }
+    $scope.addFormula = function(formObj) {
+			var preVal = angular.element("#formulaGen").val();
+            var formula = formObj.brackets + formObj.abbreviation + formObj.operator;
+			var finalFormula = preVal+formula;
+            angular.element("#formulaGen").val(finalFormula);
+			$scope.formula = {
+				brackets:'',
+				abbreviation:'',
+				operator:''
+			};
     };
     $scope.saveFormula = function() {
         if ($scope.formulaGen != "") {
