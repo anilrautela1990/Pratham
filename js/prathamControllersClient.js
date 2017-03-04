@@ -2623,10 +2623,14 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
     };
 	
 	$scope.checkBlockUnits = function(blockId) {
+		if(blockId == undefined){
+			return;
+		}
 		var compId = $cookieStore.get('comp_guid');
         angular.element(".loader").show();
         myService.getUnitsByBlock(compId, blockId).then(function(response) {
             $scope.units = response.data[0];
+			$scope.blockFloorUnits = response.data[1].Blocks_UnitPerfloor;
             $scope.UnitsArr = [];
             for (i = 0; i < $scope.units.length; i++) {
                 var unitObj = {};
@@ -2650,6 +2654,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                 unitObj.UnitDtls_Status = $scope.units[i].UnitDtls_Status;
                 $scope.UnitsArr.push(unitObj);			
             }			
+			console.log($scope.UnitsArr);
             angular.element(".loader").hide();
         });
     };

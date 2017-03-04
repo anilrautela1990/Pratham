@@ -67,7 +67,7 @@
             </select>
          </div>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="UnitsArr.length == 1">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="blockFloorUnits == 0">
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left labelDiv">
             <label>No. of Floors:</label>
          </div>
@@ -75,7 +75,7 @@
             <input type="text" class="form-control" placeholder="No. of Floors" name="noOfFloors" ng-model="untGeneration.noOfFloors" ng-required="true" ng-class="{blankInput: untGenerationForm.noOfFloors.$error.required &amp;&amp; submit}">
          </div>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="UnitsArr.length == 1">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="blockFloorUnits == 0">
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left labelDiv">
             <label>Units Per Floor:</label>
          </div>
@@ -84,7 +84,7 @@
          </div>
       </div>
    </div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ugf" ng-show="UnitsArr.length == 1">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ugf" ng-show="blockFloorUnits == 0">
    <h4>Unit Generation Formula</h4>
    <label for="unitNo">Starting Unit No. (For Each Floor): </label>
    <input type="text" id="unitNo" name="unitNo" ng-model="untGeneration.unitNo" ng-required="true" ng-class="{blankInput: untGenerationForm.unitNo.$error.required &amp;&amp; submit}"> | 
@@ -99,13 +99,13 @@
    <label for="agf">Add Ground Floor:</label>
    <input type="checkbox" id="agf" ng-model="untGeneration.agf">
 </div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20" ng-show="UnitsArr.length == 1">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20" ng-show="blockFloorUnits == 0">
    <button type="button" class="btn btn-success" ng-click="addSampleData(untGeneration,'untGenerationForm')">
        Add Sample Units
    </button>
 </div>
 </form>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="UnitsArr.length == 1">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="blockFloorUnits == 0">
    <h4>Sample Units</h4>
 	<table class="sampleUnits">
 		<thead>
@@ -126,12 +126,12 @@
 		<tbody id="unitRows"></tbody>
 	</table>
 </div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20 ng-scope" ng-show="UnitsArr.length == 1">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20 ng-scope" ng-show="blockFloorUnits == 0">
    <button type="button" class="btn btn-primary" ng-click="generateForAllFloors('units',untDetails,untGeneration)">Generate for all floors from sample units</button>
 </div>
 
 <!-- Units display in a table if a block already has units -->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="UnitsArr.length > 1">   
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="blockFloorUnits > 0&& untGeneration.block != undefined">   
    <table class="sampleUnits">
       <thead>
          <tr>
