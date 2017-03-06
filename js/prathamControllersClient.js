@@ -2775,7 +2775,7 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
         if (increment >= 20) {
             return;
         }
-        var costComponentRow = '<tr> <td> <label>Code' + increment + '</label> </td> <td> <input type="text" class="form-control" name="Untctcm_code' + increment + '" ng-model="costSheetTemplate.Untctcm_code' + increment + '"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="Untctcm_name' + increment + '" ng-model="costSheetTemplate.Untctcm_name' + increment + '"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="Untctcm_calctyp' + increment + '" ng-model="costSheetTemplate.Untctcm_calctyp' + increment + '" ng-change="toggleFields(' + increment + ')"> <option value=""> Select </option> <option value="0"> Flat </option> <option value="1"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="Untctcm_val_formula' + increment + '" ng-model="costSheetTemplate.Untctcm_val_formula' + increment + '" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn' + increment + '" ng-click="openFormulaModal(' + increment + ')" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="Untctcm_comments' + increment + '" ng-model="costSheetTemplate.Untctcm_comments' + increment + '"/> </td></tr>';
+        var costComponentRow = '<tr> <td> <label>Code' + increment + '</label> </td> <td> <input type="text" class="form-control" name="Untctcm_code' + increment + '" ng-model="costSheetTemplate.Untctcm_code' + increment + '"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="Untctcm_name' + increment + '" ng-model="costSheetTemplate.Untctcm_name' + increment + '"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="Untctcm_calctyp' + increment + '" ng-model="costSheetTemplate.Untctcm_calctyp' + increment + '" ng-change="toggleFields(' + increment + ')"> <option value=""> Select </option> <option value="1"> Flat </option> <option value="0"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="Untctcm_val_formula' + increment + '" ng-model="costSheetTemplate.Untctcm_val_formula' + increment + '" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn' + increment + '" ng-click="openFormulaModal(' + increment + ')" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="Untctcm_comments' + increment + '" ng-model="costSheetTemplate.Untctcm_comments' + increment + '"/> </td><td><span class="glyphicon glyphicon-trash" ng-click="deleteCostComponent('+increment+')"></span></td></tr>';
 
         costComponentRow = $compile(costComponentRow)($scope);
         angular.element(".formulaTable").append(costComponentRow);
@@ -2783,7 +2783,7 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
 
     $scope.toggleFields = function(increment) {
         var fieldName = "Untctcm_calctyp" + increment;
-        if ($scope.costSheetTemplate[fieldName] == 0) {
+        if ($scope.costSheetTemplate[fieldName] == 1) {
             $("input[name='Untctcm_val_formula" + increment + "']").attr("disabled", false);
             $("button[name='formulaBtn" + increment + "']").attr("disabled", true);
         } else {
@@ -2797,7 +2797,7 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
             templateUrl: 'formula.html',
             controller: 'costComponentFormula',
             scope: $scope,
-            size: 'md',
+            size: 'lg',
             backdrop: 'static',
             resolve: {
                 item: function() {
@@ -2805,6 +2805,9 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
                 }
             }
         });
+    };
+    $scope.deleteCostComponent = function(rowId){
+        alert(rowId)  ;
     };
 
     $scope.saveCostSheetTemplate = function(formName, formObj) {
@@ -2839,8 +2842,7 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
     };
 });
 app.controller("costComponentFormula", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, item) {
-    $scope.formula = {
-        brackets: '',
+    $scope.formula = {        
         abbreviation: '',
         operator: ''
     };
@@ -2852,11 +2854,10 @@ app.controller("costComponentFormula", function($scope, $http, $state, $cookieSt
     };
     $scope.addFormula = function(formObj) {
         var preVal = angular.element("#formulaGen").val();
-        var formula = formObj.brackets + formObj.abbreviation + formObj.operator;
+        var formula = formObj.abbreviation + formObj.operator;
         var finalFormula = preVal + formula;
         angular.element("#formulaGen").val(finalFormula);
         $scope.formula = {
-            brackets: '',
             abbreviation: '',
             operator: ''
         };

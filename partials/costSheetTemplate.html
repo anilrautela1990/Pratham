@@ -110,6 +110,7 @@
     <div class="modal-body" id="modal-body">
         <div class="row">
             <form name="formulaForm" class="form" method="POST" novalidate="novalidate">
+<!--
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <label>Brackets</label>
                 <select class="form-control" name="brackets" ng-model="formula.brackets">
@@ -124,21 +125,22 @@
                     </option>
                 </select>
             </div>
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+-->
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Abbreviation</label>
                 <select class="form-control" name="abbreviation" ng-model="formula.abbreviation">
                     <option value="">
                         Select
                     </option>
-                    <option value="sba">
+                    <option value="SBA">
                         SBA
                     </option>
-                    <option value="apps">
+                    <option value="APPS">
                         APPS
                     </option>
                 </select>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Operator</label>
                 <select class="form-control" name="operator" ng-model="formula.operator">
                     <option value="">
@@ -161,7 +163,7 @@
                     </option>
                 </select>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
                 <label class="dispBlock">&nbsp;</label>
                 <button type="button" class="btn btn-info" ng-click="addFormula(formula)">Add</button>
             </div>
