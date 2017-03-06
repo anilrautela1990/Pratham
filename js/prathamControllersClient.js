@@ -228,11 +228,10 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
                     "user_zipcode": formObj.zip,
                     "user_dob": formObj.dob,
                     "user_gender": parseInt(formObj.gender),
+                    "user_code": formObj.leadCode
                 }
             }).success(function(data) {
-                //console.log(data);
                 if (data.user_id != 0) {
-                    //$cookieStore.put('lead_id', data.user_id);
                     $state.go("/ProjectDetails", {
                         "leadID": data.user_id
                     });
@@ -259,7 +258,6 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
                 "user_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
-            //console.log(data);
             var state = data.user_state;
             var city = data.user_city;
             var dob = $filter('date')(data.user_dob, 'MMM dd, yyyy');
@@ -286,7 +284,9 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
                     state: state + "",
                     city: city + "",
                     address: data.user_address,
-                    zip: data.user_zipcode
+                    zip: data.user_zipcode,
+                    leadCode: data.user_code,
+                    officeNumber: data.user_office_no
                 }
                 angular.element(".loader").hide();
             } else {
@@ -319,6 +319,7 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
                     "user_zipcode": formObj.zip,
                     "user_dob": formObj.dob,
                     "user_gender": parseInt(formObj.gender),
+                    "user_code": formObj.leadCode
                 }
             }).success(function(data) {
                 //console.log(data);
