@@ -75,13 +75,10 @@
       <div>
          <select class="form-control" name="department" ng-model="addEmployee.department">
             <option value="">
-               Select Department
+               Select Parent Department
             </option>
-            <option value="6">
-               Accounts
-            </option>
-            <option value="5">
-               Admin
+            <option ng-repeat="x in parentDepartmentList" value="{{x.dept_id}}">
+               {{x.dept_name}}
             </option>
          </select>
       </div>
@@ -130,26 +127,26 @@
       <div>
          <input type="text" placeholder="Source Of Recruitment *" class="form-control" name="employeeSourceOfRecruit" ng-model="addEmployee.employeeSourceOfRecruit" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeSourceOfRecruit.$error.required &amp;&amp; submit}"/>
       </div>
-       <div>
-            <select class="form-control" name="employeeChildrenNo" ng-model="addEmployee.employeeChildrenNo" title="No. of Children" ng-change="appendFields(addEmployee.employeeChildrenNo)" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeChildrenNo.$error.required &amp;&amp; submit}">
-                <option value="">
-                    No. of Children
-                </option>
-                <option value="1">
-                    1
-                </option>
-                <option value="2">
-                    2
-                </option>
-                <option value="3">
-                    3
-                </option>
-                <option value="4">
-                    4
-                </option>
-            </select>
-        </div>
-		<div id="children"></div>
+      <div>
+         <select class="form-control" name="employeeChildrenNo" ng-model="addEmployee.employeeChildrenNo" title="No. of Children" ng-change="appendFields(addEmployee.employeeChildrenNo)" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeChildrenNo.$error.required &amp;&amp; submit}">
+            <option value="">
+               No. of Children
+            </option>
+            <option value="1">
+               1
+            </option>
+            <option value="2">
+               2
+            </option>
+            <option value="3">
+               3
+            </option>
+            <option value="4">
+               4
+            </option>
+         </select>
+      </div>
+      <div id="children"></div>
    </div>
    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
       <button type="button" class="btn btn-success" ng-click="addEmployee(addEmployee,'addEmployeeForm')" ng-show="addEmployeeBtn">Save Employee</button>

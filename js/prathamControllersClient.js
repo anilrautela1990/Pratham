@@ -1842,7 +1842,7 @@ app.controller("customerController", function($scope, $http, $cookieStore, $stat
 app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
     $scope.pageTitle = "Access Rights";
     $scope.currentRoleId = 0;
-    
+
     ($scope.getRolesList = function() {
         angular.element(".loader").show();
         $http({
@@ -1859,17 +1859,16 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.getModulesList = function(roleId) {
         $scope.currentRoleId = roleId;
-        if(roleId != undefined && roleId != ''){
+        if (roleId != undefined && roleId != '') {
             angular.element(".loader").show();
             $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Comp/ModulesGet",
                 ContentType: 'application/json',
-                data: {
-                }
+                data: {}
             }).success(function(data) {
                 angular.element(".loader").hide();
                 $scope.modulesList = data;
@@ -1881,7 +1880,7 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
             $scope.modulesList = [];
         }
     };
-    
+
     function getRoleaccrgts(roleId) {
         $http({
             method: "POST",
@@ -1894,7 +1893,7 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
         }).success(function(data) {
             angular.element(".loader").hide();
             $scope.Roleaccrgts = [];
-            for(var i = 0; i < data.length; i++){
+            for (var i = 0; i < data.length; i++) {
                 var rolesAccesRgt = {};
                 rolesAccesRgt.Add = data[i].RoleAccRgts_Add;
                 rolesAccesRgt.View = data[i].RoleAccRgts_View;
@@ -1906,31 +1905,31 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
             angular.element(".loader").hide();
         });
     };
-    
+
     function checkUndefined(checkBoxValue) {
-        if(checkBoxValue == undefined){
+        if (checkBoxValue == undefined) {
             return 0;
         } else {
             return checkBoxValue;
         }
     };
-    
+
     $scope.SubmitRoleaccrgts = function(formObj, formName) {
-        
-        if($scope.currentRoleId == undefined || $scope.currentRoleId == ''){
+
+        if ($scope.currentRoleId == undefined || $scope.currentRoleId == '') {
             alert("Please select any Role first.");
             return false;
         }
         $scope.submit = true;
-        
+
         var rolesRightDataArray = [];
-        
-        for(var i = 0; i < $scope.modulesList.length; i++){
+
+        for (var i = 0; i < $scope.modulesList.length; i++) {
             var rolesAccesRgt = {};
             rolesAccesRgt.RoleAccRgts_compguid = $cookieStore.get('comp_guid');
             rolesAccesRgt.RoleAccRgts_RoleId = $scope.currentRoleId;
             rolesAccesRgt.RoleAccRgts_ModuleId = $scope.modulesList[i].module_id;
-            if(formObj[i] != undefined){
+            if (formObj[i] != undefined) {
                 rolesAccesRgt.RoleAccRgts_Add = checkUndefined(formObj[i].Add);
                 rolesAccesRgt.RoleAccRgts_View = checkUndefined(formObj[i].View);
                 rolesAccesRgt.RoleAccRgts_Edit = checkUndefined(formObj[i].Edit);
@@ -1941,12 +1940,12 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
                 rolesAccesRgt.RoleAccRgts_Edit = 0;
                 rolesAccesRgt.RoleAccRgts_Del = 0;
             }
-            
+
             rolesRightDataArray.push(rolesAccesRgt);
         }
-        
+
         console.log(rolesRightDataArray);
-        
+
         if ($scope[formName].$valid) {
             $http({
                 method: "POST",
@@ -2622,16 +2621,16 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             }
         }).error(function() {});
     };
-	
-	$scope.checkBlockUnits = function(blockId) {
-		if(blockId == undefined){
-			return;
-		}
-		var compId = $cookieStore.get('comp_guid');
+
+    $scope.checkBlockUnits = function(blockId) {
+        if (blockId == undefined) {
+            return;
+        }
+        var compId = $cookieStore.get('comp_guid');
         angular.element(".loader").show();
         myService.getUnitsByBlock(compId, blockId).then(function(response) {
             $scope.units = response.data[0];
-			$scope.blockFloorUnits = response.data[1].Blocks_UnitPerfloor;
+            $scope.blockFloorUnits = response.data[1].Blocks_UnitPerfloor;
             $scope.UnitsArr = [];
             for (i = 0; i < $scope.units.length; i++) {
                 var unitObj = {};
@@ -2653,9 +2652,9 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                 unitObj.UnitDtls_NrtMsrmnt = 0;
                 unitObj.UnitDtls_SthMsrmnt = 0;
                 unitObj.UnitDtls_Status = $scope.units[i].UnitDtls_Status;
-                $scope.UnitsArr.push(unitObj);			
-            }			
-			console.log($scope.UnitsArr);
+                $scope.UnitsArr.push(unitObj);
+            }
+            console.log($scope.UnitsArr);
             angular.element(".loader").hide();
         });
     };
@@ -2840,11 +2839,11 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
     };
 });
 app.controller("costComponentFormula", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, item) {
-	$scope.formula = {
-		brackets:'',
-		abbreviation:'',
-		operator:''
-	};
+    $scope.formula = {
+        brackets: '',
+        abbreviation: '',
+        operator: ''
+    };
     $scope.formulaGen = "";
     $scope.fieldCount = item;
     var fieldName = "Untctcm_val_formula" + item;
@@ -2852,15 +2851,15 @@ app.controller("costComponentFormula", function($scope, $http, $state, $cookieSt
         $uibModalInstance.close();
     };
     $scope.addFormula = function(formObj) {
-			var preVal = angular.element("#formulaGen").val();
-            var formula = formObj.brackets + formObj.abbreviation + formObj.operator;
-			var finalFormula = preVal+formula;
-            angular.element("#formulaGen").val(finalFormula);
-			$scope.formula = {
-				brackets:'',
-				abbreviation:'',
-				operator:''
-			};
+        var preVal = angular.element("#formulaGen").val();
+        var formula = formObj.brackets + formObj.abbreviation + formObj.operator;
+        var finalFormula = preVal + formula;
+        angular.element("#formulaGen").val(finalFormula);
+        $scope.formula = {
+            brackets: '',
+            abbreviation: '',
+            operator: ''
+        };
     };
     $scope.saveFormula = function() {
         if ($scope.formulaGen != "") {
@@ -2891,10 +2890,10 @@ app.controller("costSheetTemplates", function($scope, $http, $state, $cookieStor
             angular.element(".loader").hide();
         });
     })();
-	
-	$scope.showTemplateDetails = function(obj){
-		console.log(obj);
-		var modalInstance = $uibModal.open({
+
+    $scope.showTemplateDetails = function(obj) {
+        console.log(obj);
+        var modalInstance = $uibModal.open({
             templateUrl: 'costSheetDetail.html',
             controller: 'costSheetDetail',
             size: 'lg',
@@ -2905,12 +2904,12 @@ app.controller("costSheetTemplates", function($scope, $http, $state, $cookieStor
                 }
             }
         });
-	};
+    };
 });
 
 app.controller("costSheetDetail", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModalInstance, item) {
-	$scope.costSheetDetail = item;
-	$scope.ok = function() {
+    $scope.costSheetDetail = item;
+    $scope.ok = function() {
         $uibModalInstance.close();
     };
 });
@@ -3284,18 +3283,18 @@ app.controller("heirarchyController", function($scope, $http, $cookieStore, $sta
             url: "http://120.138.8.150/pratham/Comp/DeptHeirarchy",
             ContentType: 'application/json',
             data: {
-                "dept_compguid": $cookieStore.get('comp_guid')           
+                "dept_compguid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
             angular.element(".loader").hide();
-            $scope.dept_heirarchy = data[0]; 
-            var datasource= $scope.dept_heirarchy;
-    
+            $scope.dept_heirarchy = data[0];
+            var datasource = $scope.dept_heirarchy;
+
             $('#chart-container').orgchart({
-              'data' : datasource,
-              'depth': 999,          
-              'nodeContent': 'dept_head_name',
-              'nodeId': 'dept_id'
+                'data': datasource,
+                'depth': 999,
+                'nodeContent': 'dept_head_name',
+                'nodeId': 'dept_id'
             });
 
         }).error(function() {
@@ -3307,6 +3306,23 @@ app.controller("heirarchyController", function($scope, $http, $cookieStore, $sta
 app.controller("addEmployeeController", function($scope, $http, $state, $cookieStore, $compile, $stateParams, $window) {
     $scope.pageTitle = "Add Employee";
     $scope.addEmployeeBtn = true;
+
+    ($scope.getParentDepartmentDetails = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/Department",
+            ContentType: 'application/json',
+            data: {
+                "dept_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.parentDepartmentList = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
 
     $scope.addEmployee = function(formObj, formName) {
         $scope.submit = true;
@@ -3374,7 +3390,7 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
             });
         }
     };
-    
+
     $scope.appendFields = function(noOfChild) {
         angular.element("#children").html('');
         for (i = 1; i <= noOfChild; i++) {
@@ -3402,7 +3418,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             }
         }).success(function(data) {
             console.log(data);
-            
+
             var dateArray = [];
             dateArray.push((data.user_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.user_dob, 'yyyy-MM-dd'));
             dateArray.push((data.user_doj == '0001-01-01T00:00:00') ? '' : $filter('date')(data.user_doj, 'yyyy-MM-dd'));
@@ -3411,7 +3427,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             dateArray.push((data.Emp_child2_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.Emp_child2_dob, 'yyyy-MM-dd'));
             dateArray.push((data.Emp_child3_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.Emp_child3_dob, 'yyyy-MM-dd'));
             dateArray.push((data.Emp_child4_dob == '0001-01-01T00:00:00') ? '' : $filter('date')(data.Emp_child4_dob, 'yyyy-MM-dd'));
-            
+
             $scope.addEmployee = {
                 employeeFirstName: data.user_first_name,
                 employeeMiddleName: data.user_middle_name,
@@ -3460,6 +3476,23 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             };
             appendFields(data.Emp_noof_childrn);
             angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+
+    ($scope.getParentDepartmentDetails = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/Department",
+            ContentType: 'application/json',
+            data: {
+                "dept_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.parentDepartmentList = data;
         }).error(function() {
             angular.element(".loader").hide();
         });
@@ -3531,7 +3564,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             });
         }
     };
-    
+
     $scope.appendFields = function(noOfChild) {
         angular.element("#children").html('');
         for (i = 1; i <= noOfChild; i++) {
@@ -3540,7 +3573,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             angular.element("#children").append(childDivComplied);
         }
     };
-    
+
     function appendFields(noOfChild) {
         angular.element("#children").html('');
         for (i = 1; i <= noOfChild; i++) {
@@ -3552,7 +3585,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
 });
 
 app.controller("salaryComponentDetailsController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $rootScope) {
-    
+
     ($scope.getSalaryComponentDetails = function() {
         angular.element(".loader").show();
         $http({
@@ -3569,7 +3602,7 @@ app.controller("salaryComponentDetailsController", function($scope, $http, $cook
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.editSalaryComponent = function(selectedItem) {
         var modalInstance = $uibModal.open({
             templateUrl: 'addSalaryComponent.html',
@@ -3583,7 +3616,7 @@ app.controller("salaryComponentDetailsController", function($scope, $http, $cook
             }
         });
     };
-    
+
     $scope.addSalaryComponent = function() {
         var modalInstance = $uibModal.open({
             templateUrl: 'addSalaryComponent.html',
@@ -3602,7 +3635,7 @@ app.controller("salaryComponentDetailsController", function($scope, $http, $cook
 app.controller("addSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModalInstance, $rootScope, item) {
     $scope.pageTitle = "Add Salary Component";
     $scope.addSalaryComponentBtn = true;
-    
+
     $scope.addSalaryComponent = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -3613,14 +3646,14 @@ app.controller("addSalaryComponentController", function($scope, $http, $cookieSt
                 url: "http://120.138.8.150/pratham/Comp/SalaryHeadsInsert",
                 ContentType: 'application/json',
                 data: {
-                    "SalHeads_comp_guid" : $cookieStore.get('comp_guid'),
-                    "SalHeads_Name" : formObj.salaryComponentName,
-                    "SalHead_Paytyp" : formObj.salaryPayType,
-                    "SalHead_TxSts" : formObj.salaryTaxStatus,
-                    "SalHead_CalTyp" : formObj.salaryCalculationType,
-                    "SalHead_CalTypVal" : formObj.salaryCalculationValue,
-                    "SalHead_PrtofCTC" : formObj.salaryPartOfCtc,
-                    "SalHead_VarFxd":formObj.salaryComponentType,
+                    "SalHeads_comp_guid": $cookieStore.get('comp_guid'),
+                    "SalHeads_Name": formObj.salaryComponentName,
+                    "SalHead_Paytyp": formObj.salaryPayType,
+                    "SalHead_TxSts": formObj.salaryTaxStatus,
+                    "SalHead_CalTyp": formObj.salaryCalculationType,
+                    "SalHead_CalTypVal": formObj.salaryCalculationValue,
+                    "SalHead_PrtofCTC": formObj.salaryPartOfCtc,
+                    "SalHead_VarFxd": formObj.salaryComponentType,
                     "SalHead_Code": formObj.salaryAbbreviation
                 }
             }).success(function(data) {
@@ -3632,7 +3665,7 @@ app.controller("addSalaryComponentController", function($scope, $http, $cookieSt
             });
         }
     };
-    
+
     function getSalaryComponentDetails() {
         angular.element(".loader").show();
         $http({
@@ -3650,7 +3683,7 @@ app.controller("addSalaryComponentController", function($scope, $http, $cookieSt
             angular.element(".loader").hide();
         });
     };
-    
+
     $scope.ok = function() {
         $uibModalInstance.close();
     };
@@ -3659,21 +3692,21 @@ app.controller("addSalaryComponentController", function($scope, $http, $cookieSt
 app.controller("editSalaryComponentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModalInstance, $rootScope, item) {
     $scope.pageTitle = "Edit Salary Component";
     $scope.editSalaryComponentBtn = true;
-    
+
     ($scope.getSalaryComponentDetails = function() {
         console.log(item);
         $scope.addSalaryComponent = {
             salaryComponentName: item.SalHeads_Name,
             salaryAbbreviation: item.SalHead_Code,
-            salaryPayType: item.SalHead_Paytyp+'',
+            salaryPayType: item.SalHead_Paytyp + '',
             salaryTaxStatus: item.SalHead_TxSts,
-            salaryCalculationType: item.SalHead_CalTyp+'',
+            salaryCalculationType: item.SalHead_CalTyp + '',
             salaryCalculationValue: item.SalHead_CalTypVal,
             salaryPartOfCtc: item.SalHead_PrtofCTC,
             salaryComponentType: item.SalHead_VarFxd
         };
     })();
-    
+
     $scope.editSalaryComponent = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -3684,15 +3717,15 @@ app.controller("editSalaryComponentController", function($scope, $http, $cookieS
                 url: "http://120.138.8.150/pratham/Comp/SalaryHeadsUpdate",
                 ContentType: 'application/json',
                 data: {
-                    "SalHeads_Id":item.SalHeads_Id,
-                    "SalHeads_comp_guid" : $cookieStore.get('comp_guid'),
-                    "SalHeads_Name" : formObj.salaryComponentName,
-                    "SalHead_Paytyp" : formObj.salaryPayType,
-                    "SalHead_TxSts" : formObj.salaryTaxStatus,
-                    "SalHead_CalTyp" : formObj.salaryCalculationType,
-                    "SalHead_CalTypVal" : formObj.salaryCalculationValue,
-                    "SalHead_PrtofCTC" : formObj.salaryPartOfCtc,
-                    "SalHead_VarFxd":formObj.salaryComponentType,
+                    "SalHeads_Id": item.SalHeads_Id,
+                    "SalHeads_comp_guid": $cookieStore.get('comp_guid'),
+                    "SalHeads_Name": formObj.salaryComponentName,
+                    "SalHead_Paytyp": formObj.salaryPayType,
+                    "SalHead_TxSts": formObj.salaryTaxStatus,
+                    "SalHead_CalTyp": formObj.salaryCalculationType,
+                    "SalHead_CalTypVal": formObj.salaryCalculationValue,
+                    "SalHead_PrtofCTC": formObj.salaryPartOfCtc,
+                    "SalHead_VarFxd": formObj.salaryComponentType,
                     "SalHead_Code": formObj.salaryAbbreviation
                 }
             }).success(function(data) {
@@ -3704,7 +3737,7 @@ app.controller("editSalaryComponentController", function($scope, $http, $cookieS
             });
         }
     };
-    
+
     function getSalaryComponentDetails() {
         angular.element(".loader").show();
         $http({
@@ -3722,14 +3755,14 @@ app.controller("editSalaryComponentController", function($scope, $http, $cookieS
             angular.element(".loader").hide();
         });
     };
-    
+
     $scope.ok = function() {
         $uibModalInstance.close();
     };
 });
 
 app.controller("addDepartmentController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
-    
+
     ($scope.getParentDepartmentDetails = function() {
         angular.element(".loader").show();
         $http({
@@ -3746,7 +3779,7 @@ app.controller("addDepartmentController", function($scope, $http, $cookieStore, 
             angular.element(".loader").hide();
         });
     })();
-    
+
     ($scope.getManagerNameDetails = function() {
         angular.element(".loader").show();
         $http({
@@ -3754,8 +3787,8 @@ app.controller("addDepartmentController", function($scope, $http, $cookieStore, 
             url: "http://120.138.8.150/pratham/User/EmployeeDtls/ByUserType",
             ContentType: 'application/json',
             data: {
-                "user_comp_guid" : $cookieStore.get('comp_guid'),
-                "user_type" :2
+                "user_comp_guid": $cookieStore.get('comp_guid'),
+                "user_type": 2
             }
         }).success(function(data) {
             angular.element(".loader").hide();
@@ -3764,7 +3797,7 @@ app.controller("addDepartmentController", function($scope, $http, $cookieStore, 
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.addNewDepartment = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -3775,10 +3808,10 @@ app.controller("addDepartmentController", function($scope, $http, $cookieStore, 
                 url: "http://120.138.8.150/pratham/Comp/SaveDept",
                 ContentType: 'application/json',
                 data: {
-                    "dept_compguid" : $cookieStore.get('comp_guid'),
-                    "dept_branchid" : formObj.branchName,
-                    "dept_name" : formObj.departmentName,
-                    "dept_head_userid" : formObj.managerName,
+                    "dept_compguid": $cookieStore.get('comp_guid'),
+                    "dept_branchid": formObj.branchName,
+                    "dept_name": formObj.departmentName,
+                    "dept_head_userid": formObj.managerName,
                     "dept_parentid": formObj.parentDepartment
                 }
             }).success(function(data) {
