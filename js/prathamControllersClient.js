@@ -3328,6 +3328,23 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
             angular.element(".loader").hide();
         });
     })();
+    
+    ($scope.getDesignationDetails = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/Designations",
+            ContentType: 'application/json',
+            data: {
+                "designation_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.designationList = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
 
     $scope.addEmployee = function(formObj, formName) {
         $scope.submit = true;
@@ -3384,7 +3401,9 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
                     "Emp_child3_nm": formObj.employeeChild3Name,
                     "Emp_child4_dob": formObj.employeeChild4Dob,
                     "Emp_child4_nm": formObj.employeeChild4Name,
-                    "Emp_noof_childrn": formObj.employeeChildrenNo
+                    "Emp_noof_childrn": formObj.employeeChildrenNo,
+                    "user_dept_id": formObj.employeeDepartment,
+                    "user_designation_id": formObj.employeeDesignation
                 }
             }).success(function(data) {
                 console.log(data);
@@ -3477,7 +3496,9 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                 employeeChild3Name: data.Emp_child3_nm,
                 employeeChild4Dob: dateArray[6],
                 employeeChild4Name: data.Emp_child4_nm,
-                employeeChildrenNo: data.Emp_noof_childrn
+                employeeChildrenNo: data.Emp_noof_childrn,
+                employeeDepartment: parseInt(data.user_dept_id),
+                employeeDesignation: parseInt(data.user_designation_id)
             };
             appendFields(data.Emp_noof_childrn);
             angular.element(".loader").hide();
@@ -3498,6 +3519,23 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
         }).success(function(data) {
             angular.element(".loader").hide();
             $scope.parentDepartmentList = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
+    ($scope.getDesignationDetails = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/Designations",
+            ContentType: 'application/json',
+            data: {
+                "designation_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.designationList = data;
         }).error(function() {
             angular.element(".loader").hide();
         });
@@ -3558,7 +3596,9 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                     "Emp_child3_nm": formObj.employeeChild3Name,
                     "Emp_child4_dob": formObj.employeeChild4Dob,
                     "Emp_child4_nm": formObj.employeeChild4Name,
-                    "Emp_noof_childrn": formObj.employeeChildrenNo
+                    "Emp_noof_childrn": formObj.employeeChildrenNo,
+                    "user_dept_id": formObj.employeeDepartment,
+                    "user_designation_id": formObj.employeeDesignation
                 }
             }).success(function(data) {
                 console.log(data);
