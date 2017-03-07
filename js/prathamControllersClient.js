@@ -3522,7 +3522,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                 employeeReference2Email: data.Emp_Reference2EmailID,
                 employeeReference2Name: data.Emp_Reference2Name,
                 employeeSourceOfRecruit: data.Emp_SourceofRecruitment,
-                employeeSpouseAadhar: parseInt(data.Emp_spouse_aadhar),
+                employeeSpouseAadhar: data.Emp_spouse_aadhar,
                 employeeSpouseDob: dateArray[2],
                 employeeSpouseName: data.Emp_spouse_nm,
                 employeeSpousePan: data.Emp_spouse_pan,
