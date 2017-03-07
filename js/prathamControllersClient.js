@@ -3497,8 +3497,8 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                 employeeChild4Dob: dateArray[6],
                 employeeChild4Name: data.Emp_child4_nm,
                 employeeChildrenNo: data.Emp_noof_childrn,
-                employeeDepartment: parseInt(data.user_dept_id),
-                employeeDesignation: parseInt(data.user_designation_id)
+                employeeDepartment: data.user_dept_id+"",
+                employeeDesignation: data.user_designation_id+""
             };
             appendFields(data.Emp_noof_childrn);
             angular.element(".loader").hide();
