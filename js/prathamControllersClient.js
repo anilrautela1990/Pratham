@@ -3829,7 +3829,7 @@ app.controller("addDepartmentController", function($scope, $http, $cookieStore, 
     };
 });
 
-app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile,myService) {
 	$scope.title = "Apply Cost Sheet";
 	$scope.projectId = $stateParams.projectId;
 	$scope.phaseId = $stateParams.phaseId;
@@ -3854,4 +3854,38 @@ app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $
             angular.element(".loader").hide();
         });
     })();
+	
+	($scope.checkBlockUnits = function() {
+        var compId = $cookieStore.get('comp_guid');
+        angular.element(".loader").show();
+        myService.getUnitsByBlock(compId, $stateParams.blockId).then(function(response) {
+			var blockFloorNumberArr = [];
+            var blockFloors = response.data[1].Blocks_Floors;
+			for(i=1;i<=blockFloors;i++){
+				blockFloorNumberArr.push(i);
+			}
+			console.log(blockFloorNumberArr);
+		});
+		
+	})();
+	
+	$scope.getTemplateDetails = function(tempId){
+		angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Getall",
+            ContentType: 'application/json',
+            data: {
+                "Untctcm_comp_guid": $cookieStore.get('comp_guid'),
+                "Untctcm_Id": tempId,
+                "Untctcm_Blocks_Id": 0
+            }
+        }).success(function(data) {
+            console.log(data);
+            $scope.costSheetTemplate = data[0];
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+	};
 });
