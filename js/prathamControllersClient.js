@@ -3259,6 +3259,46 @@ app.controller("paymentScheduleChangeController", function($scope, $http, $state
 });
 
 app.controller("employeeDetailsController", function($scope, $http, $cookieStore, $state) {
+    
+    ($scope.getParentDepartmentDetails = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/Department",
+            ContentType: 'application/json',
+            data: {
+                "dept_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.parentDepartmentList = [];
+            for(var i = 0; i < data.length; i++){
+                $scope.parentDepartmentList[data[i].dept_id] = data[i].dept_name;
+            }
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
+    ($scope.getDesignationDetails = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/Designations",
+            ContentType: 'application/json',
+            data: {
+                "designation_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.designationList = [];
+            for(var i = 0; i < data.length; i++){
+                $scope.designationList[data[i].designation_id] = data[i].designation;
+            }
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
 
     ($scope.getEmployeesDetails = function() {
         angular.element(".loader").show();
