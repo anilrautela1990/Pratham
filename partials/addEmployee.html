@@ -10,7 +10,8 @@
 </div>
 <form name="addEmployeeForm" class="form" method="POST" novalidate="novalidate">
    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form">
-      <div>
+      <div class="field">
+         <label ng-show="addEmployee.employeeFirstName" class="show-hide">Employee First Name*</label>
          <input type="text" placeholder="Employee First Name*" class="form-control" name="employeeFirstName" ng-model="addEmployee.employeeFirstName" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeFirstName.$error.required &amp;&amp; submit}"/>
       </div>
       <div>
