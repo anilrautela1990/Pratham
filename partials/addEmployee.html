@@ -23,6 +23,10 @@
          <input type="text" placeholder="Employee Last Name*" class="form-control" name="employeeLastName" ng-model="addEmployee.employeeLastName" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeLastName.$error.required &amp;&amp; submit}"/>
       </div>
       <div class="field">
+         <label ng-show="addEmployee.employeeCode" class="show-hide">Employee Code *</label>
+         <input type="text" placeholder="Employee Code *" class="form-control" name="employeeCode" ng-model="addEmployee.employeeCode" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeCode.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div class="field">
          <label ng-show="addEmployee.employeeEmail" class="show-hide">Employee Email *</label>
          <input type="text" placeholder="Email *" class="form-control"  name="employeeEmail" ng-model="addEmployee.employeeEmail" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeEmail.$error.required &amp;&amp; submit}"/>
       </div>
@@ -92,6 +96,17 @@
       </div>
    </div>
    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form">
+       <div class="field">
+          <label ng-show="addEmployee.employeeRole" class="show-hide">Role</label>
+         <select class="form-control" name="employeeRole" ng-model="addEmployee.employeeRole" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeRole.$error.required &amp;&amp; submit}">
+            <option value="">
+               Select Role
+            </option>
+            <option ng-repeat="x in rolesList" value="{{x.role_id}}">
+               {{x.role_name}}
+            </option>
+         </select>
+      </div>
       <div class="field">
           <label ng-show="addEmployee.employeeDepartment" class="show-hide">Department</label>
          <select class="form-control" name="employeeDepartment" ng-model="addEmployee.employeeDepartment" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeDepartment.$error.required &amp;&amp; submit}">

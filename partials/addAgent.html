@@ -37,6 +37,10 @@
          <input type="text" placeholder="Last Name*" class="form-control" name="lastName" ng-model="addAgent.lastName" ng-required="true" ng-class="{blankInput: addAgentForm.lastName.$error.required &amp;&amp; submit}"/>
       </div>
       <div class="field">
+         <label ng-show="addAgent.agentCode" class="show-hide">Agent Code *</label>
+         <input type="text" placeholder="Agent Code*" class="form-control" name="agentCode" ng-model="addAgent.agentCode" ng-required="true" ng-class="{blankInput: addAgentForm.agentCode.$error.required &amp;&amp; submit}"/>
+      </div>
+      <div class="field">
          <label ng-show="addAgent.password" class="show-hide">Password *</label>
          <input type="password" placeholder="Password*" ng-show="addAgentBtn" class="form-control" name="password" ng-model="addAgent.password" ng-required="true" ng-class="{blankInput: addAgentForm.password.$error.required &amp;&amp; submit}"/>
       </div>
@@ -74,6 +78,17 @@
       </div>
    </div>
    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form">
+       <div class="field">
+         <label ng-show="addAgent.agentRole" class="show-hide">Agent Role</label>
+         <select class="form-control" name="type" ng-model="addAgent.agentRole" ng-required="true" ng-class="{blankInput: addAgentForm.agentRole.$error.required &amp;&amp; submit}">
+            <option value="">
+               Select Role
+            </option>
+            <option ng-repeat="x in rolesList" value="{{x.role_id}}">
+               {{x.role_name}}
+            </option>
+         </select>
+      </div>
       <div class="field">
          <label ng-show="addAgent.alternameEmailId" class="show-hide">Alternate Email ID</label>
          <input type="text" placeholder="Alternate Email ID" class="form-control" name="alternameEmailId" ng-model="addAgent.alternameEmailId"/>

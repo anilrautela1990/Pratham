@@ -837,6 +837,24 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
 app.controller("addAgentController", function($scope, $http, $cookieStore, $state) {
     $scope.pageTitle = "Add Agent";
     $scope.addAgentBtn = true;
+    
+    ($scope.getRolesList = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/RoleGet",
+            ContentType: 'application/json',
+            data: {
+                "role_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.rolesList = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
     $scope.addAgent = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -877,7 +895,9 @@ app.controller("addAgentController", function($scope, $http, $cookieStore, $stat
                     "Agents_bankadd": formObj.bankAddress,
                     "Agents_banktypeofacn": formObj.accountType,
                     "Agents_bankifsccode": formObj.ifscCode,
-                    "Agents_bankemailid": formObj.bankEmailID
+                    "Agents_bankemailid": formObj.bankEmailID,
+                    "user_role_id": formObj.agentRole,
+                    "user_code": formObj.agentCode
                 }
             }).success(function(data) {
                 console.log(data);
@@ -938,6 +958,23 @@ app.controller("agentsDetailController", function($scope, $http, $cookieStore, $
 app.controller("editAgentController", function($scope, $http, $state, $cookieStore, $stateParams, $filter) {
     $scope.pageTitle = "Edit Agent";
     $scope.editAgentBtn = true;
+    
+    ($scope.getRolesList = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/RoleGet",
+            ContentType: 'application/json',
+            data: {
+                "role_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.rolesList = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
 
     ($scope.getAgentDetail = function() {
         $scope.agentId = $stateParams.agentID;
@@ -978,7 +1015,9 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
                     bankAddress: data.Agents_bankadd,
                     accountType: data.Agents_banktypeofacn,
                     ifscCode: data.Agents_bankifsccode,
-                    bankEmailID: data.Agents_bankemailid
+                    bankEmailID: data.Agents_bankemailid,
+                    agentRole: data.user_role_id,
+                    agentCode: data.user_code
                 }
             } else {
                 $state.go("/Agents");
@@ -1028,7 +1067,9 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
                     "Agents_bankadd": formObj.bankAddress,
                     "Agents_banktypeofacn": formObj.accountType,
                     "Agents_bankifsccode": formObj.ifscCode,
-                    "Agents_bankemailid": formObj.bankEmailID
+                    "Agents_bankemailid": formObj.bankEmailID,
+                    "user_role_id": formObj.agentRole,
+                    "user_code": formObj.agentCode
                 }
             }).success(function(data) {
                 console.log(data);
@@ -3352,6 +3393,23 @@ app.controller("heirarchyController", function($scope, $http, $cookieStore, $sta
 app.controller("addEmployeeController", function($scope, $http, $state, $cookieStore, $compile, $stateParams, $window) {
     $scope.pageTitle = "Add Employee";
     $scope.addEmployeeBtn = true;
+    
+    ($scope.getRolesList = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/RoleGet",
+            ContentType: 'application/json',
+            data: {
+                "role_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.rolesList = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
 
     ($scope.getParentDepartmentDetails = function() {
         angular.element(".loader").show();
@@ -3443,7 +3501,9 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
                     "Emp_child4_nm": formObj.employeeChild4Name,
                     "Emp_noof_childrn": formObj.employeeChildrenNo,
                     "user_dept_id": formObj.employeeDepartment,
-                    "user_designation_id": formObj.employeeDesignation
+                    "user_designation_id": formObj.employeeDesignation,
+                    "user_role_id": formObj.employeeRole,
+                    "user_code": formObj.employeeCode
                 }
             }).success(function(data) {
                 console.log(data);
@@ -3470,6 +3530,23 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
     $scope.editEmployeeBtn = true;
     $scope.employeeId = $stateParams.employeeId;
 
+    ($scope.getRolesList = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/RoleGet",
+            ContentType: 'application/json',
+            data: {
+                "role_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.rolesList = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
     ($scope.getEmployeeDetail = function() {
         angular.element(".loader").show();
         $http({
@@ -3537,7 +3614,9 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                 employeeChild4Name: data.Emp_child4_nm,
                 employeeChildrenNo: data.Emp_noof_childrn,
                 employeeDepartment: data.user_dept_id+"",
-                employeeDesignation: data.user_designation_id+""
+                employeeDesignation: data.user_designation_id+"",
+                employeeRole: data.user_role_id,
+                employeeCode: data.user_code
             };
             appendFields(data.Emp_noof_childrn);
             angular.element(".loader").hide();
@@ -3636,7 +3715,9 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                     "Emp_child4_nm": formObj.employeeChild4Name,
                     "Emp_noof_childrn": formObj.employeeChildrenNo,
                     "user_dept_id": formObj.employeeDepartment,
-                    "user_designation_id": formObj.employeeDesignation
+                    "user_designation_id": formObj.employeeDesignation,
+                    "user_role_id": formObj.employeeRole,
+                    "user_code": formObj.employeeCode
                 }
             }).success(function(data) {
                 console.log(data);
