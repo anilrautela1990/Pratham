@@ -1016,7 +1016,7 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
                     accountType: data.Agents_banktypeofacn,
                     ifscCode: data.Agents_bankifsccode,
                     bankEmailID: data.Agents_bankemailid,
-                    agentRole: data.user_role_id,
+                    agentRole: data.user_role_id+'',
                     agentCode: data.user_code
                 }
             } else {
@@ -3615,7 +3615,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                 employeeChildrenNo: data.Emp_noof_childrn,
                 employeeDepartment: data.user_dept_id+"",
                 employeeDesignation: data.user_designation_id+"",
-                employeeRole: data.user_role_id,
+                employeeRole: data.user_role_id+'',
                 employeeCode: data.user_code
             };
             appendFields(data.Emp_noof_childrn);
