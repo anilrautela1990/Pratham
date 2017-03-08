@@ -173,7 +173,8 @@
          <label ng-show="addEmployee.employeeSourceOfRecruit" class="show-hide">Source Of Recruitment *</label>
          <input type="text" placeholder="Source Of Recruitment *" class="form-control" name="employeeSourceOfRecruit" ng-model="addEmployee.employeeSourceOfRecruit" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeSourceOfRecruit.$error.required &amp;&amp; submit}"/>
       </div>
-      <div>
+      <div class="field">
+         <label ng-show="addEmployee.employeeChildrenNo" class="show-hide">Select No. Of Children</label>
          <select class="form-control" name="employeeChildrenNo" ng-model="addEmployee.employeeChildrenNo" title="No. of Children" ng-change="appendFields(addEmployee.employeeChildrenNo)" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeChildrenNo.$error.required &amp;&amp; submit}">
             <option value="">
                No. of Children
