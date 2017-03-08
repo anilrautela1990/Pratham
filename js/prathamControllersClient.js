@@ -2885,7 +2885,7 @@ app.controller("costSheetTemplates", function($scope, $http, $state, $cookieStor
             url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Getall",
             ContentType: 'application/json',
             data: {
-                "comp_guid": $cookieStore.get('comp_guid'),
+                "Untctcm_comp_guid": $cookieStore.get('comp_guid'),
                 "Untctcm_Id": 0,
                 "Untctcm_Blocks_Id": 0
             }
