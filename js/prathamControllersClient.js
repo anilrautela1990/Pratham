@@ -895,13 +895,12 @@ app.controller("addAgentController", function($scope, $http, $cookieStore, $stat
                     "Agents_bankadd": formObj.bankAddress,
                     "Agents_banktypeofacn": formObj.accountType,
                     "Agents_bankifsccode": formObj.ifscCode,
-                    "Agents_bankemailid": formObj.bankEmailID,
                     "user_role_id": formObj.agentRole,
                     "user_code": formObj.agentCode
                 }
             }).success(function(data) {
                 console.log(data);
-                $state.go("/");
+                $state.go("/Agents");
                 angular.element(".loader").hide();
             }).error(function() {
                 angular.element(".loader").hide();
@@ -1015,7 +1014,6 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
                     bankAddress: data.Agents_bankadd,
                     accountType: data.Agents_banktypeofacn,
                     ifscCode: data.Agents_bankifsccode,
-                    bankEmailID: data.Agents_bankemailid,
                     agentRole: data.user_role_id+'',
                     agentCode: data.user_code
                 }
@@ -1067,7 +1065,6 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
                     "Agents_bankadd": formObj.bankAddress,
                     "Agents_banktypeofacn": formObj.accountType,
                     "Agents_bankifsccode": formObj.ifscCode,
-                    "Agents_bankemailid": formObj.bankEmailID,
                     "user_role_id": formObj.agentRole,
                     "user_code": formObj.agentCode
                 }
