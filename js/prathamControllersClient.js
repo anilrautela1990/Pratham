@@ -3459,7 +3459,7 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
     $scope.appendFields = function(noOfChild) {
         angular.element("#children").html('');
         for (i = 1; i <= noOfChild; i++) {
-            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployee.employeeChild' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployee.employeeChild' + i + 'Dob"/></div>';
+            var childDiv = '<div class="field"><label ng-show="addEmployee.employeeChild' + i + 'Name" class="show-hide">Child ' + i + ' Name*</label><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployee.employeeChild' + i + 'Name" /></div><div class="field"><label ng-show="addEmployee.employeeChild' + i + 'Dob" class="show-hide">Child ' + i + ' D.O.B. (YYYY-DD-MM) *</label><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployee.employeeChild' + i + 'Dob"/></div>';
             var childDivComplied = $compile(childDiv)($scope);
             angular.element("#children").append(childDivComplied);
         }
@@ -3652,7 +3652,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
     $scope.appendFields = function(noOfChild) {
         angular.element("#children").html('');
         for (i = 1; i <= noOfChild; i++) {
-            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployee.employeeChild' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployee.employeeChild' + i + 'Dob"/></div>';
+            var childDiv = '<div class="field"><label ng-show="addEmployee.employeeChild' + i + 'Name" class="show-hide">Child ' + i + ' Name*</label><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployee.employeeChild' + i + 'Name" /></div><div class="field"><label ng-show="addEmployee.employeeChild' + i + 'Dob" class="show-hide">Child ' + i + ' D.O.B. (YYYY-DD-MM) *</label><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployee.employeeChild' + i + 'Dob"/></div>';
             var childDivComplied = $compile(childDiv)($scope);
             angular.element("#children").append(childDivComplied);
         }
@@ -3661,7 +3661,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
     function appendFields(noOfChild) {
         angular.element("#children").html('');
         for (i = 1; i <= noOfChild; i++) {
-            var childDiv = '<div><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployee.employeeChild' + i + 'Name" /></div><div><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployee.employeeChild' + i + 'Dob"/></div>';
+            var childDiv = '<div class="field"><label ng-show="addEmployee.employeeChild' + i + 'Name" class="show-hide">Child ' + i + ' Name*</label><input type="text" placeholder="Child ' + i + ' Name" title="Child ' + i + ' Name" class="form-control" name="child' + i + 'Name" ng-model="addEmployee.employeeChild' + i + 'Name" /></div><div class="field"><label ng-show="addEmployee.employeeChild' + i + 'Dob" class="show-hide">Child ' + i + ' D.O.B. (YYYY-DD-MM) *</label><input type="text" placeholder="Child ' + i + ' D.O.B. (YYYY-DD-MM)" title="Child ' + i + ' D.O.B." class="form-control" name="child' + i + 'Dob" ng-model="addEmployee.employeeChild' + i + 'Dob"/></div>';
             var childDivComplied = $compile(childDiv)($scope);
             angular.element("#children").append(childDivComplied);
         }
