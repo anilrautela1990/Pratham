@@ -92,7 +92,8 @@
       </div>
    </div>
    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form">
-      <div>
+      <div class="field">
+          <label ng-show="addEmployee.employeeDepartment" class="show-hide">Department</label>
          <select class="form-control" name="employeeDepartment" ng-model="addEmployee.employeeDepartment" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeDepartment.$error.required &amp;&amp; submit}">
             <option value="">
                Select Department
@@ -102,7 +103,8 @@
             </option>
          </select>
       </div>
-      <div>
+      <div  class="field">
+           <label ng-show="addEmployee.employeeDesignation" class="show-hide">Designation</label>
          <select class="form-control" name="employeeDesignation" ng-model="addEmployee.employeeDesignation" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeDesignation.$error.required &amp;&amp; submit}">
             <option value="">
                Select designation
