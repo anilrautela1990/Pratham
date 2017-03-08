@@ -43,7 +43,7 @@
             <label>Floor Raise Direction</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <select class="form-control" name="floorRaiseDirection" ng-model="costSheetTemplate.floorRaiseDirection">
+            <select class="form-control" name="untctcm_Ascending" ng-model="costSheetTemplate.untctcm_Ascending">
                <option value="">
                   Select
                </option>
@@ -57,7 +57,7 @@
             <label>Floor From</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <select class="form-control" name="floorFrom" ng-model="costSheetTemplate.floorFrom" ng-required="costSheetTemplate.floorRaiseDirection!=''" ng-class="{blankInput: costSheetTemplateForm.floorFrom.$error.required &amp;&amp; submit}">
+            <select class="form-control" name="untctcm_From" ng-model="costSheetTemplate.untctcm_From">
                <option value="">
                   Select
                </option>
@@ -70,7 +70,7 @@
             <label>Floor To</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <select class="form-control" name="floorTo" ng-model="costSheetTemplate.floorTo" ng-required="costSheetTemplate.untctcm_Ascending!=''" ng-class="{blankInput: costSheetTemplateForm.floorTo.$error.required &amp;&amp; submit}">
+            <select class="form-control" name="untctcm_To" ng-model="costSheetTemplate.untctcm_To">
                <option value="">
                   Select
                </option>
@@ -83,7 +83,7 @@
             <label>Floor Raise Cost</label>
          </div>
          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padding0">
-            <input type="text" class="form-control" placeholder="Floor Raise Cost" name="floorRaiseCost" ng-model="costSheetTemplate.floorRaiseCost" ng-required="costSheetTemplate.untctcm_Ascending!=''" ng-class="{blankInput: costSheetTemplateForm.floorRaiseCost.$error.required &amp;&amp; submit}"/>
+            <input type="text" class="form-control" placeholder="Floor Raise Cost" name="untctcm_FlrRseCost" ng-model="costSheetTemplate.untctcm_FlrRseCost"/>
          </div>
       </div>
    </div>
