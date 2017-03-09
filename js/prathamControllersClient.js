@@ -2635,7 +2635,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
                 var unitNo = unitNosArr[j - 1];
                 unitNo = i + '' + parentObj.seperator + unitNo;
                 unitObj.UnitDtls_comp_guid = $cookieStore.get('comp_guid');
-                unitObj.UnitDtls_Unit_type_id = parentObj.type;
+                unitObj.UnitDtls_Unit_type_id = parentObj.typeId;
                 unitObj.UnitDtls_Block_Id = parentObj.block;
                 unitObj.UnitDtls_user_id = $cookieStore.get('user_id');
                 unitObj.UnitDtls_No = unitNo;
