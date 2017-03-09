@@ -78,11 +78,11 @@ app.controller("login", function($scope, $http, $cookieStore, $window) {
                 }
             }).success(function(data) {
                 //console.log(data);
-                if (data.user_id == 0) {
+                if (data[0].user_id == 0) {
                     alert("User Does Not Exist!");
                 } else {
                     $cookieStore.put('comp_guid', 'd0cb84c5-6b52-4dff-beb5-50b2f4af5398');
-                    $cookieStore.put('user_id', data.user_id);
+                    $cookieStore.put('user_id', data[0].user_id);
                     $window.location.href = '/home.html';
                 }
                 angular.element(".loader").hide();
