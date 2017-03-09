@@ -2503,7 +2503,6 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
     $scope.untDetails = [];
     $scope.projectId = $stateParams.projId;
     $scope.phaseId = $stateParams.phaseId;
-    
     var unitNosArr = [];
     
     ($scope.projectListFun = function() {
@@ -2517,14 +2516,20 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
         angular.element(".loader").show();
         myService.getPhaseList($cookieStore.get('comp_guid'), $scope.projectId).then(function(response) {
             $scope.phaseList = response.data;
+            console.log($scope.phaseList);
+            for(i=0;i<$scope.phaseList.length;i++){
+                if($scope.phaseList[i].Phase_Id == $scope.phaseId){
+                    $scope.untGeneration = {
+                        projectName: $scope.projectId,
+                        phase: $scope.phaseId,
+                        typeId: $scope.phaseList[i].Phase_UnitType.UnitType_Id
+                    };
+                    $scope.typeObj = $scope.phaseList[i].Phase_UnitType;
+                }
+            }
             angular.element(".loader").hide();
         });
     })();
-    $scope.untGeneration = {
-        projectName: $scope.projectId,
-        phase: $scope.phaseId,
-        type: "3"
-    };
     
     ($scope.getBlockList = function() {
         angular.element(".loader").show();

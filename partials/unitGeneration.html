@@ -15,7 +15,7 @@
             <label>Project:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select class="form-control" name="projectName" ng-model="untGeneration.projectName">
+            <select class="form-control" name="projectName" ng-model="untGeneration.projectName" disabled="true">
                <option ng-repeat="x in projectList" value="{{x.ProjId}}">
                   {{x.Proj_Name}}
                </option>
@@ -28,7 +28,7 @@
             <label>Phase:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-             <select class="form-control" name="phase" ng-model="untGeneration.phase">
+             <select class="form-control" name="phase" ng-model="untGeneration.phase" disabled="true">
                <option ng-repeat="x in phaseList" value="{{x.Phase_Id}}">
                   {{x.Phase_Name}}
                </option>
@@ -40,13 +40,14 @@
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left labelDiv">
             <label>Type:</label>
          </div>
-         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select class="form-control" name="type" ng-model="untGeneration.type">
+         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">             
+             <select class="form-control" name="typeId" ng-model="untGeneration.typeId" disabled="true">
                <option ng-repeat="x in phaseList" value="{{x.Phase_UnitType.UnitType_Id}}">
                   {{x.Phase_UnitType.UnitType_Name}}
                </option>
                <!-- ngRepeat: x in projectList -->
             </select>
+<!--           {{typeObj.UnitType_Name}} | {{typeObj.UnitType_Id}}-->
          </div>
       </div>
    </div>
