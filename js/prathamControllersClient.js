@@ -2503,13 +2503,29 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
     $scope.untDetails = [];
     $scope.projectId = $stateParams.projId;
     $scope.phaseId = $stateParams.phaseId;
+    
+    var unitNosArr = [];
+    
+    ($scope.projectListFun = function() {
+        angular.element(".loader").show();
+        myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
+            $scope.projectList = response.data;
+            angular.element(".loader").hide();
+        });
+    })();
+    ($scope.phaseListFun = function(projectName) {
+        angular.element(".loader").show();
+        myService.getPhaseList($cookieStore.get('comp_guid'), $scope.projectId).then(function(response) {
+            $scope.phaseList = response.data;
+            angular.element(".loader").hide();
+        });
+    })();
     $scope.untGeneration = {
-        projectName: "1",
-        phase: "2",
+        projectName: $scope.projectId,
+        phase: $scope.phaseId,
         type: "3"
     };
-    var unitNosArr = [];
-
+    
     ($scope.getBlockList = function() {
         angular.element(".loader").show();
         $http({
@@ -2528,6 +2544,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             angular.element(".loader").hide();
         });
     })();
+    
     $scope.addSampleData = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {

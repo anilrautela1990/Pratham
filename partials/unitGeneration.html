@@ -15,9 +15,9 @@
             <label>Project:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select class="form-control" name="projectName" ng-model="untGeneration.projectName" disabled="">
-               <option value="1">
-                  RNS Ultima
+            <select class="form-control" name="projectName" ng-model="untGeneration.projectName">
+               <option ng-repeat="x in projectList" value="{{x.ProjId}}">
+                  {{x.Proj_Name}}
                </option>
                <!-- ngRepeat: x in projectList -->
             </select>
@@ -28,9 +28,9 @@
             <label>Phase:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select class="form-control" name="phase" ng-model="untGeneration.phase" disabled="">
-               <option value="2">
-                  Phase I
+             <select class="form-control" name="phase" ng-model="untGeneration.phase">
+               <option ng-repeat="x in phaseList" value="{{x.Phase_Id}}">
+                  {{x.Phase_Name}}
                </option>
                <!-- ngRepeat: x in projectList -->
             </select>
@@ -41,9 +41,9 @@
             <label>Type:</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select class="form-control" name="type" ng-model="untGeneration.type" disabled="">
-               <option value="3">
-                  Type 1
+            <select class="form-control" name="type" ng-model="untGeneration.type">
+               <option ng-repeat="x in phaseList" value="{{x.Phase_UnitType.UnitType_Id}}">
+                  {{x.Phase_UnitType.UnitType_Name}}
                </option>
                <!-- ngRepeat: x in projectList -->
             </select>
