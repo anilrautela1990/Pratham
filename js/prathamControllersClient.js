@@ -2619,13 +2619,8 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
     };
 
     $scope.generateForAllFloors = function(formName, formObj, parentObj) {
-        /*$scope.submit = true;
-        if ($scope[formName].$valid) {
-            alert("Valid!");
-        }
-        else{
-            alert("Not Valid!");
-        }*/
+		alert(parentObj.block);
+		
         var initiator = 1;
         if (parentObj.agf == true) {
             initiator = 0;
