@@ -1274,6 +1274,7 @@ app.controller("projects", function($scope, $http, $cookieStore, $state) {
             }
         }).success(function(data) {
             for (var i = 0; i < data.length; i++) {
+                if(data[i].Proj_ErrorDesc=="0"){
                 if (data[i].Proj_Types.length > 1) {
                     var types = data[i].Proj_Types.split('#');
                     var typeValue = '';
@@ -1287,6 +1288,7 @@ app.controller("projects", function($scope, $http, $cookieStore, $state) {
                 } else {
                     data[i].Proj_Types = getTypeNameById(data[i].Proj_Types);
                 }
+            }
             }
             $scope.projectsList = data;
             angular.element(".loader").hide();
