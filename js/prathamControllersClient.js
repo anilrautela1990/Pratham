@@ -2773,6 +2773,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
                 unitObj.UnitDtls_No = $scope.units[i].UnitDtls_No;
                 unitObj.UnitDtls_Name = $scope.units[i].UnitDtls_Name;
                 unitObj.UnitDtls_Type = $scope.units[i].UnitDtls_Type;
+                unitObj.UnitDtls_Unit_type_id = $scope.units[i].UnitDtls_Unit_type_id;
                 unitObj.UnitDtls_Rooms = $scope.units[i].UnitDtls_Rooms + "";
                 unitObj.UnitDtls_BRoom = $scope.units[i].UnitDtls_BRoom + "";
                 unitObj.UnitDtls_Balcn = $scope.units[i].UnitDtls_Balcn + "";
@@ -2799,7 +2800,7 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
     $scope.addBlockUnit = function(formObj, formName, parentObj) {
         for (i = 0; i < formObj.length; i++) {
             formObj[i].UnitDtls_comp_guid = $cookieStore.get('comp_guid');
-            formObj[i].UnitDtls_Unit_type_id = 3;
+            /*formObj[i].UnitDtls_Unit_type_id = 3;*/
             formObj[i].UnitDtls_Block_Id = parentObj.block;
             formObj[i].UnitDtls_user_id = $cookieStore.get('user_id');
         }
@@ -4169,7 +4170,39 @@ app.controller("generateCostSheet", function($scope, $http, $cookieStore, $state
             angular.element(".loader").hide();
         });
 	})();
-	
+    
+    $scope.getUnitsWithCostSheet = function(blockId){
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Blk/UntdtlsViewGrd/Gt",
+            ContentType: 'application/json',
+            data: {
+                "Blocks_Id": blockId,
+                "Blocks_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            $scope.showGrid = true;
+            $scope.unitsWCost = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    
+	$scope.unitCostSheetModal = function(unitId){        
+        var modalInstance = $uibModal.open({
+            templateUrl: 'unitCostSheet.html',
+            controller: 'unitCostSheet',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return unitId;
+                }
+            }
+        });
+    };
 	$scope.generateCostSheetUnits = function(templId){
 		angular.element(".loader").show();
         $http({
@@ -4183,9 +4216,39 @@ app.controller("generateCostSheet", function($scope, $http, $cookieStore, $state
             }
         }).success(function(data) {
             console.log(data);
+            var res = data.Comm_ErrorDesc;
+            var resSplit = res.split('|');
+            if (resSplit[0] == 0) {
+                $scope.getUnitsWithCostSheet(blockId);
+            }
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
         });
 	}
+});
+
+app.controller("unitCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $uibModalInstance, item){
+    $scope.unitId = item;
+    ($scope.getUnitCostSheetDetails = function(){
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Blk/UntCstSheet/Gt",
+            ContentType: 'application/json',
+            data: {
+				"UnitDtls_Id": parseInt($scope.unitId),
+                "UnitDtls_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            console.log(data);
+            $scope.unitCostSheetDetail = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    $scope.ok = function() {
+        $uibModalInstance.close();
+    };
 });

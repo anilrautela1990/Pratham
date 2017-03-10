@@ -83,11 +83,13 @@
       <tbody id="unitRows">
          <form name="addBlockUnitForm" class="form" method="POST" novalidate="novalidate">
             <tr ng-repeat="x in units track by $index" id="{{$index}}">
-               <td><input type="text" class="form-control" name="UnitDtls_No" ng-model="UnitsArr[$index].UnitDtls_No" /></td>
+               <td><input type="text" class="form-control" name="UnitDtls_No" ng-model="UnitsArr[$index].UnitDtls_No" />
+                </td>
                <td>
                    {{UnitsArr[$index].UnitDtls_Floor}} 
                    <input type="hidden" class="form-control" name="UnitDtls_Id" ng-model="UnitsArr[$index].UnitDtls_Id" />
-                   <input type="hidden" class="form-control" name="UnitDtls_Id" ng-model="UnitsArr[$index].UnitDtls_Id" />
+                   <input type="hidden" class="form-control" name="UnitDtls_Unit_type_id" ng-model="UnitsArr[$index].UnitDtls_Unit_type_id" />
+<!--                   <input type="hidden" class="form-control" name="UnitDtls_Id" ng-model="UnitsArr[$index].UnitDtls_Id" />-->
                    
                    <input type="hidden" class="form-control" name="UnitDtls_Status" ng-model="UnitsArr[$index].UnitDtls_Status" />
                    
