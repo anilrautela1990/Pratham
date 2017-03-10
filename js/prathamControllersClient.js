@@ -2719,6 +2719,33 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             angular.element(".loader").hide();
         });
     };
+    
+    $scope.addBlockUnit = function(formObj, formName, parentObj) {
+        for (i = 0; i < formObj.length; i++) {
+            formObj[i].UnitDtls_comp_guid = $cookieStore.get('comp_guid');
+            /*formObj[i].UnitDtls_Unit_type_id = 3;*/
+            formObj[i].UnitDtls_Block_Id = parentObj.block;
+            formObj[i].UnitDtls_user_id = $cookieStore.get('user_id');
+        }
+
+        console.log(formObj);
+
+        var unitsData = JSON.stringify(formObj);
+
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Block/Unitdetail/Update",
+            ContentType: 'application/json',
+            data: unitsData
+        }).success(function(data) {
+            console.log(data);
+            $state.go("/ApplyCostSheet", {
+                "projectId": $stateParams.projId,
+				"phaseId": $stateParams.phaseId,     
+				"blockId": $stateParams.blockId
+             });
+        }).error(function() {});
+    }
 });
 app.controller("units", function($scope, $http, $state, $cookieStore, $stateParams, $compile, myService) {
     $scope.title = "Units";
@@ -2799,32 +2826,32 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
 
     $scope.unitListFun($cookieStore.get('comp_guid'), $stateParams.blockId);
 
-    $scope.addBlockUnit = function(formObj, formName, parentObj) {
-        for (i = 0; i < formObj.length; i++) {
-            formObj[i].UnitDtls_comp_guid = $cookieStore.get('comp_guid');
-            /*formObj[i].UnitDtls_Unit_type_id = 3;*/
-            formObj[i].UnitDtls_Block_Id = parentObj.block;
-            formObj[i].UnitDtls_user_id = $cookieStore.get('user_id');
-        }
-
-        console.log(formObj);
-
-        var unitsData = JSON.stringify(formObj);
-
-        $http({
-            method: "POST",
-            url: "http://120.138.8.150/pratham/Proj/Block/Unitdetail/Update",
-            ContentType: 'application/json',
-            data: unitsData
-        }).success(function(data) {
-            console.log(data);
-            $state.go("/ApplyCostSheet", {
-                "projectId": $stateParams.projId,
-				"phaseId": $stateParams.phaseId,     
-				"blockId": $stateParams.blockId
-             });
-        }).error(function() {});
-    }
+//    $scope.addBlockUnit = function(formObj, formName, parentObj) {
+//        for (i = 0; i < formObj.length; i++) {
+//            formObj[i].UnitDtls_comp_guid = $cookieStore.get('comp_guid');
+//            /*formObj[i].UnitDtls_Unit_type_id = 3;*/
+//            formObj[i].UnitDtls_Block_Id = parentObj.block;
+//            formObj[i].UnitDtls_user_id = $cookieStore.get('user_id');
+//        }
+//
+//        console.log(formObj);
+//
+//        var unitsData = JSON.stringify(formObj);
+//
+//        $http({
+//            method: "POST",
+//            url: "http://120.138.8.150/pratham/Proj/Block/Unitdetail/Update",
+//            ContentType: 'application/json',
+//            data: unitsData
+//        }).success(function(data) {
+//            console.log(data);
+//            $state.go("/ApplyCostSheet", {
+//                "projectId": $stateParams.projId,
+//				"phaseId": $stateParams.phaseId,     
+//				"blockId": $stateParams.blockId
+//             });
+//        }).error(function() {});
+//    }
 });
 app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal) {
     $scope.title = "Add Cost Sheet Template";
