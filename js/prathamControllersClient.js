@@ -83,7 +83,13 @@ app.controller("login", function($scope, $http, $cookieStore, $window) {
                 } else {
                     $cookieStore.put('comp_guid', 'd0cb84c5-6b52-4dff-beb5-50b2f4af5398');
                     $cookieStore.put('user_id', data[0].user_id);
-                    $window.location.href = '/home.html';
+					var pageUrl = $cookieStore.get('pageUrl');
+					if(pageUrl!=undefined){
+						$window.location.href = pageUrl;
+					}
+					else{
+						$window.location.href = '/home.html';
+					}
                 }
                 angular.element(".loader").hide();
             }).error(function() {});
@@ -104,12 +110,15 @@ app.controller("mainCtrl", function($scope, $http, $cookieStore, $state, $window
         var userId = $cookieStore.get('user_id');
         var compGuid = $cookieStore.get('comp_guid');
         if (userId == undefined || compGuid == undefined) {
-            $window.location.href = '/';
+			var pageUrl = $window.location.href;
+			$cookieStore.put('pageUrl', pageUrl);
+			$window.location.href = '/';
         }
     })();
     $scope.logout = function() {
         $cookieStore.remove('user_id');
         $cookieStore.remove('comp_guid');
+		$cookieStore.remove('pageUrl');
         $window.location.href = '/';
     };
 });
