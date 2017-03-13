@@ -2003,7 +2003,7 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
             }).success(function(data) {
                 if (data[0].RoleErrorDesc == "0") {
                     alert("Access Right Record Saved")
-                    $state.go("/Leads");
+                    $state.go("/AccessRights");
                 } else {
                     alert("Some Error!");
                 }
