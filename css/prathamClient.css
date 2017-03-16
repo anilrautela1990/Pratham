@@ -674,3 +674,23 @@ a.link{
 	border-bottom: 1px solid #ccc;
 	padding: 0 0 5px 0;
 }
+.monthTable{
+    width: 100%;
+    border: 1px solid #ddd;
+}
+.monthTable tr td{
+    padding: 3px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 12px;
+    width: 30px;
+    cursor: pointer;
+}
+.monthTable tr:first-child td{
+    background-color: #333;
+    color: #fff;
+}
+.monthTable tr td:first-child{
+    width: 200px;
+    text-align: left;
+}

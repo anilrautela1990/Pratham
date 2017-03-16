@@ -4545,19 +4545,26 @@ app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $stat
 
 app.controller("attendance", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal) {
 	$scope.title = "Attendance";
+    $scope.employees = ['LK','Diwakar Rao','Ashish Agrawal','Atul Attri','Anil Rautela','Kavya G'];
 	$scope.months = [{name:'January',value:0,days:31},{name:'February',value:1,days:28},{name:'March',value:2,days:31},{name:'April',value:3,days:30},{name:'May',value:4,days:31},{name:'Jun',value:5,days:30},{name:'July',value:6,days:31},{name:'August',value:7,days:31},{name:'September',value:8,days:30},{name:'October',value:9,days:31},{name:'November',value:10,days:30},{name:'December',value:11,days:31}];
 	$scope.getDaysArray = function (obj) {
 		var y = parseInt(obj.year);
 		var m = parseInt(obj.month);
-		
-		var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+		var days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 		var firstDay = new Date(y, m, 1);
-		firstDay = firstDay.getDay();
-//		firstDay = days[firstDay];
-		alert(firstDay);
+		var firstDayNumber = firstDay.getDay();
 		var noOfDays = $scope.months[m].days;
+        $scope.monthDays = [];
 		for (i=1;i<=noOfDays;i++){
-			
+            if(firstDayNumber > 6){
+                firstDayNumber = 0;
+            }
+			$scope.monthDays.push({
+                date: i,
+                day: days[firstDayNumber]
+            })
+            firstDayNumber++;
 		}
+        $scope.showCalender = true;
 	}
 });
