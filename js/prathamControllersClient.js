@@ -243,7 +243,7 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
                         "leadID": data.user_id
                     });
                 } else {
-                    alert("Some Error!");
+                    alert("Error! " + data.user_ErrorDesc);
                 }
             }).error(function() {});
         }
@@ -906,8 +906,11 @@ app.controller("addAgentController", function($scope, $http, $cookieStore, $stat
                     "user_code": formObj.agentCode
                 }
             }).success(function(data) {
-                console.log(data);
-                $state.go("/Agents");
+                 if (data.user_id != 0) {
+                   $state.go("/Agents");
+                } else {
+                    alert("Error! " + data.user_ErrorDesc);
+                }                    
                 angular.element(".loader").hide();
             }).error(function() {
                 angular.element(".loader").hide();
@@ -3623,9 +3626,12 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
                     "user_role_id": formObj.employeeRole,
                     "user_code": formObj.employeeCode
                 }
-            }).success(function(data) {
-                console.log(data);
-                $state.go("/EmployeeDetails");
+            }).success(function(data) {               
+                 if (data.user_id != 0) {
+                    $state.go("/EmployeeDetails");
+                } else {
+                    alert("Error! " + data.user_ErrorDesc);
+                }             
                 angular.element(".loader").hide();
             }).error(function() {
                 angular.element(".loader").hide();
