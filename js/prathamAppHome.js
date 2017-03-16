@@ -117,6 +117,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/costSheetTemplate.html',
             controller: 'costSheetTemplate'
         })
+		.state('/BlockCostSheet', {
+            url: '/BlockCostSheet',
+            templateUrl: 'partials/blockCostSheet.html',
+            controller: 'blockCostSheet'
+        })
+		.state('/EditBlockCostSheet', {
+            url: '/EditBlockCostSheet/:blockId',
+            templateUrl: 'partials/editBlockCostSheet.html',
+            controller: 'editBlockCostSheet'
+        })
+		.state('/EditCostSheetTemplate', {
+            url: '/EditCostSheetTemplate/:templateId',
+            templateUrl: 'partials/costSheetTemplate.html',
+            controller: 'costSheetTemplate'
+        })
         .state('/CostSheetTemplates', {
             url: '/CostSheetTemplates',
             templateUrl: 'partials/CostSheetTemplates.html',
@@ -181,6 +196,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/GenerateCostSheet/:blockId',
             templateUrl: 'partials/generateCostSheet.html',
             controller: 'generateCostSheet'
+        })
+		.state('/Attendance', {
+            url: '/Attendance',
+            templateUrl: 'partials/attendance.html',
+            controller: 'attendance'
         })
 });
 app.config(function($httpProvider) {

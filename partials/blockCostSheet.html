@@ -1,51 +1,68 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
-   <h1>{{title}}</h1>
-</div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20">
    <ol class="breadcrumb">
       <li><a href="#">Home</a></li>
       <li class="active">{{title}}</li>
    </ol>
 </div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right marginBottom20">
-   <a ui-sref="/CostSheetTemplate" class="btn btn-primary">Create New Cost Sheet Template</a>
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 marginTop20">
+   <select ng-model="blockCostSheet.projectName" name="projectName" class="form-control" ng-change="phaseListFun(blockCostSheet.projectName)" ng-required="true" ng-class="{blankInput: unitAllocationForm.projectName.$error.required &amp;&amp; submit}" autofocus="true">
+      <option value="">
+         Project
+      </option>
+      <option ng-repeat="x in projectList" value="{{x.ProjId}}">
+         {{x.Proj_Name}}
+      </option>
+   </select>
 </div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-   <table class="table dataTable">
-      <thead>
-         <tr>
-            <th>#</th>
-            <th>Cost Sheet Template Name</th>
-            <th class="text-center">Actual Cost / Sq. Ft.</th>
-            <th class="text-right">Action</th>
-         </tr>
-      </thead>
-      <tbody>
-         <tr ng-repeat="x in costSheetTemplates track by $index">
-            <td>{{$index+1}}</td>
-            <td>{{x.untctcm_templname}}</td>
-            <td class="text-center">{{x.untctcm_Cost}}</td>
-            <td class="text-right">
-               <a class="link" ng-click="showTemplateDetails(x)">View</a> | 
-               <a class="link" ui-sref="/EditCostSheetTemplate({templateId:x.untctcm_Id})">Edit</a>
-            </td>
-         </tr>
-      </tbody>
-   </table>
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 marginTop20">
+   <select ng-model="blockCostSheet.phase" name="phase" class="form-control" ng-change="blockListFun(blockCostSheet.phase)" ng-required="true" ng-class="{blankInput: unitAllocationForm.phase.$error.required &amp;&amp; submit}">
+      <option value="">
+         Phase
+      </option>
+      <option ng-repeat="x in phaseList" value="{{x.Phase_Id}}">
+         {{x.Phase_Name}}
+      </option>
+   </select>
 </div>
-<script type="text/ng-template" id="costSheetDetail.html">
-   <div class="modal-header">
-   <button type="button" class="close" ng-click="ok()">&times;</button>
-       <h3 class="modal-title" id="modal-title">
-		Cost Sheet Template - {{costSheetDetail.untctcm_templname}}
-		</h3>
-   </div>
-   <div class="modal-body" id="modal-body">
-	   <div>
-		Actual Cost: INR <strong>{{costSheetDetail.untctcm_Cost}}</strong> / Sq. FT.
-		</div>
-	<h4 class="tableTitle">Cost Components</h4>
-   <table class="table dataTable">
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 marginTop20">
+   <select ng-model="blockCostSheet.blocks" name="blocks" class="form-control" ng-change="getBlockCostSheet(blockCostSheet.blocks)">
+      <option value="">
+         Block
+      </option>
+      <option ng-repeat="x in blockList" value="{{x.Blocks_Id}}">
+         {{x.Blocks_Name}}
+      </option>
+   </select>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginTop20" ng-show="showComponents">
+<div class="text-right">
+	<a ui-sref="/EditBlockCostSheet({blockId:blockCostSheet.blocks})" class="btn btn-primary">
+		Edit Cost Sheet
+	</a>
+</div>
+<table class="table borderDef marginTop20">
+	<tr>
+		<td>Actual Cost:</td>
+		<td>INR {{costSheetDetail.untctcm_Cost}} / Sq. FT.</td>
+	</tr>
+	<tr>
+		<td>Floor Raise Direction:</td>
+		<td>{{costSheetDetail.untctcm_Ascending}}</td>
+	</tr>
+	<tr>
+		<td>Floor From:</td>
+		<td>{{costSheetDetail.untctcm_From}}</td>
+	</tr>
+	<tr>
+		<td>Floor To:</td>
+		<td>{{costSheetDetail.untctcm_To}}</td>
+	</tr>
+	<tr>
+		<td>Floor Raise Cost:</td>
+		<td>{{costSheetDetail.untctcm_FlrRseCost}}</td>
+	</tr>
+</table>
+<table class="table dataTable">
    <thead>
 	   <tr>
 		   <th>Code</th>
@@ -309,8 +326,8 @@
    </tr>
    </tbody>
    </table>
-   </div>
-   <div class="modal-footer">
-       <button class="btn btn-primary" type="button" ng-click="ok()">Done</button>
-   </div>
-</script>
+</div>
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center marginTop20" ng-show="showMessage">
+<h3>{{resMsg}}</h3>
+</div>

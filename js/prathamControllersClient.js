@@ -77,19 +77,17 @@ app.controller("login", function($scope, $http, $cookieStore, $window) {
                     "user_password": formObj.password
                 }
             }).success(function(data) {
-                //console.log(data);
                 if (data[0].user_id == 0) {
                     alert("User Does Not Exist!");
                 } else {
-                    $cookieStore.put('comp_guid', 'd0cb84c5-6b52-4dff-beb5-50b2f4af5398');
+                    $cookieStore.put('comp_guid', data[0].user_comp_guid);
                     $cookieStore.put('user_id', data[0].user_id);
-					var pageUrl = $cookieStore.get('pageUrl');
-					if(pageUrl!=undefined){
-						$window.location.href = pageUrl;
-					}
-					else{
-						$window.location.href = '/home.html';
-					}
+                    var pageUrl = $cookieStore.get('pageUrl');
+                    if (pageUrl != undefined) {
+                        $window.location.href = pageUrl;
+                    } else {
+                        $window.location.href = '/home.html';
+                    }
                 }
                 angular.element(".loader").hide();
             }).error(function() {});
@@ -110,15 +108,15 @@ app.controller("mainCtrl", function($scope, $http, $cookieStore, $state, $window
         var userId = $cookieStore.get('user_id');
         var compGuid = $cookieStore.get('comp_guid');
         if (userId == undefined || compGuid == undefined) {
-			var pageUrl = $window.location.href;
-			$cookieStore.put('pageUrl', pageUrl);
-			$window.location.href = '/';
+            var pageUrl = $window.location.href;
+            $cookieStore.put('pageUrl', pageUrl);
+            $window.location.href = '/';
         }
     })();
     $scope.logout = function() {
         $cookieStore.remove('user_id');
         $cookieStore.remove('comp_guid');
-		$cookieStore.remove('pageUrl');
+        $cookieStore.remove('pageUrl');
         $window.location.href = '/';
     };
 });
@@ -678,9 +676,9 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                         zip: data.user_zipcode,
                         gpaHolder: 0,
                         bankloan: 0,
-                        relationType: ((data.Cust_relationtype != 0) ? data.Cust_relationtype+'' : '') ,
+                        relationType: ((data.Cust_relationtype != 0) ? data.Cust_relationtype + '' : ''),
                         relationName: data.Cust_relationname,
-                        residentType: ((data.Cust_status_type != 0 ? data.Cust_status_type+'' : '')),
+                        residentType: ((data.Cust_status_type != 0 ? data.Cust_status_type + '' : '')),
                         address2: data.Cust_perm_add,
                         pan: data.Cust_pan,
                         aadhar: data.Cust_aadhar,
@@ -712,7 +710,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
                         bankAdress: data.Cust_bankadd,
                         bankEmailId: data.Cust_bankemailid,
                         gpaHolder: data.Cust_gpaholdr,
-                        gpaRelation: ((data.Cust_gpa_relationtype != 0 ? data.Cust_gpa_relationtype+'' : '')),
+                        gpaRelation: ((data.Cust_gpa_relationtype != 0 ? data.Cust_gpa_relationtype + '' : '')),
                         gpaName: data.Cust_gpa_nm,
                         gpaDob: dateArray[3],
                         gpaAddress: data.Cust_gpa_add,
@@ -846,7 +844,7 @@ app.controller("convertCustomer", function($scope, $http, $compile, $cookieStore
 app.controller("addAgentController", function($scope, $http, $cookieStore, $state) {
     $scope.pageTitle = "Add Agent";
     $scope.addAgentBtn = true;
-    
+
     ($scope.getRolesList = function() {
         angular.element(".loader").show();
         $http({
@@ -863,7 +861,7 @@ app.controller("addAgentController", function($scope, $http, $cookieStore, $stat
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.addAgent = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -966,7 +964,7 @@ app.controller("agentsDetailController", function($scope, $http, $cookieStore, $
 app.controller("editAgentController", function($scope, $http, $state, $cookieStore, $stateParams, $filter) {
     $scope.pageTitle = "Edit Agent";
     $scope.editAgentBtn = true;
-    
+
     ($scope.getRolesList = function() {
         angular.element(".loader").show();
         $http({
@@ -1023,7 +1021,7 @@ app.controller("editAgentController", function($scope, $http, $state, $cookieSto
                     bankAddress: data.Agents_bankadd,
                     accountType: data.Agents_banktypeofacn,
                     ifscCode: data.Agents_bankifsccode,
-                    agentRole: data.user_role_id+'',
+                    agentRole: data.user_role_id + '',
                     agentCode: data.user_code
                 }
             } else {
@@ -1213,6 +1211,19 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
             });
         }
     }
+	$scope.viewUnitCostSheet = function(item){
+		var modalInstance = $uibModal.open({
+            templateUrl: 'unitCostSheet.html',
+            controller: 'unitCostSheet',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return item;
+                }
+            }
+        });
+	}
 
     $scope.updateUnitAllocationStatus = function(unitData) {
         var modalInstance = $uibModal.open({
@@ -1283,21 +1294,21 @@ app.controller("projects", function($scope, $http, $cookieStore, $state) {
             }
         }).success(function(data) {
             for (var i = 0; i < data.length; i++) {
-                if(data[i].Proj_ErrorDesc=="0"){
-                if (data[i].Proj_Types.length > 1) {
-                    var types = data[i].Proj_Types.split('#');
-                    var typeValue = '';
-                    for (var j = 0; j < types.length; j++) {
-                        if (!(j == types.length - 1))
-                            typeValue = typeValue + ' , ' + getTypeNameById(types[j]);
-                        else
-                            typeValue = typeValue + ' & ' + getTypeNameById(types[j]);
+                if (data[i].Proj_ErrorDesc == "0") {
+                    if (data[i].Proj_Types.length > 1) {
+                        var types = data[i].Proj_Types.split('#');
+                        var typeValue = '';
+                        for (var j = 0; j < types.length; j++) {
+                            if (!(j == types.length - 1))
+                                typeValue = typeValue + ' , ' + getTypeNameById(types[j]);
+                            else
+                                typeValue = typeValue + ' & ' + getTypeNameById(types[j]);
+                        }
+                        data[i].Proj_Types = typeValue.substring(2, typeValue.length);
+                    } else {
+                        data[i].Proj_Types = getTypeNameById(data[i].Proj_Types);
                     }
-                    data[i].Proj_Types = typeValue.substring(2, typeValue.length);
-                } else {
-                    data[i].Proj_Types = getTypeNameById(data[i].Proj_Types);
                 }
-            }
             }
             $scope.projectsList = data;
             angular.element(".loader").hide();
@@ -2003,7 +2014,7 @@ app.controller("AccessRights", function($scope, $http, $state, $cookieStore) {
             }).success(function(data) {
                 if (data[0].RoleErrorDesc == "0") {
                     alert("Access Right Record Saved")
-                    $state.go("/AccessRights");
+                    $state.go("/Leads");
                 } else {
                     alert("Some Error!");
                 }
@@ -2515,7 +2526,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
     $scope.projectId = $stateParams.projId;
     $scope.phaseId = $stateParams.phaseId;
     var unitNosArr = [];
-    
+
     ($scope.projectListFun = function() {
         angular.element(".loader").show();
         myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
@@ -2528,8 +2539,8 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
         myService.getPhaseList($cookieStore.get('comp_guid'), $scope.projectId).then(function(response) {
             $scope.phaseList = response.data;
             console.log($scope.phaseList);
-            for(i=0;i<$scope.phaseList.length;i++){
-                if($scope.phaseList[i].Phase_Id == $scope.phaseId){
+            for (i = 0; i < $scope.phaseList.length; i++) {
+                if ($scope.phaseList[i].Phase_Id == $scope.phaseId) {
                     $scope.untGeneration = {
                         projectName: $scope.projectId,
                         phase: $scope.phaseId,
@@ -2541,7 +2552,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             angular.element(".loader").hide();
         });
     })();
-    
+
     ($scope.getBlockList = function() {
         angular.element(".loader").show();
         $http({
@@ -2560,7 +2571,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.addSampleData = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {
@@ -2628,8 +2639,8 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
     };
 
     $scope.generateForAllFloors = function(formName, formObj, parentObj) {
-		alert(parentObj.block);
-		
+        alert(parentObj.block);
+
         var initiator = 1;
         if (parentObj.agf == true) {
             initiator = 0;
@@ -2723,7 +2734,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             angular.element(".loader").hide();
         });
     };
-    
+
     $scope.addBlockUnit = function(formObj, formName, parentObj) {
         for (i = 0; i < formObj.length; i++) {
             formObj[i].UnitDtls_comp_guid = $cookieStore.get('comp_guid');
@@ -2745,9 +2756,9 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             console.log(data);
             $state.go("/ApplyCostSheet", {
                 "projectId": $stateParams.projId,
-				"phaseId": $stateParams.phaseId,     
-				"blockId": $stateParams.blockId
-             });
+                "phaseId": $stateParams.phaseId,
+                "blockId": $stateParams.blockId
+            });
         }).error(function() {});
     }
 });
@@ -2851,18 +2862,65 @@ app.controller("units", function($scope, $http, $state, $cookieStore, $statePara
             console.log(data);
             $state.go("/ApplyCostSheet", {
                 "projectId": $stateParams.projId,
-				"phaseId": $stateParams.phaseId,     
-				"blockId": $stateParams.blockId
-             });
+                "phaseId": $stateParams.phaseId,
+                "blockId": $stateParams.blockId
+            });
         }).error(function() {});
     }
 });
 app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal) {
     $scope.title = "Add Cost Sheet Template";
-
-    $scope.costSheetTemplate = {
+    /*$scope.costSheetTemplate = {
         untctcm_Ascending: '',
-    };
+    };*/
+
+    ($scope.getTemplateDetails = function() {
+        $scope.showAddCmptBtn = true;
+        var tempId = $stateParams.templateId;
+        console.log(tempId);
+        if (tempId != "" && tempId != undefined) {
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Getall",
+                ContentType: 'application/json',
+                data: {
+                    "untctcm_comp_guid": $cookieStore.get('comp_guid'),
+                    "untctcm_Id": tempId,
+                    "untctcm_Blocks_Id": 0
+                }
+            }).success(function(data) {
+                console.log(data);
+                if (data[0].untctcm_ErrorDesc != "-1 | Unitcostcompnts do not exist") {
+                    $scope.editTemplate = true;
+                    $scope.showAddCmptBtn = false;
+                    $scope.costSheetTemplate = data[0];
+                    for (i = 1; i <= 19; i++) {
+                        var increment;
+                        if (i == 7) {
+                            i = i + 1;
+                        }
+                        increment = i;
+                        console.log(increment);
+                        var costComponentRow = '<tr> <td> <label>Code' + increment + '</label> </td> <td> <input type="text" class="form-control" name="untctcm_code' + increment + '" ng-model="costSheetTemplate.untctcm_code' + increment + '"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="untctcm_name' + increment + '" ng-model="costSheetTemplate.untctcm_name' + increment + '"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="untctcm_calctyp' + increment + '" ng-model="costSheetTemplate.untctcm_calctyp' + increment + '" ng-change="toggleFields(' + increment + ')"> <option value=""> Select </option> <option value="1"> Flat </option> <option value="0"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="untctcm_val_formula' + increment + '" ng-model="costSheetTemplate.untctcm_val_formula' + increment + '" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn' + increment + '" ng-click="openFormulaModal({formulaVal:costSheetTemplate.untctcm_val_formula' + increment + ',index:' + increment + '})" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="untctcm_comments' + increment + '" ng-model="costSheetTemplate.untctcm_comments' + increment + '"/> </td><td><span class="glyphicon glyphicon-trash" ng-click="deleteCostComponent(' + increment + ')"></span></td></tr>';
+                        //                console.log(costComponentRow);
+                        costComponentRow = $compile(costComponentRow)($scope);
+                        angular.element(".formulaTable").append(costComponentRow);
+                    }
+                    angular.element(".loader").hide();
+                } else {
+                    $state.go("/CostSheetTemplate");
+                    angular.element(".loader").hide();
+                }
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        } else {
+            angular.element(".loader").hide();
+            $state.go("/CostSheetTemplate");
+        }
+    })();
+
     $scope.addCostComponent = function() {
         var trCount = $(".formulaTable > tr").length;
         var increment = trCount + 1;
@@ -2872,7 +2930,7 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
         if (increment >= 20) {
             return;
         }
-        var costComponentRow = '<tr> <td> <label>Code' + increment + '</label> </td> <td> <input type="text" class="form-control" name="untctcm_code' + increment + '" ng-model="costSheetTemplate.untctcm_code' + increment + '"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="untctcm_name' + increment + '" ng-model="costSheetTemplate.untctcm_name' + increment + '"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="untctcm_calctyp' + increment + '" ng-model="costSheetTemplate.untctcm_calctyp' + increment + '" ng-change="toggleFields(' + increment + ')"> <option value=""> Select </option> <option value="1"> Flat </option> <option value="0"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="untctcm_val_formula' + increment + '" ng-model="costSheetTemplate.untctcm_val_formula' + increment + '" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn' + increment + '" ng-click="openFormulaModal({formulaVal:costSheetTemplate.untctcm_val_formula' + increment + ',index:'+increment+'})" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="untctcm_comments' + increment + '" ng-model="costSheetTemplate.untctcm_comments' + increment + '"/> </td><td><span class="glyphicon glyphicon-trash" ng-click="deleteCostComponent('+increment+')"></span></td></tr>';
+        var costComponentRow = '<tr> <td> <label>Code' + increment + '</label> </td> <td> <input type="text" class="form-control" name="untctcm_code' + increment + '" ng-model="costSheetTemplate.untctcm_code' + increment + '"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="untctcm_name' + increment + '" ng-model="costSheetTemplate.untctcm_name' + increment + '"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="untctcm_calctyp' + increment + '" ng-model="costSheetTemplate.untctcm_calctyp' + increment + '" ng-change="toggleFields(' + increment + ')"> <option value=""> Select </option> <option value="1"> Flat </option> <option value="0"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="untctcm_val_formula' + increment + '" ng-model="costSheetTemplate.untctcm_val_formula' + increment + '" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn' + increment + '" ng-click="openFormulaModal({formulaVal:costSheetTemplate.untctcm_val_formula' + increment + ',index:' + increment + '})" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="untctcm_comments' + increment + '" ng-model="costSheetTemplate.untctcm_comments' + increment + '"/> </td><td><span class="glyphicon glyphicon-trash" ng-click="deleteCostComponent(' + increment + ')"></span></td></tr>';
 
         costComponentRow = $compile(costComponentRow)($scope);
         angular.element(".formulaTable").append(costComponentRow);
@@ -2903,11 +2961,13 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
             }
         });
     };
-    $scope.deleteCostComponent = function(rowId){
-        alert(rowId)  ;
+
+    $scope.deleteCostComponent = function(rowId) {
+        alert(rowId);
     };
 
     $scope.saveCostSheetTemplate = function(formName, formObj) {
+		var url = "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Save";
         $scope.submit = true;
         if ($scope[formName].$valid) {
             formObj.untctcm_comp_guid = $cookieStore.get('comp_guid');
@@ -2915,12 +2975,17 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
             formObj.untctcm_SBA = 0;
             formObj.untctcm_SiteArea = 0;
 
+            if ($scope.editTemplate) {
+                formObj.untctcm_Id = $stateParams.templateId;
+				url = "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Updt";
+            }
+			
             console.log(formObj);
 
             angular.element(".loader").show();
             $http({
                 method: "POST",
-                url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Save",
+                url: url,
                 ContentType: 'application/json',
                 data: formObj
             }).success(function(data) {
@@ -2934,17 +2999,16 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
             }).error(function() {
                 angular.element(".loader").hide();
             });
-
         }
     };
 });
 app.controller("costComponentFormula", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModal, $uibModalInstance, item) {
-    $scope.formula = {        
+    $scope.formula = {
         abbreviation: '',
         operator: ''
     };
     $scope.formulaGen = item.formulaVal;
-	$scope.fieldCount = item.index;
+    $scope.fieldCount = item.index;
     $scope.fieldName = "untctcm_val_formula" + $scope.fieldCount;
     $scope.close = function() {
         $uibModalInstance.close();
@@ -2953,15 +3017,15 @@ app.controller("costComponentFormula", function($scope, $http, $state, $cookieSt
         var preVal = angular.element("#formulaGen").val();
         var formula = formObj.abbreviation + formObj.operator;
         var finalFormula = preVal + formula;
-//        angular.element("#formulaGen").val(finalFormula);
-		$scope.formulaGen = finalFormula;
+        //        angular.element("#formulaGen").val(finalFormula);
+        $scope.formulaGen = finalFormula;
         $scope.formula = {
             abbreviation: '',
             operator: ''
         };
     };
     $scope.saveFormula = function() {
-		/*console.log(fieldName);*/
+        /*console.log(fieldName);*/
         if ($scope.formulaGen != "") {
             $scope.costSheetTemplate[$scope.fieldName] = $scope.formulaGen;
             $uibModalInstance.close();
@@ -3009,6 +3073,7 @@ app.controller("costSheetTemplates", function($scope, $http, $state, $cookieStor
 
 app.controller("costSheetDetail", function($scope, $http, $state, $cookieStore, $stateParams, $compile, $uibModalInstance, item) {
     $scope.costSheetDetail = item;
+    $scope.formulaType = ['Formula', 'Flat'];
     $scope.ok = function() {
         $uibModalInstance.close();
     };
@@ -3354,7 +3419,7 @@ app.controller("paymentScheduleChangeController", function($scope, $http, $state
 });
 
 app.controller("employeeDetailsController", function($scope, $http, $cookieStore, $state) {
-    
+
     ($scope.getParentDepartmentDetails = function() {
         angular.element(".loader").show();
         $http({
@@ -3367,14 +3432,14 @@ app.controller("employeeDetailsController", function($scope, $http, $cookieStore
         }).success(function(data) {
             angular.element(".loader").hide();
             $scope.parentDepartmentList = [];
-            for(var i = 0; i < data.length; i++){
+            for (var i = 0; i < data.length; i++) {
                 $scope.parentDepartmentList[data[i].dept_id] = data[i].dept_name;
             }
         }).error(function() {
             angular.element(".loader").hide();
         });
     })();
-    
+
     ($scope.getDesignationDetails = function() {
         angular.element(".loader").show();
         $http({
@@ -3387,7 +3452,7 @@ app.controller("employeeDetailsController", function($scope, $http, $cookieStore
         }).success(function(data) {
             angular.element(".loader").hide();
             $scope.designationList = [];
-            for(var i = 0; i < data.length; i++){
+            for (var i = 0; i < data.length; i++) {
                 $scope.designationList[data[i].designation_id] = data[i].designation;
             }
         }).error(function() {
@@ -3446,7 +3511,7 @@ app.controller("heirarchyController", function($scope, $http, $cookieStore, $sta
 app.controller("addEmployeeController", function($scope, $http, $state, $cookieStore, $compile, $stateParams, $window) {
     $scope.pageTitle = "Add Employee";
     $scope.addEmployeeBtn = true;
-    
+
     ($scope.getRolesList = function() {
         angular.element(".loader").show();
         $http({
@@ -3480,7 +3545,7 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
             angular.element(".loader").hide();
         });
     })();
-    
+
     ($scope.getDesignationDetails = function() {
         angular.element(".loader").show();
         $http({
@@ -3599,7 +3664,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             angular.element(".loader").hide();
         });
     })();
-    
+
     ($scope.getEmployeeDetail = function() {
         angular.element(".loader").show();
         $http({
@@ -3666,9 +3731,9 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
                 employeeChild4Dob: dateArray[6],
                 employeeChild4Name: data.Emp_child4_nm,
                 employeeChildrenNo: data.Emp_noof_childrn,
-                employeeDepartment: data.user_dept_id+"",
-                employeeDesignation: data.user_designation_id+"",
-                employeeRole: data.user_role_id+'',
+                employeeDepartment: data.user_dept_id + "",
+                employeeDesignation: data.user_designation_id + "",
+                employeeRole: data.user_role_id + '',
                 employeeCode: data.user_code
             };
             appendFields(data.Emp_noof_childrn);
@@ -3694,7 +3759,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             angular.element(".loader").hide();
         });
     })();
-    
+
     ($scope.getDesignationDetails = function() {
         angular.element(".loader").show();
         $http({
@@ -4042,12 +4107,12 @@ app.controller("addDepartmentController", function($scope, $http, $cookieStore, 
 });
 
 app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, myService) {
-	$scope.title = "Apply Cost Sheet";
-	$scope.projectId = $stateParams.projectId;
-	$scope.phaseId = $stateParams.phaseId;
-	$scope.blockId = $stateParams.blockId;
-	
-	($scope.getCostSheetTemplates = function() {        
+    $scope.title = "Apply Cost Sheet";
+    $scope.projectId = $stateParams.projectId;
+    $scope.phaseId = $stateParams.phaseId;
+    $scope.blockId = $stateParams.blockId;
+
+    ($scope.getCostSheetTemplates = function() {
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -4061,15 +4126,15 @@ app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $
         }).success(function(data) {
             console.log(data);
             $scope.costSheetTemplates = data;
-            for(i=1;i<=19;i++){
+            for (i = 1; i <= 19; i++) {
                 var increment;
-                if(i==7){
-                    i = i+1;
+                if (i == 7) {
+                    i = i + 1;
                 }
                 increment = i;
                 console.log(increment);
-                var costComponentRow = '<tr> <td> <label>Code' + increment + '</label> </td> <td> <input type="text" class="form-control" name="untctcm_code' + increment + '" ng-model="costSheetTemplate.untctcm_code' + increment + '"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="untctcm_name' + increment + '" ng-model="costSheetTemplate.untctcm_name' + increment + '"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="untctcm_calctyp' + increment + '" ng-model="costSheetTemplate.untctcm_calctyp' + increment + '" ng-change="toggleFields(' + increment + ')"> <option value=""> Select </option> <option value="1"> Flat </option> <option value="0"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="untctcm_val_formula' + increment + '" ng-model="costSheetTemplate.untctcm_val_formula' + increment + '" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn' + increment + '" ng-click="openFormulaModal({formulaVal:costSheetTemplate.untctcm_val_formula' + increment + ',index:'+increment+'})" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="untctcm_comments' + increment + '" ng-model="costSheetTemplate.untctcm_comments' + increment + '"/> </td><td><span class="glyphicon glyphicon-trash" ng-click="deleteCostComponent('+increment+')"></span></td></tr>';
-//                console.log(costComponentRow);
+                var costComponentRow = '<tr> <td> <label>Code' + increment + '</label> </td> <td> <input type="text" class="form-control" name="untctcm_code' + increment + '" ng-model="costSheetTemplate.untctcm_code' + increment + '"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="untctcm_name' + increment + '" ng-model="costSheetTemplate.untctcm_name' + increment + '"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="untctcm_calctyp' + increment + '" ng-model="costSheetTemplate.untctcm_calctyp' + increment + '" ng-change="toggleFields(' + increment + ')"> <option value=""> Select </option> <option value="1"> Flat </option> <option value="0"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="untctcm_val_formula' + increment + '" ng-model="costSheetTemplate.untctcm_val_formula' + increment + '" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn' + increment + '" ng-click="openFormulaModal({formulaVal:costSheetTemplate.untctcm_val_formula' + increment + ',index:' + increment + '})" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="untctcm_comments' + increment + '" ng-model="costSheetTemplate.untctcm_comments' + increment + '"/> </td><td><span class="glyphicon glyphicon-trash" ng-click="deleteCostComponent(' + increment + ')"></span></td></tr>';
+                //                console.log(costComponentRow);
                 costComponentRow = $compile(costComponentRow)($scope);
                 angular.element(".formulaTable").append(costComponentRow);
             }
@@ -4078,7 +4143,8 @@ app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $
             angular.element(".loader").hide();
         });
     })();
-	$scope.toggleFields = function(increment) {
+
+    $scope.toggleFields = function(increment) {
         var fieldName = "untctcm_calctyp" + increment;
         if ($scope.costSheetTemplate[fieldName] == 1) {
             $("input[name='untctcm_val_formula" + increment + "']").attr("disabled", false);
@@ -4088,7 +4154,7 @@ app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $
             $("button[name='formulaBtn" + increment + "']").attr("disabled", false);
         }
     };
-    
+
     $scope.openFormulaModal = function(val) {
         var modalInstance = $uibModal.open({
             templateUrl: 'formula.html',
@@ -4103,31 +4169,31 @@ app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $
             }
         });
     };
-    
-	$scope.saveFormula = function() {
+
+    $scope.saveFormula = function() {
         if ($scope.formulaGen != "") {
             $scope.costSheetTemplate[fieldName] = $scope.formulaGen;
             $uibModalInstance.close();
         }
     };
-	
-	($scope.checkBlockUnits = function() {
+
+    ($scope.checkBlockUnits = function() {
         var compId = $cookieStore.get('comp_guid');
         angular.element(".loader").show();
         myService.getUnitsByBlock(compId, $stateParams.blockId).then(function(response) {
-			var blockFloorNumberArr = [];
+            var blockFloorNumberArr = [];
             var blockFloors = response.data[1].Blocks_Floors;
-			for(i=1;i<=blockFloors;i++){
-				blockFloorNumberArr.push(i);
-			}
-			$scope.blockFloorNumbers = blockFloorNumberArr;
-		});
-		
-	})();
-	
-	$scope.getTemplateDetails = function(tempId){
+            for (i = 1; i <= blockFloors; i++) {
+                blockFloorNumberArr.push(i);
+            }
+            $scope.blockFloorNumbers = blockFloorNumberArr;
+        });
+
+    })();
+
+    $scope.getTemplateDetails = function(tempId) {
         $scope.flag = 1;
-		angular.element(".loader").show();
+        angular.element(".loader").show();
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Getall",
@@ -4145,12 +4211,12 @@ app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $
         }).error(function() {
             angular.element(".loader").hide();
         });
-	};
-    
+    };
+
     $scope.saveCostSheetTemplate = function(formName, formObj) {
         $scope.costSheetTemplate.floorRaiseDirection = "";
         $scope.submit = true;
-        if ($scope[formName].$valid) {            
+        if ($scope[formName].$valid) {
             formObj.untctcm_comp_guid = $cookieStore.get('comp_guid');
             formObj.untctcm_Blocks_Id = parseInt($scope.blockId);
             formObj.untctcm_SBA = 0;
@@ -4182,11 +4248,11 @@ app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $
 });
 
 
-app.controller("generateCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, myService){
+app.controller("generateCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, myService) {
     $scope.title = "Generate Cost Sheet";
-	var blockId = $stateParams.blockId;
-    ($scope.getBlockCostSheet = function(){
-		angular.element(".loader").show();
+    var blockId = $stateParams.blockId;
+    ($scope.getBlockCostSheet = function() {
+        angular.element(".loader").show();
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Getall",
@@ -4202,9 +4268,9 @@ app.controller("generateCostSheet", function($scope, $http, $cookieStore, $state
         }).error(function() {
             angular.element(".loader").hide();
         });
-	})();
-    
-    $scope.getUnitsWithCostSheet = function(blockId){
+    })();
+
+    $scope.getUnitsWithCostSheet = function(blockId) {
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -4222,8 +4288,8 @@ app.controller("generateCostSheet", function($scope, $http, $cookieStore, $state
             angular.element(".loader").hide();
         });
     };
-    
-	$scope.unitCostSheetModal = function(unitId){        
+
+    $scope.unitCostSheetModal = function(unitId) {
         var modalInstance = $uibModal.open({
             templateUrl: 'unitCostSheet.html',
             controller: 'unitCostSheet',
@@ -4236,15 +4302,15 @@ app.controller("generateCostSheet", function($scope, $http, $cookieStore, $state
             }
         });
     };
-	$scope.generateCostSheetUnits = function(templId){
-		angular.element(".loader").show();
+    $scope.generateCostSheetUnits = function(templId) {
+        angular.element(".loader").show();
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/Blk/BldValforUtCtSt",
             ContentType: 'application/json',
             data: {
                 "untctcm_comp_guid": $cookieStore.get('comp_guid'),
-				"untctcm_Blocks_Id": parseInt(blockId),
+                "untctcm_Blocks_Id": parseInt(blockId),
                 "untctcm_Id": templId
             }
         }).success(function(data) {
@@ -4258,23 +4324,23 @@ app.controller("generateCostSheet", function($scope, $http, $cookieStore, $state
         }).error(function() {
             angular.element(".loader").hide();
         });
-	}
+    }
 });
 
-app.controller("unitCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $uibModalInstance, item){
+app.controller("unitCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $uibModalInstance, item) {
     $scope.unitId = item;
-    ($scope.getUnitCostSheetDetails = function(){
+    ($scope.getUnitCostSheetDetails = function() {
         angular.element(".loader").show();
         $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/Proj/Blk/UntCstSheet/Gt",
             ContentType: 'application/json',
             data: {
-				"UnitDtls_Id": parseInt($scope.unitId),
+                "UnitDtls_Id": parseInt($scope.unitId),
                 "UnitDtls_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
-            console.log(data);
+            console.log(JSON.stringify(data));
             $scope.unitCostSheetDetail = data;
             angular.element(".loader").hide();
         }).error(function() {
@@ -4284,4 +4350,208 @@ app.controller("unitCostSheet", function($scope, $http, $cookieStore, $state, $s
     $scope.ok = function() {
         $uibModalInstance.close();
     };
+});
+
+app.controller("blockCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, myService) {
+    $scope.title = "Block Cost Sheet";
+
+	myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
+            $scope.projectList = response.data;
+            angular.element(".loader").hide();
+	});
+
+    $scope.phaseListFun = function(projectName) {
+        $scope.flatType = "";
+        $scope.blockCostSheet.phase = "";
+        $scope.blockCostSheet.blocks = "";
+        $scope.blockList = {};
+        angular.element(".loader").show();
+        myService.getPhaseList($cookieStore.get('comp_guid'), projectName).then(function(response) {
+            $scope.phaseList = response.data;
+            angular.element(".loader").hide();
+        });
+    };
+
+    $scope.blockListFun = function(phase) {
+        $scope.perFloorUnits = [];
+        $scope.units = [];
+        $scope.blockCostSheet.blocks = "";
+        for (i = 0; i < $scope.phaseList.length; i++) {
+            if ($scope.phaseList[i].Phase_Id == phase) {
+                $scope.flatType = $scope.phaseList[i].Phase_UnitType.UnitType_Name;
+            }
+        }
+        angular.element(".loader").show();
+        myService.getBlockList(phase, $cookieStore.get('comp_guid')).then(function(response) {
+            $scope.blockList = response.data;
+            angular.element(".loader").hide();
+        });
+    }
+
+    
+	
+	$scope.formulaType = ['Formula', 'Flat'];
+	
+	$scope.getBlockCostSheet = function(blockId) {
+        if (blockId == "") {
+            $scope.showComponents = false;
+            return;
+        }
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Getall",
+            ContentType: 'application/json',
+            data: {
+                "untctcm_comp_guid": $cookieStore.get('comp_guid'),
+                "untctcm_Id": 0,
+                "untctcm_Blocks_Id": blockId
+            }
+        }).success(function(data) {
+            /*console.log(JSON.stringify(data));*/
+			console.log(data[0].untctcm_ErrorDesc);
+			if (data[0].untctcm_ErrorDesc != "-1 | Unitcostcompnts do not exist") {
+				
+				$scope.showComponents = true;
+				$scope.costSheetDetail = data[0];
+				angular.element(".loader").hide();
+			}
+			else{
+				$scope.showMessage = true;
+				$scope.resMsg = "Costsheet for this block is not generated yet."
+				angular.element(".loader").hide();
+			}
+            
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    }
+});
+
+app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, myService) {
+    $scope.title = "Edit Block Cost Sheet";
+	
+	$scope.checkBlockUnits = function(blockId) {
+        var compId = $cookieStore.get('comp_guid');
+        angular.element(".loader").show();
+        myService.getUnitsByBlock($cookieStore.get('comp_guid'), blockId).then(function(response) {
+            var blockFloorNumberArr = [];
+            var blockFloors = response.data[1].Blocks_Floors;
+            for (i = 1; i <= blockFloors; i++) {
+                blockFloorNumberArr.push(i);
+            }
+            $scope.blockFloorNumbers = blockFloorNumberArr;
+        });
+    }
+	$scope.checkBlockUnits($stateParams.blockId);
+	($scope.getBlockCostSheet = function(blockId) {
+		var blockId = $stateParams.blockId;
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Getall",
+            ContentType: 'application/json',
+            data: {
+                "untctcm_comp_guid": $cookieStore.get('comp_guid'),
+                "untctcm_Id": 0,
+                "untctcm_Blocks_Id": blockId
+            }
+        }).success(function(data) {
+            console.log(JSON.stringify(data));
+            $scope.showComponents = true;
+            $scope.costSheetTemplate = data[0];
+			$scope.costSheetTemplate.untctcm_calctyp1 = data[0].untctcm_calctyp1+"";
+            angular.element(".formulaTable").html('');
+            for (i = 1; i <= 19; i++) {
+                var increment;
+                if (i == 7) {
+                    i = i + 1;
+                }
+                increment = i;
+                console.log(increment);
+                var costComponentRow = '<tr> <td> <label>Code' + increment + '</label> </td> <td> <input type="text" class="form-control" name="untctcm_code' + increment + '" ng-model="costSheetTemplate.untctcm_code' + increment + '"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="untctcm_name' + increment + '" ng-model="costSheetTemplate.untctcm_name' + increment + '"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="untctcm_calctyp' + increment + '" ng-model="costSheetTemplate.untctcm_calctyp' + increment + '" ng-change="toggleFields(' + increment + ')"> <option value=""> Select </option> <option value="1"> Flat </option> <option value="0"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="untctcm_val_formula' + increment + '" ng-model="costSheetTemplate.untctcm_val_formula' + increment + '" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn' + increment + '" ng-click="openFormulaModal({formulaVal:costSheetTemplate.untctcm_val_formula' + increment + ',index:' + increment + '})" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="untctcm_comments' + increment + '" ng-model="costSheetTemplate.untctcm_comments' + increment + '"/> </td><td><span class="glyphicon glyphicon-trash" ng-click="deleteCostComponent(' + increment + ')"></span></td></tr>';
+                
+                costComponentRow = $compile(costComponentRow)($scope);
+                angular.element(".formulaTable").append(costComponentRow);
+            }
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+	
+    $scope.toggleFields = function(increment) {
+        var fieldName = "untctcm_calctyp" + increment;
+        if ($scope.costSheetTemplate[fieldName] == 1) {
+            $("input[name='untctcm_val_formula" + increment + "']").attr("disabled", false);
+            $("button[name='formulaBtn" + increment + "']").attr("disabled", true);
+        } else {
+            $("input[name='untctcm_val_formula" + increment + "']").attr("disabled", true);
+            $("button[name='formulaBtn" + increment + "']").attr("disabled", false);
+        }
+    };
+    $scope.openFormulaModal = function(val) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'formula.html',
+            controller: 'costComponentFormula',
+            scope: $scope,
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return val;
+                }
+            }
+        });
+    };
+	
+	$scope.updateBlockCostSheet = function(formName, formObj) {
+		
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            formObj.untctcm_comp_guid = $cookieStore.get('comp_guid');
+            formObj.untctcm_Blocks_Id = $stateParams.blockId;
+            formObj.untctcm_SBA = 0;
+            formObj.untctcm_SiteArea = 0;
+			
+            console.log(formObj);
+
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Updt",
+                ContentType: 'application/json',
+                data: formObj
+            }).success(function(data) {
+                console.log(data);
+                angular.element(".loader").hide();
+                /*var res = data.Comm_ErrorDesc;
+                var resSplit = res.split('|');
+                if (resSplit[0] == 0) {
+                    $state.go("/CostSheetTemplates");
+                }*/
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        }
+    };
+});
+
+app.controller("attendance", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal) {
+	$scope.title = "Attendance";
+	$scope.months = [{name:'January',value:0,days:31},{name:'February',value:1,days:28},{name:'March',value:2,days:31},{name:'April',value:3,days:30},{name:'May',value:4,days:31},{name:'Jun',value:5,days:30},{name:'July',value:6,days:31},{name:'August',value:7,days:31},{name:'September',value:8,days:30},{name:'October',value:9,days:31},{name:'November',value:10,days:30},{name:'December',value:11,days:31}];
+	$scope.getDaysArray = function (obj) {
+		var y = parseInt(obj.year);
+		var m = parseInt(obj.month);
+		
+		var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+		var firstDay = new Date(y, m, 1);
+		firstDay = firstDay.getDay();
+//		firstDay = days[firstDay];
+		alert(firstDay);
+		var noOfDays = $scope.months[m].days;
+		for (i=1;i<=noOfDays;i++){
+			
+		}
+	}
 });

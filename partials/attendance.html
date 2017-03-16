@@ -1,0 +1,25 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
+   <h1>{{title}}</h1>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20">
+   <ol class="breadcrumb">
+      <li><a href="#">Home</a></li>
+      <li class="active">{{title}}</li>
+   </ol>
+</div>
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+	<select name="year" class="form-control" ng-model="attendance.year">
+		<option value="">Year</option>
+		<option value="2017">2017</option>
+		<option value="2016">2016</option>
+	</select>
+</div>
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+	<select name="month" class="form-control" ng-model="attendance.month">
+		<option value="">Month</option>
+		<option ng-repeat="x in months" value="{{x.value}}">{{x.name}}</option>
+	</select>
+</div>
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+	<button type="button" class="btn btn-primary" ng-click="getDaysArray(attendance)">See Calender</button>
+</div>

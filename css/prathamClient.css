@@ -670,3 +670,7 @@ a.link{
     max-width: 400px;
     margin-top: 15px
 }
+.tableTitle{
+	border-bottom: 1px solid #ccc;
+	padding: 0 0 5px 0;
+}
