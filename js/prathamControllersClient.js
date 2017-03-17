@@ -4567,4 +4567,22 @@ app.controller("attendance", function($scope, $http, $cookieStore, $state, $stat
 		}
         $scope.showCalender = true;
 	}
+	
+	$scope.getEmpAttendance = function () {
+		$http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/Attendance/Get",
+            ContentType: 'application/json',
+            data: {
+			  "attendance_compguid":"d0cb84c5-6b52-4dff-beb5-50b2f4af5398",
+			  "attendance_date":"2017-02-19"
+			}
+        }).success(function(data) {
+            console.log(JSON.stringify(data));
+            $scope.attendanceData = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+	}
 });
