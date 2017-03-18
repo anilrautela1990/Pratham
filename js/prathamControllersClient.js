@@ -4545,7 +4545,18 @@ app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $stat
 
 app.controller("attendance", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal) {
 	$scope.title = "Attendance";
-    $scope.employees = ['LK','Diwakar Rao','Ashish Agrawal','Atul Attri','Anil Rautela','Kavya G'];
+	
+	var d = new Date();
+	var cMonth = d.getMonth();
+	cMonth = cMonth.toString();
+	var cYear = d.getFullYear();
+	cYear = cYear.toString();
+	
+	$scope.attendance = {
+		year:cYear,
+		month:cMonth
+	};
+	
 	$scope.months = [{name:'January',value:0,days:31},{name:'February',value:1,days:28},{name:'March',value:2,days:31},{name:'April',value:3,days:30},{name:'May',value:4,days:31},{name:'Jun',value:5,days:30},{name:'July',value:6,days:31},{name:'August',value:7,days:31},{name:'September',value:8,days:30},{name:'October',value:9,days:31},{name:'November',value:10,days:30},{name:'December',value:11,days:31}];
 	$scope.getDaysArray = function (obj) {
 		var y = parseInt(obj.year);
@@ -4559,30 +4570,34 @@ app.controller("attendance", function($scope, $http, $cookieStore, $state, $stat
             if(firstDayNumber > 6){
                 firstDayNumber = 0;
             }
+			var dateNumber = i;
+			if(dateNumber < 10){
+				dateNumber = "0"+dateNumber;
+			}
 			$scope.monthDays.push({
-                date: i,
+                date: dateNumber,
                 day: days[firstDayNumber]
             })
             firstDayNumber++;
 		}
-        $scope.showCalender = true;
-	}
-	
-	$scope.getEmpAttendance = function () {
+		
+		var attnMonth = y+'-'+(m+1);
 		$http({
             method: "POST",
             url: "http://120.138.8.150/pratham/User/Attendance/Get",
             ContentType: 'application/json',
             data: {
-			  "attendance_compguid":"d0cb84c5-6b52-4dff-beb5-50b2f4af5398",
-			  "attendance_date":"2017-02-19"
+			  "attendance_compguid":$cookieStore.get('comp_guid'),
+			  "attendance_date":attnMonth
 			}
         }).success(function(data) {
             console.log(JSON.stringify(data));
             $scope.attendanceData = data;
+			
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
         });
+        $scope.showCalender = true;
 	}
 });

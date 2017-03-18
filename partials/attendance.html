@@ -9,43 +9,37 @@
 </div>
 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 	<select name="year" class="form-control" ng-model="attendance.year">
-		<option value="">Year</option>
 		<option value="2017">2017</option>
 		<option value="2016">2016</option>
 	</select>
 </div>
 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 	<select name="month" class="form-control" ng-model="attendance.month">
-		<option value="">Month</option>
 		<option ng-repeat="x in months" value="{{x.value}}">{{x.name}}</option>
 	</select>
 </div>
 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-	<button type="button" class="btn btn-primary" ng-click="getDaysArray(attendance)">See Calender</button>
+	<button type="button" class="btn btn-primary" ng-click="getDaysArray(attendance)">See Attendance</button>
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginTop20">
-    <table class="monthTable" ng-show="showCalender">
-        <tr>
-            <td>Employee</td>
-            <td ng-repeat="x in monthDays">
-                {{x.day}}
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td ng-repeat="x in monthDays">
-                <span ng-click="toggleAttendance()">{{x.date}}</span>
-            </td>
-        </tr>
-        <tr ng-repeat="emp in employees">
-            <td>{{emp}}</td>
-            <td ng-repeat="x in monthDays">
-                <span ng-click="toggleAttendance(x)"></span>
-            </td>
-        </tr>
-    </table>
-</div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginTop20">
-<button type="button" ng-click="getEmpAttendance()">Get Atndc</button>
-{{attendanceData}}
+   <table class="monthTable" ng-show="showCalender">
+   <tr>
+      <td>Employee</td>
+      <td ng-repeat="x in monthDays">
+         {{x.day}}
+      </td>
+   </tr>
+   <tr>
+      <td></td>
+      <td ng-repeat="x in monthDays">
+         <span ng-click="toggleAttendance()">{{x.date}}</span>
+      </td>
+   </tr>
+   <tr ng-repeat="emp in attendanceData">
+	   <td>{{emp.attendance_employeeId}}</td>
+      <td ng-repeat="x in emp.lstattd" class="attendance{{x.attendance_status}}">
+         {{x.attendance_status}}
+      </td>
+   </tr>
+</table>
 </div>
