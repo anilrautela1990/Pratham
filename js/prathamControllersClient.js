@@ -4545,7 +4545,7 @@ app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $stat
 
 app.controller("attendance", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal) {
 	$scope.title = "Attendance";
-	
+	$scope.attendanceCodes = ['','P','A','L'];
 	var d = new Date();
 	var cMonth = d.getMonth();
 	cMonth = cMonth.toString();
@@ -4582,6 +4582,7 @@ app.controller("attendance", function($scope, $http, $cookieStore, $state, $stat
 		}
 		
 		var attnMonth = y+'-'+(m+1);
+		angular.element(".loader").show();
 		$http({
             method: "POST",
             url: "http://120.138.8.150/pratham/User/Attendance/Get",
@@ -4591,13 +4592,61 @@ app.controller("attendance", function($scope, $http, $cookieStore, $state, $stat
 			  "attendance_date":attnMonth
 			}
         }).success(function(data) {
-            console.log(JSON.stringify(data));
+            /*console.log(JSON.stringify(data));*/
             $scope.attendanceData = data;
-			
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
         });
         $scope.showCalender = true;
 	}
+	
+	$scope.markAttendanceModal = function(obj){
+		if(obj.attendance_status != 0){
+			return;
+		}
+		var modalInstance = $uibModal.open({
+            templateUrl: 'markAttendance.html',
+            controller: 'markAttendance',
+            scope: $scope,
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return obj;
+                }
+            }
+        });
+	}
+});
+app.controller("markAttendance", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $uibModalInstance, $location, item) {
+	$scope.empAttn = item;
+	$scope.saveAttn = function(formName, formObj){
+		$scope.submit = true;
+		if($scope[formName].$valid){
+			var attnArr = [];
+			formObj.attendance_employeeId = item.attendance_employeeId;
+			formObj.attendance_compguid = $cookieStore.get('comp_guid');
+			formObj.attendance_date = item.attendance_date;	
+			attnArr.push(formObj);
+			angular.element(".loader").show();
+			$http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/Attendance/Save",
+                ContentType: 'application/json',
+                data: attnArr
+            }).success(function(data) {
+                /*console.log(data);*/
+				$uibModalInstance.close();
+				$scope.getDaysArray($scope.attendance);
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+		}
+	}
+	$scope.ok = function(){
+		$uibModalInstance.close();
+	}
+	
 });
