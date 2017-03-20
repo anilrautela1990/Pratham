@@ -4602,9 +4602,9 @@ app.controller("attendance", function($scope, $http, $cookieStore, $state, $stat
 	}
 	
 	$scope.markAttendanceModal = function(obj){
-		if(obj.attendance_status != 0){
+		/*if(obj.attendance_status != 0){
 			return;
-		}
+		}*/
 		var modalInstance = $uibModal.open({
             templateUrl: 'markAttendance.html',
             controller: 'markAttendance',
