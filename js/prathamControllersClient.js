@@ -4650,3 +4650,6 @@ app.controller("markAttendance", function($scope, $http, $cookieStore, $state, $
 	}
 	
 });
+
+app.controller("unitsListingController", function($scope, $http, $cookieStore, $state, $uibModal) {
+});
