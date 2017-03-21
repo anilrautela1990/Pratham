@@ -4780,18 +4780,4 @@ app.controller("unitsListingController", function($scope, $http, $cookieStore, $
             }
         });
 	}
-
-    $scope.updateUnitAllocationStatus = function(unitData) {
-        var modalInstance = $uibModal.open({
-            templateUrl: 'unitStatusUpdate.html',
-            controller: 'unitUpdateController',
-            size: 'lg',
-            backdrop: 'static',
-            resolve: {
-                item: function() {
-                    return unitData;
-                }
-            }
-        });
-    };
 });
