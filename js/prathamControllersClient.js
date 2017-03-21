@@ -4652,4 +4652,146 @@ app.controller("markAttendance", function($scope, $http, $cookieStore, $state, $
 });
 
 app.controller("unitsListingController", function($scope, $http, $cookieStore, $state, $uibModal) {
+    $scope.unitStatus = ['vacant', 'userinterest', 'mgmtquota', 'blockedbyadvnc', 'blockedbynotadvnc', 'sold'];
+    $scope.unitStatusText = ['Vacant', 'User Interested', 'Management Quota', 'Blocked By Paying Advance', 'Blocked By Not Paying Advance', 'Sold'];
+
+    ($scope.getProjectList = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/ProjDtls/ByCompGuid",
+            ContentType: 'application/json',
+            data: {
+                "Proj_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            $scope.projectList = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+
+    $scope.getPhaseList = function(projectName) {
+        $scope.flatType = "";
+        $scope.projectDetails.phase = "";
+        $scope.projectDetails.blocks = "";
+        $scope.blockList = {};
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/PhaseDtls/ByPhaseProjId",
+            ContentType: 'application/json',
+            data: {
+                "Phase_Proj_Id": projectName,
+                "Phase_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            $scope.phaseList = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    $scope.getBlockList = function(phase, projectName) {
+        $scope.projectDetails.blocks = "";
+        for (i = 0; i < $scope.phaseList.length; i++) {
+            if ($scope.phaseList[i].Phase_Id == phase) {
+                $scope.flatType = $scope.phaseList[i].Phase_UnitType.UnitType_Name;
+            }
+        }
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/BlockDtls/ByPhaseBlocksId",
+            ContentType: 'application/json',
+            data: {
+                "Blocks_Phase_Id": phase,
+                "Blocks_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            $scope.blockList = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    $scope.getUnitAllocation = function(obj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            var userProjData = [];
+            if (obj.blocks != "") {
+                userProjData.push({
+                    "Blocks_Id": obj.blocks
+                });
+            } else {
+                userProjData.push({
+                    "Phase_Id": obj.phase
+                });
+            }
+
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/AllocByUserType",
+                ContentType: 'application/json',
+                data: {
+                    "comp_guid": $cookieStore.get('comp_guid'),
+                    "Projusrtyp": 3,
+                    "Phase_Id": obj.phase,
+                    "Blocks_Id": obj.blocks
+                }
+            }).success(function(data) {
+                console.log(data);
+                $scope.unitAllocationData = [];
+                for (h = 0; h < data.length; h++) {
+                    if (data[h].userprojlist != null) {
+                        for (i = 0; i < data[h].userprojlist.length; i++) {
+                            //if (data[h].userprojlist[i].ProjDtl_Status != 7) {
+                                $scope.unitAllocationObj = {};
+
+                                $scope.unitAllocationObj.name = data[h].user_first_name + ' ' + data[h].user_middle_name + ' ' + data[h].user_last_name;
+                                $scope.unitAllocationObj.email = data[h].user_email_address;
+                                $scope.unitAllocationObj.mobile = data[h].user_mobile_no;
+                                $scope.unitAllocationObj.unitObj = data[h].userprojlist[i];
+                                $scope.unitAllocationObj.leadID = data[h].user_id;
+
+                                $scope.unitAllocationData.push($scope.unitAllocationObj);
+                            //}
+                        }
+                    }
+                }
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        }
+    }
+	$scope.viewUnitCostSheet = function(item){
+		var modalInstance = $uibModal.open({
+            templateUrl: 'unitCostSheet.html',
+            controller: 'unitCostSheet',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return item;
+                }
+            }
+        });
+	}
+
+    $scope.updateUnitAllocationStatus = function(unitData) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'unitStatusUpdate.html',
+            controller: 'unitUpdateController',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return unitData;
+                }
+            }
+        });
+    };
 });
