@@ -3649,7 +3649,7 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
     };
 });
 
-app.controller("editEmployeeController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+app.controller("editEmployeeController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal) {
     $scope.pageTitle = "Edit Employee";
     $scope.editEmployeeBtn = true;
     $scope.employeeId = $stateParams.employeeId;
@@ -3869,6 +3869,48 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             var childDivComplied = $compile(childDiv)($scope);
             angular.element("#children").append(childDivComplied);
         }
+    };
+    
+    $scope.ctcDetail = function(addEmployee) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'ctcDetail.html',
+            controller: 'ctcDetailController',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return addEmployee;
+                }
+            }
+        });
+    };
+});
+
+app.controller("ctcDetailController", function($scope, $http, $cookieStore, $uibModalInstance, $stateParams, $state, item) {
+    $scope.empObject = item;
+    
+    ($scope.getSalaryComponentDetails = function() {
+        console.log($scope.empObject);
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/CalculateUserSalaryHeads",
+            ContentType: 'application/json',
+            data: {
+                "UserSalheadsCompGuid": $cookieStore.get('comp_guid'),
+                "UserSalheadsEmp_ctc": item.employeeCtc,
+                "UserSalheadsUserId": $stateParams.employeeId
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.salaryComponentDetails = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
+    $scope.ok = function() {
+        $uibModalInstance.close();
     };
 });
 

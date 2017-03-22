@@ -140,6 +140,7 @@
       <div class="field">
          <label ng-show="addEmployee.employeeCtc" class="show-hide">C.T.C *</label>
          <input type="number" placeholder="C.T.C *" class="form-control" name="employeeCtc" ng-model="addEmployee.employeeCtc" ng-required="true" ng-class="{blankInput: addEmployeeForm.employeeCtc.$error.required &amp;&amp; submit}"/>
+          <button ng-show="editEmployeeBtn" type="button" class="btn btn-primary" ng-click="ctcDetail(addEmployee)">Show Details</button>
       </div>
       <div class="field">
          <label ng-show="addEmployee.employeeNetSalary" class="show-hide">Net Salary *</label>
@@ -215,3 +216,38 @@
       <button type="button" class="btn btn-success" ng-click="editEmployee(addEmployee,'addEmployeeForm')" ng-show="editEmployeeBtn">Update Employee</button>
    </div>
 </form>
+<script type="text/ng-template" id="ctcDetail.html">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="ok()">&times;</button>
+        <h3 class="modal-title" id="modal-title">{{empObject.employeeFirstName}} {{empObject.employeeMiddleName}} {{empObject.employeeLastName}}</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <div class="subHeading">Salary Component Details</div>
+        
+        <div>
+            <table class="table borderDef">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Component Name</th>
+                        <th>Component Code</th>
+                        <th>Monthly</th>
+                        <th>Annual</th>
+                    </tr>
+                </thead>
+                <tbody id="projectList">
+                    <tr ng-repeat="unit in salaryComponentDetails track by $index">
+                        <td>{{$index + 1}}</td>
+                        <td>{{unit.SalHeads_Name}}</td>
+                        <td>{{unit.SalHead_Code}}</td>
+                        <td>{{unit.UserSalheadsEmp_ctc / 12}}</td>
+                        <td>{{unit.UserSalheadsEmp_ctc}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">Done</button>
+    </div>
+</script>
