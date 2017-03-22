@@ -906,11 +906,11 @@ app.controller("addAgentController", function($scope, $http, $cookieStore, $stat
                     "user_code": formObj.agentCode
                 }
             }).success(function(data) {
-                 if (data.user_id != 0) {
-                   $state.go("/Agents");
+                if (data.user_id != 0) {
+                    $state.go("/Agents");
                 } else {
                     alert("Error! " + data.user_ErrorDesc);
-                }                    
+                }
                 angular.element(".loader").hide();
             }).error(function() {
                 angular.element(".loader").hide();
@@ -1214,8 +1214,8 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
             });
         }
     }
-	$scope.viewUnitCostSheet = function(item){
-		var modalInstance = $uibModal.open({
+    $scope.viewUnitCostSheet = function(item) {
+        var modalInstance = $uibModal.open({
             templateUrl: 'unitCostSheet.html',
             controller: 'unitCostSheet',
             size: 'lg',
@@ -1226,7 +1226,7 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
                 }
             }
         });
-	}
+    }
 
     $scope.updateUnitAllocationStatus = function(unitData) {
         var modalInstance = $uibModal.open({
@@ -2970,7 +2970,7 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
     };
 
     $scope.saveCostSheetTemplate = function(formName, formObj) {
-		var url = "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Save";
+        var url = "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Save";
         $scope.submit = true;
         if ($scope[formName].$valid) {
             formObj.untctcm_comp_guid = $cookieStore.get('comp_guid');
@@ -2980,9 +2980,9 @@ app.controller("costSheetTemplate", function($scope, $http, $state, $cookieStore
 
             if ($scope.editTemplate) {
                 formObj.untctcm_Id = $stateParams.templateId;
-				url = "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Updt";
+                url = "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Updt";
             }
-			
+
             console.log(formObj);
 
             angular.element(".loader").show();
@@ -3626,12 +3626,12 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
                     "user_role_id": formObj.employeeRole,
                     "user_code": formObj.employeeCode
                 }
-            }).success(function(data) {               
-                 if (data.user_id != 0) {
+            }).success(function(data) {
+                if (data.user_id != 0) {
                     $state.go("/EmployeeDetails");
                 } else {
                     alert("Error! " + data.user_ErrorDesc);
-                }             
+                }
                 angular.element(".loader").hide();
             }).error(function() {
                 angular.element(".loader").hide();
@@ -3870,7 +3870,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
             angular.element("#children").append(childDivComplied);
         }
     };
-    
+
     $scope.ctcDetail = function(addEmployee) {
         var modalInstance = $uibModal.open({
             templateUrl: 'ctcDetail.html',
@@ -3888,7 +3888,7 @@ app.controller("editEmployeeController", function($scope, $http, $cookieStore, $
 
 app.controller("ctcDetailController", function($scope, $http, $cookieStore, $uibModalInstance, $stateParams, $state, item) {
     $scope.empObject = item;
-    
+
     ($scope.getSalaryComponentDetails = function() {
         console.log($scope.empObject);
         angular.element(".loader").show();
@@ -3908,7 +3908,7 @@ app.controller("ctcDetailController", function($scope, $http, $cookieStore, $uib
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.ok = function() {
         $uibModalInstance.close();
     };
@@ -4403,10 +4403,10 @@ app.controller("unitCostSheet", function($scope, $http, $cookieStore, $state, $s
 app.controller("blockCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, myService) {
     $scope.title = "Block Cost Sheet";
 
-	myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
-            $scope.projectList = response.data;
-            angular.element(".loader").hide();
-	});
+    myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
+        $scope.projectList = response.data;
+        angular.element(".loader").hide();
+    });
 
     $scope.phaseListFun = function(projectName) {
         $scope.flatType = "";
@@ -4436,11 +4436,11 @@ app.controller("blockCostSheet", function($scope, $http, $cookieStore, $state, $
         });
     }
 
-    
-	
-	$scope.formulaType = ['Formula', 'Flat'];
-	
-	$scope.getBlockCostSheet = function(blockId) {
+
+
+    $scope.formulaType = ['Formula', 'Flat'];
+
+    $scope.getBlockCostSheet = function(blockId) {
         if (blockId == "") {
             $scope.showComponents = false;
             return;
@@ -4457,19 +4457,18 @@ app.controller("blockCostSheet", function($scope, $http, $cookieStore, $state, $
             }
         }).success(function(data) {
             /*console.log(JSON.stringify(data));*/
-			console.log(data[0].untctcm_ErrorDesc);
-			if (data[0].untctcm_ErrorDesc != "-1 | Unitcostcompnts do not exist") {
-				
-				$scope.showComponents = true;
-				$scope.costSheetDetail = data[0];
-				angular.element(".loader").hide();
-			}
-			else{
-				$scope.showMessage = true;
-				$scope.resMsg = "Costsheet for this block is not generated yet."
-				angular.element(".loader").hide();
-			}
-            
+            console.log(data[0].untctcm_ErrorDesc);
+            if (data[0].untctcm_ErrorDesc != "-1 | Unitcostcompnts do not exist") {
+
+                $scope.showComponents = true;
+                $scope.costSheetDetail = data[0];
+                angular.element(".loader").hide();
+            } else {
+                $scope.showMessage = true;
+                $scope.resMsg = "Costsheet for this block is not generated yet."
+                angular.element(".loader").hide();
+            }
+
         }).error(function() {
             angular.element(".loader").hide();
         });
@@ -4478,8 +4477,8 @@ app.controller("blockCostSheet", function($scope, $http, $cookieStore, $state, $
 
 app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, myService) {
     $scope.title = "Edit Block Cost Sheet";
-	
-	$scope.checkBlockUnits = function(blockId) {
+
+    $scope.checkBlockUnits = function(blockId) {
         var compId = $cookieStore.get('comp_guid');
         angular.element(".loader").show();
         myService.getUnitsByBlock($cookieStore.get('comp_guid'), blockId).then(function(response) {
@@ -4491,9 +4490,9 @@ app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $stat
             $scope.blockFloorNumbers = blockFloorNumberArr;
         });
     }
-	$scope.checkBlockUnits($stateParams.blockId);
-	($scope.getBlockCostSheet = function(blockId) {
-		var blockId = $stateParams.blockId;
+    $scope.checkBlockUnits($stateParams.blockId);
+    ($scope.getBlockCostSheet = function(blockId) {
+        var blockId = $stateParams.blockId;
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -4508,7 +4507,7 @@ app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $stat
             console.log(JSON.stringify(data));
             $scope.showComponents = true;
             $scope.costSheetTemplate = data[0];
-			$scope.costSheetTemplate.untctcm_calctyp1 = data[0].untctcm_calctyp1+"";
+            $scope.costSheetTemplate.untctcm_calctyp1 = data[0].untctcm_calctyp1 + "";
             angular.element(".formulaTable").html('');
             for (i = 1; i <= 19; i++) {
                 var increment;
@@ -4518,7 +4517,7 @@ app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $stat
                 increment = i;
                 console.log(increment);
                 var costComponentRow = '<tr> <td> <label>Code' + increment + '</label> </td> <td> <input type="text" class="form-control" name="untctcm_code' + increment + '" ng-model="costSheetTemplate.untctcm_code' + increment + '"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="untctcm_name' + increment + '" ng-model="costSheetTemplate.untctcm_name' + increment + '"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="untctcm_calctyp' + increment + '" ng-model="costSheetTemplate.untctcm_calctyp' + increment + '" ng-change="toggleFields(' + increment + ')"> <option value=""> Select </option> <option value="1"> Flat </option> <option value="0"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="untctcm_val_formula' + increment + '" ng-model="costSheetTemplate.untctcm_val_formula' + increment + '" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn' + increment + '" ng-click="openFormulaModal({formulaVal:costSheetTemplate.untctcm_val_formula' + increment + ',index:' + increment + '})" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="untctcm_comments' + increment + '" ng-model="costSheetTemplate.untctcm_comments' + increment + '"/> </td><td><span class="glyphicon glyphicon-trash" ng-click="deleteCostComponent(' + increment + ')"></span></td></tr>';
-                
+
                 costComponentRow = $compile(costComponentRow)($scope);
                 angular.element(".formulaTable").append(costComponentRow);
             }
@@ -4527,7 +4526,7 @@ app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $stat
             angular.element(".loader").hide();
         });
     })();
-	
+
     $scope.toggleFields = function(increment) {
         var fieldName = "untctcm_calctyp" + increment;
         if ($scope.costSheetTemplate[fieldName] == 1) {
@@ -4552,16 +4551,16 @@ app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $stat
             }
         });
     };
-	
-	$scope.updateBlockCostSheet = function(formName, formObj) {
-		
+
+    $scope.updateBlockCostSheet = function(formName, formObj) {
+
         $scope.submit = true;
         if ($scope[formName].$valid) {
             formObj.untctcm_comp_guid = $cookieStore.get('comp_guid');
             formObj.untctcm_Blocks_Id = $stateParams.blockId;
             formObj.untctcm_SBA = 0;
             formObj.untctcm_SiteArea = 0;
-			
+
             console.log(formObj);
 
             angular.element(".loader").show();
@@ -4586,53 +4585,101 @@ app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $stat
 });
 
 app.controller("attendance", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal) {
-	$scope.title = "Attendance";
-	$scope.attendanceCodes = ['','P','A','L'];
-	var d = new Date();
-	var cMonth = d.getMonth();
-	cMonth = cMonth.toString();
-	var cYear = d.getFullYear();
-	cYear = cYear.toString();
-	
-	$scope.attendance = {
-		year:cYear,
-		month:cMonth
-	};
-	
-	$scope.months = [{name:'January',value:0,days:31},{name:'February',value:1,days:28},{name:'March',value:2,days:31},{name:'April',value:3,days:30},{name:'May',value:4,days:31},{name:'Jun',value:5,days:30},{name:'July',value:6,days:31},{name:'August',value:7,days:31},{name:'September',value:8,days:30},{name:'October',value:9,days:31},{name:'November',value:10,days:30},{name:'December',value:11,days:31}];
-	$scope.getDaysArray = function (obj) {
-		var y = parseInt(obj.year);
-		var m = parseInt(obj.month);
-		var days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-		var firstDay = new Date(y, m, 1);
-		var firstDayNumber = firstDay.getDay();
-		var noOfDays = $scope.months[m].days;
+    $scope.title = "Attendance";
+    $scope.attendanceCodes = ['', 'P', 'A', 'L'];
+    var d = new Date();
+    var cMonth = d.getMonth();
+    cMonth = cMonth.toString();
+    var cYear = d.getFullYear();
+    cYear = cYear.toString();
+
+    $scope.attendance = {
+        year: cYear,
+        month: cMonth
+    };
+
+    $scope.months = [{
+        name: 'January',
+        value: 0,
+        days: 31
+    }, {
+        name: 'February',
+        value: 1,
+        days: 28
+    }, {
+        name: 'March',
+        value: 2,
+        days: 31
+    }, {
+        name: 'April',
+        value: 3,
+        days: 30
+    }, {
+        name: 'May',
+        value: 4,
+        days: 31
+    }, {
+        name: 'Jun',
+        value: 5,
+        days: 30
+    }, {
+        name: 'July',
+        value: 6,
+        days: 31
+    }, {
+        name: 'August',
+        value: 7,
+        days: 31
+    }, {
+        name: 'September',
+        value: 8,
+        days: 30
+    }, {
+        name: 'October',
+        value: 9,
+        days: 31
+    }, {
+        name: 'November',
+        value: 10,
+        days: 30
+    }, {
+        name: 'December',
+        value: 11,
+        days: 31
+    }];
+    $scope.getDaysArray = function(obj) {
+        var y = parseInt(obj.year);
+        var m = parseInt(obj.month);
+        var days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+        var firstDay = new Date(y, m, 1);
+        var firstDayNumber = firstDay.getDay();
+        var noOfDays = $scope.months[m].days;
         $scope.monthDays = [];
-		for (i=1;i<=noOfDays;i++){
-            if(firstDayNumber > 6){
+        for (i = 1; i <= noOfDays; i++) {
+            if (firstDayNumber > 6) {
                 firstDayNumber = 0;
             }
-			var dateNumber = i;
-			if(dateNumber < 10){
-				dateNumber = "0"+dateNumber;
-			}
-			$scope.monthDays.push({
+            var dateNumber = i;
+            if (dateNumber < 10) {
+                dateNumber = "0" + dateNumber;
+            }
+            $scope.monthDays.push({
                 date: dateNumber,
                 day: days[firstDayNumber]
             })
             firstDayNumber++;
-		}
-		
-		var attnMonth = y+'-'+(m+1);
-		angular.element(".loader").show();
-		$http({
+        }
+
+        var attnMonth = y + '-' + (m + 1);
+        angular.element(".loader").show();
+        $http({
             method: "POST",
             url: "http://120.138.8.150/pratham/User/Attendance/Get",
             ContentType: 'application/json',
             data: {
-			  "attendance_compguid":$cookieStore.get('comp_guid'),
-			  "attendance_date":attnMonth
-			}
+                "attendance_compguid": $cookieStore.get('comp_guid'),
+                "attendance_date": attnMonth
+            }
         }).success(function(data) {
             /*console.log(JSON.stringify(data));*/
             $scope.attendanceData = data;
@@ -4641,13 +4688,13 @@ app.controller("attendance", function($scope, $http, $cookieStore, $state, $stat
             angular.element(".loader").hide();
         });
         $scope.showCalender = true;
-	}
-	
-	$scope.markAttendanceModal = function(obj){
-		/*if(obj.attendance_status != 0){
-			return;
-		}*/
-		var modalInstance = $uibModal.open({
+    }
+
+    $scope.markAttendanceModal = function(obj) {
+        /*if(obj.attendance_status != 0){
+        	return;
+        }*/
+        var modalInstance = $uibModal.open({
             templateUrl: 'markAttendance.html',
             controller: 'markAttendance',
             scope: $scope,
@@ -4659,38 +4706,38 @@ app.controller("attendance", function($scope, $http, $cookieStore, $state, $stat
                 }
             }
         });
-	}
+    }
 });
 app.controller("markAttendance", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $uibModalInstance, $location, item) {
-	$scope.empAttn = item;
-	$scope.saveAttn = function(formName, formObj){
-		$scope.submit = true;
-		if($scope[formName].$valid){
-			var attnArr = [];
-			formObj.attendance_employeeId = item.attendance_employeeId;
-			formObj.attendance_compguid = $cookieStore.get('comp_guid');
-			formObj.attendance_date = item.attendance_date;	
-			attnArr.push(formObj);
-			angular.element(".loader").show();
-			$http({
+    $scope.empAttn = item;
+    $scope.saveAttn = function(formName, formObj) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            var attnArr = [];
+            formObj.attendance_employeeId = item.attendance_employeeId;
+            formObj.attendance_compguid = $cookieStore.get('comp_guid');
+            formObj.attendance_date = item.attendance_date;
+            attnArr.push(formObj);
+            angular.element(".loader").show();
+            $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/User/Attendance/Save",
                 ContentType: 'application/json',
                 data: attnArr
             }).success(function(data) {
                 /*console.log(data);*/
-				$uibModalInstance.close();
-				$scope.getDaysArray($scope.attendance);
+                $uibModalInstance.close();
+                $scope.getDaysArray($scope.attendance);
                 angular.element(".loader").hide();
             }).error(function() {
                 angular.element(".loader").hide();
             });
-		}
-	}
-	$scope.ok = function(){
-		$uibModalInstance.close();
-	}
-	
+        }
+    }
+    $scope.ok = function() {
+        $uibModalInstance.close();
+    }
+
 });
 
 app.controller("unitsListingController", function($scope, $http, $cookieStore, $state, $uibModal) {
@@ -4790,15 +4837,15 @@ app.controller("unitsListingController", function($scope, $http, $cookieStore, $
                     if (data[h].userprojlist != null) {
                         for (i = 0; i < data[h].userprojlist.length; i++) {
                             //if (data[h].userprojlist[i].ProjDtl_Status != 7) {
-                                $scope.unitAllocationObj = {};
+                            $scope.unitAllocationObj = {};
 
-                                $scope.unitAllocationObj.name = data[h].user_first_name + ' ' + data[h].user_middle_name + ' ' + data[h].user_last_name;
-                                $scope.unitAllocationObj.email = data[h].user_email_address;
-                                $scope.unitAllocationObj.mobile = data[h].user_mobile_no;
-                                $scope.unitAllocationObj.unitObj = data[h].userprojlist[i];
-                                $scope.unitAllocationObj.leadID = data[h].user_id;
+                            $scope.unitAllocationObj.name = data[h].user_first_name + ' ' + data[h].user_middle_name + ' ' + data[h].user_last_name;
+                            $scope.unitAllocationObj.email = data[h].user_email_address;
+                            $scope.unitAllocationObj.mobile = data[h].user_mobile_no;
+                            $scope.unitAllocationObj.unitObj = data[h].userprojlist[i];
+                            $scope.unitAllocationObj.leadID = data[h].user_id;
 
-                                $scope.unitAllocationData.push($scope.unitAllocationObj);
+                            $scope.unitAllocationData.push($scope.unitAllocationObj);
                             //}
                         }
                     }
@@ -4809,8 +4856,8 @@ app.controller("unitsListingController", function($scope, $http, $cookieStore, $
             });
         }
     }
-	$scope.viewUnitCostSheet = function(item){
-		var modalInstance = $uibModal.open({
+    $scope.viewUnitCostSheet = function(item) {
+        var modalInstance = $uibModal.open({
             templateUrl: 'unitCostSheet.html',
             controller: 'unitCostSheet',
             size: 'lg',
@@ -4821,74 +4868,73 @@ app.controller("unitsListingController", function($scope, $http, $cookieStore, $
                 }
             }
         });
-	}
+    }
 });
 
 app.controller("alertRules", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Alert Rules";
-    $scope.alertRules = [
-        {
+    $scope.alertRules = [{
             name: 'Welcome Email',
-            modules: ['Leads','Customers'],
-            action: ['Email','SMS','Login Alerts'],
+            modules: ['Leads', 'Customers'],
+            action: ['Email', 'SMS', 'Login Alerts'],
             audience: 'XYZ',
-            id:1
+            id: 1
         },
         {
             name: 'Payment Reminder',
             modules: ['Customers'],
-            action: ['Email','SMS'],
+            action: ['Email', 'SMS'],
             audience: 'ABC',
-            id:2
+            id: 2
         },
         {
             name: 'Progress Report',
             modules: ['Customers'],
             action: ['Email'],
             audience: 'JKL',
-            id:3
+            id: 3
         },
         {
             name: 'Welcome Email',
-            modules: ['Leads','Customers'],
-            action: ['Email','SMS','Login Alerts'],
+            modules: ['Leads', 'Customers'],
+            action: ['Email', 'SMS', 'Login Alerts'],
             audience: 'XYZ',
-            id:4
+            id: 4
         },
         {
             name: 'Payment Reminder',
             modules: ['Customers'],
-            action: ['Email','SMS'],
+            action: ['Email', 'SMS'],
             audience: 'ABC',
-            id:5
+            id: 5
         },
         {
             name: 'Progress Report',
             modules: ['Customers'],
             action: ['Email'],
             audience: 'JKL',
-            id:6
+            id: 6
         },
         {
             name: 'Welcome Email',
-            modules: ['Leads','Customers'],
-            action: ['Email','SMS','Login Alerts'],
+            modules: ['Leads', 'Customers'],
+            action: ['Email', 'SMS', 'Login Alerts'],
             audience: 'XYZ',
-            id:7
+            id: 7
         },
         {
             name: 'Payment Reminder',
             modules: ['Customers'],
-            action: ['Email','SMS'],
+            action: ['Email', 'SMS'],
             audience: 'ABC',
-            id:8
+            id: 8
         },
         {
             name: 'Progress Report',
             modules: ['Customers'],
             action: ['Email'],
             audience: 'JKL',
-            id:9
+            id: 9
         }
     ];
 });
