@@ -207,6 +207,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/unitsListing.html',
             controller: 'unitsListingController'
         })
+        .state('/AlertRules', {
+            url: '/AlertRules',
+            templateUrl: 'partials/alertRules.html',
+            controller: 'alertRules'
+        })
+        .state('/CreateNewRule', {
+            url: '/CreateNewRule',
+            templateUrl: 'partials/createNewRule.html',
+            controller: 'createNewRule'
+        })
 });
 app.config(function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];

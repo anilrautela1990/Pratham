@@ -4781,3 +4781,75 @@ app.controller("unitsListingController", function($scope, $http, $cookieStore, $
         });
 	}
 });
+
+app.controller("alertRules", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+    $scope.pageTitle = "Alert Rules";
+    $scope.alertRules = [
+        {
+            name: 'Welcome Email',
+            modules: ['Leads','Customers'],
+            action: ['Email','SMS','Login Alerts'],
+            audience: 'XYZ',
+            id:1
+        },
+        {
+            name: 'Payment Reminder',
+            modules: ['Customers'],
+            action: ['Email','SMS'],
+            audience: 'ABC',
+            id:2
+        },
+        {
+            name: 'Progress Report',
+            modules: ['Customers'],
+            action: ['Email'],
+            audience: 'JKL',
+            id:3
+        },
+        {
+            name: 'Welcome Email',
+            modules: ['Leads','Customers'],
+            action: ['Email','SMS','Login Alerts'],
+            audience: 'XYZ',
+            id:4
+        },
+        {
+            name: 'Payment Reminder',
+            modules: ['Customers'],
+            action: ['Email','SMS'],
+            audience: 'ABC',
+            id:5
+        },
+        {
+            name: 'Progress Report',
+            modules: ['Customers'],
+            action: ['Email'],
+            audience: 'JKL',
+            id:6
+        },
+        {
+            name: 'Welcome Email',
+            modules: ['Leads','Customers'],
+            action: ['Email','SMS','Login Alerts'],
+            audience: 'XYZ',
+            id:7
+        },
+        {
+            name: 'Payment Reminder',
+            modules: ['Customers'],
+            action: ['Email','SMS'],
+            audience: 'ABC',
+            id:8
+        },
+        {
+            name: 'Progress Report',
+            modules: ['Customers'],
+            action: ['Email'],
+            audience: 'JKL',
+            id:9
+        }
+    ];
+});
+app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+    $scope.pageTitle = "Create New Alert Rule";
+});
