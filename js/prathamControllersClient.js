@@ -4586,7 +4586,7 @@ app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $stat
 
 app.controller("attendance", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal) {
     $scope.title = "Attendance";
-    $scope.attendanceCodes = ['', 'P', 'A', 'L'];
+    $scope.attendanceCodes = ['', 'P', 'A', 'L','H'];
     var d = new Date();
     var cMonth = d.getMonth();
     cMonth = cMonth.toString();
@@ -4691,9 +4691,9 @@ app.controller("attendance", function($scope, $http, $cookieStore, $state, $stat
     }
 
     $scope.markAttendanceModal = function(obj) {
-        /*if(obj.attendance_status != 0){
+        if(obj.attendance_status == 4){
         	return;
-        }*/
+        }
         var modalInstance = $uibModal.open({
             templateUrl: 'markAttendance.html',
             controller: 'markAttendance',

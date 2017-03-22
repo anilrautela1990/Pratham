@@ -717,6 +717,11 @@ a.link{
 	background-color: orange;
 	color: #FFF;
 }
+.attendance4{
+	background-color: blue;
+	color: #FFF;
+	cursor: not-allowed!important;
+}
 .radioLabelBlock > label{
     margin: 2px 0 0 0;
     background-color: #CCC;
