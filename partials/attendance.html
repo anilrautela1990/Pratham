@@ -37,7 +37,7 @@
    </tr>
    <tr ng-repeat="emp in attendanceData">
 	   <td>{{emp.attendance_employeeName}}</td>
-      <td ng-repeat="x in emp.lstattd" class="attendance{{x.attendance_status}}" ng-click="markAttendanceModal(x)">
+      <td ng-repeat="x in emp.lstattd" class="attendance{{x.attendance_status}}" title="{{x.attendance_ErrorDesc}}" ng-click="markAttendanceModal(x)">
          {{attendanceCodes[x.attendance_status]}}
       </td>
    </tr>
