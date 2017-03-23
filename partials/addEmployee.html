@@ -220,6 +220,7 @@
     <div class="modal-header">
         <button type="button" class="close" ng-click="ok()">&times;</button>
         <h3 class="modal-title" id="modal-title">{{empObject.employeeFirstName}} {{empObject.employeeMiddleName}} {{empObject.employeeLastName}}</h3>
+        <h3 class="modal-title" id="modal-title">Current CTC : {{empObject.employeeCtc}}</h3>
     </div>
     <div class="modal-body" id="modal-body">
         <div class="subHeading">Salary Component Details</div>
@@ -231,8 +232,10 @@
                         <th>#</th>
                         <th>Component Name</th>
                         <th>Component Code</th>
+                        <th>Formula Type</th>
                         <th>Monthly</th>
                         <th>Annual</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="projectList">
@@ -240,8 +243,10 @@
                         <td>{{$index + 1}}</td>
                         <td>{{unit.SalHeads_Name}}</td>
                         <td>{{unit.SalHead_Code}}</td>
+                        <td><div ng-show="unit.SalHead_CalTyp == 0">{{unit.SalHead_CalTypVal}}</div></td>
                         <td>{{unit.UserSalheadsCalcValue / 12 | number : 2}}</td>
-                        <td>{{unit.UserSalheadsCalcValue}}</td>
+                        <td><input type="number" value="{{unit.UserSalheadsCalcValue}}" id="{{unit.SalHead_Code}}{{unit.UserSalheads_SalHeadsId}}" disabled></td>
+                        <td><button type="button" class="btn btn-primary" ng-click="editSalaryComponent(unit.SalHead_Code, unit.UserSalheads_SalHeadsId)">Edit</button> <button type="button" class="btn btn-primary" ng-click="saveSalaryComponent(unit.SalHead_Code, unit.UserSalheads_SalHeadsId, unit.UserSalheads_SalHeadsId)" disabled id="button{{unit.SalHead_Code}}">Save</button></td>
                     </tr>
                 </tbody>
             </table>

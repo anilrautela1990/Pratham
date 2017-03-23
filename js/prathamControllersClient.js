@@ -3912,6 +3912,36 @@ app.controller("ctcDetailController", function($scope, $http, $cookieStore, $uib
     $scope.ok = function() {
         $uibModalInstance.close();
     };
+    
+    $scope.editSalaryComponent = function(salaryCode, salaryId) {
+        $("#"+salaryCode+salaryId).prop('disabled', false);
+        $("#button"+salaryCode).prop('disabled', false);
+    };
+    
+    $scope.saveSalaryComponent = function(salaryCode, salaryId, salaryCompId) {
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/SalaryHeadsInsert",
+            ContentType: 'application/json',
+            data: {
+                "UserSalheadsCompGuid": $cookieStore.get('comp_guid'),
+                "UserSalheadsUserId": parseInt($stateParams.employeeId),
+                "UserSalheads_SalHeadsId": parseInt(salaryCompId),
+                "UserSalheadsCalcValue": parseInt($("#"+salaryCode+salaryId).val())
+            }
+        }).success(function(data) {
+            console.log(data);
+            if(data.UserSalheadsErrorDesc == '0 | Save Successfull'){
+                alert('Data save sucessfully.');
+                $("#"+salaryCode+salaryId).prop('disabled', true);
+                $("#button"+salaryCode).prop('disabled', true);
+            } else {
+                alert('Data not save sucessfully.');
+            }
+        }).error(function() {
+            alert('Something went wrong!!');
+        });
+    };
 });
 
 app.controller("salaryComponentDetailsController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $rootScope) {
