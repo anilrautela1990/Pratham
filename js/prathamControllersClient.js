@@ -4852,34 +4852,14 @@ app.controller("unitsListingController", function($scope, $http, $cookieStore, $
             angular.element(".loader").show();
             $http({
                 method: "POST",
-                url: "http://120.138.8.150/pratham/User/AllocByUserType",
+                url: "http://120.138.8.150/pratham/Proj/UnitDtls/ByUnitDtlsBlocksId",
                 ContentType: 'application/json',
                 data: {
-                    "comp_guid": $cookieStore.get('comp_guid'),
-                    "Projusrtyp": 3,
-                    "Phase_Id": obj.phase,
-                    "Blocks_Id": obj.blocks
+                    "UnitDtls_comp_guid": $cookieStore.get('comp_guid'),
+                    "UnitDtls_Block_Id": obj.blocks
                 }
             }).success(function(data) {
-                console.log(data);
-                $scope.unitAllocationData = [];
-                for (h = 0; h < data.length; h++) {
-                    if (data[h].userprojlist != null) {
-                        for (i = 0; i < data[h].userprojlist.length; i++) {
-                            //if (data[h].userprojlist[i].ProjDtl_Status != 7) {
-                            $scope.unitAllocationObj = {};
-
-                            $scope.unitAllocationObj.name = data[h].user_first_name + ' ' + data[h].user_middle_name + ' ' + data[h].user_last_name;
-                            $scope.unitAllocationObj.email = data[h].user_email_address;
-                            $scope.unitAllocationObj.mobile = data[h].user_mobile_no;
-                            $scope.unitAllocationObj.unitObj = data[h].userprojlist[i];
-                            $scope.unitAllocationObj.leadID = data[h].user_id;
-
-                            $scope.unitAllocationData.push($scope.unitAllocationObj);
-                            //}
-                        }
-                    }
-                }
+                $scope.unitsList = data[0];                
                 angular.element(".loader").hide();
             }).error(function() {
                 angular.element(".loader").hide();
