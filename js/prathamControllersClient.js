@@ -295,7 +295,7 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
                     zip: data.user_zipcode,
                     leadCode: data.user_code,
                     officeNumber: data.user_office_no,
-                    leadStage:data.user_lead_status_id
+                    leadStage:data.user_lead_status_id.toString()
                 }
                 angular.element(".loader").hide();
             } else {
@@ -328,7 +328,8 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
                     "user_zipcode": formObj.zip,
                     "user_dob": formObj.dob,
                     "user_gender": parseInt(formObj.gender),
-                    "user_code": formObj.leadCode
+                    "user_code": formObj.leadCode,
+                    "user_lead_status_id": parseInt(formObj.leadStage)
                 }
             }).success(function(data) {
                 //console.log(data);
