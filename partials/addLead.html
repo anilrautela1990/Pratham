@@ -158,12 +158,33 @@
             <input type="text" placeholder="Lead Code" class="form-control"  name="leadCode" ng-model="addLead.leadCode"/>
          </div>
       </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
+            <label for="projectName">Lead Type</label>
+         </div>
+         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+            <select name="leadStage" class="form-control"  ng-model="addLead.leadStage">
+               <option value="">
+                ---SELECT---
+               </option>
+               <option value=1>
+                 HOT
+               </option>
+               <option value=2>
+                  WARM
+               </option>
+               <option value=3>
+                 COLD
+               </option>
+            </select>
+         </div>
+      </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
             <label for="projectName">Lead Source</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select name="firmBranch" class="form-control" name="leadSouce" ng-model="addLead.leadSouce">
+            <select class="form-control" name="leadSouce" ng-model="addLead.leadSouce">
                <option value="">
                   Lead Generation Source
                </option>

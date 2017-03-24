@@ -235,7 +235,8 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
                     "user_zipcode": formObj.zip,
                     "user_dob": formObj.dob,
                     "user_gender": parseInt(formObj.gender),
-                    "user_code": formObj.leadCode
+                    "user_code": formObj.leadCode,
+                    "user_lead_status_id": parseInt(formObj.leadStage)
                 }
             }).success(function(data) {
                 if (data.user_id != 0) {
@@ -293,7 +294,8 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
                     address: data.user_address,
                     zip: data.user_zipcode,
                     leadCode: data.user_code,
-                    officeNumber: data.user_office_no
+                    officeNumber: data.user_office_no,
+                    leadStage:data.user_lead_status_id
                 }
                 angular.element(".loader").hide();
             } else {
