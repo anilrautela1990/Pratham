@@ -40,7 +40,7 @@
 <script type="text/ng-template" id="leadDetail.html">
         <div class="modal-header">
 			<button type="button" class="close" ng-click="ok()">&times;</button>
-            <h3 class="modal-title" id="modal-title">{{lead.user_first_name}} {{lead.user_middle_name}} {{lead.user_last_name}}</h3>
+            <h3 class="modal-title" id="modal-title">{{lead.user_first_name}} {{lead.user_middle_name}} {{lead.user_last_name}} - <span>{{leadType[lead.user_lead_status_id-1]}}</span></h3>
         </div>
         <div class="modal-body" id="modal-body">
 			<div class="subHeading">Contact Details</div>

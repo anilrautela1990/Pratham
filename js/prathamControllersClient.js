@@ -126,7 +126,7 @@ app.controller("dashboard", function($scope, $http, $cookieStore) {
 });
 
 app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state) {
-    $scope.searchLead = ''; // set the default search/filter term
+	$scope.searchLead = ''; // set the default search/filter term
     ($scope.getLeads = function() {
         angular.element(".loader").show();
         $http({
@@ -165,6 +165,7 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
     };
 });
 app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
+	$scope.leadType = ['hot','warm','cold'];
     $scope.states = ["Delhi"];
     $scope.cities = ["New Delhi"];
     $scope.lead = item;
