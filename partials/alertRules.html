@@ -4,7 +4,8 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20">
    <ol class="breadcrumb">
        <li><a ui-sref="/">Home</a></li>      
-      <li class="active">{{pageTitle}}</li>
+      	<li class="active">Alert Rules</li>
+	   <li class="active">{{pageTitle}}</li>
    </ol>
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right ctaContainer">
@@ -29,7 +30,10 @@
 				<td><span ng-repeat="module in x.modules">{{module}} </span></td>
                 <td><span ng-repeat="act in x.action">{{act}} </span></td>
 				<td>{{x.audience}}</td>
-				<td><a><span class="link">Edit</span></a></td>
+				<td>
+					<a><span class="link">View</span></a> | 
+					<a><span class="link">Edit</span></a>
+				</td>
 			</tr>
 		</tbody>
 	</table>
