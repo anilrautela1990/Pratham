@@ -237,7 +237,8 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
                     "user_dob": formObj.dob,
                     "user_gender": parseInt(formObj.gender),
                     "user_code": formObj.leadCode,
-                    "user_lead_status_id": parseInt(formObj.leadStage)
+                    "user_lead_status_id": parseInt(formObj.leadStage),
+                    "user_createdby" : $cookieStore.get('user_id')
                 }
             }).success(function(data) {
                 if (data.user_id != 0) {
@@ -880,6 +881,7 @@ app.controller("addAgentController", function($scope, $http, $cookieStore, $stat
                 data: {
                     "user_type": formObj.type,
                     "user_comp_guid": $cookieStore.get('comp_guid'),
+                    "user_createdby" : $cookieStore.get('user_id'),
                     "user_first_name": formObj.firstName,
                     "user_middle_name": formObj.middleName,
                     "user_last_name": formObj.lastName,
@@ -3581,6 +3583,7 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
                 ContentType: 'application/json',
                 data: {
                     "user_comp_guid": $cookieStore.get('comp_guid'),
+                    "user_createdby" : $cookieStore.get('user_id'),
                     "user_type": 2,
                     "user_first_name": formObj.employeeFirstName,
                     "user_middle_name": formObj.employeeMiddleName,
