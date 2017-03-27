@@ -3,7 +3,7 @@
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20">
    <ol class="breadcrumb">
-       <li><a ui-sref="/">Home</a></li>      
+      <li><a ui-sref="/">Home</a></li>
       <li class="active">{{pageTitle}}</li>
    </ol>
 </div>
@@ -14,25 +14,25 @@
             <label for="ruleName">Rule Name</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <input type="text" placeholder="Rule Name" class="form-control" name="ruleName" id="ruleName" ng-model="createNewRule.ruleName" ng-required="true" ng-class="{blankInput: createNewRuleForm.ruleName.$error.required &amp;&amp; submit}"/>
+            <input type="text" placeholder="Rule Name" class="form-control" name="ruleName" id="ruleName" ng-model="createNewRule.ruleName" ng-required="true" ng-class="{blankInput: createNewRuleForm.ruleName.$error.required &amp;&amp; submit}" autofocus/>
          </div>
       </div>
-       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
             <label for="ruleModule">Module</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-             <select class="form-control" name="ruleModule" id="ruleModule" ng-model="createNewRule.ruleModule" ng-required="true" ng-class="{blankInput: createNewRuleForm.ruleModule.$error.required &amp;&amp; submit}">
+            <select class="form-control" name="ruleModule" id="ruleModule" ng-model="createNewRule.ruleModule" ng-required="true" ng-class="{blankInput: createNewRuleForm.ruleModule.$error.required &amp;&amp; submit}" ng-change="getActionTypes(createNewRule.ruleModule)">
                <option value="">
                   Module
                </option>
-               <option value="leads">
-                  Leads
+               <option  ng-repeat="x in modules" value="{{x.module_id}}">
+                  {{x.module_name}}
                </option>
             </select>
          </div>
       </div>
-       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
             <label for="ruleDescription">Description</label>
          </div>
@@ -40,28 +40,51 @@
             <textarea type="text" placeholder="Description" class="form-control" name="ruleDescription" id="ruleDescription" ng-model="createNewRule.ruleDescription" ng-required="true" ng-class="{blankInput: createNewRuleForm.ruleDescription.$error.required &amp;&amp; submit}"></textarea>
          </div>
       </div>
-       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="createNewRule.ruleModule!=''">
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
             <label for="ruleDescription">When</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0 radioLabelBlock">
-            <input type="radio" name="when" ng-model="createNewRule.when" ng-required="true" id="create" value="0"/>
-            <label for="create">Create / Edit</label>
-            <input type="radio" name="when" ng-model="createNewRule.when" ng-required="true" id="delete" value="1"/>
-            <label for="delete">Delete</label>
-             <input type="radio" name="when" ng-model="createNewRule.when" ng-required="true" id="siteVisit" value="2"/>
-            <label for="siteVisit">Site Visit</label>
-             <input type="radio" name="when" ng-model="createNewRule.when" ng-required="true" id="overBudget" value="3"/>
-            <label for="overBudget">Over Budget</label>
+            <div ng-repeat="x in actionTypes">
+               <input type="radio" name="actionType" value="{{x.actiontypeid}}" id="action{{x.actiontypeid}}" ng-model="createNewRule.actionType"/>
+               <label for="action{{x.actiontypeid}}">{{x.action_name}}</label>
+            </div>
          </div>
       </div>
-       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="createNewRule.actionType!=''">
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
             <label for="ruleDescription">Which Records</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            Which records you would like to apply rule on?
+            <span>Which records you would like to apply rule on?</span>
+            <div>
+               <input type="radio" name="recordsType" value="0" id="recordType1" ng-model="createNewRule.recordType"/>
+               <label for="recordType1">Records Matching the Condition</label> | 
+               <input type="radio" name="recordsType" value="1" id="recordType2" ng-model="createNewRule.recordType"/>
+               <label for="recordType2">All Records</label>
+            </div>
+             
+             <div ng-show="createNewRule.recordType=='0'">
+                <table class="table">
+                    <tr>
+                        <td>
+                            <select class="form-control">
+                                <option value="">Field</option>
+                                <option ng-repeat="x in subModules" value="{{x.modfieldid}}">{{x.modfield_name}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control">
+                                <option value="">Operator</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control"/>
+                        </td>
+                    </tr>
+                 </table>
+             </div>
          </div>
       </div>
-    </form>
+   </form>
 </div>

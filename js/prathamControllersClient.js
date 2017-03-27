@@ -4957,4 +4957,57 @@ app.controller("alertRules", function($scope, $http, $cookieStore, $state, $stat
 });
 app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Create New Alert Rule";
+    $scope.createNewRule = {
+        ruleModule:'',
+        actionType:''
+    };
+     $scope.getModules = (function(){
+        $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/ModulesGet",
+                ContentType: 'application/json',
+                data: {
+                    "module_id":0
+                }
+            }).success(function(data) {
+                $scope.modules = data;                
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+    })();
+    
+    $scope.getSubModules = function(moduleId){
+        $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/SubModulesGet",
+                ContentType: 'application/json',
+                data: {
+                    "module_id":moduleId
+                }
+            }).success(function(data) {
+                $scope.subModules = data;                
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+    }
+    
+    $scope.getActionTypes = function(moduleId){
+        $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/ActiontypeGet",
+                ContentType: 'application/json',
+                data: {
+                    "module_id":moduleId
+                }
+            }).success(function(data) {
+                $scope.actionTypes = data;    
+                $scope.getSubModules(moduleId);
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+    }
+    
 });
