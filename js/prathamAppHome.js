@@ -217,6 +217,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/createNewRule.html',
             controller: 'createNewRule'
         })
+        .state('/SalesFunnel', {
+            url: '/SalesFunnel',
+            templateUrl: 'partials/salesFunnelListing.html',
+            controller: 'salesFunnelController'
+        })
 });
 app.config(function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
