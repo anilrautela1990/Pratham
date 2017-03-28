@@ -4958,10 +4958,10 @@ app.controller("alertRules", function($scope, $http, $cookieStore, $state, $stat
 app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Create New Alert Rule";
     $scope.createNewRule = {
-        ruleModule:'',
-        actionType:''
+        rule_moduleid:''
     };
      $scope.getModules = (function(){
+         angular.element(".loader").show();
         $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Comp/ModulesGet",
@@ -4978,6 +4978,7 @@ app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $s
     })();
     
     $scope.getSubModules = function(moduleId){
+        angular.element(".loader").show();
         $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Comp/SubModulesGet",
@@ -4994,6 +4995,7 @@ app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $s
     }
     
     $scope.getActionTypes = function(moduleId){
+        angular.element(".loader").show();
         $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Comp/ActiontypeGet",
@@ -5010,4 +5012,49 @@ app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $s
             });
     }
     
+    $scope.getFieldValues = function(fieldId){
+        angular.element(".loader").show();
+        $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/ModfldvaluesGet",
+                ContentType: 'application/json',
+                data: {
+                    "module_id":fieldId
+                }
+            }).success(function(data) {
+                if(data.length == 1 && data[0].ErrorDesc == "-1 | No Module field Values do not exist for this Module"){
+                    $scope.showDrodown = false;
+                    $scope.showInput = true;
+                }
+                else{
+                    $scope.fieldValues = data;
+                    $scope.showInput = false;
+                    $scope.showDrodown = true;
+                }
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+    }
+    
+    $scope.saveRule = function(formName, formObj) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {            
+        angular.element(".loader").show();
+        formObj.rule_comp_guid = $cookieStore.get('comp_guid');
+            console.log(JSON.stringify(formObj));
+        $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/Rules/Ins",
+                ContentType: 'application/json',
+                data: formObj
+            }).success(function(data) {
+                console.log(data);
+                $scope.result = data;
+                angular.element(".loader").hide();
+            }).error(function() {
+                angular.element(".loader").hide();
+            });
+        }
+    }
 });

@@ -739,3 +739,6 @@ a.link{
 	background-color: #5cb85c;
 	color: #FFF;
 }
+td.inputType{
+    width: 30%;
+}

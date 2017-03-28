@@ -8,83 +8,89 @@
    </ol>
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-   <form name="createNewRuleForm" class="form" method="POST" novalidate="novalidate">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
-         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
-            <label for="ruleName">Rule Name</label>
-         </div>
-         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <input type="text" placeholder="Rule Name" class="form-control" name="ruleName" id="ruleName" ng-model="createNewRule.ruleName" ng-required="true" ng-class="{blankInput: createNewRuleForm.ruleName.$error.required &amp;&amp; submit}" autofocus/>
+<form name="createNewRuleForm" class="form" method="POST" novalidate="novalidate">
+   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
+         <label for="ruleName">Rule Name</label>
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+         <input type="text" placeholder="Rule Name" class="form-control" name="rule_name" id="rule_name" ng-model="createNewRule.rule_name" ng-required="true" ng-class="{blankInput: createNewRuleForm.rule_name.$error.required &amp;&amp; submit}" autofocus/>
+      </div>
+   </div>
+   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
+         <label for="rule_moduleid">Module</label>
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+         <select class="form-control" name="rule_moduleid" id="rule_moduleid" ng-model="createNewRule.rule_moduleid" ng-required="true" ng-class="{blankInput: createNewRuleForm.rule_moduleid.$error.required &amp;&amp; submit}" ng-change="getActionTypes(createNewRule.rule_moduleid)">
+            <option value="">
+               Module
+            </option>
+            <option  ng-repeat="x in modules" value="{{x.module_id}}">
+               {{x.module_name}}
+            </option>
+         </select>
+      </div>
+   </div>
+   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
+         <label for="ruleDescription">Description</label>
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+         <textarea type="text" placeholder="Description" class="form-control" name="rule_description" id="rule_description" ng-model="createNewRule.rule_description" ng-required="true" ng-class="{blankInput: createNewRuleForm.rule_description.$error.required &amp;&amp; submit}"></textarea>
+      </div>
+   </div>
+   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="createNewRule.rule_moduleid!=''">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
+         <label for="ruleDescription">When</label>
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0 radioLabelBlock" ng-class="{blankInput: createNewRuleForm.rule_actiontypeid.$error.required &amp;&amp; submit}">
+         <div ng-repeat="x in actionTypes">
+            <input type="radio" name="rule_actiontypeid" value="{{x.actiontypeid}}" id="action{{x.actiontypeid}}" ng-model="createNewRule.rule_actiontypeid" ng-required="true"/>
+            <label for="action{{x.actiontypeid}}">{{x.action_name}}</label>
          </div>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
-         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
-            <label for="ruleModule">Module</label>
-         </div>
-         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select class="form-control" name="ruleModule" id="ruleModule" ng-model="createNewRule.ruleModule" ng-required="true" ng-class="{blankInput: createNewRuleForm.ruleModule.$error.required &amp;&amp; submit}" ng-change="getActionTypes(createNewRule.ruleModule)">
-               <option value="">
-                  Module
-               </option>
-               <option  ng-repeat="x in modules" value="{{x.module_id}}">
-                  {{x.module_name}}
-               </option>
-            </select>
-         </div>
+   </div>
+   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0 marginTop20 text-center">
+      <button type="button" class="btn btn-primary" ng-click="saveRule('createNewRuleForm',createNewRule)">Create Rule</button>
+   </div>
+</form>
+    {{result}}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
+      <label for="ruleDescription">Which Records</label>
+   </div>
+   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
+      <span>Which records you would like to apply rule on?</span>
+      <div>
+         <input type="radio" name="recordsType" value="0" id="recordType1" ng-model="createNewRule.recordType"/>
+         <label for="recordType1">Records Matching the Condition</label> | 
+         <input type="radio" name="recordsType" value="1" id="recordType2" ng-model="createNewRule.recordType"/>
+         <label for="recordType2">All Records</label>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
-         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
-            <label for="ruleDescription">Description</label>
-         </div>
-         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <textarea type="text" placeholder="Description" class="form-control" name="ruleDescription" id="ruleDescription" ng-model="createNewRule.ruleDescription" ng-required="true" ng-class="{blankInput: createNewRuleForm.ruleDescription.$error.required &amp;&amp; submit}"></textarea>
-         </div>
+      <div ng-show="createNewRule.recordType=='0'">
+         <table class="table">
+            <tr>
+               <td>
+                  <select class="form-control" ng-model="createNewRule.subModule" ng-change="getFieldValues(createNewRule.subModule)">
+                     <option value="">Field</option>
+                     <option ng-repeat="x in subModules" value="{{x.modfieldid}}">{{x.modfield_name}}</option>
+                  </select>
+               </td>
+               <td>
+                  <select class="form-control">
+                     <option value="">Operator</option>
+                  </select>
+               </td>
+               <td class="inputType">
+                  <input type="text" class="form-control" ng-show="showInput"/>
+                  <select ng-show="showDrodown" class="form-control">
+                     <option value="">Value</option>
+                     <option ng-repeat="x in fieldValues" value="{{x.modfieldid}}">{{x.modfieldvalues_value}}</option>
+                  </select>
+               </td>
+            </tr>
+         </table>
       </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="createNewRule.ruleModule!=''">
-         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
-            <label for="ruleDescription">When</label>
-         </div>
-         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0 radioLabelBlock">
-            <div ng-repeat="x in actionTypes">
-               <input type="radio" name="actionType" value="{{x.actiontypeid}}" id="action{{x.actiontypeid}}" ng-model="createNewRule.actionType"/>
-               <label for="action{{x.actiontypeid}}">{{x.action_name}}</label>
-            </div>
-         </div>
-      </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0" ng-show="createNewRule.actionType!=''">
-         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
-            <label for="ruleDescription">Which Records</label>
-         </div>
-         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <span>Which records you would like to apply rule on?</span>
-            <div>
-               <input type="radio" name="recordsType" value="0" id="recordType1" ng-model="createNewRule.recordType"/>
-               <label for="recordType1">Records Matching the Condition</label> | 
-               <input type="radio" name="recordsType" value="1" id="recordType2" ng-model="createNewRule.recordType"/>
-               <label for="recordType2">All Records</label>
-            </div>
-             
-             <div ng-show="createNewRule.recordType=='0'">
-                <table class="table">
-                    <tr>
-                        <td>
-                            <select class="form-control">
-                                <option value="">Field</option>
-                                <option ng-repeat="x in subModules" value="{{x.modfieldid}}">{{x.modfield_name}}</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select class="form-control">
-                                <option value="">Operator</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control"/>
-                        </td>
-                    </tr>
-                 </table>
-             </div>
-         </div>
-      </div>
-   </form>
+   </div>
 </div>
