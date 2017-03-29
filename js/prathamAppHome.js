@@ -237,6 +237,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/addProspect.html',
             controller: 'editProspect'
         })
+        .state('/SiteVisitListing', {
+            url: '/SiteVisitListing',
+            templateUrl: 'partials/siteVisitListing.html',
+            controller: 'siteVisitListingController'
+        })
 });
 app.config(function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
