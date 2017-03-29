@@ -126,7 +126,7 @@ app.controller("dashboard", function($scope, $http, $cookieStore) {
 });
 
 app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state) {
-	$scope.searchLead = ''; // set the default search/filter term
+    $scope.searchLead = ''; // set the default search/filter term
     ($scope.getLeads = function() {
         angular.element(".loader").show();
         $http({
@@ -165,7 +165,7 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
     };
 });
 app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
-	$scope.leadType = ['hot','warm','cold'];
+    $scope.leadType = ['hot', 'warm', 'cold'];
     $scope.states = ["Delhi"];
     $scope.cities = ["New Delhi"];
     $scope.lead = item;
@@ -238,7 +238,7 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
                     "user_gender": parseInt(formObj.gender),
                     "user_code": formObj.leadCode,
                     "user_lead_status_id": parseInt(formObj.leadStage),
-                    "user_createdby" : $cookieStore.get('user_id')
+                    "user_createdby": $cookieStore.get('user_id')
                 }
             }).success(function(data) {
                 if (data.user_id != 0) {
@@ -297,7 +297,7 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
                     zip: data.user_zipcode,
                     leadCode: data.user_code,
                     officeNumber: data.user_office_no,
-                    leadStage:data.user_lead_status_id.toString()
+                    leadStage: data.user_lead_status_id.toString()
                 }
                 angular.element(".loader").hide();
             } else {
@@ -881,7 +881,7 @@ app.controller("addAgentController", function($scope, $http, $cookieStore, $stat
                 data: {
                     "user_type": formObj.type,
                     "user_comp_guid": $cookieStore.get('comp_guid'),
-                    "user_createdby" : $cookieStore.get('user_id'),
+                    "user_createdby": $cookieStore.get('user_id'),
                     "user_first_name": formObj.firstName,
                     "user_middle_name": formObj.middleName,
                     "user_last_name": formObj.lastName,
@@ -3583,7 +3583,7 @@ app.controller("addEmployeeController", function($scope, $http, $state, $cookieS
                 ContentType: 'application/json',
                 data: {
                     "user_comp_guid": $cookieStore.get('comp_guid'),
-                    "user_createdby" : $cookieStore.get('user_id'),
+                    "user_createdby": $cookieStore.get('user_id'),
                     "user_type": 2,
                     "user_first_name": formObj.employeeFirstName,
                     "user_middle_name": formObj.employeeMiddleName,
@@ -3919,12 +3919,12 @@ app.controller("ctcDetailController", function($scope, $http, $cookieStore, $uib
     $scope.ok = function() {
         $uibModalInstance.close();
     };
-    
+
     $scope.editSalaryComponent = function(salaryCode, salaryId) {
-        $("#"+salaryCode+salaryId).prop('disabled', false);
-        $("#button"+salaryCode).prop('disabled', false);
+        $("#" + salaryCode + salaryId).prop('disabled', false);
+        $("#button" + salaryCode).prop('disabled', false);
     };
-    
+
     $scope.saveSalaryComponent = function(salaryCode, salaryId, salaryCompId) {
         $http({
             method: "POST",
@@ -3934,14 +3934,14 @@ app.controller("ctcDetailController", function($scope, $http, $cookieStore, $uib
                 "UserSalheadsCompGuid": $cookieStore.get('comp_guid'),
                 "UserSalheadsUserId": parseInt($stateParams.employeeId),
                 "UserSalheads_SalHeadsId": parseInt(salaryCompId),
-                "UserSalheadsCalcValue": parseInt($("#"+salaryCode+salaryId).val())
+                "UserSalheadsCalcValue": parseInt($("#" + salaryCode + salaryId).val())
             }
         }).success(function(data) {
             console.log(data);
-            if(data.UserSalheadsErrorDesc == '0 | Save Successfull'){
+            if (data.UserSalheadsErrorDesc == '0 | Save Successfull') {
                 alert('Data save sucessfully.');
-                $("#"+salaryCode+salaryId).prop('disabled', true);
-                $("#button"+salaryCode).prop('disabled', true);
+                $("#" + salaryCode + salaryId).prop('disabled', true);
+                $("#button" + salaryCode).prop('disabled', true);
             } else {
                 alert('Data not save sucessfully.');
             }
@@ -4623,7 +4623,7 @@ app.controller("editBlockCostSheet", function($scope, $http, $cookieStore, $stat
 
 app.controller("attendance", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal) {
     $scope.title = "Attendance";
-    $scope.attendanceCodes = ['', 'P', 'A', 'L','H'];
+    $scope.attendanceCodes = ['', 'P', 'A', 'L', 'H'];
     var d = new Date();
     var cMonth = d.getMonth();
     cMonth = cMonth.toString();
@@ -4728,8 +4728,8 @@ app.controller("attendance", function($scope, $http, $cookieStore, $state, $stat
     }
 
     $scope.markAttendanceModal = function(obj) {
-        if(obj.attendance_status == 4){
-        	return;
+        if (obj.attendance_status == 4) {
+            return;
         }
         var modalInstance = $uibModal.open({
             templateUrl: 'markAttendance.html',
@@ -4866,7 +4866,7 @@ app.controller("unitsListingController", function($scope, $http, $cookieStore, $
                     "UnitDtls_Block_Id": obj.blocks
                 }
             }).success(function(data) {
-                $scope.unitsList = data[0];                
+                $scope.unitsList = data[0];
                 angular.element(".loader").hide();
             }).error(function() {
                 angular.element(".loader").hide();
@@ -4958,92 +4958,91 @@ app.controller("alertRules", function($scope, $http, $cookieStore, $state, $stat
 app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Create New Alert Rule";
     $scope.createNewRule = {
-        rule_moduleid:''
+        rule_moduleid: ''
     };
-     $scope.getModules = (function(){
-         angular.element(".loader").show();
+    $scope.getModules = (function() {
+        angular.element(".loader").show();
         $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Comp/ModulesGet",
-                ContentType: 'application/json',
-                data: {
-                    "module_id":0
-                }
-            }).success(function(data) {
-                $scope.modules = data;                
-                angular.element(".loader").hide();
-            }).error(function() {
-                angular.element(".loader").hide();
-            });
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/ModulesGet",
+            ContentType: 'application/json',
+            data: {
+                "module_id": 0
+            }
+        }).success(function(data) {
+            $scope.modules = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     })();
-    
-    $scope.getSubModules = function(moduleId){
+
+    $scope.getSubModules = function(moduleId) {
         angular.element(".loader").show();
         $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Comp/SubModulesGet",
-                ContentType: 'application/json',
-                data: {
-                    "module_id":moduleId
-                }
-            }).success(function(data) {
-                $scope.subModules = data;                
-                angular.element(".loader").hide();
-            }).error(function() {
-                angular.element(".loader").hide();
-            });
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/SubModulesGet",
+            ContentType: 'application/json',
+            data: {
+                "module_id": moduleId
+            }
+        }).success(function(data) {
+            $scope.subModules = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     }
-    
-    $scope.getActionTypes = function(moduleId){
+
+    $scope.getActionTypes = function(moduleId) {
         angular.element(".loader").show();
         $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Comp/ActiontypeGet",
-                ContentType: 'application/json',
-                data: {
-                    "module_id":moduleId
-                }
-            }).success(function(data) {
-                $scope.actionTypes = data;    
-                $scope.getSubModules(moduleId);
-                angular.element(".loader").hide();
-            }).error(function() {
-                angular.element(".loader").hide();
-            });
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/ActiontypeGet",
+            ContentType: 'application/json',
+            data: {
+                "module_id": moduleId
+            }
+        }).success(function(data) {
+            $scope.actionTypes = data;
+            $scope.getSubModules(moduleId);
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     }
-    
-    $scope.getFieldValues = function(fieldId){
+
+    $scope.getFieldValues = function(fieldId) {
         angular.element(".loader").show();
         $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Comp/ModfldvaluesGet",
-                ContentType: 'application/json',
-                data: {
-                    "module_id":fieldId
-                }
-            }).success(function(data) {
-                if(data.length == 1 && data[0].ErrorDesc == "-1 | No Module field Values do not exist for this Module"){
-                    $scope.showDrodown = false;
-                    $scope.showInput = true;
-                }
-                else{
-                    $scope.fieldValues = data;
-                    $scope.showInput = false;
-                    $scope.showDrodown = true;
-                }
-                angular.element(".loader").hide();
-            }).error(function() {
-                angular.element(".loader").hide();
-            });
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/ModfldvaluesGet",
+            ContentType: 'application/json',
+            data: {
+                "module_id": fieldId
+            }
+        }).success(function(data) {
+            if (data.length == 1 && data[0].ErrorDesc == "-1 | No Module field Values do not exist for this Module") {
+                $scope.showDrodown = false;
+                $scope.showInput = true;
+            } else {
+                $scope.fieldValues = data;
+                $scope.showInput = false;
+                $scope.showDrodown = true;
+            }
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     }
-    
+
     $scope.saveRule = function(formName, formObj) {
         $scope.submit = true;
-        if ($scope[formName].$valid) {            
-        angular.element(".loader").show();
-        formObj.rule_comp_guid = $cookieStore.get('comp_guid');
+        if ($scope[formName].$valid) {
+            angular.element(".loader").show();
+            formObj.rule_comp_guid = $cookieStore.get('comp_guid');
             console.log(JSON.stringify(formObj));
-        $http({
+            $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Comp/Rules/Ins",
                 ContentType: 'application/json',
@@ -5077,7 +5076,7 @@ app.controller("salesFunnelController", function($scope, $http, $cookieStore, $s
             angular.element(".loader").hide();
         });
     })();
-    
+
     $scope.addSalesFunnel = function() {
         var modalInstance = $uibModal.open({
             templateUrl: 'addSalesFunnel.html',
@@ -5091,7 +5090,7 @@ app.controller("salesFunnelController", function($scope, $http, $cookieStore, $s
             }
         });
     };
-    
+
     $scope.editSalesFunnel = function(selectedItem) {
         var modalInstance = $uibModal.open({
             templateUrl: 'addSalesFunnel.html',
@@ -5121,8 +5120,8 @@ app.controller("addSalesFunnelController", function($scope, $http, $cookieStore,
                 ContentType: 'application/json',
                 data: {
                     "salesfunnel_name": formObj.salesFunnelName,
-                    "salesfunnel_compguid":$cookieStore.get('comp_guid'),
-                    "salesfunnel_sortorder": formObj.salesFunnelSortOrder  
+                    "salesfunnel_compguid": $cookieStore.get('comp_guid'),
+                    "salesfunnel_sortorder": formObj.salesFunnelSortOrder
                 }
             }).success(function(data) {
                 angular.element(".loader").hide();
@@ -5176,10 +5175,10 @@ app.controller("editSalesFunnelController", function($scope, $http, $cookieStore
                 url: "http://120.138.8.150/pratham/Comp/SalesFunnelUpdate",
                 ContentType: 'application/json',
                 data: {
-                  "salesfunnel_id": item.salesfunnel_id,
-                  "salesfunnel_name": formObj.salesFunnelName,
-                  "salesfunnel_compguid": $cookieStore.get('comp_guid'),
-                  "salesfunnel_sortorder": formObj.salesFunnelSortOrder
+                    "salesfunnel_id": item.salesfunnel_id,
+                    "salesfunnel_name": formObj.salesFunnelName,
+                    "salesfunnel_compguid": $cookieStore.get('comp_guid'),
+                    "salesfunnel_sortorder": formObj.salesFunnelSortOrder
                 }
             }).success(function(data) {
                 angular.element(".loader").hide();
@@ -5214,7 +5213,7 @@ app.controller("editSalesFunnelController", function($scope, $http, $cookieStore
 });
 
 app.controller("prospects", function($scope, $http, $cookieStore, $uibModal, $state) {
-	$scope.searchLead = ''; // set the default search/filter term
+    $scope.searchLead = ''; // set the default search/filter term
     ($scope.getLeads = function() {
         angular.element(".loader").show();
         $http({
@@ -5246,7 +5245,7 @@ app.controller("prospects", function($scope, $http, $cookieStore, $uibModal, $st
             }
         });
     };
-    
+
     $scope.addSiteVisit = function(selectedItem) {
         var modalInstance = $uibModal.open({
             templateUrl: 'addSiteVisit.html',
@@ -5266,14 +5265,52 @@ app.controller("prospects", function($scope, $http, $cookieStore, $uibModal, $st
     };
 });
 
-app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $cookieStore, item) {
-	$scope.leadType = ['hot','warm','cold'];
+app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $cookieStore, $http, myService, item) {
+    $scope.leadType = ['hot', 'warm', 'cold'];
     $scope.states = ["Delhi"];
     $scope.cities = ["New Delhi"];
     $scope.lead = item;
     if ($scope.lead.userprojlist != null) {
         $scope.leadProjects = $scope.lead.userprojlist;
     }
+
+    ($scope.projectListFun = function() {
+        angular.element(".loader").show();
+        myService.getProjectList($cookieStore.get('comp_guid')).then(function(response) {
+            $scope.projectList = response.data;
+            angular.element(".loader").hide();
+        });
+    })();
+
+    $scope.phaseListFun = function(projectName) {
+        $scope.perFloorUnits = [];
+        $scope.units = [];
+        $scope.flatType = "";
+        $scope.addSiteVisit.phase = "";
+        $scope.addSiteVisit.blocks = "";
+        $scope.blockList = {};
+        angular.element(".loader").show();
+        myService.getPhaseList($cookieStore.get('comp_guid'), projectName).then(function(response) {
+            $scope.phaseList = response.data;
+            angular.element(".loader").hide();
+        });
+    };
+
+    $scope.blockListFun = function(phase) {
+        $scope.perFloorUnits = [];
+        $scope.units = [];
+        $scope.addSiteVisit.blocks = "";
+        for (i = 0; i < $scope.phaseList.length; i++) {
+            if ($scope.phaseList[i].Phase_Id == phase) {
+                $scope.flatType = $scope.phaseList[i].Phase_UnitType.UnitType_Name;
+            }
+        }
+        angular.element(".loader").show();
+        myService.getBlockList(phase, $cookieStore.get('comp_guid')).then(function(response) {
+            $scope.blockList = response.data;
+            angular.element(".loader").hide();
+        });
+    };
 
     $scope.ok = function() {
         $uibModalInstance.close();
@@ -5310,34 +5347,38 @@ app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $co
         }
         return typeName;
     }
-    
+
     $scope.addSiteVisit = function(formObj, formName) {
-        return false;
         $scope.submit = true;
         if ($scope[formName].$valid) {
+            angular.element(".loader").show();
             $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Comp/SiteVisitInsert",
                 ContentType: 'application/json',
-                data: {  
-                  "sitevisit_userid": $scope.lead.user_id,
-                  "sitevisit_compguid": $cookieStore.get('comp_guid'),
-                  "sitevisit_projectid": formObj.projectId,
-                  "sitevisit_phaseid": formObj.phaseId,
-                  "sitevisit_blockid": formObj.blockId,
-                  "sitevisit_required": formObj.required,
-                  "sitevisit_walkin": formObj.walkIn,
-                  "sitevisit_pickupdatetime": "2017-08-02",
-                  "sitevisit_contactperson_name": formObj.personName,
-                  "sitevisit_contactperson_mobile": formObj.personMobile,
-                  "sitevisit_pickupaddress": formObj.personAddress,
-                  "sitevisit_done": 1 
+                data: {
+                    "sitevisit_userid": $scope.lead.user_id,
+                    "sitevisit_compguid": $cookieStore.get('comp_guid'),
+                    "sitevisit_projectid": formObj.projectName,
+                    "sitevisit_phaseid": formObj.phase,
+                    "sitevisit_blockid": formObj.blocks,
+                    "sitevisit_required": formObj.required,
+                    "sitevisit_walkin": formObj.walkIn,
+                    "sitevisit_pickupdatetime": "2017-08-02",
+                    "sitevisit_contactperson_name": formObj.personName,
+                    "sitevisit_contactperson_mobile": formObj.personMobile,
+                    "sitevisit_pickupaddress": formObj.personAddress,
+                    "sitevisit_done": 1
                 }
             }).success(function(data) {
+                angular.element(".loader").hide();
                 alert('Site Visit Schedule Sucessfully.');
                 console.log(data);
                 $uibModalInstance.close();
-            }).error(function() {});
+            }).error(function() {
+                alert('Something Went Wrong...');
+                angular.element(".loader").hide();
+            });
         }
     };
 });
@@ -5370,7 +5411,7 @@ app.controller("addProspect", function($scope, $http, $state, $cookieStore) {
                     "user_gender": parseInt(formObj.gender),
                     "user_code": formObj.leadCode,
                     "user_lead_status_id": parseInt(formObj.leadStage),
-                    "user_createdby" : $cookieStore.get('user_id')
+                    "user_createdby": $cookieStore.get('user_id')
                 }
             }).success(function(data) {
                 if (data.user_id != 0) {
@@ -5429,7 +5470,7 @@ app.controller("editProspect", function($scope, $http, $state, $cookieStore, $st
                     zip: data.user_zipcode,
                     leadCode: data.user_code,
                     officeNumber: data.user_office_no,
-                    leadStage:data.user_lead_status_id.toString()
+                    leadStage: data.user_lead_status_id.toString()
                 }
                 angular.element(".loader").hide();
             } else {
