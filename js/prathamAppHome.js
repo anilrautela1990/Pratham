@@ -242,6 +242,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/siteVisitListing.html',
             controller: 'siteVisitListingController'
         })
+		.state('/UpdateRule', {
+            url: '/UpdateRule/:ruleId/:moduleId',
+            templateUrl: 'partials/updateRule.html',
+            controller: 'updateRuleCtrl'
+        })
 });
 app.config(function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];

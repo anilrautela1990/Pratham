@@ -1,0 +1,43 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle ng-scope">
+   <h1>{{pageTitle}}</h1>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20">
+   <ol class="breadcrumb">
+      <li><a ui-sref="/">Home</a></li>
+	  <li><a ui-sref="/CreateNewRule">Create New Rule</a></li>
+      <li class="active">{{pageTitle}}</li>
+   </ol>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <span>Which records you would like to apply rule on?</span>
+      <div class="marginTop10">
+         <input type="radio" name="recordsType" value="0" id="recordType1" ng-model="createNewRule.recordType"/>
+         <label for="recordType1">Records Matching the Condition</label> | 
+         <input type="radio" name="recordsType" value="1" id="recordType2" ng-model="createNewRule.recordType"/>
+         <label for="recordType2">All Records</label>
+      </div>
+      <div ng-show="createNewRule.recordType=='0'">
+         <table class="table">
+            <tr>
+               <td>
+                  <select class="form-control" ng-model="createNewRule.subModule" ng-change="getFieldValues(createNewRule.subModule)">
+                     <option value="">Field</option>
+                     <option ng-repeat="x in subModules" value="{{x.modfieldid}}">{{x.modfield_name}}</option>
+                  </select>
+               </td>
+               <td>
+                  <select class="form-control">
+                     <option value="">Operator</option>
+                  </select>
+               </td>
+               <td class="inputType">
+                  <input type="text" class="form-control" ng-show="showInput"/>
+                  <select ng-show="showDrodown" class="form-control">
+                     <option value="">Value</option>
+                     <option ng-repeat="x in fieldValues" value="{{x.modfieldid}}">{{x.modfieldvalues_value}}</option>
+                  </select>
+               </td>
+            </tr>
+         </table>
+      </div>
+</div>
