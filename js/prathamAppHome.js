@@ -222,6 +222,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/salesFunnelListing.html',
             controller: 'salesFunnelController'
         })
+        .state('/Prospects', {
+            url: '/Prospects',
+            templateUrl: 'partials/prospects.html',
+            controller: 'prospects'
+        })
+        .state('/AddProspect', {
+            url: '/AddProspect',
+            templateUrl: 'partials/addProspect.html',
+            controller: 'addProspect'
+        })
+        .state('/EditProspect', {
+            url: '/EditProspect/:leadID',
+            templateUrl: 'partials/addProspect.html',
+            controller: 'editProspect'
+        })
 });
 app.config(function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];

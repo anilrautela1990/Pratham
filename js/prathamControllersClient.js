@@ -5212,3 +5212,265 @@ app.controller("editSalesFunnelController", function($scope, $http, $cookieStore
         $uibModalInstance.close();
     };
 });
+
+app.controller("prospects", function($scope, $http, $cookieStore, $uibModal, $state) {
+	$scope.searchLead = ''; // set the default search/filter term
+    ($scope.getLeads = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserDtls/ByUserType",
+            ContentType: 'application/json',
+            data: {
+                "user_comp_guid": $cookieStore.get('comp_guid'),
+                "user_type": 7
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.leads = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+
+    $scope.leadDetail = function(selectedItem) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'leadDetail.html',
+            controller: 'prospectDetail',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return $scope.leads[selectedItem];
+                }
+            }
+        });
+    };
+    
+    $scope.addSiteVisit = function(selectedItem) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'addSiteVisit.html',
+            controller: 'prospectDetail',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return $scope.leads[selectedItem];
+                }
+            }
+        });
+    };
+
+    $scope.viewLeadStatus = function(leadNo) {
+        alert("View Lead Status: " + leadNo);
+    };
+});
+
+app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $cookieStore, item) {
+	$scope.leadType = ['hot','warm','cold'];
+    $scope.states = ["Delhi"];
+    $scope.cities = ["New Delhi"];
+    $scope.lead = item;
+    if ($scope.lead.userprojlist != null) {
+        $scope.leadProjects = $scope.lead.userprojlist;
+    }
+
+    $scope.ok = function() {
+        $uibModalInstance.close();
+    };
+
+    $scope.deleteRow = function(rowId) {
+        angular.element("tr#" + rowId).remove();
+    };
+
+    $scope.addLeadProjects = function(leadId) {
+        $uibModalInstance.close();
+        $state.go("/ProjectDetails", {
+            "leadID": leadId
+        });
+    };
+
+    $scope.getTypeNameById = function(typeId) {
+        var typeName = '';
+        switch (parseInt(typeId)) {
+            case 1:
+                typeName = 'Flat';
+                break;
+            case 2:
+                typeName = 'Sites';
+                break;
+            case 3:
+                typeName = 'Villa';
+                break;
+            case 4:
+                typeName = 'Row Houses';
+                break;
+            default:
+                console.log('eror');
+        }
+        return typeName;
+    }
+    
+    $scope.addSiteVisit = function(formObj, formName) {
+        return false;
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/SiteVisitInsert",
+                ContentType: 'application/json',
+                data: {  
+                  "sitevisit_userid": $scope.lead.user_id,
+                  "sitevisit_compguid": $cookieStore.get('comp_guid'),
+                  "sitevisit_projectid": formObj.projectId,
+                  "sitevisit_phaseid": formObj.phaseId,
+                  "sitevisit_blockid": formObj.blockId,
+                  "sitevisit_required": formObj.required,
+                  "sitevisit_walkin": formObj.walkIn,
+                  "sitevisit_pickupdatetime": "2017-08-02",
+                  "sitevisit_contactperson_name": formObj.personName,
+                  "sitevisit_contactperson_mobile": formObj.personMobile,
+                  "sitevisit_pickupaddress": formObj.personAddress,
+                  "sitevisit_done": 1 
+                }
+            }).success(function(data) {
+                alert('Site Visit Schedule Sucessfully.');
+                console.log(data);
+                $uibModalInstance.close();
+            }).error(function() {});
+        }
+    };
+});
+
+app.controller("addProspect", function($scope, $http, $state, $cookieStore) {
+    $scope.pageTitle = "Add Prospect";
+    $scope.addLeadBtn = true;
+    $scope.addLead = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/SaveUser",
+                ContentType: 'application/json',
+                data: {
+                    "user_comp_guid": $cookieStore.get('comp_guid'),
+                    "user_type": 3,
+                    "user_first_name": formObj.firstName,
+                    "user_middle_name": formObj.middleName,
+                    "user_last_name": formObj.lastName,
+                    "user_mobile_no": formObj.mobileNumber,
+                    "user_office_no": formObj.officeNumber,
+                    "user_email_address": formObj.emailId,
+                    "user_country": formObj.country,
+                    "user_city": formObj.city,
+                    "user_state": formObj.state,
+                    "user_address": formObj.address,
+                    "user_zipcode": formObj.zip,
+                    "user_dob": formObj.dob,
+                    "user_gender": parseInt(formObj.gender),
+                    "user_code": formObj.leadCode,
+                    "user_lead_status_id": parseInt(formObj.leadStage),
+                    "user_createdby" : $cookieStore.get('user_id')
+                }
+            }).success(function(data) {
+                if (data.user_id != 0) {
+                    $state.go("/ProjectDetails", {
+                        "leadID": data.user_id
+                    });
+                } else {
+                    alert("Error! " + data.user_ErrorDesc);
+                }
+            }).error(function() {});
+        }
+    };
+});
+
+app.controller("editProspect", function($scope, $http, $state, $cookieStore, $stateParams, $filter) {
+    $scope.pageTitle = "Edit Prospect";
+    $scope.editLeadBtn = true;
+    ($scope.getLeadDetail = function() {
+        angular.element(".loader").show();
+        $scope.leadId = $stateParams.leadID;
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserDtls",
+            ContentType: 'application/json',
+            data: {
+                "user_id": $scope.leadId,
+                "user_comp_guid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            var state = data.user_state;
+            var city = data.user_city;
+            var dob = $filter('date')(data.user_dob, 'MMM dd, yyyy');
+
+            if (state == 0) {
+                state = "";
+            }
+            if (city == 0) {
+                city = "";
+            }
+            if (dob == "Jan 01, 0001") {
+                dob = "";
+            }
+            if (data.user_id != 0) {
+                $scope.addLead = {
+                    firstName: data.user_first_name,
+                    middleName: data.user_middle_name,
+                    lastName: data.user_last_name,
+                    mobileNumber: data.user_mobile_no,
+                    emailId: data.user_email_address,
+                    dob: dob,
+                    gender: data.user_gender,
+                    country: data.user_country,
+                    state: state + "",
+                    city: city + "",
+                    address: data.user_address,
+                    zip: data.user_zipcode,
+                    leadCode: data.user_code,
+                    officeNumber: data.user_office_no,
+                    leadStage:data.user_lead_status_id.toString()
+                }
+                angular.element(".loader").hide();
+            } else {
+                $state.go("/Prospects");
+            }
+        }).error(function() {});
+    })();
+
+    $scope.updateLead = function(formObj, formName) {
+        $scope.submit = true;
+        if ($scope[formName].$valid) {
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/User/UpdateUser",
+                ContentType: 'application/json',
+                data: {
+                    "user_comp_guid": $cookieStore.get('comp_guid'),
+                    "user_id": $scope.leadId,
+                    "user_first_name": formObj.firstName,
+                    "user_middle_name": formObj.middleName,
+                    "user_last_name": formObj.lastName,
+                    "user_mobile_no": formObj.mobileNumber,
+                    "user_office_no": formObj.officeNumber,
+                    "user_email_address": formObj.emailId,
+                    "user_country": formObj.country,
+                    "user_city": formObj.city,
+                    "user_state": formObj.state,
+                    "user_address": formObj.address,
+                    "user_zipcode": formObj.zip,
+                    "user_dob": formObj.dob,
+                    "user_gender": parseInt(formObj.gender),
+                    "user_code": formObj.leadCode,
+                    "user_lead_status_id": parseInt(formObj.leadStage)
+                }
+            }).success(function(data) {
+                if (data.user_id != 0) {
+                    $state.go("/Prospects");
+                } else {
+                    alert("Some Error!");
+                }
+            }).error(function() {});
+        }
+    };
+});
