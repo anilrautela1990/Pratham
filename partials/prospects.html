@@ -23,6 +23,7 @@
                 <th>Created Date</th>
                 <th>Status</th>
                 <th>Actions</th>
+                <th>Site Visit</th>
             </tr>
         </thead>
         <tbody>
@@ -33,9 +34,9 @@
                 <td>{{x.registration_date | date:'yyyy-MM-dd'}}</td>
                 <td><span class="link" ng-click="leadDetail($index)">View</span></td>
                 <td>
-                    <a ui-sref="/EditProspect({ leadID: {{x.user_id}} })"><span class="link">Edit</span></a>
-                    <span class="btn btn-primary" ng-click="addSiteVisit($index)">Add Site Visit</span>
+                    <a ui-sref="/EditProspect({ leadID: {{x.user_id}} })"><span class="link">Edit</span></a>                 
                 </td>
+                <td> <span class="btn btn-primary" ng-click="addSiteVisit($index)">Site Visit</span></td>
             </tr>
         </tbody>
     </table>
