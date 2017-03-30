@@ -5412,7 +5412,7 @@ app.controller("addProspect", function($scope, $http, $state, $cookieStore) {
                 ContentType: 'application/json',
                 data: {
                     "user_comp_guid": $cookieStore.get('comp_guid'),
-                    "user_type": 3,
+                    "user_type": 7,
                     "user_first_name": formObj.firstName,
                     "user_middle_name": formObj.middleName,
                     "user_last_name": formObj.lastName,
