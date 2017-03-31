@@ -742,3 +742,6 @@ a.link{
 td.inputType{
     width: 30%;
 }
+.tableHeading{
+    margin: 0 0 10px 0;
+}
