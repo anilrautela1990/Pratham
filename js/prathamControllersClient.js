@@ -5365,6 +5365,25 @@ app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $co
         }
         return typeName;
     }
+    
+    $scope.getPreviousSiteVisits = (function(){
+        angular.element(".loader").show();
+        $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/UserSiteVisitGet",
+                ContentType: 'application/json',
+                data: {
+                    "sitevisit_userid": $scope.lead.user_id,
+                    "sitevisit_compguid": $cookieStore.get('comp_guid')
+                }
+            }).success(function(data) {
+                $scope.siteVisitData = data;
+                angular.element(".loader").hide();
+            }).error(function() {
+                alert('Something Went Wrong...');
+                angular.element(".loader").hide();
+            });
+    })();
 
     $scope.addSiteVisit = function(formObj, formName) {
         $scope.submit = true;
@@ -5380,7 +5399,6 @@ app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $co
                     "sitevisit_projectid": formObj.projectName,
                     "sitevisit_phaseid": formObj.phase,
                     "sitevisit_blockid": formObj.blocks,
-                    "sitevisit_required": formObj.required,
                     "sitevisit_walkin": formObj.walkIn,
                     "sitevisit_pickupdatetime": formObj.datetime+' T '+formObj.time,
                     "sitevisit_contactperson_name": formObj.personName,
