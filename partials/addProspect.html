@@ -4,7 +4,7 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle marginBottom20">
    <ol class="breadcrumb">
       <li><a ui-sref="/">Home</a></li>
-      <li><a ui-sref="/Leads">Leads</a></li>
+      <li><a ui-sref="/Prospects">Prospects</a></li>
       <li class="active">{{pageTitle}}</li>
    </ol>
 </div>
@@ -152,16 +152,15 @@
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
-            <label for="projectName">Lead Code</label>
+            <label for="projectName">Prospect Code</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
             <input type="text" placeholder="Lead Code" class="form-control"  name="leadCode" ng-model="addLead.leadCode"/>
          </div>
       </div>
-<!--
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
-            <label for="projectName">Lead Type</label>
+            <label for="projectName">Prospect Type</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
             <select name="leadStage" class="form-control"  ng-model="addLead.leadStage">
@@ -180,15 +179,14 @@
             </select>
          </div>        
       </div>
--->
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 labelCntr">
-            <label for="projectName">Lead Source</label>
+            <label for="projectName">Prospect Source</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
             <select class="form-control" name="leadSouce" ng-model="addLead.leadSouce">
                <option value="">
-                  Lead Generation Source
+                  Prospect Generation Source
                </option>
                <option value="email">
                   Email
@@ -203,10 +201,10 @@
          </div>
       </div>
       <div class="text-center" ng-show="addLeadBtn">
-         <button type="button" class="btn btn-success" ng-click="addLead(addLead,'addLeadForm')">+ Add Lead</button>
+         <button type="button" class="btn btn-success" ng-click="addLead(addLead,'addLeadForm')">+ Add Prospect</button>
       </div>
       <div class="text-center" ng-show="editLeadBtn">
-         <button type="button" class="btn btn-success" ng-click="updateLead(addLead,'addLeadForm')">Update Lead</button>
+         <button type="button" class="btn btn-success" ng-click="updateLead(addLead,'addLeadForm')">Update Prospect</button>
       </div>
    </form>
 </div>

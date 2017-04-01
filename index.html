@@ -12,13 +12,15 @@
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/pathamJqueryClient.js"></script>
 	<script type="text/javascript" src="js/prathamAppClient.js"></script>
-	<script type="text/javascript" src="js/prathamControllersClient.js"></script>
+	<script type="text/javascript" src="js/prathamControllersClient.js"></script>  
+    <script type="text/javascript" src="js/jquery.orgchart_sutlej.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.js"></script>
 
-	<!-- Scripts -->
+	<!-- Scripts --> 
 	
 	<!-- Styles -->
 	<link rel="stylesheet" href="css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="css/prathamClient.css"/>
+	<link rel="stylesheet" ng-href="css/{{clientCss}}.css"/>
 	<link rel="stylesheet" href="css/prathamMediaQueryClient.css"/>
 	<!-- Styles -->
 </head>
@@ -53,5 +55,10 @@
 	</div>
 	<!-- Page Content-->
 </body>
-
+<!--
+<div class="loader">
+		<img ng-src="img/gears.gif">
+    
+	</div>
+-->
 </html>

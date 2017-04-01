@@ -1,75 +1,69 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
-	<h1>Leads</h1>
+	<h1>Customers</h1>
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
 	<ol class="breadcrumb">
 	  <li><a ui-sref="/">Home</a></li>
-	  <li class="active">Leads</li>
+	  <li class="active">Customers</li>
 	</ol>	
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right ctaContainer">
-	<a ui-sref="/AddLead" class="btn btn-primary">+ Add Lead</a> | 
-	<button type="button" class="btn btn-success">Import From CSV <span class="glyphicon glyphicon-import"></span></button> |
-	<a href="#">Download Format <span class="glyphicon glyphicon-download-alt"></span></a>
+	
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <input type="text" class="form-control marginBottom5 search" placeholder="Search Leads" ng-model="searchLead"/>
+    <input type="text" class="form-control marginBottom5 search" placeholder="Search Customers" ng-model="searchCustomers"/>
 	<table class="table dataTable">
 		<thead>
 			<tr>
 				<th>#</th>
-				<th>Name</th>
-				<th>Assigned To</th>
-				<th>Created Date</th>
+                <th>Name</th>
 				<th>Status</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="x in leads | filter:searchLead track by $index">
+			<tr ng-repeat="x in customers | filter:searchCustomers track by $index">
 				<td>{{$index + 1}}</td>
 				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
-				<td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> Person</td>
-                <td>{{x.registration_date | date:'yyyy-MM-dd'}}</td>
-				<td><span class="link" ng-click="leadDetail($index)">View</span></td>
-				<td><a ui-sref="/EditLead({ leadID: {{x.user_id}} })"><span class="link">Edit</span></a></td>
+				<td><span class="link" ng-click="customerDetail($index)">View</span></td>
+				<td><a ui-sref="/ConvertCustomer({ leadID: {{x.user_id}} , action: 'editCustomer'})"><span class="link">Edit</span></a></td>
 			</tr>
 		</tbody>
 	</table>
 </div>
-<script type="text/ng-template" id="leadDetail.html">
+<script type="text/ng-template" id="customerDetail.html">
         <div class="modal-header">
 			<button type="button" class="close" ng-click="ok()">&times;</button>
-            <h3 class="modal-title" id="modal-title">{{lead.user_first_name}} {{lead.user_middle_name}} {{lead.user_last_name}} - <span>{{leadType[lead.user_lead_status_id-1]}}</span></h3>
+            <h3 class="modal-title" id="modal-title">{{customer.user_first_name}} {{customer.user_middle_name}} {{customer.user_last_name}}</h3>
         </div>
         <div class="modal-body" id="modal-body">
 			<div class="subHeading">Contact Details</div>
 			<table class="leadDetail">
 				<tr>
 					<td>Email ID:</td>
-					<td>{{lead.user_email_address}}</td>
+					<td>{{customer.user_email_address}}</td>
 				</tr>
 				<tr>
 					<td>Mobile Number:</td>
-					<td>{{lead.user_mobile_no}}</td>
+					<td>{{customer.user_mobile_no}}</td>
 				</tr>
 				<tr ng-if="lead.user_dob !='0001-01-01T00:00:00'">
 					<td>D.O.B:</td>
-					<td>{{lead.user_dob | date}}</td>
+					<td>{{customer.user_dob | date}}</td>
 				</tr>
 				<tr>
 					<td>City:</td>
-					<td>{{cities[lead.user_city-1]}}</td>
+					<td>{{cities[customer.user_city-1]}}</td>
 				</tr>
             </table>
             <div class="col-md-12 padding0 marginBottom5">
-                <div class="subHeading col-md-6 padding0">Projects</div>
+                <div class="subHeading col-md-6 padding0">Project</div>
                 <div class="col-md-6 padding0 text-right">
                     <button class="btn btn-default" ng-click="addLeadProjects(lead.user_id)">Update Projects</button>
                 </div>
             </div>
-            <div ng-show="{{lead.userprojlist==null}}">This lead does not have any projects.</div>
-			<div ng-show="{{lead.userprojlist!=null}}">
+            <div ng-show="{{customer.userprojlist==null}}">This lead does not have any projects.</div>
+			<div ng-show="{{customer.userprojlist!=null}}">
 				<table class="table borderDef">
 				   <thead>
 					  <tr>
@@ -78,6 +72,8 @@
 						 <th>Type</th>
 						 <th>Block</th>
 						 <th>Unit</th>
+                         <th>Status</th>
+                         <th></th>
 					  </tr>
 				   </thead>
 				   <tbody id="projectList">
@@ -87,6 +83,8 @@
                          <td>{{getTypeNameById(unit.Phase_UnitType_Id)}}</td>
                          <td>{{unit.Blocks_Name}}</td>
                          <td>{{unit.UnitDtls_Name}} / {{unit.phaseType}} No. {{unit.UnitDtls_No}} / {{unit.UnitDtls_Msrmnt}} sq ft / Floor {{unit.UnitDtls_Floor}}</td>
+                          <td>{{unit.unitViewStatus}}</td>
+                          <td><span class="glyphicon glyphicon-trash delete" ng-click="deleteRow(unit.ProjDtl_Id,unit.UnitDtls_Id)"></span></td>
 					  </tr>
 				   </tbody>
 				</table>

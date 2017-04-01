@@ -8,11 +8,15 @@
             <input type="text" name="emailId" ng-model="login.emailId" class="form-control" placeholder="Email ID*" ng-required="true" ng-class="{blankInput: loginForm.emailId.$error.required &amp;&amp; submit}"/>
         </div>
         <div>
-            <input type="password" name="password" ng-model="login.password" class="form-control" placeholder="Password*" ng-required="true" ng-class="{blankInput: loginForm.password.$error.required &amp;&amp; submit}"/>
+            <input type="password" name="password" ng-model="login.password" ng-keypress="enterLogin($event,login,'loginForm')" class="form-control" placeholder="Password*" ng-required="true" ng-class="{blankInput: loginForm.password.$error.required &amp;&amp; submit}"/>
         </div>
         <div class="text-center">
             <button type="button" class="btn btn-success" ng-click="login(login,'loginForm')">Login</button> | 
             <a href="#">Forgot Password?</a>
+        </div>
+        <div class="text-center divStyle1">
+            New to Pratham?
+            <a ui-sref="/RegisterFirm">Register Your Firm</a>
         </div>
     </form>
 </div>
