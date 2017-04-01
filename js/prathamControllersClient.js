@@ -4958,64 +4958,63 @@ app.controller("alertRules", function($scope, $http, $cookieStore, $state, $stat
 app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Create New Alert Rule";
     $scope.createNewRule = {
-        rule_moduleid:''
+        rule_moduleid: ''
     };
-     $scope.getModules = (function(){
-         angular.element(".loader").show();
-        $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Comp/ModulesGet",
-                ContentType: 'application/json',
-                data: {
-                    "module_id":0
-                }
-            }).success(function(data) {
-                $scope.modules = data;                
-                angular.element(".loader").hide();
-            }).error(function() {
-                angular.element(".loader").hide();
-            });
-    })();
-    
-    $scope.getActionTypes = function(moduleId){
+    $scope.getModules = (function() {
         angular.element(".loader").show();
         $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Comp/ActiontypeGet",
-                ContentType: 'application/json',
-                data: {
-                    "module_id":moduleId
-                }
-            }).success(function(data) {
-                $scope.actionTypes = data;    
-                $scope.getSubModules(moduleId);
-                angular.element(".loader").hide();
-            }).error(function() {
-                angular.element(".loader").hide();
-            });
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/ModulesGet",
+            ContentType: 'application/json',
+            data: {
+                "module_id": 0
+            }
+        }).success(function(data) {
+            $scope.modules = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+
+    $scope.getActionTypes = function(moduleId) {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/ActiontypeGet",
+            ContentType: 'application/json',
+            data: {
+                "module_id": moduleId
+            }
+        }).success(function(data) {
+            $scope.actionTypes = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     }
-    
-    
+
+
     $scope.saveRule = function(formName, formObj) {
         $scope.submit = true;
-        if ($scope[formName].$valid) {            
-        angular.element(".loader").show();
-        formObj.rule_comp_guid = $cookieStore.get('comp_guid');
+        if ($scope[formName].$valid) {
+            angular.element(".loader").show();
+            formObj.rule_comp_guid = $cookieStore.get('comp_guid');
             console.log(JSON.stringify(formObj));
-        $http({
+            $http({
                 method: "POST",
                 url: "http://120.138.8.150/pratham/Comp/Rules/Ins",
                 ContentType: 'application/json',
                 data: formObj
             }).success(function(data) {
                 var res = data.ErrorDesc;
-				var resSplit = res.split('|');
-				if (resSplit[0] == 0) {
-					$state.go('/UpdateRule',{
-						ruleId: data.ruleid,
-						moduleId: data.rule_moduleid
-					});
-				}
+                var resSplit = res.split('|');
+                if (resSplit[0] == 0) {
+                    $state.go('/UpdateRule', {
+                        ruleId: data.ruleid,
+                        moduleId: data.rule_moduleid
+                    });
+                }
                 angular.element(".loader").hide();
             }).error(function() {
                 angular.element(".loader").hide();
@@ -5025,54 +5024,64 @@ app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $s
 });
 
 app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
-	$scope.pageTitle = "Update Rule";
+    $scope.pageTitle = "Update Rule";
 	var ruleId = $stateParams.ruleId;
-	var moduleId = $stateParams.moduleId;
+    var moduleId = $stateParams.moduleId;
+	$scope.recordType = 0;
+	$scope.rules = [];
 	
-	$scope.getSubModules = function(moduleId){
+    $scope.getSubModules = function(moduleId) {
         angular.element(".loader").show();
         $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Comp/SubModulesGet",
-                ContentType: 'application/json',
-                data: {
-                    "module_id":moduleId
-                }
-            }).success(function(data) {
-                $scope.subModules = data;                
-                angular.element(".loader").hide();
-            }).error(function() {
-                angular.element(".loader").hide();
-            });
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/SubModulesGet",
+            ContentType: 'application/json',
+            data: {
+                "module_id": moduleId
+            }
+        }).success(function(data) {
+            $scope.subModules = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     }
-	
-	$scope.getSubModules(moduleId);
-	
-	$scope.getFieldValues = function(fieldId){
+	$scope.showInput = true;
+    $scope.getSubModules(moduleId);
+    $scope.getFieldValues = function(fieldId) {
         angular.element(".loader").show();
         $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Comp/ModfldvaluesGet",
-                ContentType: 'application/json',
-                data: {
-                    "module_id":fieldId
-                }
-            }).success(function(data) {
-                if(data.length == 1 && data[0].ErrorDesc == "-1 | No Module field Values do not exist for this Module"){
-                    $scope.showDrodown = false;
-                    $scope.showInput = true;
-                }
-                else{
-                    $scope.fieldValues = data;
-                    $scope.showInput = false;
-                    $scope.showDrodown = true;
-                }
-                angular.element(".loader").hide();
-            }).error(function() {
-                angular.element(".loader").hide();
-            });
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/ModfldvaluesGet",
+            ContentType: 'application/json',
+            data: {
+                "module_id": fieldId
+            }
+        }).success(function(data) {
+            if (data.length == 1 && data[0].ErrorDesc == "-1 | No Module field Values do not exist for this Module") {
+                $scope.showDrodown = false;
+                $scope.showInput = true;
+            } else {
+                $scope.fieldValues = data;
+                $scope.showInput = false;
+                $scope.showDrodown = true;
+            }
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
     }
 	
+	$scope.addRow = function(){
+		var trCount = $(".alertRuleTable tr").length;
+        var increment = trCount + 1;
+		alert(increment);
+		var htmlRow = '<tr> <td> <select class="form-control" ng-model="createNewRule.subModule" ng-change="getFieldValues(createNewRule.subModule)"> <option value="">Field</option> <option ng-repeat="x in subModules" value="{{x.modfieldid}}">{{x.modfield_name}}</option> </select> </td> <td> <select class="form-control"> <option value="">Operator</option> </select> </td> <td class="inputType"> <input type="text" class="form-control" ng-show="showInput" placeholder="Value"/> <select ng-show="showDrodown" class="form-control"> <option value="">Value</option> <option ng-repeat="x in fieldValues" value="{{x.modfieldid}}">{{x.modfieldvalues_value}}</option> </select> </td> <td><button type="button" class="btn btn-default" ng-click = addRow()>Add</button> </td> </tr>';
+		
+		htmlRow = $compile(htmlRow)($scope);
+        angular.element(".alertRuleTable").append(htmlRow);
+	}
+
 });
 
 app.controller("salesFunnelController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $rootScope) {
@@ -5283,7 +5292,7 @@ app.controller("prospects", function($scope, $http, $cookieStore, $uibModal, $st
 });
 
 app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $cookieStore, $http, myService, item) {
-    $scope.timeslots = ['10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','01:00 PM','01:30 PM','02:00 PM','02:30 PM','03:00 PM','03:30 PM','04:00 PM','04:30 PM','05:00 PM','05:30 PM','06:00 PM','07:00 PM','07:30 PM','08:30 PM'];
+    $scope.timeslots = ['10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM', '01:00 PM', '01:30 PM', '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM', '05:00 PM', '05:30 PM', '06:00 PM', '07:00 PM', '07:30 PM', '08:30 PM'];
     $scope.leadType = ['hot', 'warm', 'cold'];
     $scope.states = ["Delhi"];
     $scope.cities = ["New Delhi"];
@@ -5365,24 +5374,24 @@ app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $co
         }
         return typeName;
     }
-    
-    $scope.getPreviousSiteVisits = (function(){
+
+    $scope.getPreviousSiteVisits = (function() {
         angular.element(".loader").show();
         $http({
-                method: "POST",
-                url: "http://120.138.8.150/pratham/Comp/UserSiteVisitGet",
-                ContentType: 'application/json',
-                data: {
-                    "sitevisit_userid": $scope.lead.user_id,
-                    "sitevisit_compguid": $cookieStore.get('comp_guid')
-                }
-            }).success(function(data) {
-                $scope.siteVisitData = data;
-                angular.element(".loader").hide();
-            }).error(function() {
-                alert('Something Went Wrong...');
-                angular.element(".loader").hide();
-            });
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/UserSiteVisitGet",
+            ContentType: 'application/json',
+            data: {
+                "sitevisit_userid": $scope.lead.user_id,
+                "sitevisit_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            $scope.siteVisitData = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            alert('Something Went Wrong...');
+            angular.element(".loader").hide();
+        });
     })();
 
     $scope.addSiteVisit = function(formObj, formName) {
@@ -5400,7 +5409,7 @@ app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $co
                     "sitevisit_phaseid": formObj.phase,
                     "sitevisit_blockid": formObj.blocks,
                     "sitevisit_walkin": formObj.walkIn,
-                    "sitevisit_pickupdatetime": formObj.datetime+' T '+formObj.time,
+                    "sitevisit_pickupdatetime": formObj.datetime + ' T ' + formObj.time,
                     "sitevisit_contactperson_name": formObj.personName,
                     "sitevisit_contactperson_mobile": formObj.personMobile,
                     "sitevisit_pickupaddress": formObj.personAddress,

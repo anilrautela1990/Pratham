@@ -742,6 +742,19 @@ a.link{
 td.inputType{
     width: 30%;
 }
-.tableHeading{
-    margin: 0 0 10px 0;
+
+.prevVisits{
+	padding: 5px;
+    border: 1px solid #ddd;
+    margin: 0 0 20px 0;
+}
+
+.prevVisits > h4{
+	padding: 8px;
+    background-color: #EEE;
+    margin: 0;
+}
+
+.prevVisits > table{
+	margin: 0;
 }
