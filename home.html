@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html ng-app = "pratham" ng-controller="home">
+<html ng-app = "pratham" ng-controller="mainCtrl">
 <head>
+  
 	<meta charset="UTF-8">
 	<title>{{title}}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,18 +15,22 @@
 	<script type="text/javascript" src="js/pathamJqueryClient.js"></script>
 	<script type="text/javascript" src="js/prathamAppHome.js"></script>
 	<script type="text/javascript" src="js/prathamControllersClient.js"></script>
-    
-
+     <script type="text/javascript" src="js/jquery.orgchart_sutlej.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.js"></script>
 	<!-- Scripts -->
 	
 	<!-- Styles -->
 	<link rel="stylesheet" href="css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="css/prathamClient.css"/>
-	<link rel="stylesheet" href="css/prathamMediaQueryClient.css"/>
+	<link rel="stylesheet" ng-href="css/{{clientCss}}.css"/>
+	<link rel="stylesheet" href="css/prathamMediaQueryClient.css"/>     
+    <link rel="icon" type="image/x-icon" href="/img/logo.ico">  
+    <link rel="stylesheet" href="https://cdn.rawgit.com/FortAwesome/Font-Awesome/master/css/font-awesome.min.css">  
+    <link rel="stylesheet" href="css/jquery.orgchart.css">   
+  
 	<!-- Styles -->
 </head>
 
-<body ng-controller="mainCtrl">
+<body>
 	<div class="container-fluid">
 		<div class="row header">
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
@@ -34,88 +39,177 @@
 						Company
 					</span>
 				</a>
-			</div>
+			</div>     
 			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-4">
 				<input type="text" class="form-control search" placeholder="Search Here"/>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 headerRight">
-				<span class="glyphicon glyphicon-log-out whiteIcon24 marginRight10" ng-click="logout()"></span>
-                <span class="glyphicon glyphicon-user whiteIcon24 marginRight10"></span>
-				<span class="glyphicon glyphicon-question-sign whiteIcon24"></span>
+				<span class="glyphicon glyphicon-log-out whiteIcon24 marginRight10" title="Logout" ng-click="logout()"></span>
+                <span class="glyphicon glyphicon-user whiteIcon24 marginRight10" title="User"></span>
+				<span class="glyphicon glyphicon-question-sign whiteIcon24" title="Help"></span>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-2 hidden-xs leftPanel">
 				<ul class="leftMenu">
-					<li>
-						<span class="glyphicon glyphicon-user"></span> Menu 1
+                   <li>
+						<span class="glyphicon glyphicon-user"></span> Leads
 						<ul>
-							<li class="active">
-								<a ui-sref="/Leads">Leads</a>
+							<li class="">
+								<a ui-sref="/Leads">Quick View</a>
 							</li>
+<!--
+							<li class="">
+								<a ui-sref="/">View / Edit</a>
+							</li>
+-->
+<!--
 							<li>
-								<a ui-sref="/">Menu Item</a>
+								<a ui-sref="/UnitAllocation">Allocated Units</a>
+							</li>
+-->
+						</ul>
+					</li>
+                    <li>
+						<span class="glyphicon glyphicon-user"></span> Prospects
+						<ul>
+							<li class="">
+								<a ui-sref="/Prospects">Quick View</a>
+							</li>
+                            <li>
+								<a ui-sref="/UnitAllocation">Allocated Units</a>
 							</li>
 						</ul>
 					</li>
 					<li>
-						<span class="glyphicon glyphicon-envelope"></span> Menu 2
+						<span class="glyphicon glyphicon-user"></span> Customers
 						<ul>
 							<li>
-								<a ui-sref="/">Menu Item</a>
+								<a ui-sref="/Customers">Quick View</a>
 							</li>
-							<li>
-								<a ui-sref="/">Menu Item</a>
+<!--
+                            <li>
+								<a ui-sref="/">View / Edit</a>
 							</li>
+-->
 							<li>
-								<a ui-sref="/">Menu Item</a>
-							</li>
-							<li>
-								<a ui-sref="/">Menu Item</a>
+								<a ui-sref="/">Allocated Units</a>
 							</li>
 						</ul>
 					</li>
-					<li>
-						<span class="glyphicon glyphicon-flag"></span> Menu 3
+                    <li>
+						<span class="glyphicon glyphicon-user"></span> Employees
 						<ul>
 							<li>
-								<a ui-sref="/">Menu Item</a>
-							</li>
-							<li>
-								<a ui-sref="/">Menu Item</a>
-							</li>
-							<li>
-								<a ui-sref="/">Menu Item</a>
+								<a ui-sref="/EmployeeDetails">Quick View</a>
 							</li>
 						</ul>
 					</li>
-					<li>
-						<span class="glyphicon glyphicon-flag"></span> Menu 4
+                      <li>
+						<span class="glyphicon glyphicon-user"></span> Agents
 						<ul>
 							<li>
-								<a ui-sref="/">Menu Item</a>
+								<a ui-sref="/Agents">Quick View</a>
+							</li>
+						</ul>
+					</li>
+                    <li>
+						<span class="glyphicon glyphicon-flag"></span> Project
+						<ul>
+							
+							<li>
+								<a ui-sref="/Projects">Project</a>
 							</li>
 							<li>
-								<a ui-sref="/">Menu Item</a>
+								<a ui-sref="/Phases">Phase</a>
 							</li>
 							<li>
-								<a ui-sref="/">Menu Item</a>
+								<a ui-sref="/">Block</a>
+							</li>
+                            <li>
+								<a ui-sref="/UnitsListing">Units Listing</a>
 							</li>
 							<li>
-								<a ui-sref="/">Menu Item</a>
+								<a ui-sref="/BlockCostSheet">Cost Sheet</a>
 							</li>
 							<li>
-								<a ui-sref="/">Menu Item</a>
+								<a ui-sref="/">Allocated Units</a>
 							</li>
+							<li>
+								<a ui-sref="/">Block Unit</a>
+							</li>
+						</ul>
+					</li>
+					
+<!--
+					<li>
+						<span class="glyphicon glyphicon-user"></span> User Setup
+						<ul>
+							
+                            
+							<li>
+								<a ui-sref="/Attendance">Attendance</a>
+							</li>
+						</ul>
+					</li>
+-->
+
+					
+					<li>
+						<span class="glyphicon glyphicon-flag"></span> CRM
+						<ul>
+							
+							<li>
+								<a ui-sref="/">Campaigns</a>
+							</li>
+							<li>
+								<a ui-sref="/SalesFunnel">Sales Funnel</a>
+							</li>
+							<li>
+								<a ui-sref="/AlertRules">Alert Rules</a>
+							</li>
+                            <li>
+								<a ui-sref="/SiteVisitListing">Site Visit Listing</a>
+							</li>
+                            <li>
+								<a ui-sref="/Attendance">Attendance</a>
+							</li>
+						</ul>
+					</li>
+                    <li>
+						<span class="glyphicon glyphicon-flag"></span> Set Up
+						<ul>
+							<li>
+								<a ui-sref="/AccessRights">Access Rights</a>
+							</li>
+							<li>
+								<a ui-sref="/AddDepartment">Department</a>
+							</li>
+							<li>
+								<a ui-sref="/Heirarchy">Department Heirarchy</a>
+							</li>
+							<li>
+								<a ui-sref="/CostSheetTemplates">Cost Sheet Template</a>
+							</li>
+							<li>
+								<a ui-sref="/SalaryComponentDetails">Salary Component</a>
+							</li>
+							<li>
+								<a ui-sref="/BlockStage">Block Stage</a>
+							</li>
+							<li>
+								<a ui-sref="/PaymentSchedule">Payment Schedule</a>
+							</li>
+                            						
 						</ul>
 					</li>
 				</ul>
 			</div>
-			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 pageContent" ui-view="" autoscroll="false"></div>
+			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 pageContent" ui-view="" autoscroll="true"></div>
 		</div>
 		<div class="row footer">
 			<div class="col-lg-4 col-md-4 col-sm-4">
-				&copy; 2016 Pratham Pvt. Ltd.
+				&copy; 2017 Pratham Pvt. Ltd.
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 text-center">
 				Powered By: Pratham
@@ -128,6 +222,8 @@
 		</div>
 	</div>
 	<!-- Page Content-->
+	<div class="loader">
+		<img ng-src="img/gears.gif"/>
+	</div>
 </body>
-
 </html>
