@@ -5028,6 +5028,7 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
 	var ruleId = $stateParams.ruleId;
     var moduleId = $stateParams.moduleId;
 	$scope.recordType = 0;
+    
 	$scope.rules = [];
 	
     $scope.getSubModules = function(moduleId) {
@@ -5046,9 +5047,11 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
             angular.element(".loader").hide();
         });
     }
-	$scope.showInput = true;
     $scope.getSubModules(moduleId);
-    $scope.getFieldValues = function(fieldId) {
+    $scope.getFieldValues = function(fieldId,index) {
+        var fieldValues = 'fieldValues'+index;
+        var showDrodown = 'showDrodown'+index;
+        var showInput = 'showInput'+index;
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -5058,13 +5061,14 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
                 "module_id": fieldId
             }
         }).success(function(data) {
+            console.log(JSON.stringify(data));
             if (data.length == 1 && data[0].ErrorDesc == "-1 | No Module field Values do not exist for this Module") {
-                $scope.showDrodown = false;
-                $scope.showInput = true;
+                $scope[showDrodown] = false;
+                $scope[showInput] = true;
             } else {
-                $scope.fieldValues = data;
-                $scope.showInput = false;
-                $scope.showDrodown = true;
+                $scope[fieldValues] = data;
+                $scope[showInput] = false;
+                $scope[showDrodown] = true;
             }
             angular.element(".loader").hide();
         }).error(function() {
@@ -5073,15 +5077,16 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
     }
 	
 	$scope.addRow = function(){
-		var trCount = $(".alertRuleTable tr").length;
-        var increment = trCount + 1;
-		alert(increment);
-		var htmlRow = '<tr> <td> <select class="form-control" ng-model="createNewRule.subModule" ng-change="getFieldValues(createNewRule.subModule)"> <option value="">Field</option> <option ng-repeat="x in subModules" value="{{x.modfieldid}}">{{x.modfield_name}}</option> </select> </td> <td> <select class="form-control"> <option value="">Operator</option> </select> </td> <td class="inputType"> <input type="text" class="form-control" ng-show="showInput" placeholder="Value"/> <select ng-show="showDrodown" class="form-control"> <option value="">Value</option> <option ng-repeat="x in fieldValues" value="{{x.modfieldid}}">{{x.modfieldvalues_value}}</option> </select> </td> <td><button type="button" class="btn btn-default" ng-click = addRow()>Add</button> </td> </tr>';
+		var i = $(".alertRuleTable tr").length;
+		var htmlRow = '<tr> <td> <select class="form-control" ng-model="rules['+i+'].rulecriteria_modfield_id" ng-change="getFieldValues(rules['+i+'].rulecriteria_modfield_id,'+i+')"> <option value="">Field</option> <option ng-repeat="x in subModules" value="{{x.modfieldid}}">{{x.modfield_name}}</option> </select> </td> <td> <select class="form-control" class="form-control" ng-model="rules['+i+'].rulecriteria_condition"> <option value="">Operator</option> </select> </td> <td class="inputType"> <input type="text" class="form-control" ng-show="showInput'+i+'" placeholder="Value" ng-model="rules['+i+'].rulecriteria_criteria"/> <select ng-show="showDrodown'+i+'" class="form-control" ng-model="rules['+i+'].rulecriteria_criteria"> <option value="">Value</option> <option ng-repeat="x in fieldValues'+i+'" value="{{x.modfieldvalues_defdbvalue}}">{{x.modfieldvalues_value}}</option> </select> </td> <td><button type="button" class="btn btn-default" ng-click = addRow()>Add</button> </td> </tr>';
 		
 		htmlRow = $compile(htmlRow)($scope);
         angular.element(".alertRuleTable").append(htmlRow);
 	}
-
+    
+    $scope.updateRule = function(obj){
+        console.log(JSON.stringify(obj));
+    }
 });
 
 app.controller("salesFunnelController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $rootScope) {

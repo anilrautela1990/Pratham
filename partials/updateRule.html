@@ -20,21 +20,21 @@
          <table class="table alertRuleTable">
             <tr>
                <td>
-                  <select class="form-control" ng-model="rules.rulecriteria_modfield_id" ng-change="getFieldValues(rules.rulecriteria_modfield_id)">
+                  <select class="form-control" ng-model="rules[0].rulecriteria_modfield_id" ng-change="getFieldValues(rules[0].rulecriteria_modfield_id,0)">
                      <option value="">Field</option>
                      <option ng-repeat="x in subModules" value="{{x.modfieldid}}">{{x.modfield_name}}</option>
                   </select>
                </td>
                <td>
-                  <select class="form-control">
+                  <select class="form-control" class="form-control" ng-model="rules[0].rulecriteria_condition">
                      <option value="">Operator</option>
                   </select>
                </td>
                <td class="inputType">
-                  <input type="text" class="form-control" ng-show="showInput" placeholder="Value" ng-model="rules.rulecriteria_criteria"/>
-                  <select ng-show="showDrodown" class="form-control" ng-model="rules.rulecriteria_criteria">
+                  <input type="text" class="form-control" ng-show="showInput0" placeholder="Value" ng-model="rules[0].rulecriteria_criteria"/>
+                  <select ng-show="showDrodown0" class="form-control" ng-model="rules[0].rulecriteria_criteria">
                      <option value="">Value</option>
-                     <option ng-repeat="x in fieldValues" value="{{x.modfieldid}}">{{x.modfieldvalues_value}}</option>
+                     <option ng-repeat="x in fieldValues0" value="{{x.modfieldvalues_defdbvalue}}">{{x.modfieldvalues_value}}</option>
                   </select>
                </td>
 			   <td>
@@ -44,6 +44,6 @@
          </table>
       </div>
 	  <div>
-		<button type="button" class="btn btn-success" ng-click="">Update</button>
+		<button type="button" class="btn btn-success" ng-click="updateRule(rules)">Update</button>
 	  </div>
 </div>
