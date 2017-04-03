@@ -5594,3 +5594,5 @@ app.controller("siteVisitListingController", function($scope, $http, $state, $co
         }).error(function() {});
     })();
 });
+
+/* CHECK THIS AFTER TAKING LATEST PULL*/
