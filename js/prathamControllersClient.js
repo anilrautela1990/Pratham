@@ -213,6 +213,22 @@ app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
 app.controller("addLead", function($scope, $http, $state, $cookieStore) {
     $scope.pageTitle = "Add Lead";
     $scope.addLeadBtn = true;
+     ($scope.getLeadSource = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/LeadSourceGet",
+            ContentType: 'application/json',
+            data: {
+                "lead_source_compguid":"d0cb84c5-6b52-4dff-beb5-50b2f4af5398"
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.lead_source_list= data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
     $scope.addLead = function(formObj, formName) {
         $scope.submit = true;
         if ($scope[formName].$valid) {

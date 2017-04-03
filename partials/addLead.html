@@ -186,18 +186,12 @@
             <label for="projectName">Lead Source</label>
          </div>
          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 padding0">
-            <select class="form-control" name="leadSouce" ng-model="addLead.leadSouce">
-               <option value="">
-                  Lead Generation Source
+             <select class="form-control" name="leadSouce" ng-model="addLead.leadSouce">
+               <option value="" disabled selected>
+                  Select Lead Source
                </option>
-               <option value="email">
-                  Email
-               </option>
-               <option value="print">
-                  Print Advertisement
-               </option>
-               <option value="others">
-                  Others
+               <option ng-repeat= "x in lead_source_list" value="{{x.lead_source_id}}">
+                  {{x.lead_source_name}}
                </option>
             </select>
          </div>
