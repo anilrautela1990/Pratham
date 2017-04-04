@@ -17,23 +17,18 @@
 			<tr>
 				<th>#</th>
 				<th>Rule Name</th>
-				<th>Affected Modules</th>
-				<th>What Should Happen</th>
-				<th>Whom (Email / Mobile Recipients)</th>
+				<th>Rule Description</th>
+				<th>Module Name</th>
 				<th>Action</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="x in alertRules | filter:searchLead track by $index">
 				<td>{{$index + 1}}</td>
-				<td>{{x.name}}</td>
-				<td><span ng-repeat="module in x.modules">{{module}} </span></td>
-                <td><span ng-repeat="act in x.action">{{act}} </span></td>
-				<td>{{x.audience}}</td>
-				<td>
-					<a><span class="link">View</span></a> | 
-					<a><span class="link">Edit</span></a>
-				</td>
+				<td>{{x.rule_name}}</td>
+				<td>{{x.rule_description}}</td>
+				<td>{{x.rule_modname}}</td>
+				<td>{{x.rule_actname}}</td>
 			</tr>
 		</tbody>
 	</table>

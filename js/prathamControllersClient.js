@@ -4925,70 +4925,23 @@ app.controller("unitsListingController", function($scope, $http, $cookieStore, $
 
 app.controller("alertRules", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Alert Rules";
-    $scope.alertRules = [{
-            name: 'Welcome Email',
-            modules: ['Leads', 'Customers'],
-            action: ['Email', 'SMS', 'Login Alerts'],
-            audience: 'XYZ',
-            id: 1
-        },
-        {
-            name: 'Payment Reminder',
-            modules: ['Customers'],
-            action: ['Email', 'SMS'],
-            audience: 'ABC',
-            id: 2
-        },
-        {
-            name: 'Progress Report',
-            modules: ['Customers'],
-            action: ['Email'],
-            audience: 'JKL',
-            id: 3
-        },
-        {
-            name: 'Welcome Email',
-            modules: ['Leads', 'Customers'],
-            action: ['Email', 'SMS', 'Login Alerts'],
-            audience: 'XYZ',
-            id: 4
-        },
-        {
-            name: 'Payment Reminder',
-            modules: ['Customers'],
-            action: ['Email', 'SMS'],
-            audience: 'ABC',
-            id: 5
-        },
-        {
-            name: 'Progress Report',
-            modules: ['Customers'],
-            action: ['Email'],
-            audience: 'JKL',
-            id: 6
-        },
-        {
-            name: 'Welcome Email',
-            modules: ['Leads', 'Customers'],
-            action: ['Email', 'SMS', 'Login Alerts'],
-            audience: 'XYZ',
-            id: 7
-        },
-        {
-            name: 'Payment Reminder',
-            modules: ['Customers'],
-            action: ['Email', 'SMS'],
-            audience: 'ABC',
-            id: 8
-        },
-        {
-            name: 'Progress Report',
-            modules: ['Customers'],
-            action: ['Email'],
-            audience: 'JKL',
-            id: 9
-        }
-    ];
+    ($scope.getAlertRules = function(){
+		angular.element(".loader").show();
+		$http({
+			method:"POST",
+			url:"http://120.138.8.150/pratham/Comp/RulesVwGet",
+			ContentType: 'application/json',
+            data: {
+			  "rule_user_id" : $cookieStore.get('user_id'),
+			  "rule_comp_guid" : $cookieStore.get('comp_guid')
+			}
+		}).success(function(data){
+			$scope.alertRules = data;
+			angular.element(".loader").hide();
+		}).error(function(){
+			angular.element(".loader").hide();
+		})
+	})();
 });
 app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Create New Alert Rule";
@@ -5135,6 +5088,7 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
         angular.element(".loader").show();
         for(i=0;i<obj.length;i++){
             obj[i].rulecriteria_rule_id = ruleId;
+			obj[i].rule_user_id = $cookieStore.get('user_id');
             obj[i].rulecriteria_comp_guid = $cookieStore.get('comp_guid');
         }
         $http({
