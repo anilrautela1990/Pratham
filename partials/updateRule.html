@@ -26,8 +26,14 @@
                   </select>
                </td>
                <td>
-                  <select class="form-control" class="form-control" ng-model="rules[0].rulecriteria_condition">
-                     <option value="">Operator</option>
+                  <select class="form-control" class="form-control" ng-model="rules[0].rulecriteria_condition" ng-disabled="disableOperator0">
+                      <option value="">Operator</option>
+                      <option value="=">=</option>
+                      <option value="<>">&#60;&#62;</option>
+                      <option value=">">&#62;</option>
+                      <option value="<">&#60;</option>
+                      <option value=">=">&#62;=</option>
+                      <option value="<=">&#60;</option>
                   </select>
                </td>
                <td class="inputType">
@@ -38,7 +44,11 @@
                   </select>
                </td>
 			   <td>
-				<button type="button" class="btn btn-default" ng-click = addRow()>Add</button>
+                <select class="form-control" ng-model="rules[0].rule_criteria_operator" ng-change="addRow(rules[0].rule_criteria_operator)">
+                   <option value="">Add Condition</option>                        
+                    <option value="and">AND</option>
+                    <option value="or">OR</option>
+                </select>
 			   </td>
             </tr>
          </table>
