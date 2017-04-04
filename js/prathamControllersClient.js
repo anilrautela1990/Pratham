@@ -254,7 +254,8 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
                     "user_gender": parseInt(formObj.gender),
                     "user_code": formObj.leadCode,
                     "user_lead_status_id": parseInt(formObj.leadStage),
-                    "user_createdby": $cookieStore.get('user_id')
+                    "user_createdby": $cookieStore.get('user_id'),
+                    "user_lead_source_id": parseInt(formObj.leadSource)
                 }
             }).success(function(data) {
                 if (data.user_id != 0) {
@@ -272,6 +273,22 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
 app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateParams, $filter) {
     $scope.pageTitle = "Edit Lead";
     $scope.editLeadBtn = true;
+     ($scope.getLeadSource = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/LeadSourceGet",
+            ContentType: 'application/json',
+            data: {
+                "lead_source_compguid":"d0cb84c5-6b52-4dff-beb5-50b2f4af5398"
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.lead_source_list= data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
     ($scope.getLeadDetail = function() {
         angular.element(".loader").show();
         $scope.leadId = $stateParams.leadID;
@@ -313,7 +330,8 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
                     zip: data.user_zipcode,
                     leadCode: data.user_code,
                     officeNumber: data.user_office_no,
-                    leadStage: data.user_lead_status_id.toString()
+                    leadStage: data.user_lead_status_id.toString(),
+                    leadSource:data.user_lead_source_id + ''
                 }
                 angular.element(".loader").hide();
             } else {
@@ -347,7 +365,8 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
                     "user_dob": formObj.dob,
                     "user_gender": parseInt(formObj.gender),
                     "user_code": formObj.leadCode,
-                    "user_lead_status_id": parseInt(formObj.leadStage)
+                    "user_lead_status_id": parseInt(formObj.leadStage),
+                    "user_lead_source_id": parseInt(formObj.leadSource)
                 }
             }).success(function(data) {
                 //console.log(data);
