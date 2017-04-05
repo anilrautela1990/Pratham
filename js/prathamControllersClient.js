@@ -5408,6 +5408,25 @@ app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $co
                 "sitevisit_compguid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
+            for(var i=0;i<data.length ;i++)
+                {
+                    if(data[i].sitevisit_walkin==2)
+                       {
+                       data[i].sitevisit_walkin="No"
+                       }
+                    else
+                        {
+                             data[i].sitevisit_walkin="Yes"
+                        }
+                     if(data[i].sitevisit_done==2)
+                       {
+                       data[i].sitevisit_done="Pending"
+                       }
+                    else
+                        {
+                             data[i].sitevisit_done="Done"
+                        }
+                }
             $scope.siteVisitData = data;
             angular.element(".loader").hide();
         }).error(function() {
