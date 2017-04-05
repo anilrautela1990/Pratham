@@ -2801,7 +2801,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             $state.go("/ApplyCostSheet", {
                 "projectId": $stateParams.projId,
                 "phaseId": $stateParams.phaseId,
-                "blockId": $stateParams.blockId
+                "blockId": parentObj.block
             });
         }).error(function() {});
     }
