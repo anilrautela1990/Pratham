@@ -247,6 +247,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/updateRule.html',
             controller: 'updateRuleCtrl'
         })
+        .state('/EmailTemplates', {
+            url: '/EmailTemplates',
+            templateUrl: 'partials/emailTemplates.html',
+            controller: 'emailTemplatesCtrl'
+        })
+        .state('/CreateNewEmailTemplate', {
+            url: '/CreateNewEmailTemplate',
+            templateUrl: 'partials/createNewEmailTemplate.html',
+            controller: 'createNewEmailTemplateCtrl'
+        })
 });
 app.config(function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];

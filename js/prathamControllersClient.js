@@ -5620,4 +5620,11 @@ app.controller("siteVisitListingController", function($scope, $http, $state, $co
     })();
 });
 
-/** TEST CHANGES @ Ashish - Apr 03, 2017 / 1:16 PM **/
+app.controller("emailTemplatesCtrl", function($scope, $http, $state, $cookieStore) {
+    $scope.pageTitle = "Email Templates";
+});
+
+app.controller("createNewEmailTemplateCtrl", function($scope, $http, $state, $cookieStore) {
+    $scope.pageTitle = "Create New Email Template";
+});
+

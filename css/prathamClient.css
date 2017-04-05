@@ -758,3 +758,25 @@ td.inputType{
 .prevVisits > table{
 	margin: 0;
 }
+.emailTempForm{
+    border: 1px solid #999;
+}
+.emailTempForm > .templateHeader{
+
+}
+.templateName{
+    border: 0;
+    font-weight: bold;
+    border-radius: 0;
+}
+.templateSubject{
+    border: 0;
+    font-size: 12px;
+    border-radius: 0;
+}
+.module{
+    margin: 17px 0 0 0;
+}
+.tempFormHeaderRight{
+    padding: 17px 10px 0 0;
+}
