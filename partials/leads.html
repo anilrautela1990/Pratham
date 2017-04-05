@@ -18,6 +18,7 @@
 		<thead>
 			<tr>
 				<th>#</th>
+                <th> Select</th>
 				<th>Name</th>
 				<th>Assigned To</th>
 				<th>Created Date</th>
@@ -28,6 +29,7 @@
 		<tbody>
 			<tr ng-repeat="x in leads | filter:searchLead track by $index">
 				<td>{{$index + 1}}</td>
+                <td><input type="checkbox" ng-click="checkedItems(x.user_id)" ng-checked="checked"/></td>
 				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
 				<td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> Person</td>
                 <td>{{x.registration_date | date:'yyyy-MM-dd'}}</td>
@@ -36,6 +38,7 @@
 			</tr>
 		</tbody>
 	</table>
+    <a class="btn btn-primary" ng-click="leadToProspectBtnClick();">Convert Lead to Prospect</a>
 </div>
 <script type="text/ng-template" id="leadDetail.html">
         <div class="modal-header">

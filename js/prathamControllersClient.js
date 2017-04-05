@@ -127,6 +127,8 @@ app.controller("dashboard", function($scope, $http, $cookieStore) {
 
 app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state) {
     $scope.searchLead = ''; // set the default search/filter term
+    $scope.checkedContainerArray=[];//stores checked items only
+    
     ($scope.getLeads = function() {
         angular.element(".loader").show();
         $http({
@@ -141,10 +143,48 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
             //console.log(data);
             angular.element(".loader").hide();
             $scope.leads = data;
+            //console.log("data:"+JSON.stringify(data));
         }).error(function() {
             angular.element(".loader").hide();
         });
     })();
+    function printMe(val){
+        console.log(""+val);
+    }
+     $scope.leadToProspectBtnClick=function(){
+         
+         var str=""+$scope.checkedContainerArray;
+         angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserUpdt/leadToProspect",
+            ContentType: 'application/json',
+            data: {
+                "user_ids": str,
+                "user_compguid":$cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            console.log(data);
+             if(data.ErrorDesc=="0 | Update Success"){
+            $scope.checked=false; 
+            angular.element(".loader").hide();
+            $scope.getLeads();
+                
+             }
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+        
+     }//leadToProspectBtnClick end
+    
+    $scope.checkedItems=function(id){
+            var idx=$scope.checkedContainerArray.indexOf(id);
+            if(idx==-1){
+                $scope.checkedContainerArray.push(id);
+            }else{
+                $scope.checkedContainerArray.splice(idx,1);
+            }
+    }
 
     $scope.leadDetail = function(selectedItem) {
         var modalInstance = $uibModal.open({
