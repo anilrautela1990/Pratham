@@ -178,7 +178,7 @@
 					</li>
 				</ul>
 			</div>
-			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 pageContent" ui-view="" autoscroll="true"></div>
+			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 pageContent" ui-view="" autoscroll="false"></div>
 		</div>
 		<div class="row footer">
 			<div class="col-lg-4 col-md-4 col-sm-4">
@@ -198,5 +198,8 @@
 	<div class="loader">
 		<img ng-src="img/gears.gif"/>
 	</div>
+    <div class="messageCntr" ng-show="showAppMsg">
+        <span>{{appMsg}}</span>
+    </div>
 </body>
 </html>
