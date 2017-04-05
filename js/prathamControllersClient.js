@@ -5626,5 +5626,8 @@ app.controller("emailTemplatesCtrl", function($scope, $http, $state, $cookieStor
 
 app.controller("createNewEmailTemplateCtrl", function($scope, $http, $state, $cookieStore) {
     $scope.pageTitle = "Create New Email Template";
+    ($scope.loadEditor = function(){
+            $('#contentEditor').summernote();
+    })();
 });
 
