@@ -780,3 +780,14 @@ td.inputType{
 .tempFormHeaderRight{
     padding: 17px 10px 0 0;
 }
+.note-editor{
+    margin: 0;
+    border: 0!important;
+}
+.padding12{
+    padding: 0 12px;
+}
+.tempFormCntr2{
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #DDD;
+}
