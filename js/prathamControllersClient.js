@@ -5180,7 +5180,6 @@ app.controller("scheduleCtrl", function($scope, $http, $cookieStore, $state, $st
         actionType:""
     }
 });
-});
 
 app.controller("salesFunnelController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $rootScope) {
 
