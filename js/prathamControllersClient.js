@@ -5519,7 +5519,7 @@ app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $co
                     "sitevisit_contactperson_name": formObj.personName,
                     "sitevisit_contactperson_mobile": formObj.personMobile,
                     "sitevisit_pickupaddress": formObj.personAddress,
-                    "sitevisit_done": 1
+                    "sitevisit_done": 2
                 }
             }).success(function(data) {
                 angular.element(".loader").hide();
