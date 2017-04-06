@@ -1,4 +1,4 @@
-var app = angular.module("pratham", ['ui.router', 'ui.bootstrap', 'ngCookies']);
+var app = angular.module("pratham", ['ui.router', 'ui.bootstrap', 'ngCookies','720kb.datepicker']);
 app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
     $stateProvider

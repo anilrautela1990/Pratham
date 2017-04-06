@@ -1,6 +1,6 @@
 app.controller("home", function($scope, $http, $rootScope) {
     $scope.title = "Pratham - Pre Login";
-    $scope.clientCss = "prathamClient";
+    $scope.clientCss = "prathamClient";    
 });
 app.controller("firmRegister", function($scope, $http, $state, $cookieStore) {
     $scope.registerFirm = function(formObj, formName) {
@@ -5174,10 +5174,15 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
 });
 
 app.controller("scheduleCtrl", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+    $scope.monthDates = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
     $scope.pageTitle = "Schedule Alert";
     $scope.ruleId = $stateParams.ruleId;
     $scope.scheduleAlert = {
-        actionType:""
+        actionType:"email",
+        template:""
+    }
+    $scope.previewTemplate = function(tempId){
+        alert(tempId);
     }
 });
 
