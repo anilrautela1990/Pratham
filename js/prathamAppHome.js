@@ -247,6 +247,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/updateRule.html',
             controller: 'updateRuleCtrl'
         })
+        .state('/Schedule', {
+            url: '/Schedule/:ruleId',
+            templateUrl: 'partials/schedule.html',
+            controller: 'scheduleCtrl'
+        })
         .state('/EmailTemplates', {
             url: '/EmailTemplates',
             templateUrl: 'partials/emailTemplates.html',

@@ -5149,7 +5149,7 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
         $scope[showInput] = true;
 	}
     
-    $scope.updateRule = function(obj){
+        $scope.updateRule = function(obj){
         angular.element(".loader").show();
         for(i=0;i<obj.length;i++){
             obj[i].rulecriteria_rule_id = ruleId;
@@ -5163,12 +5163,23 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
             data: obj
         }).success(function(data) {
             console.log(JSON.stringify(data));
-            $state.go("/AlertRules");
+            $state.go("/Schedule",{
+                ruleId: ruleId
+            });
             angular.element(".loader").hide();
         }).error(function() {
             angular.element(".loader").hide();
         });
     }
+});
+
+app.controller("scheduleCtrl", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+    $scope.pageTitle = "Schedule Alert";
+    $scope.ruleId = $stateParams.ruleId;
+    $scope.scheduleAlert = {
+        actionType:""
+    }
+});
 });
 
 app.controller("salesFunnelController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $rootScope) {
