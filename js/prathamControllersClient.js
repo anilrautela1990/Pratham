@@ -5163,7 +5163,7 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
             data: obj
         }).success(function(data) {
             console.log(JSON.stringify(data));
-            $state.go("/Schedule",{
+            $state.go("/Action",{
                 ruleId: ruleId
             });
             angular.element(".loader").hide();
@@ -5173,14 +5173,24 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
     }
 });
 
+app.controller("actionCtrl", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+    $scope.pageTitle = "Choose Action";
+    var ruleId = $stateParams.ruleId;
+    $scope.action = {
+        actionType:"email",
+        template:""
+    }
+    $scope.saveAction = function(formName, formObj){
+        $state.go("/Schedule",{
+                ruleId: ruleId
+        });
+    }
+});
+
 app.controller("scheduleCtrl", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.monthDates = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
     $scope.pageTitle = "Schedule Alert";
     $scope.ruleId = $stateParams.ruleId;
-    $scope.scheduleAlert = {
-        actionType:"email",
-        template:""
-    }
     $scope.previewTemplate = function(tempId){
         alert(tempId);
     }
