@@ -1,6 +1,6 @@
-app.controller("home", function($scope, $http) {
+app.controller("home", function($scope, $http, $rootScope) {
     $scope.title = "Pratham - Pre Login";
-    $scope.clientCss = "prathamClient";
+    $scope.clientCss = "prathamClient";    
 });
 app.controller("firmRegister", function($scope, $http, $state, $cookieStore) {
     $scope.registerFirm = function(formObj, formName) {
@@ -101,7 +101,9 @@ app.controller("login", function($scope, $http, $cookieStore, $window) {
     };
 });
 /* After Login*/
-app.controller("mainCtrl", function($scope, $http, $cookieStore, $state, $window) {
+app.controller("mainCtrl", function($scope, $rootScope, $http, $cookieStore, $state, $window) {    
+    $rootScope.appMsg = "";
+    $rootScope.showAppMsg = false;
     $scope.title = "Pratham :: Home";
     $scope.clientCss = "prathamClient";
     ($scope.checkLogin = function() {
@@ -127,6 +129,8 @@ app.controller("dashboard", function($scope, $http, $cookieStore) {
 
 app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state) {
     $scope.searchLead = ''; // set the default search/filter term
+    $scope.checkedContainerArray=[];//stores checked items only
+    
     ($scope.getLeads = function() {
         angular.element(".loader").show();
         $http({
@@ -141,10 +145,48 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
             //console.log(data);
             angular.element(".loader").hide();
             $scope.leads = data;
+            //console.log("data:"+JSON.stringify(data));
         }).error(function() {
             angular.element(".loader").hide();
         });
     })();
+    function printMe(val){
+        console.log(""+val);
+    }
+     $scope.leadToProspectBtnClick=function(){
+         
+         var str=""+$scope.checkedContainerArray;
+         angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserUpdt/leadToProspect",
+            ContentType: 'application/json',
+            data: {
+                "user_ids": str,
+                "user_compguid":$cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            console.log(data);
+             if(data.ErrorDesc=="0 | Update Success"){
+            $scope.checked=false; 
+            angular.element(".loader").hide();
+            $scope.getLeads();
+                
+             }
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+        
+     }//leadToProspectBtnClick end
+    
+    $scope.checkedItems=function(id){
+            var idx=$scope.checkedContainerArray.indexOf(id);
+            if(idx==-1){
+                $scope.checkedContainerArray.push(id);
+            }else{
+                $scope.checkedContainerArray.splice(idx,1);
+            }
+    }
 
     $scope.leadDetail = function(selectedItem) {
         var modalInstance = $uibModal.open({
@@ -213,7 +255,7 @@ app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
 app.controller("addLead", function($scope, $http, $state, $cookieStore) {
     $scope.pageTitle = "Add Lead";
     $scope.addLeadBtn = true;
-    ($scope.getLeadSource = function() {
+     ($scope.getLeadSource = function() {
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -254,7 +296,8 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
                     "user_gender": parseInt(formObj.gender),
                     "user_code": formObj.leadCode,
                     "user_lead_status_id": parseInt(formObj.leadStage),
-                    "user_createdby": $cookieStore.get('user_id')
+                    "user_createdby": $cookieStore.get('user_id'),
+                    "user_lead_source_id": parseInt(formObj.leadSource)
                 }
             }).success(function(data) {
                 if (data.user_id != 0) {
@@ -272,6 +315,22 @@ app.controller("addLead", function($scope, $http, $state, $cookieStore) {
 app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateParams, $filter) {
     $scope.pageTitle = "Edit Lead";
     $scope.editLeadBtn = true;
+     ($scope.getLeadSource = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/LeadSourceGet",
+            ContentType: 'application/json',
+            data: {
+                "lead_source_compguid":"d0cb84c5-6b52-4dff-beb5-50b2f4af5398"
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.lead_source_list= data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
     ($scope.getLeadDetail = function() {
         angular.element(".loader").show();
         $scope.leadId = $stateParams.leadID;
@@ -313,7 +372,8 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
                     zip: data.user_zipcode,
                     leadCode: data.user_code,
                     officeNumber: data.user_office_no,
-                    leadStage: data.user_lead_status_id.toString()
+                    leadStage: data.user_lead_status_id.toString(),
+                    leadSource:data.user_lead_source_id + ''
                 }
                 angular.element(".loader").hide();
             } else {
@@ -347,7 +407,8 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
                     "user_dob": formObj.dob,
                     "user_gender": parseInt(formObj.gender),
                     "user_code": formObj.leadCode,
-                    "user_lead_status_id": parseInt(formObj.leadStage)
+                    "user_lead_status_id": parseInt(formObj.leadStage),
+                    "user_lead_source_id": parseInt(formObj.leadSource)
                 }
             }).success(function(data) {
                 //console.log(data);
@@ -1202,7 +1263,7 @@ app.controller("unitAllocation", function($scope, $http, $cookieStore, $state, $
                 ContentType: 'application/json',
                 data: {
                     "comp_guid": $cookieStore.get('comp_guid'),
-                    "Projusrtyp": 7,
+                    "Projusrtyp": 3,
                     "Phase_Id": obj.phase,
                     "Blocks_Id": obj.blocks
                 }
@@ -2664,8 +2725,6 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
     };
 
     $scope.generateForAllFloors = function(formName, formObj, parentObj) {
-        alert(parentObj.block);
-
         var initiator = 1;
         if (parentObj.agf == true) {
             initiator = 0;
@@ -2782,7 +2841,7 @@ app.controller("unitGeneration", function($scope, $http, $state, $cookieStore, $
             $state.go("/ApplyCostSheet", {
                 "projectId": $stateParams.projId,
                 "phaseId": $stateParams.phaseId,
-                "blockId": $stateParams.blockId
+                "blockId": parentObj.block
             });
         }).error(function() {});
     }
@@ -4211,9 +4270,9 @@ app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $
     $scope.title = "Apply Cost Sheet";
     $scope.projectId = $stateParams.projectId;
     $scope.phaseId = $stateParams.phaseId;
-    $scope.blockId = $stateParams.blockId;
-
-    ($scope.getCostSheetTemplates = function() {
+    $scope.blockId = $stateParams.blockId;    
+    
+    $scope.getCostSheetTemplates = function() {
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -4224,20 +4283,45 @@ app.controller("applyCostSheet", function($scope, $http, $cookieStore, $state, $
                 "untctcm_Id": 0,
                 "untctcm_Blocks_Id": 0
             }
-        }).success(function(data) {
-            console.log(data);
+        }).success(function(data) {            
             $scope.costSheetTemplates = data;
             for (i = 1; i <= 19; i++) {
                 var increment;
                 if (i == 7) {
                     i = i + 1;
                 }
-                increment = i;
-                console.log(increment);
+                increment = i;                
                 var costComponentRow = '<tr> <td> <label>Code' + increment + '</label> </td> <td> <input type="text" class="form-control" name="untctcm_code' + increment + '" ng-model="costSheetTemplate.untctcm_code' + increment + '"/> </td> <td> <label>Name</label> </td> <td> <input type="text" class="form-control" name="untctcm_name' + increment + '" ng-model="costSheetTemplate.untctcm_name' + increment + '"/> </td> <td> <label>Calc. Type</label> </td> <td> <select class="form-control" name="untctcm_calctyp' + increment + '" ng-model="costSheetTemplate.untctcm_calctyp' + increment + '" ng-change="toggleFields(' + increment + ')"> <option value=""> Select </option> <option value="1"> Flat </option> <option value="0"> Formula </option> </select> </td> <td> <input type="text" class="form-control" placeholder="Value" name="untctcm_val_formula' + increment + '" ng-model="costSheetTemplate.untctcm_val_formula' + increment + '" disabled="true"/> </td> <td> <button type="button" class="btn btn-warning" name="formulaBtn' + increment + '" ng-click="openFormulaModal({formulaVal:costSheetTemplate.untctcm_val_formula' + increment + ',index:' + increment + '})" disabled="true"> Formula </button> </td> <td> <input type="text" class="form-control comment" placeholder="Comment" name="untctcm_comments' + increment + '" ng-model="costSheetTemplate.untctcm_comments' + increment + '"/> </td><td><span class="glyphicon glyphicon-trash" ng-click="deleteCostComponent(' + increment + ')"></span></td></tr>';
                 //                console.log(costComponentRow);
                 costComponentRow = $compile(costComponentRow)($scope);
                 angular.element(".formulaTable").append(costComponentRow);
+            }
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    }
+    
+    $scope.checkBlockCostSheetTemplates = (function(){
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Proj/Blk/UntCstTempl/Getall",
+            ContentType: 'application/json',
+            data: {
+                "untctcm_comp_guid": $cookieStore.get('comp_guid'),
+                "untctcm_Id": 0,
+                "untctcm_Blocks_Id": $scope.blockId
+            }
+        }).success(function(data) {            
+            if(data[0].untctcm_ErrorDesc == "0"){
+                $scope.showCostSheetTemplates = false;
+                $scope.showMessage = true;
+            }
+            else{
+                $scope.getCostSheetTemplates();
+                $scope.showCostSheetTemplates = true;
+                $scope.showMessage = false;
             }
             angular.element(".loader").hide();
         }).error(function() {
@@ -4906,70 +4990,23 @@ app.controller("unitsListingController", function($scope, $http, $cookieStore, $
 
 app.controller("alertRules", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Alert Rules";
-    $scope.alertRules = [{
-            name: 'Welcome Email',
-            modules: ['Leads', 'Customers'],
-            action: ['Email', 'SMS', 'Login Alerts'],
-            audience: 'XYZ',
-            id: 1
-        },
-        {
-            name: 'Payment Reminder',
-            modules: ['Customers'],
-            action: ['Email', 'SMS'],
-            audience: 'ABC',
-            id: 2
-        },
-        {
-            name: 'Progress Report',
-            modules: ['Customers'],
-            action: ['Email'],
-            audience: 'JKL',
-            id: 3
-        },
-        {
-            name: 'Welcome Email',
-            modules: ['Leads', 'Customers'],
-            action: ['Email', 'SMS', 'Login Alerts'],
-            audience: 'XYZ',
-            id: 4
-        },
-        {
-            name: 'Payment Reminder',
-            modules: ['Customers'],
-            action: ['Email', 'SMS'],
-            audience: 'ABC',
-            id: 5
-        },
-        {
-            name: 'Progress Report',
-            modules: ['Customers'],
-            action: ['Email'],
-            audience: 'JKL',
-            id: 6
-        },
-        {
-            name: 'Welcome Email',
-            modules: ['Leads', 'Customers'],
-            action: ['Email', 'SMS', 'Login Alerts'],
-            audience: 'XYZ',
-            id: 7
-        },
-        {
-            name: 'Payment Reminder',
-            modules: ['Customers'],
-            action: ['Email', 'SMS'],
-            audience: 'ABC',
-            id: 8
-        },
-        {
-            name: 'Progress Report',
-            modules: ['Customers'],
-            action: ['Email'],
-            audience: 'JKL',
-            id: 9
-        }
-    ];
+    ($scope.getAlertRules = function(){
+		angular.element(".loader").show();
+		$http({
+			method:"POST",
+			url:"http://120.138.8.150/pratham/Comp/RulesVwGet",
+			ContentType: 'application/json',
+            data: {
+			  "rule_user_id" : $cookieStore.get('user_id'),
+			  "rule_comp_guid" : $cookieStore.get('comp_guid')
+			}
+		}).success(function(data){
+			$scope.alertRules = data;
+			angular.element(".loader").hide();
+		}).error(function(){
+			angular.element(".loader").hide();
+		})
+	})();
 });
 app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
     $scope.pageTitle = "Create New Alert Rule";
@@ -5044,6 +5081,7 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
 	var ruleId = $stateParams.ruleId;
     var moduleId = $stateParams.moduleId;
 	$scope.recordType = 0;
+    
 	$scope.rules = [];
 	
     $scope.getSubModules = function(moduleId) {
@@ -5062,9 +5100,13 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
             angular.element(".loader").hide();
         });
     }
-	$scope.showInput = true;
     $scope.getSubModules(moduleId);
-    $scope.getFieldValues = function(fieldId) {
+    $scope.showInput0 = true;
+    $scope.getFieldValues = function(fieldId,index) {
+        var fieldValues = 'fieldValues'+index;
+        var showDrodown = 'showDrodown'+index;
+        var showInput = 'showInput'+index;
+        var disableOperator = 'disableOperator'+index;
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -5074,13 +5116,17 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
                 "module_id": fieldId
             }
         }).success(function(data) {
+            console.log(JSON.stringify(data));
             if (data.length == 1 && data[0].ErrorDesc == "-1 | No Module field Values do not exist for this Module") {
-                $scope.showDrodown = false;
-                $scope.showInput = true;
+                $scope[showDrodown] = false;
+                $scope[showInput] = true;
+                $scope[disableOperator] = false;
             } else {
-                $scope.fieldValues = data;
-                $scope.showInput = false;
-                $scope.showDrodown = true;
+                $scope[fieldValues] = data;
+                $scope[showInput] = false;
+                $scope[showDrodown] = true;
+                $scope.rules[index].rulecriteria_condition = "="
+                $scope[disableOperator] = true;
             }
             angular.element(".loader").hide();
         }).error(function() {
@@ -5088,16 +5134,56 @@ app.controller("updateRuleCtrl", function($scope, $http, $cookieStore, $state, $
         });
     }
 	
-	$scope.addRow = function(){
-		var trCount = $(".alertRuleTable tr").length;
-        var increment = trCount + 1;
-		alert(increment);
-		var htmlRow = '<tr> <td> <select class="form-control" ng-model="createNewRule.subModule" ng-change="getFieldValues(createNewRule.subModule)"> <option value="">Field</option> <option ng-repeat="x in subModules" value="{{x.modfieldid}}">{{x.modfield_name}}</option> </select> </td> <td> <select class="form-control"> <option value="">Operator</option> </select> </td> <td class="inputType"> <input type="text" class="form-control" ng-show="showInput" placeholder="Value"/> <select ng-show="showDrodown" class="form-control"> <option value="">Value</option> <option ng-repeat="x in fieldValues" value="{{x.modfieldid}}">{{x.modfieldvalues_value}}</option> </select> </td> <td><button type="button" class="btn btn-default" ng-click = addRow()>Add</button> </td> </tr>';
+	$scope.addRow = function(selectedVal){        
+        if(selectedVal=="" || selectedVal==undefined){
+            alert("AA");
+            return;
+        }
+        
+		var i = $(".alertRuleTable tr").length;
+        var showInput = 'showInput'+i;
+		var htmlRow = '<tr> <td> <select class="form-control" ng-model="rules['+i+'].rulecriteria_modfield_id" ng-change="getFieldValues(rules['+i+'].rulecriteria_modfield_id,'+i+')"> <option value="">Field</option> <option ng-repeat="x in subModules" value="{{x.modfieldid}}">{{x.modfield_name}}</option> </select> </td> <td> <select class="form-control" class="form-control" ng-model="rules['+i+'].rulecriteria_condition" ng-disabled="disableOperator'+i+'"> <option value="">Operator</option> <option value="=">=</option> <option value="<>">&#60;&#62;</option> <option value=">">&#62;</option> <option value="<">&#60;</option> <option value=">=">&#62;=</option> <option value="<=">&#60;</option> </select> </td> <td class="inputType"> <input type="text" class="form-control" ng-show="showInput'+i+'" placeholder="Value" ng-model="rules['+i+'].rulecriteria_criteria"/> <select ng-show="showDrodown'+i+'" class="form-control" ng-model="rules['+i+'].rulecriteria_criteria"> <option value="">Value</option> <option ng-repeat="x in fieldValues'+i+'" value="{{x.modfieldvalues_defdbvalue}}">{{x.modfieldvalues_value}}</option> </select> </td> <td><select class="form-control" ng-model="rules['+i+'].rule_criteria_operator"> <option value="">Condition</option> <option value="and">AND</option> <option value="or">OR</option> </select> </td> <td><button type="button" class="btn btn-default" ng-click="addRow(rules['+i+'].rule_criteria_operator)">Add</button></td> </tr>';
 		
 		htmlRow = $compile(htmlRow)($scope);
         angular.element(".alertRuleTable").append(htmlRow);
+        $scope[showInput] = true;
 	}
+    
+        $scope.updateRule = function(obj){
+        angular.element(".loader").show();
+        for(i=0;i<obj.length;i++){
+            obj[i].rulecriteria_rule_id = ruleId;
+			obj[i].rule_user_id = $cookieStore.get('user_id');
+            obj[i].rulecriteria_comp_guid = $cookieStore.get('comp_guid');
+        }
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/RulesCrit/Ins",
+            ContentType: 'application/json',
+            data: obj
+        }).success(function(data) {
+            console.log(JSON.stringify(data));
+            $state.go("/Schedule",{
+                ruleId: ruleId
+            });
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    }
+});
 
+app.controller("scheduleCtrl", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile) {
+    $scope.monthDates = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
+    $scope.pageTitle = "Schedule Alert";
+    $scope.ruleId = $stateParams.ruleId;
+    $scope.scheduleAlert = {
+        actionType:"email",
+        template:""
+    }
+    $scope.previewTemplate = function(tempId){
+        alert(tempId);
+    }
 });
 
 app.controller("salesFunnelController", function($scope, $http, $cookieStore, $state, $stateParams, $filter, $compile, $uibModal, $rootScope) {
@@ -5402,6 +5488,25 @@ app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $co
                 "sitevisit_compguid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
+            for(var i=0;i<data.length ;i++)
+                {
+                    if(data[i].sitevisit_walkin==2)
+                       {
+                       data[i].sitevisit_walkin="No"
+                       }
+                    else
+                        {
+                             data[i].sitevisit_walkin="Yes"
+                        }
+                     if(data[i].sitevisit_done==2)
+                       {
+                       data[i].sitevisit_done="Pending"
+                       }
+                    else
+                        {
+                             data[i].sitevisit_done="Done"
+                        }
+                }
             $scope.siteVisitData = data;
             angular.element(".loader").hide();
         }).error(function() {
@@ -5429,7 +5534,7 @@ app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $co
                     "sitevisit_contactperson_name": formObj.personName,
                     "sitevisit_contactperson_mobile": formObj.personMobile,
                     "sitevisit_pickupaddress": formObj.personAddress,
-                    "sitevisit_done": 1
+                    "sitevisit_done": 2
                 }
             }).success(function(data) {
                 angular.element(".loader").hide();
@@ -5595,5 +5700,66 @@ app.controller("siteVisitListingController", function($scope, $http, $state, $co
     })();
 });
 
-/* CHECK THIS AFTER TAKING LATEST PULL*/
-/* CHECK THIS AFTER TAKING LATEST PULL - 2*/
+app.controller("emailTemplatesCtrl", function($scope, $http, $state, $cookieStore) {
+    $scope.pageTitle = "Email Templates";
+});
+
+app.controller("createNewEmailTemplateCtrl", function($scope, $rootScope, $http, $state, $cookieStore) {
+    $scope.pageTitle = "Create New Email Template";
+    $scope.template = {
+        mergeFieldType:"",
+        fields:""        
+    };
+    ($scope.loadEditor = function(){
+            $('#contentEditor').summernote();
+    })();
+    
+    $scope.getMergedFieldTypes = (function(){
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/ModulesGetAlrt",
+            ContentType: 'application/json',
+            data: {
+                "module_id": 0
+            }
+        }).success(function(data) {
+            $scope.mergeFieldTypes = data;
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
+    $scope.getFields = function(moduleId){
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/Comp/SubModulesGet",
+            ContentType: 'application/json',
+            data: {
+                "module_id": moduleId
+            }
+        }).success(function(data) {
+            if(data[0].modfield_ErrorDesc == "-1 | Module fields do not exist for this Module"){
+                $rootScope.appMsg = "Module fields do not exist for this Module";
+                $rootScope.showAppMsg = true;
+                $scope.fields = [];
+                $scope.template.fields = "";
+                $scope.template.copyMergedFields = "";
+            }
+            else{
+                $rootScope.appMsg = "";
+                $rootScope.showAppMsg = false;
+                $scope.fields = data;   
+            }
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    }
+    
+    $scope.copyMergedFields = function(field){
+        $scope.template.copyMergedFields = field;
+    }
+});
