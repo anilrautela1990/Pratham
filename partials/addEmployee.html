@@ -8,6 +8,30 @@
         <li class="active">{{pageTitle}}</li>
     </ol>
 </div>
+
+
+
+
+               	<section>
+		<ul ng-init="tab = 1" class="nav nav-tabs">
+			<li ng-class="{active:tab===1}"> 
+				<a href ng-click="tab = 1">What you eat?</a>	
+			</li>
+			<li ng-class="{active:tab===2}"> 
+				<a href ng-click="tab = 2">Favorite juice?</a> 
+			</li>
+			<li ng-class="{active:tab===3}"> 
+				<a href ng-click="tab = 3">Do you close your eyes?</a> 
+			</li></ul>	
+			<br><br>
+			<p ng-show="tab === 1" class="tab-pane"> I eat chocolates, alive! </p>
+			<p ng-show="tab === 2" class="tab-pane"> I drink pulpy orange juice, mango milk shake... </p>
+			<p ng-show="tab === 3" class="tab-pane"> yeah, I sleep at weekend. I am human... :D</p>
+			
+	</section>		
+
+
+
 <form name="addEmployeeForm" class="form" method="POST" novalidate="novalidate">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form">
         <div class="field">

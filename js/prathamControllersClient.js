@@ -127,10 +127,13 @@ app.controller("dashboard", function($scope, $http, $cookieStore) {
     $scope.title = "Pratham :: Home";
 });
 
+
+
 app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state) {
     $scope.searchLead = ''; // set the default search/filter term
-    $scope.checkedContainerArray=[];//stores checked items only
-    
+    $scope.selected=[];//stores checked items only
+
+       
     ($scope.getLeads = function() {
         angular.element(".loader").show();
         $http({
@@ -153,9 +156,40 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
     function printMe(val){
         console.log(""+val);
     }
+    
+        
+    $scope.exist=function(item){
+        return $scope.selected.indexOf(item)>-1;
+    }
+    $scope.toggleSelection=function(item){
+        var idx =$scope.selected.indexOf(item);
+        if(idx > -1){
+            $scope.selected.splice(idx, 1);
+        }
+        else{
+            $scope.selected.push(item);
+        }
+    }
+    $scope.checkAll = function(){
+        if($scope.selectAll){
+            angular.forEach($scope.leads,function(item){
+                    idx=$scope.selected.indexOf(item.user_id);
+                    if(idx>=0){
+                        return true;
+                    }
+                    else{
+                        $scope.selected.push(item.user_id);
+                    }
+            })
+        }
+        else{
+            $scope.selected = [];
+        }
+    };
+    
      $scope.leadToProspectBtnClick=function(){
          
-         var str=""+$scope.checkedContainerArray;
+         var str=""+$scope.selected;         
          angular.element(".loader").show();
         $http({
             method: "POST",
@@ -168,7 +202,7 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
         }).success(function(data) {
             console.log(data);
              if(data.ErrorDesc=="0 | Update Success"){
-            $scope.checked=false; 
+//            $scope.checked=false; 
             angular.element(".loader").hide();
             $scope.getLeads();
                 
@@ -178,15 +212,6 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
         });
         
      }//leadToProspectBtnClick end
-    
-    $scope.checkedItems=function(id){
-            var idx=$scope.checkedContainerArray.indexOf(id);
-            if(idx==-1){
-                $scope.checkedContainerArray.push(id);
-            }else{
-                $scope.checkedContainerArray.splice(idx,1);
-            }
-    }
 
     $scope.leadDetail = function(selectedItem) {
         var modalInstance = $uibModal.open({
@@ -422,6 +447,12 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
         }
     };
 });
+
+
+
+
+
+
 app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $compile, $stateParams, $window, myService) {
     $scope.leadId = $stateParams.leadID;
     if ($scope.leadId == undefined) {
@@ -5402,6 +5433,8 @@ app.controller("prospects", function($scope, $http, $cookieStore, $uibModal, $st
         alert("View Lead Status: " + leadNo);
     };
 });
+
+
 
 app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $cookieStore, $http, myService, item) {
     $scope.timeslots = ['10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM', '01:00 PM', '01:30 PM', '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM', '05:00 PM', '05:30 PM', '06:00 PM', '07:00 PM', '07:30 PM', '08:30 PM'];

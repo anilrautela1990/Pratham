@@ -9,16 +9,17 @@
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right ctaContainer">
 	<a ui-sref="/AddLead" class="btn btn-primary">+ Add Lead</a> | 
+    <a class="btn btn-primary" ng-click="leadToProspectBtnClick();">Convert Lead to Prospect</a> |
 	<button type="button" class="btn btn-success">Import From CSV <span class="glyphicon glyphicon-import"></span></button> |
 	<a href="#">Download Format <span class="glyphicon glyphicon-download-alt"></span></a>
 </div>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
     <input type="text" class="form-control marginBottom5 search" placeholder="Search Leads" ng-model="searchLead"/>
-	<table class="table dataTable">
+	<table class="table dataTable"  id="selectionForm">
 		<thead>
 			<tr>
 				<th>#</th>
-                <th> Select</th>
+                <th> <input type="checkbox" name="" ng-model="selectAll" ng-click="checkAll()">Select </th>
 				<th>Name</th>
 				<th>Assigned To</th>
 				<th>Created Date</th>
@@ -29,7 +30,8 @@
 		<tbody>
 			<tr ng-repeat="x in leads | filter:searchLead track by $index">
 				<td>{{$index + 1}}</td>
-                <td><input type="checkbox" ng-click="checkedItems(x.user_id)" ng-checked="checked"/></td>
+                <td><input type="checkbox" ng-click="toggleSelection(x.user_id)" name="" ng-model="selected"
+                           ng-checked="exist(x.user_id)" ></td>
 				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
 				<td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> Person</td>
                 <td>{{x.registration_date | date:'yyyy-MM-dd'}}</td>
@@ -38,7 +40,7 @@
 			</tr>
 		</tbody>
 	</table>
-    <a class="btn btn-primary" ng-click="leadToProspectBtnClick();">Convert Lead to Prospect</a>
+    
 </div>
 <script type="text/ng-template" id="leadDetail.html">
         <div class="modal-header">
