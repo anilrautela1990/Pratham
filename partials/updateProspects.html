@@ -1,0 +1,75 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
+    <h1>Update Prospects</h1>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center pageTitle">
+    <ol class="breadcrumb">
+        <li><a ui-sref="/">Home</a></li>
+        <li class="active">Propects</li>
+    </ol>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right ctaContainer">
+    
+    <button class="btn btn-primary" type="button"  ng-click="prospectDetail(prospectIds)">Mass Update </button> 
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <input type="text" class="form-control marginBottom5 search" placeholder="Search Propects" ng-model="searchLead" />
+    <table class="table dataTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th><input type="checkbox" name="" ng-model="selectAll" ng-click="checkAll()">Select</th>
+                <th>Name</th>
+                <th>Lead Status</th>
+                  <th>Sales Funnel</th>
+                <th>Assigned To</th>
+                <th>Created Date</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="x in leads | filter:searchLead track by $index">
+                <td>{{$index + 1}}</td>
+                <td><input type="checkbox" ng-click="toggleSelection(x.user_id)" name="" ng-model="selected"
+                           ng-checked="exist(x.user_id)" ></td>
+                <td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
+                 <td>{{x.user_lead_status_id}}</td>
+                <td>{{x.user_salesfunnel_id}}</td>
+                <td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> {{x.user_assingedto}}</td>
+                <td>{{x.registration_date | date:'yyyy-MM-dd'}}</td>
+
+                
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<script type="text/ng-template" id="updateProPage.html">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="ok()">&times;</button>
+        <h3 class="modal-title" id="modal-title">Update Prospects</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+    <form class="form-inline" name="form">
+        <div class="form-group">
+            <label class="control-label">Select Updation Type</label>
+             <select class="form-control" ng-click="action()" ng-model="myModel">
+                  <option disabled selected>--Select--</option>
+                  <option ng-repeat= "x in firstDropValues" value="{{x.value}}">{{x.name}}</option>
+             </select> 
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label">Select Option</label>
+             <select  class="form-control" ng-model="myModelSecond">
+                  <option disabled selected>--Select--</option>
+                  <option ng-repeat= "x in secondDropValues" value="{{x.value}}">{{x.name}}</option>
+             </select> 
+        </div>
+
+    </form></div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="actionSecond()">Save</button>
+    </div>
+</script>

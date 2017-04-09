@@ -165,10 +165,13 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
         var idx =$scope.selected.indexOf(item);
         if(idx > -1){
             $scope.selected.splice(idx, 1);
+//              console.log($scope.selected);
         }
         else{
             $scope.selected.push(item);
+//              console.log($scope.selected);
         }
+      
     }
     $scope.checkAll = function(){
         if($scope.selectAll){
@@ -176,19 +179,21 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
                     idx=$scope.selected.indexOf(item.user_id);
                     if(idx>=0){
                         return true;
+//                        console.log($scope.selected);
                     }
                     else{
                         $scope.selected.push(item.user_id);
+//                        console.log($scope.selected);
                     }
             })
         }
         else{
             $scope.selected = [];
+//              console.log($scope.selected);
         }
     };
     
-     $scope.leadToProspectBtnClick=function(){
-         
+     $scope.leadToProspectBtnClick=function(){ 
          var str=""+$scope.selected;         
          angular.element(".loader").show();
         $http({
@@ -5400,7 +5405,7 @@ app.controller("prospects", function($scope, $http, $cookieStore, $uibModal, $st
             angular.element(".loader").hide();
         });
     })();
-
+    
     $scope.leadDetail = function(selectedItem) {
         var modalInstance = $uibModal.open({
             templateUrl: 'leadDetail.html',
@@ -5434,6 +5439,431 @@ app.controller("prospects", function($scope, $http, $cookieStore, $uibModal, $st
     };
 });
 
+app.controller("updateProspects", function($scope, $http, $cookieStore, $uibModal,$state) {
+    //  $scope.searchLead = '';set the default search/filter term
+    $scope.selected=[];//stores checked items only
+    $scope.salesfunnelnameValues=[];
+    $scope.assignedtoValues=[];
+    
+    $scope.getSalesFunnelDetails = function() {
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/SalesFunnelGet",
+                ContentType: 'application/json',
+                data: {
+                    "salesfunnel_compguid": $cookieStore.get('comp_guid')
+                }
+            }).success(function(data) {
+                $scope.SalesFunnelDetails = data;            
+                for(var i=0; i<$scope.SalesFunnelDetails.length;i++)
+                    {
+                        $scope.obj={};   
+                        $scope.obj.name = $scope.SalesFunnelDetails[i].salesfunnel_name;
+                        $scope.obj.value = $scope.SalesFunnelDetails[i].salesfunnel_id;
+                        $scope.salesfunnelnameValues.push($scope.obj)                      
+                        
+                    }          
+                //console.log($scope.secondDropValues);              
+                angular.element(".loader").hide();
+                  
+            }).error(function() {
+                angular.element(".loader").hide();
+                console.log("something went wrong.");
+            }); 
+        };
+    
+    
+    
+    $scope.getEmployeesDetails = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/EmployeeDtls/ByUserType",
+            ContentType: 'application/json',
+            data: {
+                "user_comp_guid": $cookieStore.get('comp_guid'),
+                "user_type": 2
+            }
+        }).success(function(data) {
+            $scope.EmployeesDetails = data;
+            for(var i=0; i<$scope.EmployeesDetails.length;i++)
+                    {
+                        $scope.obj={};   
+                        $scope.obj.name = $scope.EmployeesDetails[i].user_first_name +" " + $scope.EmployeesDetails[i].user_last_name;
+                        $scope.obj.value = $scope.EmployeesDetails[i].user_id;
+                        $scope.assignedtoValues.push($scope.obj)                      
+                        
+                    }  
+            //console.log($scope.assignedtoValues);
+            angular.element(".loader").hide();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    
+    
+    ($scope.getLeads = function() {
+        $scope.getEmployeesDetails();
+        $scope.getSalesFunnelDetails();
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserDtls/ByUserType",
+            ContentType: 'application/json',
+            data: {
+                "user_comp_guid": $cookieStore.get('comp_guid'),
+                "user_type": 7
+            }
+        }).success(function(data) {
+             $scope.getEmployeesDetails();
+             $scope.getSalesFunnelDetails();
+            angular.element(".loader").hide();
+            for(var i=0;i<data.length;i++)
+                {                   
+                    if (data[i].user_lead_status_id == 1)
+                        {
+                           data[i].user_lead_status_id="HOT" ;
+                        }
+                    else if (data[i].user_lead_status_id == 2)
+                        {
+                              data[i].user_lead_status_id="WARM";
+                        }
+                    else{
+                         data[i].user_lead_status_id="COLD";
+                    }
+                }
+//            console.log($scope.salesfunnelnameValues);
+            for(var i=0;i<data.length;i++)
+                {     
+                    for(var j=0;j<$scope.salesfunnelnameValues.length;j++){
+                    if (data[i].user_salesfunnel_id == $scope.salesfunnelnameValues[j].value)
+                        {
+                           data[i].user_salesfunnel_id=$scope.salesfunnelnameValues[j].name;
+                        }
+                    else if(data[i].user_salesfunnel_id ==0)
+                        {
+                           data[i].user_salesfunnel_id="Not Assigned";
+                        }
+                    }
+                }
+            //console.log($scope.assignedtoValues);
+            for(var i=0;i<data.length;i++)
+                {     
+                    for(var j=0;j<$scope.assignedtoValues.length;j++){
+                    if (data[i].user_assingedto == $scope.assignedtoValues[j].value)
+                        {
+                           data[i].user_assingedto=$scope.assignedtoValues[j].name;
+                        }
+                    else if(data[i].user_assingedto ==0)
+                        {
+                           data[i].user_assingedto="Not Assigned";
+                        }
+                    }
+                }
+            
+            $scope.leads = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+
+    
+    $scope.prospectDetail = function(userids) {
+        var str2=""+$scope.selected;
+        //console.log("the real slim:"+str2)
+        var modalInstance = $uibModal.open({
+            templateUrl: 'updateProPage.html',
+            controller: 'updateProPage',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    userids=str2;
+                    return userids;
+                }
+            }
+        });
+        
+    };
+
+     $scope.exist=function(item){
+        return $scope.selected.indexOf(item)>-1;
+    }
+    $scope.toggleSelection=function(item){
+        var idx =$scope.selected.indexOf(item);
+        if(idx > -1){
+            $scope.selected.splice(idx, 1);
+             //console.log($scope.selected);
+        }
+        else{
+            $scope.selected.push(item);
+             //console.log($scope.selected);
+        }
+    }
+    $scope.checkAll = function(){
+        if($scope.selectAll){
+            angular.forEach($scope.leads,function(item){
+                    idx=$scope.selected.indexOf(item.user_id);
+                    if(idx>=0){
+                        return true;
+                    }
+                    else{
+                        $scope.selected.push(item.user_id);
+                         //console.log($scope.selected);
+                    }
+            })
+        }
+        else{
+            $scope.selected = [];
+             //console.log($scope.selected);
+        }
+    };
+    
+ 
+//    $scope.addSiteVisit = function(selectedItem) {
+//        var modalInstance = $uibModal.open({
+//            templateUrl: 'addSiteVisit.html',
+//            controller: '',
+//            size: 'lg',
+//            backdrop: 'static',
+//            resolve: {
+//                item: function() {
+//                    return $scope.leads[selectedItem];
+//                }
+//            }
+//        });
+//    };
+
+//    $scope.viewLeadStatus = function(leadNo) {
+//        alert("View Lead Status: " + leadNo);
+//    };
+//    
+    
+     $scope.ok = function() {
+        $uibModalInstance.close();
+    };
+    
+  
+    
+});
+
+
+
+
+app.controller("updateProPage", function($scope, $uibModalInstance, $state, item,$http, $cookieStore,$rootScope,$window) {
+      $scope.secondDropValues=[];
+      $scope.myModel = "";
+      $scope.firstDropValues=[{name:"Lead Staus", value:1},{name:"Sales Funnel", value:2},{name:"Assigned to", value:3}];
+
+    
+   $scope.onChangeSelectOption=function(val){
+    $scope.checkOneValue=val.value};
+    
+    $scope.getSalesFunnelDetails = function() {
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/SalesFunnelGet",
+                ContentType: 'application/json',
+                data: {
+                    "salesfunnel_compguid": $cookieStore.get('comp_guid')
+                }
+            }).success(function(data) {
+                $scope.SalesFunnelDetails = data;            
+                for(var i=0; i<$scope.SalesFunnelDetails.length;i++)
+                    {
+                        $scope.obj={};   
+                        $scope.obj.name = $scope.SalesFunnelDetails[i].salesfunnel_name;
+                        $scope.obj.value = $scope.SalesFunnelDetails[i].salesfunnel_id;
+                        $scope.secondDropValues.push($scope.obj)                      
+                        
+                    }          
+               // console.log($scope.secondDropValues);              
+                angular.element(".loader").hide();
+                  
+            }).error(function() {
+                angular.element(".loader").hide();
+              //  console.log("something went wrong.");
+            }); 
+        };
+    
+    $scope.getEmployeesDetails = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/EmployeeDtls/ByUserType",
+            ContentType: 'application/json',
+            data: {
+                "user_comp_guid": $cookieStore.get('comp_guid'),
+                "user_type": 2
+            }
+        }).success(function(data) {
+            $scope.EmployeesDetails = data;
+            for(var i=0; i<$scope.EmployeesDetails.length;i++)
+                    {
+                        $scope.obj={};   
+                        $scope.obj.name = $scope.EmployeesDetails[i].user_first_name +" " + $scope.EmployeesDetails[i].user_last_name;
+                        $scope.obj.value = $scope.EmployeesDetails[i].user_id;
+                        $scope.secondDropValues.push($scope.obj)                      
+                        
+                    }  
+           // console.log($scope.secondDropValues);
+            angular.element(".loader").hide();
+            $scope.employees = data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+
+    
+   $scope.action=function(){
+     //  console.log(item);
+      // console.log($scope.myModel);
+       if($scope.myModel=="1"){
+         $scope.secondDropValues.length=0;
+        // console.log("something happened in Leads Status.");
+         $scope.secondDropValues=[{name:"Hot", value:1},{name:"Warm", value:2},{name:"Cold", value:3}];
+       }
+      
+       if($scope.myModel=="2"){   
+         $scope.secondDropValues.length=0;
+         $scope.getSalesFunnelDetails();
+        // console.log("something happened in salesFunnel.");
+       }
+      
+       if($scope.myModel=="3"){
+         $scope.secondDropValues.length=0;
+         $scope.getEmployeesDetails();
+        // console.log("something happened in assigned to.");
+       }
+       
+       
+   };
+    
+    
+        $scope.updateLeadStatus = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserUpdt/leadStatus",
+            ContentType: 'application/json',
+            data: {
+                "user_ids":item,
+                "user_compguid":$cookieStore.get('comp_guid'),
+                "user_updtfields":$scope.myModelSecond,
+            }
+        }).success(function(data) {
+            alert("Updation Sucessful!");
+            angular.element(".loader").hide();
+            $state.go('/UpdateProspects');
+            //$scope.lead_source_list= data;
+           // $scope.getLeads();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    
+    
+        $scope.updateUserFunnel = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserUpdt/SalesFunnel",
+            ContentType: 'application/json',
+            data: {
+                "user_ids":item,
+                "user_compguid":$cookieStore.get('comp_guid'),
+                "user_updtfields":$scope.myModelSecond,
+            }
+        }).success(function(data) {
+            alert("Sales Funnel Updation Sucessful!");
+            angular.element(".loader").hide();
+            $state.go('/UpdateProspects');
+           // $scope.lead_source_list= data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    
+    
+        $scope.updateAssignedTo = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserUpdt/AssignedTo",
+            ContentType: 'application/json',
+            data: {
+                "user_ids":item,
+                "user_compguid":$cookieStore.get('comp_guid'),
+                "user_updtfields":$scope.myModelSecond,
+            }
+        }).success(function(data) {
+            alert("Assignment Updation Sucessful!");
+            angular.element(".loader").hide();
+            $state.go('/UpdateProspects');
+           // $scope.lead_source_list= data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    
+    $scope.actionSecond=function(){
+       
+        if($scope.myModel=="1"){
+            $scope.updateLeadStatus();
+        }
+        
+        if($scope.myModel=="2"){
+            $scope.updateUserFunnel();
+        }
+        
+        if($scope.myModel=="3"){
+            $scope.updateAssignedTo();
+        }
+        
+        $scope.ok();
+       
+    };
+    
+    $scope.ok = function() {
+        $uibModalInstance.close();
+         //$state.go('/UpdateProspects');
+        $window.location.reload();
+    };
+
+//    $scope.deleteRow = function(rowId) {
+//        angular.element("tr#" + rowId).remove();
+//    };
+//
+//    $scope.addLeadProjects = function(leadId) {
+//        $uibModalInstance.close();
+//        $state.go("/ProjectDetails", {
+//            "leadID": leadId
+//        });
+//    };
+//
+//    $scope.getTypeNameById = function(typeId) {
+//        var typeName = '';
+//        switch (parseInt(typeId)) {
+//            case 1:
+//                typeName = 'Flat';
+//                break;
+//            case 2:
+//                typeName = 'Sites';
+//                break;
+//            case 3:
+//                typeName = 'Villa';
+//                break;
+//            case 4:
+//                typeName = 'Row Houses';
+//                break;
+//            default:
+//                console.log('eror');
+//        }
+//        return typeName;
+//    }
+});
 
 
 app.controller("prospectDetail", function($scope, $uibModalInstance, $state, $cookieStore, $http, myService, item) {
