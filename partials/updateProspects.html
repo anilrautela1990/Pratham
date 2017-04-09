@@ -55,7 +55,9 @@
         <div class="form-group">
             <label class="control-label">Select Updation Type</label>
              <select class="form-control" ng-click="action()" ng-model="myModel">
-                  <option disabled selected>--Select--</option>
+                  <option value="" disabled selected>
+                      --Select--
+                  </option>
                   <option ng-repeat= "x in firstDropValues" value="{{x.value}}">{{x.name}}</option>
              </select> 
         </div>
@@ -63,7 +65,9 @@
         <div class="form-group">
             <label class="control-label">Select Option</label>
              <select  class="form-control" ng-model="myModelSecond">
-                  <option disabled selected>--Select--</option>
+                  <option value="" disabled selected>
+                      --Select--
+                  </option>
                   <option ng-repeat= "x in secondDropValues" value="{{x.value}}">{{x.name}}</option>
              </select> 
         </div>
