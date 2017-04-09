@@ -146,8 +146,14 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
             }
         }).success(function(data) {
             //console.log(data);
-            angular.element(".loader").hide();
-            $scope.leads = data;
+            if(data[0].user_ErrorDesc!='-1 | User record does not exist')
+                {
+                   angular.element(".loader").hide();
+                    $scope.leads = data;   
+                }
+            else{
+                 angular.element(".loader").hide();
+            }
             //console.log("data:"+JSON.stringify(data));
         }).error(function() {
             angular.element(".loader").hide();
