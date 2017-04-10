@@ -129,11 +129,10 @@ app.controller("dashboard", function($scope, $http, $cookieStore) {
 
 
 
-app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state) {
+app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state,$window) {
     $scope.searchLead = ''; // set the default search/filter term
     $scope.selected=[];//stores checked items only
 
-       
     ($scope.getLeads = function() {
         angular.element(".loader").show();
         $http({
@@ -200,7 +199,8 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
     };
     
      $scope.leadToProspectBtnClick=function(){ 
-         var str=""+$scope.selected;         
+         var str=""+$scope.selected;
+         if(str!=""){
          angular.element(".loader").show();
         $http({
             method: "POST",
@@ -213,15 +213,21 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state)
         }).success(function(data) {
             console.log(data);
              if(data.ErrorDesc=="0 | Update Success"){
-//            $scope.checked=false; 
+             $scope.selected = [] ;
             angular.element(".loader").hide();
-            $scope.getLeads();
-                
+            $window.location.reload();
              }
+            else{
+             alert("Some Error Occurred While Updating");
+             angular.element(".loader").hide();
+            }
         }).error(function() {
             angular.element(".loader").hide();
         });
-        
+        }
+         else{
+             alert("Please Select the User")
+         }
      }//leadToProspectBtnClick end
 
     $scope.leadDetail = function(selectedItem) {
