@@ -3550,9 +3550,41 @@ app.controller("paymentScheduleChangeController", function($scope, $http, $state
     };
 });
 
-app.controller("employeeDetailsController", function($scope, $http, $cookieStore, $state) {
-
+app.controller("employeeDetailsController", function($scope, $http, $cookieStore, $uibModal, $state) {
+    $scope.selected=[];
+    $scope.roleIdValues=[];
+    $scope.roleIdDetails=[];
+    
+    $scope.getRoleIdDetails = function() {
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/RoleGet",
+                ContentType: 'application/json',
+                data: {
+                    "role_compguid": $cookieStore.get('comp_guid')
+                }
+            }).success(function(data) {
+                $scope.roleIdDetails = data;            
+                for(var i=0; i<$scope.roleIdDetails.length;i++)
+                    {
+                        $scope.obj={};   
+                        $scope.obj.name = $scope.roleIdDetails[i].role_name;
+                        $scope.obj.value = $scope.roleIdDetails[i].role_id;
+                        $scope.roleIdValues.push($scope.obj)   
+//                        console.log("yo");
+                        
+                    }          
+//                console.log($scope.roleIdValues);              
+                angular.element(".loader").hide();
+                  
+            }).error(function() {
+                angular.element(".loader").hide();
+                console.log("something went wrong.");
+            }); 
+        };
     ($scope.getParentDepartmentDetails = function() {
+        
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -3571,6 +3603,40 @@ app.controller("employeeDetailsController", function($scope, $http, $cookieStore
             angular.element(".loader").hide();
         });
     })();
+    
+
+    $scope.exist=function(item){
+        return $scope.selected.indexOf(item)>-1;
+    }
+    $scope.toggleSelection=function(item){
+        var idx =$scope.selected.indexOf(item);
+        if(idx > -1){
+            $scope.selected.splice(idx, 1);
+             //console.log($scope.selected);
+        }
+        else{
+            $scope.selected.push(item);
+             //console.log($scope.selected);
+        }
+    }
+    $scope.checkAll = function(){
+        if($scope.selectAll){
+            angular.forEach($scope.leads,function(item){
+                    idx=$scope.selected.indexOf(item.user_id);
+                    if(idx>=0){
+                        return true;
+                    }
+                    else{
+                        $scope.selected.push(item.user_id);
+                         //console.log($scope.selected);
+                    }
+            })
+        }
+        else{
+            $scope.selected = [];
+             //console.log($scope.selected);
+        }
+    };
 
     ($scope.getDesignationDetails = function() {
         angular.element(".loader").show();
@@ -3593,6 +3659,7 @@ app.controller("employeeDetailsController", function($scope, $http, $cookieStore
     })();
 
     ($scope.getEmployeesDetails = function() {
+        $scope.getRoleIdDetails();
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -3605,10 +3672,107 @@ app.controller("employeeDetailsController", function($scope, $http, $cookieStore
         }).success(function(data) {
             angular.element(".loader").hide();
             $scope.employees = data;
+            for(var i=0;i<data.length;i++)
+                {     
+                    for(var j=0;j<$scope.roleIdValues.length;j++){
+                    if (data[i].user_role_id == $scope.roleIdValues[j].value)
+                        {
+                           data[i].user_role_id=$scope.roleIdValues[j].name;
+                        }
+                     if (data[i].user_role_id == "0")
+                        {
+                           data[i].user_role_id="Not Assigned";
+                        }
+                    }
+                }
         }).error(function() {
             angular.element(".loader").hide();
         });
     })();
+    
+    $scope.roleUpdate = function(userids) {
+        var str2=""+$scope.selected;
+        //console.log("the real slim:"+str2);
+        var modalInstance = $uibModal.open({
+            templateUrl: 'updateRoleId.html',
+            controller: 'updateRoleId',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    userids=str2;
+                    return userids;
+                }
+            }
+        });
+        
+    };
+    
+});
+
+app.controller("updateRoleId", function($scope, $uibModalInstance, $state, item,$http, $cookieStore,$rootScope,$window) {
+    $scope.firstDropValues=[];
+    $scope.roleIdDetails =[];
+   
+
+        $scope.getRoleIdDetails = function() {
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/RoleGet",
+                ContentType: 'application/json',
+                data: {
+                    "role_compguid": $cookieStore.get('comp_guid')
+                }
+            }).success(function(data) {
+                $scope.firstDropValues = data;            
+                //console.log("myitem:"+item);
+                //console.log($scope.firstDropValues);              
+                angular.element(".loader").hide();
+                  
+            }).error(function() {
+                angular.element(".loader").hide();
+                console.log("something went wrong.");
+            }); 
+            
+        };
+    $scope.getRoleIdDetails();
+    
+    $scope.updateRoleFunction= function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserUpdt/RoleId",
+            ContentType: 'application/json',
+            data: {
+                "user_ids":item,
+                "user_compguid":$cookieStore.get('comp_guid'),
+                "user_updtfields":$scope.myModel,
+            }
+        }).success(function(data) {
+            alert("Lead Updation Sucessful!");
+            //console.log("my model:"+$scope.myModel);
+            angular.element(".loader").hide();
+            $scope.ok();
+            $state.go('/EmployeeDetails');
+            //$scope.lead_source_list= data;
+           // $scope.getLeads();
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    
+    $scope.action=function(){
+        $scope.updateRoleFunction();
+    }
+    
+    $scope.ok = function() {
+    $uibModalInstance.close();
+         //$state.go('/UpdateProspects');
+        $window.location.reload();
+    };
+
+
 });
 
 app.controller("heirarchyController", function($scope, $http, $cookieStore, $state) {
@@ -5398,58 +5562,58 @@ app.controller("editSalesFunnelController", function($scope, $http, $cookieStore
     };
 });
 
-app.controller("prospects", function($scope, $http, $cookieStore, $uibModal, $state) {
-    $scope.searchLead = ''; // set the default search/filter term
-    ($scope.getLeads = function() {
-        angular.element(".loader").show();
-        $http({
-            method: "POST",
-            url: "http://120.138.8.150/pratham/User/UserDtls/ByUserType",
-            ContentType: 'application/json',
-            data: {
-                "user_comp_guid": $cookieStore.get('comp_guid'),
-                "user_type": 7
-            }
-        }).success(function(data) {
-            angular.element(".loader").hide();
-            $scope.leads = data;
-        }).error(function() {
-            angular.element(".loader").hide();
-        });
-    })();
-    
-    $scope.leadDetail = function(selectedItem) {
-        var modalInstance = $uibModal.open({
-            templateUrl: 'leadDetail.html',
-            controller: 'prospectDetail',
-            size: 'lg',
-            backdrop: 'static',
-            resolve: {
-                item: function() {
-                    return $scope.leads[selectedItem];
-                }
-            }
-        });
-    };
-
-    $scope.addSiteVisit = function(selectedItem) {
-        var modalInstance = $uibModal.open({
-            templateUrl: 'addSiteVisit.html',
-            controller: 'prospectDetail',
-            size: 'lg',
-            backdrop: 'static',
-            resolve: {
-                item: function() {
-                    return $scope.leads[selectedItem];
-                }
-            }
-        });
-    };
-
-    $scope.viewLeadStatus = function(leadNo) {
-        alert("View Lead Status: " + leadNo);
-    };
-});
+//app.controller("prospects", function($scope, $http, $cookieStore, $uibModal, $state) {
+//    $scope.searchLead = ''; // set the default search/filter term
+//    ($scope.getLeads = function() {
+//        angular.element(".loader").show();
+//        $http({
+//            method: "POST",
+//            url: "http://120.138.8.150/pratham/User/UserDtls/ByUserType",
+//            ContentType: 'application/json',
+//            data: {
+//                "user_comp_guid": $cookieStore.get('comp_guid'),
+//                "user_type": 7
+//            }
+//        }).success(function(data) {
+//            angular.element(".loader").hide();
+//            $scope.leads = data;
+//        }).error(function() {
+//            angular.element(".loader").hide();
+//        });
+//    })();
+//    
+//    $scope.leadDetail = function(selectedItem) {
+//        var modalInstance = $uibModal.open({
+//            templateUrl: 'leadDetail.html',
+//            controller: 'prospectDetail',
+//            size: 'lg',
+//            backdrop: 'static',
+//            resolve: {
+//                item: function() {
+//                    return $scope.leads[selectedItem];
+//                }
+//            }
+//        });
+//    };
+//
+//    $scope.addSiteVisit = function(selectedItem) {
+//        var modalInstance = $uibModal.open({
+//            templateUrl: 'addSiteVisit.html',
+//            controller: 'prospectDetail',
+//            size: 'lg',
+//            backdrop: 'static',
+//            resolve: {
+//                item: function() {
+//                    return $scope.leads[selectedItem];
+//                }
+//            }
+//        });
+//    };
+//
+//    $scope.viewLeadStatus = function(leadNo) {
+//        alert("View Lead Status: " + leadNo);
+//    };
+//});
 
 app.controller("updateProspects", function($scope, $http, $cookieStore, $uibModal,$state) {
     //  $scope.searchLead = '';set the default search/filter term
@@ -5599,7 +5763,7 @@ app.controller("updateProspects", function($scope, $http, $cookieStore, $uibModa
         
     };
 
-     $scope.exist=function(item){
+    $scope.exist=function(item){
         return $scope.selected.indexOf(item)>-1;
     }
     $scope.toggleSelection=function(item){
@@ -5631,29 +5795,39 @@ app.controller("updateProspects", function($scope, $http, $cookieStore, $uibModa
              //console.log($scope.selected);
         }
     };
-    
- 
-//    $scope.addSiteVisit = function(selectedItem) {
-//        var modalInstance = $uibModal.open({
-//            templateUrl: 'addSiteVisit.html',
-//            controller: '',
-//            size: 'lg',
-//            backdrop: 'static',
-//            resolve: {
-//                item: function() {
-//                    return $scope.leads[selectedItem];
-//                }
-//            }
-//        });
-//    };
-
-//    $scope.viewLeadStatus = function(leadNo) {
-//        alert("View Lead Status: " + leadNo);
-//    };
-//    
-    
-     $scope.ok = function() {
+    $scope.ok = function() {
         $uibModalInstance.close();
+    };
+    $scope.leadDetail = function(selectedItem) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'leadDetail.html',
+            controller: 'prospectDetail',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return $scope.leads[selectedItem];
+                }
+            }
+        });
+    };
+
+    $scope.addSiteVisit = function(selectedItem) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'addSiteVisit.html',
+            controller: 'prospectDetail',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    return $scope.leads[selectedItem];
+                }
+            }
+        });
+    };
+
+    $scope.viewLeadStatus = function(leadNo) {
+        alert("View Lead Status: " + leadNo);
     };
     
   
@@ -5766,8 +5940,9 @@ app.controller("updateProPage", function($scope, $uibModalInstance, $state, item
                 "user_updtfields":$scope.myModelSecond,
             }
         }).success(function(data) {
-            alert("Updation Sucessful!");
+            alert("Lead Updation Sucessful!");
             angular.element(".loader").hide();
+            $scope.ok();
             $state.go('/UpdateProspects');
             //$scope.lead_source_list= data;
            // $scope.getLeads();
@@ -5791,6 +5966,7 @@ app.controller("updateProPage", function($scope, $uibModalInstance, $state, item
         }).success(function(data) {
             alert("Sales Funnel Updation Sucessful!");
             angular.element(".loader").hide();
+            $scope.ok();
             $state.go('/UpdateProspects');
            // $scope.lead_source_list= data;
         }).error(function() {
@@ -5813,6 +5989,7 @@ app.controller("updateProPage", function($scope, $uibModalInstance, $state, item
         }).success(function(data) {
             alert("Assignment Updation Sucessful!");
             angular.element(".loader").hide();
+            $scope.ok();
             $state.go('/UpdateProspects');
            // $scope.lead_source_list= data;
         }).error(function() {
@@ -5832,14 +6009,11 @@ app.controller("updateProPage", function($scope, $uibModalInstance, $state, item
         
         if($scope.myModel=="3"){
             $scope.updateAssignedTo();
-        }
-        
-        $scope.ok();
-       
+        } 
     };
     
     $scope.ok = function() {
-        $uibModalInstance.close();
+    $uibModalInstance.close();
          //$state.go('/UpdateProspects');
         $window.location.reload();
     };

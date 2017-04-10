@@ -222,11 +222,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/salesFunnelListing.html',
             controller: 'salesFunnelController'
         })
-        .state('/Prospects', {
-            url: '/Prospects',
-            templateUrl: 'partials/prospects.html',
-            controller: 'prospects'
-        })
+//        .state('/Prospects', {
+//            url: '/Prospects',
+//            templateUrl: 'partials/prospects.html',
+//            controller: 'prospects'
+//        })
         .state('/UpdateProspects', {
             url: '/UpdateProspects',
             templateUrl: 'partials/updateProspects.html',

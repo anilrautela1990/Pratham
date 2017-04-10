@@ -15,21 +15,23 @@
                	<section>
 		<ul ng-init="tab = 1" class="nav nav-tabs">
 			<li ng-class="{active:tab===1}"> 
-				<a href ng-click="tab = 1">What you eat?</a>	
+				<a href ng-click="tab = 1"><h3>Personal Details</h3></a>	
 			</li>
 			<li ng-class="{active:tab===2}"> 
-				<a href ng-click="tab = 2">Favorite juice?</a> 
+                <a href ng-click="tab = 2"><h3>Official Details</h3></a> 
 			</li>
 			<li ng-class="{active:tab===3}"> 
-				<a href ng-click="tab = 3">Do you close your eyes?</a> 
+                <a href ng-click="tab = 3"><h3>Salary Details</h3></a> 
 			</li></ul>	
 			<br><br>
-			<p ng-show="tab === 1" class="tab-pane"> I eat chocolates, alive! </p>
-			<p ng-show="tab === 2" class="tab-pane"> I drink pulpy orange juice, mango milk shake... </p>
-			<p ng-show="tab === 3" class="tab-pane"> yeah, I sleep at weekend. I am human... :D</p>
+			<p ng-show="tab === 1" class="tab-pane"> This is test tabs. Here persoanl details of form will be displayed.</p>
+			<p ng-show="tab === 2" class="tab-pane"> This is test tabs. Here Official details of form will be displayed.</p>
+			<p ng-show="tab === 3" class="tab-pane"> This is test tabs. Here Salary details of form will be displayed.</p>
+                    
 			
 	</section>		
 
+<br><br><br>
 
 
 <form name="addEmployeeForm" class="form" method="POST" novalidate="novalidate">
