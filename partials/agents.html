@@ -19,6 +19,8 @@
 			<tr>
 				<th>#</th>
 				<th>Name</th>
+                <th>Mobile</th>
+                <th>Email Id</th>
 				<th>Assigned To</th>
                 <th>Firm Name</th>
 				<th>Status</th>
@@ -29,6 +31,8 @@
 			<tr ng-repeat="x in agents | filter:searchAgents track by $index">
 				<td>{{$index + 1}}</td>
 				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
+                 <td>{{x.user_mobile_no}}</td>
+                <td>{{x.user_email_address}}</td>
 				<td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> Person</td>
 				<td>{{x.Agents_firmname}}</td>
                 <td><span class="link" ng-click="agentDetail($index)">View</span></td>
