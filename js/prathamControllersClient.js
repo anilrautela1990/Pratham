@@ -676,7 +676,7 @@ app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $
             angular.element(".loader").hide();
             if (data.Comm_ErrorDesc == '0|0') {
                 $cookieStore.remove('lead_id');
-                $state.go('/Leads');
+                $state.go('/Prospects');
                 angular.element(".loader").hide();
             } else {
                 alert('Something went wrong.');
