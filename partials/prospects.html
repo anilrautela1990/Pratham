@@ -38,8 +38,8 @@
                            ng-checked="exist(x.user_id)" ></td>
                 <td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
                  <td>{{x.user_lead_status_id}}</td>
-                <td>{{x.user_salesfunnel_id}}</td>
-                <td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> {{x.user_assingedto}}</td>
+                <td>{{x.user_salesfunnel_name}}</td>
+                <td>Sales Team <span class="glyphicon glyphicon-circle-arrow-right"></span> {{x.user_assingedto_name}}</td>
                 <td>{{x.registration_date | date:'yyyy-MM-dd'}}</td>
                 <td><span class="link" ng-click="leadDetail($index)">View</span></td>
                 <td>

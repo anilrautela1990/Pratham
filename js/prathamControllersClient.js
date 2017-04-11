@@ -3670,21 +3670,21 @@ app.controller("employeeDetailsController", function($scope, $http, $cookieStore
                 "user_type": 2
             }
         }).success(function(data) {
-            angular.element(".loader").hide();
-            $scope.employees = data;
-            for(var i=0;i<data.length;i++)
+             for(var i=0;i<data.length;i++)
                 {     
                     for(var j=0;j<$scope.roleIdValues.length;j++){
                     if (data[i].user_role_id == $scope.roleIdValues[j].value)
                         {
-                           data[i].user_role_id=$scope.roleIdValues[j].name;
+                           data[i].user_role_name=$scope.roleIdValues[j].name;
                         }
                      if (data[i].user_role_id == "0")
                         {
-                           data[i].user_role_id="Not Assigned";
+                           data[i].user_role_name="Not Assigned";
                         }
                     }
                 }
+            angular.element(".loader").hide();          
+            $scope.employees = data;
         }).error(function() {
             angular.element(".loader").hide();
         });
@@ -5715,11 +5715,11 @@ app.controller("updateProspects", function($scope, $http, $cookieStore, $uibModa
                     for(var j=0;j<$scope.salesfunnelnameValues.length;j++){
                     if (data[i].user_salesfunnel_id == $scope.salesfunnelnameValues[j].value)
                         {
-                           data[i].user_salesfunnel_id=$scope.salesfunnelnameValues[j].name;
+                           data[i].user_salesfunnel_name=$scope.salesfunnelnameValues[j].name;
                         }
                     else if(data[i].user_salesfunnel_id ==0)
                         {
-                           data[i].user_salesfunnel_id="Not Assigned";
+                           data[i].user_salesfunnel_name="Not Assigned";
                         }
                     }
                 }
@@ -5729,11 +5729,11 @@ app.controller("updateProspects", function($scope, $http, $cookieStore, $uibModa
                     for(var j=0;j<$scope.assignedtoValues.length;j++){
                     if (data[i].user_assingedto == $scope.assignedtoValues[j].value)
                         {
-                           data[i].user_assingedto=$scope.assignedtoValues[j].name;
+                           data[i].user_assingedto_name=$scope.assignedtoValues[j].name;
                         }
                     else if(data[i].user_assingedto ==0)
                         {
-                           data[i].user_assingedto="Not Assigned";
+                           data[i].user_assingedto_name="Not Assigned";
                         }
                     }
                 }
