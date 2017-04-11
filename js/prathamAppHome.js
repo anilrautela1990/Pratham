@@ -224,7 +224,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('/Prospects', {
             url: '/Prospects',
-            templateUrl: 'partials/Prospects.html',
+            templateUrl: 'partials/prospects.html',
             controller: 'updateProspects'
         })
 //        .state('/UpdateProspects', {
