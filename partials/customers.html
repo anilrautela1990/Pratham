@@ -17,6 +17,8 @@
 			<tr>
 				<th>#</th>
                 <th>Name</th>
+                <th>Mobile</th>
+                <th>Email Id</th>
 				<th>Status</th>
 				<th>Actions</th>
 			</tr>
@@ -25,6 +27,8 @@
 			<tr ng-repeat="x in customers | filter:searchCustomers track by $index">
 				<td>{{$index + 1}}</td>
 				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
+                 <td>{{x.user_mobile_no}}</td>
+                <td>{{x.user_email_address}}</td>
 				<td><span class="link" ng-click="customerDetail($index)">View</span></td>
 				<td><a ui-sref="/ConvertCustomer({ leadID: {{x.user_id}} , action: 'editCustomer'})"><span class="link">Edit</span></a></td>
 			</tr>
