@@ -35,8 +35,8 @@
 				<th>Phase</th>
 				<th>Location</th>
 				<th>Type</th>
-				<th>Release</th>
-				<th>No. Of Units</th>
+<!--				<th>Release</th>-->
+				<th>No. Of Blocks</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -46,8 +46,8 @@
 				<td>{{x.Phase_Name}}</td>
 				<td>{{x.Phase_Location}}</td>
 				<td>{{typeNames[x.Phase_UnitType.UnitType_Id - 1]}}</td>
-				<td></td>
-				<td></td>
+<!--				<td></td>-->
+				<td>{{x.Phase_NoofBlocks}}</td>
 				<td><a><span class="link" ui-sref="/EditPhases({ projId: {{phases.projectName}}, phaseId: {{x.Phase_Id}} })" ui-sref="/EditPhases">Edit</span></a></td>
 			</tr>
 		</tbody>
