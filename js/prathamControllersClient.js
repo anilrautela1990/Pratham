@@ -2,6 +2,7 @@ app.controller("home", function($scope, $http, $rootScope) {
     $scope.title = "Pratham - Pre Login";
     $scope.clientCss = "prathamClient";    
 });
+
 app.controller("firmRegister", function($scope, $http, $state, $cookieStore) {
     $scope.registerFirm = function(formObj, formName) {
         $scope.submit = true;
@@ -35,6 +36,7 @@ app.controller("firmRegister", function($scope, $http, $state, $cookieStore) {
         }
     }
 });
+
 app.controller("adminCreation", function($scope, $http, $state, $cookieStore) {
     $scope.createAdminUser = function(formObj, formName) {
         alert($cookieStore.get('comp_guid'));
@@ -62,6 +64,7 @@ app.controller("adminCreation", function($scope, $http, $state, $cookieStore) {
         }
     };
 });
+
 app.controller("login", function($scope, $http, $cookieStore, $window) {
     $scope.login = function(formObj, formName) {
         $scope.submit = true;
@@ -126,8 +129,6 @@ app.controller("mainCtrl", function($scope, $rootScope, $http, $cookieStore, $st
 app.controller("dashboard", function($scope, $http, $cookieStore) {
     $scope.title = "Pratham :: Home";
 });
-
-
 
 app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state,$window) {
     $scope.searchLead = ''; // set the default search/filter term
@@ -248,6 +249,7 @@ app.controller("leads", function($scope, $http, $cookieStore, $uibModal, $state,
         alert("View Lead Status: " + leadNo);
     };
 });
+
 app.controller("leadDetail", function($scope, $uibModalInstance, $state, item) {
     $scope.leadType = ['hot', 'warm', 'cold'];
     $scope.states = ["Delhi"];
@@ -464,11 +466,6 @@ app.controller("editLead", function($scope, $http, $state, $cookieStore, $stateP
         }
     };
 });
-
-
-
-
-
 
 app.controller("projectDetails", function($scope, $http, $state, $cookieStore, $compile, $stateParams, $window, myService) {
     $scope.leadId = $stateParams.leadID;
@@ -1054,7 +1051,112 @@ app.controller("addAgentController", function($scope, $http, $cookieStore, $stat
 
 app.controller("agentsController", function($scope, $http, $cookieStore, $state, $uibModal) {
     $scope.searchAgents = ''; // set the default search/filter term
+    $scope.selected=[];
+    $scope.roleIdValues=[];
+    $scope.roleIdDetails=[];
+    
+    $scope.getRoleIdDetails = function() {
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+                url: "http://120.138.8.150/pratham/Comp/RoleGet",
+                ContentType: 'application/json',
+                data: {
+                    "role_compguid": $cookieStore.get('comp_guid')
+                }
+            }).success(function(data) {
+                $scope.roleIdDetails = data;            
+                for(var i=0; i<$scope.roleIdDetails.length;i++)
+                    {
+                        $scope.obj={};   
+                        $scope.obj.name = $scope.roleIdDetails[i].role_name;
+                        $scope.obj.value = $scope.roleIdDetails[i].role_id;
+                        $scope.roleIdValues.push($scope.obj)   
+//                        console.log("yo");
+                        
+                    }          
+//                console.log($scope.roleIdValues);              
+                angular.element(".loader").hide();
+                  
+            }).error(function() {
+                angular.element(".loader").hide();
+                console.log("something went wrong.");
+            }); 
+        };
+
+    $scope.exist=function(item){
+        return $scope.selected.indexOf(item)>-1;
+    }
+    $scope.toggleSelection=function(item){
+        var idx =$scope.selected.indexOf(item);
+        if(idx > -1){
+            $scope.selected.splice(idx, 1);
+             console.log($scope.selected);
+        }
+        else{
+            $scope.selected.push(item);
+             console.log($scope.selected);
+        }
+    }
+    $scope.checkAll = function(){
+        if($scope.selectAll){
+            angular.forEach($scope.agents,function(item){
+                    idx=$scope.selected.indexOf(item.user_id);
+                    if(idx>=0){
+                        return true;
+                    }
+                    else{
+                        $scope.selected.push(item.user_id);
+                         console.log($scope.selected);
+                    }
+            })
+        }
+        else{
+            $scope.selected = [];
+             console.log($scope.selected);
+        }
+    };
+    
+    $scope.roleUpdate = function(userids) {
+        var str2=""+$scope.selected;
+        //console.log("the real slim:"+str2);
+        var modalInstance = $uibModal.open({
+            templateUrl: 'updateRoleId.html',
+            controller: 'updateRoleIdAndAssignedTo',
+            size: 'lg',
+            backdrop: 'static',
+            resolve: {
+                item: function() {
+                    userids=str2;
+                    return userids;
+                }
+            }
+        });
+        
+    };
+
+    ($scope.getDesignationDetails = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/Designations",
+            ContentType: 'application/json',
+            data: {
+                "designation_compguid": $cookieStore.get('comp_guid')
+            }
+        }).success(function(data) {
+            angular.element(".loader").hide();
+            $scope.designationList = [];
+            for (var i = 0; i < data.length; i++) {
+                $scope.designationList[data[i].designation_id] = data[i].designation;
+            }
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    })();
+    
     ($scope.getAgents = function() {
+        $scope.getRoleIdDetails();
         angular.element(".loader").show();
         $http({
             method: "POST",
@@ -1065,6 +1167,19 @@ app.controller("agentsController", function($scope, $http, $cookieStore, $state,
                 "user_comp_guid": $cookieStore.get('comp_guid')
             }
         }).success(function(data) {
+            for(var i=0;i<data.length;i++)
+                {     
+                    for(var j=0;j<$scope.roleIdValues.length;j++){
+                    if (data[i].user_role_id == $scope.roleIdValues[j].value)
+                        {
+                           data[i].user_role_name=$scope.roleIdValues[j].name;
+                        }
+                     if (data[i].user_role_id == "0")
+                        {
+                           data[i].user_role_name="Not Assigned";
+                        }
+                    }
+                }
             console.log(data);
             angular.element(".loader").hide();
             $scope.agents = data;
@@ -1072,7 +1187,7 @@ app.controller("agentsController", function($scope, $http, $cookieStore, $state,
             angular.element(".loader").hide();
         });
     })();
-
+    
     $scope.agentDetail = function(selectedItem) {
         var modalInstance = $uibModal.open({
             templateUrl: 'agentDetail.html',
@@ -3621,7 +3736,7 @@ app.controller("employeeDetailsController", function($scope, $http, $cookieStore
     }
     $scope.checkAll = function(){
         if($scope.selectAll){
-            angular.forEach($scope.leads,function(item){
+            angular.forEach($scope.employees,function(item){
                     idx=$scope.selected.indexOf(item.user_id);
                     if(idx>=0){
                         return true;
@@ -3690,12 +3805,14 @@ app.controller("employeeDetailsController", function($scope, $http, $cookieStore
         });
     })();
     
+
+    
     $scope.roleUpdate = function(userids) {
         var str2=""+$scope.selected;
         //console.log("the real slim:"+str2);
         var modalInstance = $uibModal.open({
             templateUrl: 'updateRoleId.html',
-            controller: 'updateRoleId',
+            controller: 'updateRoleIdAndAssignedTo',
             size: 'lg',
             backdrop: 'static',
             resolve: {
@@ -3710,9 +3827,34 @@ app.controller("employeeDetailsController", function($scope, $http, $cookieStore
     
 });
 
-app.controller("updateRoleId", function($scope, $uibModalInstance, $state, item,$http, $cookieStore,$rootScope,$window) {
+app.controller("updateRoleIdAndAssignedTo", function($scope, $uibModalInstance, $state, item,$http, $cookieStore,$rootScope,$window) {
     $scope.firstDropValues=[];
+    $scope.repotingDetails =[];
     $scope.roleIdDetails =[];
+    $scope.updateTypeValues=[{name:"Role", value:1},{name:"Reporting to", value:2}];
+    
+
+        $scope.onChangeSelectOption=function(val){
+        $scope.checkOneValue=val.value};
+    
+        $scope.selectUpdate=function(){
+//      console.log(item);
+//      console.log($scope.myModelFirst);
+      
+       if($scope.myModelFirst=="1"){   
+         $scope.firstDropValues.length=0;
+         $scope.getRoleIdDetails();
+        // console.log("something happened in salesFunnel.");
+       }
+      
+       if($scope.myModelFirst=="2"){
+         $scope.firstDropValues.length=0;
+         $scope.getReportingToDetails();
+        // console.log("something happened in assigned to.");
+       }
+       
+       
+   };
    
 
         $scope.getRoleIdDetails = function() {
@@ -3725,7 +3867,16 @@ app.controller("updateRoleId", function($scope, $uibModalInstance, $state, item,
                     "role_compguid": $cookieStore.get('comp_guid')
                 }
             }).success(function(data) {
-                $scope.firstDropValues = data;            
+                $scope.roleIdDetails = data;            
+                for(var i=0; i<$scope.roleIdDetails.length;i++)
+                    {
+                        $scope.obj={};   
+                        $scope.obj.name = $scope.roleIdDetails[i].role_name;
+                        $scope.obj.value = $scope.roleIdDetails[i].role_id;
+                        $scope.firstDropValues.push($scope.obj)   
+//                        console.log("yo");
+                        
+                    }               
                 //console.log("myitem:"+item);
                 //console.log($scope.firstDropValues);              
                 angular.element(".loader").hide();
@@ -3736,7 +3887,64 @@ app.controller("updateRoleId", function($scope, $uibModalInstance, $state, item,
             }); 
             
         };
-    $scope.getRoleIdDetails();
+        
+
+        $scope.getReportingToDetails = function() {
+            angular.element(".loader").show();
+            $http({
+                method: "POST",
+            url: "http://120.138.8.150/pratham/User/EmployeeDtls/ByUserType",
+            ContentType: 'application/json',
+            data: {
+                "user_comp_guid": $cookieStore.get('comp_guid'),
+                "user_type": 2
+                }
+            }).success(function(data) {
+                $scope.repotingDetails = data;            
+                for(var i=0; i<$scope.repotingDetails.length;i++)
+                    {
+                        $scope.obj={};   
+                        $scope.obj.name = $scope.repotingDetails[i].user_first_name +" " + $scope.repotingDetails[i].user_last_name;
+                        $scope.obj.value = $scope.repotingDetails[i].user_id;
+                        $scope.firstDropValues.push($scope.obj)   
+//                        console.log("yo");
+                        
+                    }          
+                //console.log($scope.firstDropValues);               
+                angular.element(".loader").hide();
+                  
+            }).error(function() {
+                angular.element(".loader").hide();
+                console.log("something went wrong.");
+            }); 
+        };
+    
+    
+    $scope.updateAssignedTo = function() {
+        angular.element(".loader").show();
+        $http({
+            method: "POST",
+            url: "http://120.138.8.150/pratham/User/UserUpdt/AssignedTo",
+            ContentType: 'application/json',
+            data: {
+                "user_ids":item,
+                "user_compguid":$cookieStore.get('comp_guid'),
+                "user_updtfields":$scope.myModel,
+            }
+        }).success(function(data) {
+//            console.log("start");
+//            console.log(item);
+//            console.log($scope.myModel);
+//            console.log("finish");
+            alert("Assignment Updation Sucessful!");
+            angular.element(".loader").hide();
+            $scope.ok();
+           // $scope.lead_source_list= data;
+        }).error(function() {
+            angular.element(".loader").hide();
+        });
+    };
+    
     
     $scope.updateRoleFunction= function() {
         angular.element(".loader").show();
@@ -3750,26 +3958,35 @@ app.controller("updateRoleId", function($scope, $uibModalInstance, $state, item,
                 "user_updtfields":$scope.myModel,
             }
         }).success(function(data) {
-            alert("Lead Updation Sucessful!");
-            //console.log("my model:"+$scope.myModel);
+            
+            alert("Role Updation Sucessful!");
             angular.element(".loader").hide();
             $scope.ok();
-            $state.go('/EmployeeDetails');
-            //$scope.lead_source_list= data;
-           // $scope.getLeads();
+            
         }).error(function() {
             angular.element(".loader").hide();
         });
     };
     
     $scope.action=function(){
-        $scope.updateRoleFunction();
-    }
+       
+        if($scope.myModelFirst=="1"){
+            console.log(item);
+            console.log("kuch hua 1");
+            $scope.updateRoleFunction();
+        }
+        
+        if($scope.myModelFirst=="2"){
+            console.log(item);
+            console.log("kuch hua 2");
+            $scope.updateAssignedTo();
+        }
+    };
+
     
     $scope.ok = function() {
     $uibModalInstance.close();
-         //$state.go('/UpdateProspects');
-        $window.location.reload();
+    $window.location.reload();
     };
 
 
@@ -5562,59 +5779,6 @@ app.controller("editSalesFunnelController", function($scope, $http, $cookieStore
     };
 });
 
-//app.controller("prospects", function($scope, $http, $cookieStore, $uibModal, $state) {
-//    $scope.searchLead = ''; // set the default search/filter term
-//    ($scope.getLeads = function() {
-//        angular.element(".loader").show();
-//        $http({
-//            method: "POST",
-//            url: "http://120.138.8.150/pratham/User/UserDtls/ByUserType",
-//            ContentType: 'application/json',
-//            data: {
-//                "user_comp_guid": $cookieStore.get('comp_guid'),
-//                "user_type": 7
-//            }
-//        }).success(function(data) {
-//            angular.element(".loader").hide();
-//            $scope.leads = data;
-//        }).error(function() {
-//            angular.element(".loader").hide();
-//        });
-//    })();
-//    
-//    $scope.leadDetail = function(selectedItem) {
-//        var modalInstance = $uibModal.open({
-//            templateUrl: 'leadDetail.html',
-//            controller: 'prospectDetail',
-//            size: 'lg',
-//            backdrop: 'static',
-//            resolve: {
-//                item: function() {
-//                    return $scope.leads[selectedItem];
-//                }
-//            }
-//        });
-//    };
-//
-//    $scope.addSiteVisit = function(selectedItem) {
-//        var modalInstance = $uibModal.open({
-//            templateUrl: 'addSiteVisit.html',
-//            controller: 'prospectDetail',
-//            size: 'lg',
-//            backdrop: 'static',
-//            resolve: {
-//                item: function() {
-//                    return $scope.leads[selectedItem];
-//                }
-//            }
-//        });
-//    };
-//
-//    $scope.viewLeadStatus = function(leadNo) {
-//        alert("View Lead Status: " + leadNo);
-//    };
-//});
-
 app.controller("updateProspects", function($scope, $http, $cookieStore, $uibModal,$state) {
     //  $scope.searchLead = '';set the default search/filter term
     $scope.selected=[];//stores checked items only
@@ -5834,9 +5998,6 @@ app.controller("updateProspects", function($scope, $http, $cookieStore, $uibModa
     
 });
 
-
-
-
 app.controller("updateProPage", function($scope, $uibModalInstance, $state, item,$http, $cookieStore,$rootScope,$window) {
       $scope.secondDropValues=[];
       $scope.myModel = "";
@@ -6018,37 +6179,6 @@ app.controller("updateProPage", function($scope, $uibModalInstance, $state, item
         $window.location.reload();
     };
 
-//    $scope.deleteRow = function(rowId) {
-//        angular.element("tr#" + rowId).remove();
-//    };
-//
-//    $scope.addLeadProjects = function(leadId) {
-//        $uibModalInstance.close();
-//        $state.go("/ProjectDetails", {
-//            "leadID": leadId
-//        });
-//    };
-//
-//    $scope.getTypeNameById = function(typeId) {
-//        var typeName = '';
-//        switch (parseInt(typeId)) {
-//            case 1:
-//                typeName = 'Flat';
-//                break;
-//            case 2:
-//                typeName = 'Sites';
-//                break;
-//            case 3:
-//                typeName = 'Villa';
-//                break;
-//            case 4:
-//                typeName = 'Row Houses';
-//                break;
-//            default:
-//                console.log('eror');
-//        }
-//        return typeName;
-//    }
 });
 
 
