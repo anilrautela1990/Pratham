@@ -22,8 +22,8 @@
                 <th> <input type="checkbox" name="" ng-model="selectAll" ng-click="checkAll()">Select </th>
 				<th>Name</th>
                 <th>Mobile</th>
-                <th>Role </th>
                 <th>Email Id</th>
+                <th>Role </th>
 				<th>Reporting To</th>
                 <th>Firm Name</th>
 				<th>Status</th>
@@ -36,10 +36,10 @@
                 <td><input type="checkbox" ng-click="toggleSelection(x.user_id)" name="" ng-model="selected"
                            ng-checked="exist(x.user_id)" ></td>
 				<td>{{x.user_first_name}} {{x.user_middle_name}} {{x.user_last_name}}</td>
-                 <td>{{x.user_mobile_no}}</td>
-                <td>{{x.user_role_name}}</td>
+                <td>{{x.user_mobile_no}}</td>
                 <td>{{x.user_email_address}}</td>
-				<td>{{x.user_assingedto}}</td>
+                <td>{{x.user_role_name}}</td>
+				<td>{{x.user_assingedto_name}}</td>
 				<td>{{x.Agents_firmname}}</td>
                 <td><span class="link" ng-click="agentDetail($index)">View</span></td>
                 <td><a ui-sref="/EditAgent({ agentID: {{x.Agents_User_Id}} })"><span class="link">Edit</span></a></td>
