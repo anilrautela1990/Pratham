@@ -5482,6 +5482,7 @@ app.controller("createNewRule", function($scope, $http, $cookieStore, $state, $s
         if ($scope[formName].$valid) {
             angular.element(".loader").show();
             formObj.rule_comp_guid = $cookieStore.get('comp_guid');
+            formObj.rule_user_id = $cookieStore.get('user_id');
             console.log(JSON.stringify(formObj));
             $http({
                 method: "POST",
