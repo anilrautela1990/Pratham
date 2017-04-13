@@ -1,0 +1,8 @@
+For checkin/new file
+git add .
+
+
+git commit -a -m "Chagned file" 
+
+
+git push origin develop
