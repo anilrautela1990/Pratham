@@ -43,6 +43,30 @@
             </option>
          </select>
         </div>
+        <!-- RD 14/04/2017-->
+        
+        <div>
+            <select ng-model="projectDetails.unitstatus" name="unitstatus" class="form-control">
+            <option value="">
+               All Unit Status
+            </option>
+             <option value="1">
+                     Vacant
+             </option>
+             <option value="2">
+                     Interested
+             </option>
+             <option value="3">
+                     Management Quota
+             </option>
+            <option value="3">
+                     Booked by Paying Advance
+             </option>
+            <option value="4">
+                     Booked without Paying Advance
+             </option>
+         </select>
+        </div>
         <div class="text-right">
             <button type="button" class="btn btn-primary" ng-click="getUnitAllocation(projectDetails,'unitAllocationForm')">Get Units</button>
         </div>

@@ -5485,7 +5485,8 @@ app.controller("unitsListingController", function($scope, $http, $cookieStore, $
                 ContentType: 'application/json',
                 data: {
                     "UnitDtls_comp_guid": $cookieStore.get('comp_guid'),
-                    "UnitDtls_Block_Id": obj.blocks
+                    "UnitDtls_Block_Id": obj.blocks,
+                    "UnitDtls_Status": obj.unitstatus /*RD 14/04/2017 - send status for filter*/
                 }
             }).success(function(data) {
                 $scope.unitsList = data[0];
